@@ -40,17 +40,16 @@ public class ServiceObjetMetier {
 
             this.container.add("personnes", jsonListe);
 
-        }
-        catch (DBException ex) {
+        } catch (DBException ex) {
             throw new ServiceException("Exception in SOM getListePersonne", ex);
         }
     }
 
     public void rechercherPersonneParId(int id) throws ServiceException {
         try {
-            List<Object[]> listePersonne = this.dBConnection.launchQuery("SELECT PersonneID, Nom, Prenom, Mail FROM PERSONNE ORDER BY PersonneID WHERE PersonneID='"+id+"'");
+            List<Object[]> listePersonne = this.dBConnection.launchQuery("SELECT PersonneID, Nom, Prenom, Mail FROM PERSONNE ORDER BY PersonneID WHERE PersonneID='" + id + "'");
 
-            if(!listePersonne.isEmpty()){
+            if (!listePersonne.isEmpty()) {
                 Object[] personne = listePersonne.get(0);
                 JsonObject jsonItem = new JsonObject();
 
@@ -58,18 +57,17 @@ public class ServiceObjetMetier {
                 jsonItem.addProperty("nom", (String) personne[1]);
                 jsonItem.addProperty("prenom", (String) personne[2]);
                 jsonItem.addProperty("mail", (String) personne[3]);
-                
+
                 this.container.add("personnes", jsonItem);
-            }     
-        }
-        catch (DBException ex) {
+            }
+        } catch (DBException ex) {
             throw new ServiceException("Exception in SOM rechercherPersonneParId", ex);
         }
     }
 
     public void rechercherPersonneParNom(String nom) throws ServiceException {
         try {
-            List<Object[]> listePersonne = this.dBConnection.launchQuery("SELECT PersonneID, Nom, Prenom, Mail FROM PERSONNE ORDER BY PersonneID WHERE PersonneID='"+nom+"'");
+            List<Object[]> listePersonne = this.dBConnection.launchQuery("SELECT PersonneID, Nom, Prenom, Mail FROM PERSONNE ORDER BY PersonneID WHERE Nom='" + nom + "'");
 
             JsonArray jsonListe = new JsonArray();
 
@@ -85,8 +83,7 @@ public class ServiceObjetMetier {
             }
 
             this.container.add("personnes", jsonListe);
-        }
-        catch (DBException ex) {
+        } catch (DBException ex) {
             throw new ServiceException("Exception in SOM rechercherPersonneParNom", ex);
         }
     }
