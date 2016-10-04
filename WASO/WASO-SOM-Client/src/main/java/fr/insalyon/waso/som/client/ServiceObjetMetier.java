@@ -93,7 +93,7 @@ public class ServiceObjetMetier {
         try {
             JsonArray jsonListe = new JsonArray();
 
-            List<Object[]> listeClientsDeno = this.dBConnection.launchQuery("SELECT ClientID, TypeClient, Denomination, Adresse, Ville FROM CLIENT WHERE Denomination LIKE '%" + denomination + "%' ORDER BY ClientID");
+            List<Object[]> listeClientsDeno = this.dBConnection.launchQuery("SELECT ClientID, TypeClient, Denomination, Adresse, Ville FROM CLIENT WHERE UPPER(Denomination) LIKE UPPER('%" + denomination + "%') ORDER BY ClientID");
 
             for (Object[] row : listeClientsDeno) {
                 JsonObject jsonItem = new JsonObject();
