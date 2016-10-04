@@ -18,17 +18,17 @@ public class ServiceMetier {
     protected String somClientUrl;
     protected String somPersonneUrl;
     protected JsonObject container;
-    
+
     protected JsonHttpClient jsonHttpClient;
 
     public ServiceMetier(String somClientUrl, String somPersonneUrl, JsonObject container) {
         this.somClientUrl = somClientUrl;
         this.somPersonneUrl = somPersonneUrl;
         this.container = container;
-        
+
         this.jsonHttpClient = new JsonHttpClient();
     }
-    
+
     public void release() {
         try {
             this.jsonHttpClient.close();
@@ -41,7 +41,6 @@ public class ServiceMetier {
         try {
 
             // 1. Obtenir la liste des Clients
-            
             JsonElement clientContainerElement = null;
 
             clientContainerElement = this.jsonHttpClient.post(this.somClientUrl, new BasicNameValuePair("SOM", "getListeClient"));
@@ -54,9 +53,7 @@ public class ServiceMetier {
 
             JsonArray jsonOutputClientListe = clientContainer.getAsJsonArray("clients"); //new JsonArray();
 
-            
             // 2. Obtenir la liste des Personnes
-            
             JsonElement personneContainerElement = null;
 
             personneContainerElement = this.jsonHttpClient.post(this.somPersonneUrl, new BasicNameValuePair("SOM", "getListePersonne"));
@@ -65,11 +62,9 @@ public class ServiceMetier {
                 throw new ServiceException("Appel impossible au Service Personne::getListePersonne [" + this.somPersonneUrl + "]");
             }
 
-            
             // 3. Indexer la liste des Personnes
-            
             HashMap<Integer, JsonObject> personnes = new HashMap<Integer, JsonObject>();
-            
+
             for (JsonElement p : personneContainerElement.getAsJsonObject().getAsJsonArray("personnes")) {
 
                 JsonObject personne = p.getAsJsonObject();
@@ -77,9 +72,7 @@ public class ServiceMetier {
                 personnes.put(personne.get("id").getAsInt(), personne);
             }
 
-            
             // 3. Construire la liste des Personnes pour chaque Client (directement dans le JSON)
-            
             for (JsonElement clientElement : jsonOutputClientListe.getAsJsonArray()) {
 
                 JsonObject client = clientElement.getAsJsonObject();
@@ -97,20 +90,18 @@ public class ServiceMetier {
 
             }
 
-            
             // 4. Ajouter la liste de Clients au conteneur JSON
-            
             this.container.add("clients", jsonOutputClientListe);
-                    
+
         } catch (IOException ex) {
             throw new ServiceException("Exception in SMA getListeClient", ex);
         }
     }
-    
+
     public void rechercherClientParDenomination(String denomination) throws ServiceException {
-        try{
-        // 1. Obtenir la liste des Clients par denomination
-            
+        try {
+            // 1. Obtenir la liste des Clients par denomination
+
             JsonElement clientContainerElement = null;
 
             clientContainerElement = this.jsonHttpClient.post(this.somClientUrl, new BasicNameValuePair("SOM", "rechercherClientParDenomination"), new BasicNameValuePair("denomination", denomination));
@@ -123,29 +114,26 @@ public class ServiceMetier {
 
             JsonArray jsonOutputClientListe = clientContainer.getAsJsonArray("clients"); //new JsonArray();
 
-            
             // 2. Obtenir la liste des Personnes
-            
             JsonElement personneContainerElement = null;
-            for(int i=0; i<jsonOutputClientListe.size(); ++i) {
-                System.out.println(jsonOutputClientListe.get(i));
+
+            personneContainerElement = this.jsonHttpClient.post(this.somPersonneUrl, new BasicNameValuePair("SOM", "getListePersonne"));
+
+            if (personneContainerElement == null) {
+                throw new ServiceException("Appel impossible au Service Personne::getListePersonne [" + this.somPersonneUrl + "]");
             }
 
-            
-//            // 3. Indexer la liste des Personnes
-//            
-//            HashMap<Integer, JsonObject> personnes = new HashMap<Integer, JsonObject>();
-//            
-//            for (JsonElement p : personneContainerElement.getAsJsonObject().getAsJsonArray("personnes")) {
-//
-//                JsonObject personne = p.getAsJsonObject();
-//
-//                personnes.put(personne.get("id").getAsInt(), personne);
-//            }
+            // 3. Indexer la liste des Personnes
+            HashMap<Integer, JsonObject> personnes = new HashMap<Integer, JsonObject>();
 
-            
+            for (JsonElement p : personneContainerElement.getAsJsonObject().getAsJsonArray("personnes")) {
+
+                JsonObject personne = p.getAsJsonObject();
+
+                personnes.put(personne.get("id").getAsInt(), personne);
+            }
+
             // 3. Construire la liste des Personnes pour chaque Client (directement dans le JSON)
-            
             for (JsonElement clientElement : jsonOutputClientListe.getAsJsonArray()) {
 
                 JsonObject client = clientElement.getAsJsonObject();
@@ -155,39 +143,33 @@ public class ServiceMetier {
                 JsonArray outputPersonnes = new JsonArray();
 
                 for (JsonElement personneID : personnesID) {
-                    personneContainerElement = this.jsonHttpClient.post(this.somPersonneUrl, new BasicNameValuePair("SOM", "rechercherPersonneParId"), new BasicNameValuePair("id", personneID.toString()));
+                    personneContainerElement = this.jsonHttpClient.post(this.somPersonneUrl, new BasicNameValuePair("SOM", "rechercherPersonneParId"), new BasicNameValuePair("id-personne", personneID.toString()));
 
                     if (personneContainerElement == null) {
                         throw new ServiceException("Appel impossible au Service Personne::rechercherPersonneParId [" + this.somPersonneUrl + "]");
                     }
-                    
-                    for (JsonElement p : personneContainerElement.getAsJsonObject().getAsJsonArray("personnes")) {
 
-                        JsonObject personne = p.getAsJsonObject();
-                        outputPersonnes.add(personne);
-                    }
-                    
+                    JsonObject personne = personneContainerElement.getAsJsonObject();
+                    outputPersonnes.add(personne);
+
                 }
 
                 client.add("personnes", outputPersonnes);
 
             }
 
-            
             // 4. Ajouter la liste de Clients au conteneur JSON
-            
             this.container.add("clients", jsonOutputClientListe);
-                    
+
         } catch (IOException ex) {
             throw new ServiceException("Exception in SMA rechercherClientParDenomination", ex);
         }
     }
-    
+
     public void rechercherClientParNumero(Integer numero) throws ServiceException {
         try {
 
             // 1. Obtenir la liste des Clients (avec 1 seul client)
-            
             JsonElement clientContainerElement = null;
 
             clientContainerElement = this.jsonHttpClient.post(this.somClientUrl, new BasicNameValuePair("SOM", "rechercherClientParNumero"), new BasicNameValuePair("numero", numero.toString()));
@@ -199,9 +181,8 @@ public class ServiceMetier {
             JsonObject clientContainer = clientContainerElement.getAsJsonObject();
 
             JsonArray jsonOutputClientListe = clientContainer.getAsJsonArray("clients"); //new JsonArray();
-            
+
             // 3. Construire la liste des Personnes pour chaque Client (directement dans le JSON)
-            
             for (JsonElement clientElement : jsonOutputClientListe.getAsJsonArray()) {
 
                 JsonObject client = clientElement.getAsJsonObject();
@@ -211,9 +192,8 @@ public class ServiceMetier {
                 JsonArray outputPersonnes = new JsonArray();
 
                 for (JsonElement personneID : personnesID) {
-                    
+
                     // 2. Obtenir la Personne
-            
                     JsonElement personneContainerElement = null;
 
                     personneContainerElement = this.jsonHttpClient.post(this.somPersonneUrl, new BasicNameValuePair("SOM", "rechercherPersonneParId"), new BasicNameValuePair("id-personne", personneID.toString()));
@@ -221,11 +201,11 @@ public class ServiceMetier {
                     if (personneContainerElement == null) {
                         throw new ServiceException("Appel impossible au Service Personne::rechercherPersonneParId [" + this.somPersonneUrl + "]");
                     }
-                    
+
                     //TODO : Tableau
                     //for (JsonElement p : personneContainerElement.getAsJsonObject().getAsJsonArray("personnes")) {
 
-                        /*JsonObject personne = personneContainerElement.getAsJsonObject().get("personnes");
+                    /*JsonObject personne = personneContainerElement.getAsJsonObject().get("personnes");
 
                         outputPersonnes.add(personne);*/
                     //}
@@ -235,11 +215,9 @@ public class ServiceMetier {
 
             }
 
-            
             // 4. Ajouter la liste de Clients au conteneur JSON
-            
             this.container.add("clients", jsonOutputClientListe);
-                    
+
         } catch (IOException ex) {
             throw new ServiceException("Exception in SMA getListeClient", ex);
         }

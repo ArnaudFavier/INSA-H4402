@@ -149,7 +149,7 @@ public class AjaxAction {
             this.container.add("clients", jsonListe);
 
         } catch (IOException ex) {
-            throw new ServiceException("Exception in Ajax rechercherClientParNumero", ex);
+            throw new ServiceException("Exception in Ajax rechercherClientParDenomination", ex);
         }
     }
 

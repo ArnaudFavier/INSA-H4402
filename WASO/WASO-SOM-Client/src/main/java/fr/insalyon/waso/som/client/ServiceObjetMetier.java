@@ -6,7 +6,6 @@ import fr.insalyon.waso.util.DBConnection;
 import fr.insalyon.waso.util.exception.DBException;
 import fr.insalyon.waso.util.exception.ServiceException;
 import java.util.List;
-import java.util.TreeMap;
 
 /**
  *
@@ -55,8 +54,8 @@ public class ServiceObjetMetier {
             throw new ServiceException("Exception in SOM Client::getListeClient", ex);
         }
     }
-    
-    public void rechercherClientParNumero(Integer numero)  throws ServiceException {
+
+    public void rechercherClientParNumero(Integer numero) throws ServiceException {
         try {
             JsonArray jsonListe = new JsonArray();
 
@@ -89,12 +88,12 @@ public class ServiceObjetMetier {
             throw new ServiceException("Exception in SOM Client::rechercherClientParNumero", ex);
         }
     }
-    
-   public void rechercherClientParDenomination(String denomination) throws ServiceException {
-        try { 
+
+    public void rechercherClientParDenomination(String denomination) throws ServiceException {
+        try {
             JsonArray jsonListe = new JsonArray();
 
-            List<Object[]> listeClientsDeno = this.dBConnection.launchQuery("SELECT ClientID, TypeClient, Denomination, Adresse, Ville FROM CLIENT WHERE Denomination = ? ORDER BY ClientID", denomination);
+            List<Object[]> listeClientsDeno = this.dBConnection.launchQuery("SELECT ClientID, TypeClient, Denomination, Adresse, Ville FROM CLIENT WHERE Denomination LIKE '%" + denomination + "%' ORDER BY ClientID");
 
             for (Object[] row : listeClientsDeno) {
                 JsonObject jsonItem = new JsonObject();
@@ -106,7 +105,7 @@ public class ServiceObjetMetier {
                 jsonItem.addProperty("adresse", (String) row[3]);
                 jsonItem.addProperty("ville", (String) row[4]);
 
-                List<Object[]> listePersonnesDeno = this.dBConnection.launchQuery("SELECT ClientID, PersonneID FROM COMPOSER WHERE ClientID = ? ORDER BY ClientID,PersonneID", clientId);
+                List<Object[]> listePersonnesDeno = this.dBConnection.launchQuery("SELECT ClientID, PersonneID FROM COMPOSER WHERE ClientID = " + clientId + " ORDER BY ClientID, PersonneID");
                 JsonArray jsonSousListe = new JsonArray();
                 for (Object[] innerRow : listePersonnesDeno) {
                     jsonSousListe.add((Integer) innerRow[1]);
@@ -122,6 +121,6 @@ public class ServiceObjetMetier {
         } catch (DBException ex) {
             throw new ServiceException("Exception in SOM Client::rechercheClientDenomination", ex);
         }
-    } 
-    
+    }
+
 }

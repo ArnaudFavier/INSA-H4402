@@ -51,14 +51,12 @@ public class ServiceObjetMetier {
 
             if (!listePersonne.isEmpty()) {
                 Object[] personne = listePersonne.get(0);
-                JsonObject jsonItem = new JsonObject();
 
-                jsonItem.addProperty("id", (Integer) personne[0]);
-                jsonItem.addProperty("nom", (String) personne[1]);
-                jsonItem.addProperty("prenom", (String) personne[2]);
-                jsonItem.addProperty("mail", (String) personne[3]);
-
-                this.container.add("personnes", jsonItem);
+                // No jsonItem needed here because the function is for ONE personne only
+                this.container.addProperty("id", (Integer) personne[0]);
+                this.container.addProperty("nom", (String) personne[1]);
+                this.container.addProperty("prenom", (String) personne[2]);
+                this.container.addProperty("mail", (String) personne[3]);
             }
         } catch (DBException ex) {
             throw new ServiceException("Exception in SOM rechercherPersonneParId", ex);
