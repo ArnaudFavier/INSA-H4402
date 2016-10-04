@@ -47,7 +47,7 @@ public class ServiceObjetMetier {
 
     public void rechercherPersonneParId(int id) throws ServiceException {
         try {
-            List<Object[]> listePersonne = this.dBConnection.launchQuery("SELECT PersonneID, Nom, Prenom, Mail FROM PERSONNE ORDER BY PersonneID WHERE PersonneID='" + id + "'");
+            List<Object[]> listePersonne = this.dBConnection.launchQuery("SELECT PersonneID, Nom, Prenom, Mail FROM PERSONNE WHERE PersonneID=" + id + " ORDER BY PersonneID");
 
             if (!listePersonne.isEmpty()) {
                 Object[] personne = listePersonne.get(0);
