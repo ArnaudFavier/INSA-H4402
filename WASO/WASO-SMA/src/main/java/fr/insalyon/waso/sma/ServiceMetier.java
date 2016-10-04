@@ -130,24 +130,18 @@ public class ServiceMetier {
             for(int i=0; i<jsonOutputClientListe.size(); ++i) {
                 System.out.println(jsonOutputClientListe.get(i));
             }
-            //for()
-            personneContainerElement = this.jsonHttpClient.post(this.somPersonneUrl, new BasicNameValuePair("SOM", "rechercherPersonneParId"));
-
-            if (personneContainerElement == null) {
-                throw new ServiceException("Appel impossible au Service Personne::rechercherPersonneParId [" + this.somPersonneUrl + "]");
-            }
 
             
-            // 3. Indexer la liste des Personnes
-            
-            HashMap<Integer, JsonObject> personnes = new HashMap<Integer, JsonObject>();
-            
-            for (JsonElement p : personneContainerElement.getAsJsonObject().getAsJsonArray("personnes")) {
-
-                JsonObject personne = p.getAsJsonObject();
-
-                personnes.put(personne.get("id").getAsInt(), personne);
-            }
+//            // 3. Indexer la liste des Personnes
+//            
+//            HashMap<Integer, JsonObject> personnes = new HashMap<Integer, JsonObject>();
+//            
+//            for (JsonElement p : personneContainerElement.getAsJsonObject().getAsJsonArray("personnes")) {
+//
+//                JsonObject personne = p.getAsJsonObject();
+//
+//                personnes.put(personne.get("id").getAsInt(), personne);
+//            }
 
             
             // 3. Construire la liste des Personnes pour chaque Client (directement dans le JSON)
@@ -161,8 +155,18 @@ public class ServiceMetier {
                 JsonArray outputPersonnes = new JsonArray();
 
                 for (JsonElement personneID : personnesID) {
-                    JsonObject personne = personnes.get(personneID.getAsInt());
-                    outputPersonnes.add(personne);
+                    personneContainerElement = this.jsonHttpClient.post(this.somPersonneUrl, new BasicNameValuePair("SOM", "rechercherPersonneParId"), new BasicNameValuePair("id", personneID.toString()));
+
+                    if (personneContainerElement == null) {
+                        throw new ServiceException("Appel impossible au Service Personne::rechercherPersonneParId [" + this.somPersonneUrl + "]");
+                    }
+                    
+                    for (JsonElement p : personneContainerElement.getAsJsonObject().getAsJsonArray("personnes")) {
+
+                        JsonObject personne = p.getAsJsonObject();
+                        outputPersonnes.add(personne);
+                    }
+                    
                 }
 
                 client.add("personnes", outputPersonnes);
