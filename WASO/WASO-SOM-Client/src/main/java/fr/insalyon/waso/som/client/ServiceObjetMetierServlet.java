@@ -59,14 +59,21 @@ public class ServiceObjetMetierServlet extends HttpServlet {
                 String numeroParametre = request.getParameter("numero");
                 if (numeroParametre == null) {
                     throw new ServiceException("Paramètres incomplets");
-                }
+                } 
                 Integer numero = Integer.parseInt(numeroParametre);
 
                 service.rechercherClientParNumero(numero);
 
             } else if ("rechercherClientParDenomination".equals(som)) {
 
-
+                String denominationParametre = request.getParameter("denomination");
+                
+                if (denominationParametre == null) {
+                    throw new ServiceException("Paramètres incomplets");
+                }
+                String denomination = denominationParametre;
+                service.rechercherClientParDenomination(denomination);
+                //String villeParametre = request.getParameter("ville");
                 //service.rechercherClientParDenomination(denomination, ville);
 
             } else if ("rechercherClientParPersonne".equals(som)) {
