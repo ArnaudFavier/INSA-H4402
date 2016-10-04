@@ -106,5 +106,67 @@ public class ServiceMetier {
             throw new ServiceException("Exception in SMA getListeClient", ex);
         }
     }
+    
+    public void rechercherClientParNumero(Integer numero) throws ServiceException {
+        try {
+
+            // 1. Obtenir la liste des Clients (avec 1 seul client)
+            
+            JsonElement clientContainerElement = null;
+
+            clientContainerElement = this.jsonHttpClient.post(this.somClientUrl, new BasicNameValuePair("SOM", "rechercherClientParNumero"), new BasicNameValuePair("numero", numero.toString()));
+
+            if (clientContainerElement == null) {
+                throw new ServiceException("Appel impossible au Service Client::rechercherClientParNumero [" + this.somClientUrl + "]");
+            }
+
+            JsonObject clientContainer = clientContainerElement.getAsJsonObject();
+
+            JsonArray jsonOutputClientListe = clientContainer.getAsJsonArray("clients"); //new JsonArray();
+            
+            // 3. Construire la liste des Personnes pour chaque Client (directement dans le JSON)
+            
+            for (JsonElement clientElement : jsonOutputClientListe.getAsJsonArray()) {
+
+                JsonObject client = clientElement.getAsJsonObject();
+
+                JsonArray personnesID = client.get("personnes-ID").getAsJsonArray();
+
+                JsonArray outputPersonnes = new JsonArray();
+
+                for (JsonElement personneID : personnesID) {
+                    
+                    // 2. Obtenir la Personne
+            
+                    JsonElement personneContainerElement = null;
+
+                    personneContainerElement = this.jsonHttpClient.post(this.somPersonneUrl, new BasicNameValuePair("SOM", "rechercherPersonneParId"), new BasicNameValuePair("id-personne", personneID.toString()));
+
+                    if (personneContainerElement == null) {
+                        throw new ServiceException("Appel impossible au Service Personne::rechercherPersonneParId [" + this.somPersonneUrl + "]");
+                    }
+                    
+                    //TODO : Tableau
+                    //for (JsonElement p : personneContainerElement.getAsJsonObject().getAsJsonArray("personnes")) {
+
+                        /*JsonObject personne = personneContainerElement.getAsJsonObject().get("personnes");
+
+                        outputPersonnes.add(personne);*/
+                    //}
+                }
+
+                client.add("personnes", outputPersonnes);
+
+            }
+
+            
+            // 4. Ajouter la liste de Clients au conteneur JSON
+            
+            this.container.add("clients", jsonOutputClientListe);
+                    
+        } catch (IOException ex) {
+            throw new ServiceException("Exception in SMA getListeClient", ex);
+        }
+    }
 
 }
