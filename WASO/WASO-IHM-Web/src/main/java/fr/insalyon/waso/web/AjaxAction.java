@@ -36,17 +36,13 @@ public class AjaxAction {
 
     protected static JsonObject transformClient(JsonObject client) {
 
-        
         // Transformation de l'entité Client pour l'affichage (id,denomination,adresse,ville)
-        
         JsonObject jsonItem = new JsonObject();
 
         jsonItem.addProperty("id", client.get("id").getAsString());
         jsonItem.addProperty("denomination", client.get("denomination").getAsString());
 
-        
         // Pour afficher le code postal avant le nom de la ville
-        
         String ville = client.get("ville").getAsString();
         int indexCodePostal = ville.lastIndexOf(" ");
         if (indexCodePostal > 0) {
@@ -57,9 +53,7 @@ public class AjaxAction {
         jsonItem.addProperty("adresse", client.get("adresse").getAsString());
         jsonItem.addProperty("ville", ville);
 
-        
         // Simplification des entités Personnes (id,nom,prenom)
-        
         JsonArray persons = new JsonArray();
 
         for (JsonElement p : client.get("personnes").getAsJsonArray()) {
@@ -96,7 +90,7 @@ public class AjaxAction {
             JsonElement smaResultContainerElement = this.jsonHttpClient.post(
                     this.smaUrl,
                     new BasicNameValuePair("SMA", "getListeClient")
-                );
+            );
 
             if (smaResultContainerElement == null) {
                 throw new ServiceException("Appel impossible au SMA getListeClient [" + this.smaUrl + "]");
@@ -119,7 +113,7 @@ public class AjaxAction {
                     this.smaUrl,
                     new BasicNameValuePair("SMA", "rechercherClientParNumero"),
                     new BasicNameValuePair("numero", Integer.toString(numero))
-                );
+            );
 
             if (smaResultContainerElement == null) {
                 throw new ServiceException("Appel impossible au SMA rechercherClientParNumero [" + this.smaUrl + "]");
@@ -137,12 +131,30 @@ public class AjaxAction {
     }
 
     void rechercherClientParDenomination(String denomination, String ville) throws ServiceException {
+        try {
+            JsonElement smaResultContainerElement = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new BasicNameValuePair("SMA", "rechercherClientParDenomination"),
+                    new BasicNameValuePair("denomination", denomination)
+            );
 
-        // ...
+            if (smaResultContainerElement == null) {
+                throw new ServiceException("Appel impossible au SMA rechercherClientParDenomination [" + this.smaUrl + "]");
+            }
+
+            JsonObject smaResultContainerObject = smaResultContainerElement.getAsJsonObject();
+
+            JsonArray jsonListe = transformListeClient(smaResultContainerObject.getAsJsonArray("clients"));
+
+            this.container.add("clients", jsonListe);
+
+        } catch (IOException ex) {
+            throw new ServiceException("Exception in Ajax rechercherClientParNumero", ex);
+        }
     }
 
     void rechercherClientParNomPersonne(String nomPersonne, String ville) throws ServiceException {
-        
+
         // ...
     }
 
