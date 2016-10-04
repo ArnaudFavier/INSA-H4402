@@ -67,7 +67,7 @@ public class ServiceObjetMetier {
 
     public void rechercherPersonneParNom(String nom) throws ServiceException {
         try {
-            List<Object[]> listePersonne = this.dBConnection.launchQuery("SELECT PersonneID, Nom, Prenom, Mail FROM PERSONNE ORDER BY PersonneID WHERE Nom='" + nom + "'");
+            List<Object[]> listePersonne = this.dBConnection.launchQuery("SELECT PersonneID, Nom, Prenom, Mail FROM PERSONNE WHERE UPPER(Nom)=UPPER('" + nom + "') ORDER BY PersonneID");
 
             JsonArray jsonListe = new JsonArray();
 
