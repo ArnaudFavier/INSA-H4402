@@ -1,0 +1,12 @@
+*.class
+Thumbs.db
+*_.java
+.idea/
+target/
+*.war
+*.o
+*.run
+*.exe
+*~
+*.iml
+nb-configuration.xml
