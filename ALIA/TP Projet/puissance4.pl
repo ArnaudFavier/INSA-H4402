@@ -21,14 +21,18 @@ init :- length(Board,42), assert(board(Board)), play(1).
 
 % --- Rim & Arnaud
 
-% longueur de la liste : 
+% Longueur de la liste : 
 len([],0).
-len([_|L],N):- len(L,N1), N is N1+1.
-faitx(x,y,0).
-%on commence a 1
-%getX : récupérer la ligne encore valable dans la colonne demandé par player
-getX(_,7,_).
-getX(Board, X, Y) :- faitxy(X,Y) =:= 0 , getX(Board, X+1, Y).
-moveIsValid(Board, Y) :- (Y >= 1 , Y <= 7), getX(X,Y), (X\=7), Board(X,Y,0).
-playMove(Board, y, NewBoard, Player) :- moveIsValid(Board, y) , updateBoard(Board, x, y, NewBoard, Player).
-%updateBoard(Board, x, y, NewBoard, Player)
+len([_|L], N):- len(L, N1), N is N1+1.
+% On commence à 1 pour le plateau de jeu
+
+% getX : récupérer la ligne encore valable dans la colonne demandée par player
+getX(_, 7, _).
+getX(Board, X, Y) :- Board(X, Y, V) , V =:= 0 , getX(Board, X+1, Y).
+
+moveIsValid(Board, Y) :- ((Y >= 1 , Y <= 7), getX(Board, X, Y), (X \= 7)) ; write("false").
+
+updateBoard(Board, X, Y, NewBoard, Player) :- NewBoard(X, Y, Player).
+
+% Le joueur effectue un coup
+playMove(Board, Y, NewBoard, Player) :- moveIsValid(Board, Y) , updateBoard(Board, Y, NewBoard, Player).
