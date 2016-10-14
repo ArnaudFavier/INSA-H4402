@@ -1,0 +1,235 @@
+<div class="notebook">
+
+<div class="nb-cell html">
+<h1>4-IF-ALIA TP d'introduction à PROLOG</h1>
+<h2>M. Kaytoue, S. Calabretto et J.-F. Boulicaut.<br>
+INSA LYON - Département Informatique - 2016/2017</h2>
+<p>Votre effort d’appropriation des concepts du langage (explication du codage des prédicats, usage
+de l’unification, approche rigoureuse dans les tests avec notamment l’étude des différentes
+configurations d’appel) est indispensable pour s’engager dans la réalisation d’un projet de
+programmation sur les deux séances suivantes. Il est crucial de bien avoir compris les cinq
+premiers chapitres du livre support de cours. Il sera aussi important de savoir consulter la 
+documentation en ligne de swi-prolog (Built-in Predicates).</p>
+</div>
+
+<div class="nb-cell html">
+<h3>Exercice 1 : la généalogie dans <i>Game of Thrones</i></h3>
+Créer une base de connaissances contenant des personnes, divers attributs de celles-ci (par
+exemple le genre) et la définition de certaines relations familiales (par exemple, « parent »). 
+On vous propose une généalogie dans une certaine représentation, libre à vous de l'utiliser ou non.
+On peut alors étudier le codage de nouvelles relations comme « ancêtre » ou « frère ou soeur » ou
+encore « oncle ou tante ». Ce domaine simple est très bien pour découvrir les mécanismes d’aide
+à la mise au point (« debug » trace/0, notrace/0 sur le client "lourd".) ainsi qu'à l'écriture d'arbres de preuves.
+</div>
+
+<div class="nb-cell program" data-background="true">
+% Déroulez pour voir la base de connaisance proposée : l'arbre d'une famille de Game Of Thrones.
+male(tytos).
+male(tywin).
+male(kevan).
+male(jaime).
+male(tyrion).
+male(robert).
+male(joffrey).
+male(tommen).
+male(lancel).
+female(dorna).
+female(myrcella).
+female(cersei).
+female(joanna).
+
+% relations
+parent(tytos,tywin).
+parent(tytos,kevan).
+parent(tywin,jaime).
+parent(tywin,cersei).
+parent(tywin,tyrion).
+parent(joanna,jaime).
+parent(joanna,cersei).
+parent(joanna,tyrion).
+parent(cersei,joffrey).
+parent(cersei,myrcella).
+parent(cersei,tommen).
+parent(robert,joffrey).
+parent(robert,myrcella).
+parent(robert,tommen).
+parent(kevan,lancel).
+parent(dorna,lancel).
+</div>
+
+<div class="nb-cell program">
+%% Ecrire vos prédicats ici
+%
+pere(P,F) :- parent(P,F), male(P).
+mere(M,F) :- parent(M,F), female(M).
+frere(F,X) :- parent(P,F), parent(P,X), male(F).
+soeur(S,X) :- parent(P,S), parent(P,X), female(S).
+ancetre(X,Y) :- parent(X,Y).
+ancetre(X,Y) :- parent(X,Z), ancetre(Z,Y).
+oncle(O,X) :- frere(O, P), parent(P,X).
+tante(T,X) :- soeur(T, P), parent(P,X).
+</div>
+
+<div class="nb-cell query">
+
+</div>
+
+<div class="nb-cell query">
+pere(robert,joffrey),
+mere(cersei,joffrey),
+frere(joffrey,myrcella),
+soeur(myrcella,joffrey),
+ancetre(joanna,joffrey),
+oncle(jaime, tommen)
+</div>
+
+<div class="nb-cell html">
+<h3>Exercice 2 : Les listes</h3>
+<p>Après avoir revu le premier chapitre qui traite des listes dans le cours, vous pouvez coder les prédicats suivants :</p>
+<ul>
+  <li><code>member(Elem,List)</code> : vrai si <code>Elem</code> appartient à la liste <code>List</code>.</li>
+  <li><code>supprime(Elem, Liste, ListeSansElem)</code> : vrai si la dernière liste est la seconde sans <code>Elem</code>.</li>
+  <li><code>append(Liste1, Liste2, ConcatenationList1etList2)</code>: concaténation de deux listes.</li>
+  <li><code>inv(L1,L2)</code>: vrai si les éléments de la seconde liste sont ceux de la première mais dans l'ordre inverse.</li>
+  <li><code>subsAll(Valeur,NouvelleValeur, Liste,NouvelleListe)</code>:
+    Vrai si la nouvelle liste est l'ancienne ou chaque <code>Valeur</code> a été substituée par <code>NouvelleValeur</code>.<br>
+	Ainsi <code>  subsAll(a,x, [a,b,a,c],R)</code> devrait réussir avec <code> R=[x,b,x,c] </code></li>
+</ul>
+</div>
+
+<div class="nb-cell program">
+% member
+member(Elem,[Elem|_]).
+member(Elem,[_|List]) :- member(Elem,List).
+
+% supprime
+supprime(_, [], []).
+supprime(Elem, [X|List], [Y|ListeSansElem]) :- X =:= Elem , supprime(Elem, List, [Y|ListeSansElem]).
+supprime(Elem, [X|List], [Y|ListeSansElem]) :- X =:= Y ,  supprime(Elem, List, ListeSansElem).
+
+% append
+append([],X,X).
+append([X|Liste1], Liste2, [X|ConcatenationList1etList2]) :- append(Liste1, Liste2, ConcatenationList1etList2).   
+
+%inverse 
+inverse([],[]).
+inverse([H|T], RevList):- inverse(T, RevT), append(RevT, [H], RevList).
+egales([],[]).
+egales([X|L1], [Y|L2]) :- X=:=Y , egales(L1,L2).
+inv(L1,L2) :- inverse(L2, L3) , egales(L3,L1).
+
+% subAll
+subAll(_, _, [], []).
+subAll(Valeur,NouvelleValeur,[X|Liste],[NouvelleValeur|NouvelleListe]) :- X=:=Valeur , subAll(Valeur,NouvelleValeur,Liste,NouvelleListe).
+subAll(Valeur,NouvelleValeur,[X|Liste],[X|NouvelleListe]) :- X=\=Valeur , subAll(Valeur,NouvelleValeur,Liste,NouvelleListe).
+
+</div>
+
+<div class="nb-cell query">
+% Historique
+% member(3,[1,2,2,3,4,5])
+% supprime(5, [1,2,3,4,5,6,7,8,9], [1,2,3,4,6,7,8,9])
+% append([1,2], [3,4,5], W)
+% inv([1,2,3,4,5,6], [6,5,2,1])
+subAll(4,7,[4,8,4,8],W).
+</div>
+
+<div class="nb-cell html">
+<h3>Exercice 3 : Arithmétique</h3>
+<p>On ré-écrira et testera d'abord un prédicat qui vérifie la longueur d'une liste <code>len(Liste,Long)</code> avec par exemple <code>len([a,b,c],3)</code> est vrai.</p>
+
+<p>On souhaite que le prédicat <code>member</code> permette un accès par le rang. Ainsi :</p>
+  <ul>
+    <li><code>element(3,X,[a,b,c,d]).</code> devrait réussir avec <code>X = c</code>.</li>
+    <li><code>element(I,a,[a,b,a]).</code> devrait fournir les réponses <code>I = 1</code> et <code>I = 3</code>.</li>
+</ul>
+</div>
+
+<div class="nb-cell program">
+%Entrez votre programme ici.
+len([],0).
+len([_|Liste],NewLength) :- len(Liste, Length), NewLength is Length + 1.
+% element
+element1(Rang, X, [X|_], Rang). 
+element1(Rang, X, [_|List], Acc) :- NewAcc is Acc + 1 , element1(Rang, X, List, NewAcc).
+element(Rang, X, List) :- element1(Rang, X, List,1).
+%element(Rang, X, List) :- nth1(Rang, List, X).
+</div>
+
+<div class="nb-cell query">
+% une requête
+len([1,2,3,4], L).
+</div>
+
+<div class="nb-cell query">
+% une requête
+element(3,X,[a,b,c,d]).
+</div>
+
+<div class="nb-cell query">
+% une requête
+</div>
+
+<div class="nb-cell html">
+<h3>Exercice 4 : les ensembles</h3>On représentera des ensembles (en extension) par des listes (sans répétition) d’objets. Ecrire un
+prédicat pour tester si une liste est bien un ensemble (pas de répétition). Ecrire un prédicat qui
+produise un ensemble (enlève les doublons). Ainsi <code>list2ens([a,b,c,b,a],E) </code> devrait réussir avec
+<code>E=[a,b,c]</code>. Evidemment on s’interdira l’utilisation de <code>sort</code> et de <code>setof</code>.
+On peut ensuite décrire l’union, l’intersection, la différence, l’égalité de deux ensembles.
+</div>
+
+<div class="nb-cell program">
+%Entrez votre programme ici.
+%
+%
+%
+</div>
+
+<div class="nb-cell query">
+list2ens([a,b,c,b,a],E).
+</div>
+
+<div class="nb-cell query">
+union([a,a,b], [c,d,d], Union).
+</div>
+
+<div class="nb-cell query">
+% autres requêtes à entrer.
+</div>
+
+<div class="nb-cell html">
+<h3>Exercice 5 : un jeu de morpion (<code>on the way to the project!</code>)</h3>
+<p>Avant de vous lancer dans le projet et de choisir un jeu à deux joueurs tenace, 
+il est bon de réfléchir à la structure d'un programme PROLOG pour un jeu simple : le morpion.   Dans l'ordre, on veillera à : 
+</p>
+<ul>
+  <li>La représentation du plateau comme un fait que l'on peut ajouter/retirer de manière dynamique à la base de connaissance<code>assert/1</code> et <code>retract/1</code></li>
+  <li>L'affichage du plateau avec <code>writeln/1</code></li>
+  <li>Le test de fin de partie qui élit le gagnant (égalité possible) <code>gameover/2</code> </li>
+  <li>Le prédicat qui permet de choisir une nouvelle case à jouer dans une grille (l'intelligence artificielle qui pourra utiliser les prédicats <code>random/1</code> et <code>repeat/0</code></li>
+  <li>Un prédicat qui considère le plateau courant, le coup choisi par l'intelligence artificielle, et produit une nouveau plateau avec le coup joué.</li>
+  <li>Un prédicat <code>play/1</code> qui réalise un tour de jeu pour le joueur donnée en paramètre (fait intervenir tous les autres prédicats).</li>
+</ul>
+</div>
+
+<div class="nb-cell program" data-background="true">
+:- dynamic board/1. % permet l'assertion et le retrait de faits board/1
+
+play(Player):-  write('New turn for:'), writeln(Player),
+    		board(Board), % instanciate the board from the knowledge base 
+       	    displayBoard, % print it
+            ia(Board, Move,Player), % ask the AI for a move, that is, an index for the Player 
+    	    playMove(Board,Move,NewBoard,Player), % Play the move and get the result in a new Board
+		    applyIt(Board, NewBoard), % Remove the old board from the KB and store the new one
+    	    changePlayer(Player,NextPlayer), % Change the player before next turn
+            play(NextPlayer). % next turn!
+
+%%%%% Start the game! 
+init :- length(Board,9), assert(board(Board)), play('x').
+</div>
+
+<div class="nb-cell query" data-tabled="true">
+init.
+</div>
+
+</div>
