@@ -44,6 +44,13 @@ play(Player):-  write('Nouveau tour de : '),
 				changePlayer(Player, NextPlayer), % Change the player before next turn
 				play(NextPlayer). % next turn!
 
+% Test if the column is not complete
+rowPossible(_, _, Line, Player) :- Line =:= 8 , write('Colonne pleine. Merci de jouer une autre colone.\n'), play(Player).
+rowPossible(Board, Column, Line, Player) :- nth1(Column, Board, X), nth1(Line, X, 0) ; Line1 is Line+1, rowPossible(Board, Column, Line1, Player).
+
+% Test if a move is valid or not
+moveIsValid(Board, Column, Player) :- Column > 0, Column < 8, rowPossible(Board, Column, 0, Player) ; write('Movement invalide.\n'), play(Player).
+
 % L1 = first list, L2 = new list, I = index, E = element
 replaceAtIndex([],[],0,_).
 replaceAtIndex([H|T1],[H|T2],0,_):-replaceAtIndex(T1,T2,0,_).
@@ -52,17 +59,18 @@ replaceAtIndex([H|T1],[H|T2],I,E):-I=\=0, I=\=1, I2 is I-1, replaceAtIndex(T1,T2
 
 firstOccurence([],-1,_).
 firstOccurence([E|_],1,E).
-firstOccurence([H|T],I,E):- H\=E, firstOccurence(T,I2,E), I is I2+1.
+firstOccurence([H|T],I,E) :- H\=E, firstOccurence(T,I2,E), I is I2+1.
 
 % C1 = The column we want to modify,
 % C2 = The new column after play
 % P = Player (1 or 2)
-playColumn(C1,C2,P):-firstOccurence(C1,I,0), replaceAtIndex(C1,C2,I,P).
+playColumn(C1,C2,P) :- firstOccurence(C1,I,0), replaceAtIndex(C1,C2,I,P).
 
 %%%% Play a Move, the new Board will be the same, but one value will be instanciated with the Move
-playMove(Board, Column, NewBoard, Player) :- 	nth1(Column,Board,E),
-												playColumn(E,L,Player),
-												replaceAtIndex(Board,NewBoard,Column,L).
+playMove(Board, Column, NewBoard, Player) :- 	moveIsValid(Board, Column, Player),
+												nth1(Column,Board, E),
+												playColumn(E, L, Player),
+												replaceAtIndex(Board, NewBoard, Column, L).
 
 %%%% Remove old board/save new on in the knowledge base
 % Very important !
@@ -124,3 +132,6 @@ printtree(Board, Player) :- allPossibleMoves(Board, L), member(Move,L), %writeln
     						changePlayer(Player, NewPlayer), 
     						%print(NewBoard), 
     						printtree(NewBoard, NewPlayer).
+
+% Launch the game!
+?-init.
