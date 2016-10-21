@@ -30,13 +30,13 @@ ia(Board, Index, _) :- repeat, Index is random(7), nth0(Index, Board, Elem), var
 %play(_):- gameover(Winner), !, write('Game is Over. Winner: '), writeln(Winner), displayBoard.
 
 % The game is not over, we play the next turn
-play(Player):-  write('New turn for:'),
+play(Player):-  write('Nouveau tour de : '),
 				writeln(Player),
 				board(Board), % instanciate the board from the knowledge base 
 				displayBoard(Board), % print it
 				%ia(Board, Move, Player), % ask the AI for a move, that is, an index for the Player
 				write('Joueur '), write(Player), 
-				write(' entrez un numéro de colonne : '),
+				write(' entrez un numero de colonne : '),
 				read(Move), 
 				playMove(Board, Move, NewBoard, Player), % Play the move and get the result in a new Board
 				applyIt(Board, NewBoard), % Remove the old board from the KB and store the new one
@@ -44,13 +44,26 @@ play(Player):-  write('New turn for:'),
 				changePlayer(Player, NextPlayer), % Change the player before next turn
 				play(NextPlayer). % next turn!
 
-%%%% Play a Move, the new Board will be the same, but one value will be instanciated with the Move
-/*playMove(Board,Move,NewBoard,Player) :- Move < 8,
-    									Board=NewBoard, 
-    									nth1(Move, Board, Col),
-    									inv(Col, ColInv),*/
+% L1 = first list, L2 = new list, I = index, E = element
+replaceAtIndex([],[],0,_).
+replaceAtIndex([H|T1],[H|T2],0,_):-replaceAtIndex(T1,T2,0,_).
+replaceAtIndex([_|T1],[E|T2],1,E):-replaceAtIndex(T1,T2,0,E).
+replaceAtIndex([H|T1],[H|T2],I,E):-I=\=0, I=\=1, I2 is I-1, replaceAtIndex(T1,T2,I2,E).
 
-										
+firstOccurence([],-1,_).
+firstOccurence([E|_],1,E).
+firstOccurence([H|T],I,E):- H\=E, firstOccurence(T,I2,E), I is I2+1.
+
+% C1 = The column we want to modify,
+% C2 = The new column after play
+% P = Player (1 or 2)
+playColumn(C1,C2,P):-firstOccurence(C1,I,0), replaceAtIndex(C1,C2,I,P).
+
+%%%% Play a Move, the new Board will be the same, but one value will be instanciated with the Move
+playMove(Board, Column, NewBoard, Player) :- 	nth1(Column,Board,E),
+												playColumn(E,L,Player),
+												replaceAtIndex(Board,NewBoard,Column,L).
+
 %%%% Remove old board/save new on in the knowledge base
 % Very important !
 applyIt(Board, NewBoard) :- retract(board(Board)), assert(board(NewBoard)).
@@ -86,7 +99,7 @@ displayBoard(Board):-
 % 		]) 
 % at the beginning
 % Adapt it !
-init :- Board=[[1,1,1,1,0,0], 
+init :- Board=[[0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
