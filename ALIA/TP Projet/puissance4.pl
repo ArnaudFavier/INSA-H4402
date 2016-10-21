@@ -41,7 +41,7 @@ ia(Board, Index, _) :- repeat, Index is random(7), nth0(Index, Board, Elem), var
 
 %%%% Recursive predicate for playing the game. 
 % The game is over, we use a cut to stop the proof search, and display the winner/board. 
-play(_):- gameover(Winner), !, write('Game is Over. Winner: '), writeln(Winner), board(Board), displayBoard(Board).
+play(_):- gameover(Winner), !, write('Game Over. Le gagnant est Joueur '), writeln(Winner), write('\n'), board(Board), displayBoard(Board), write('\n'), read(_), halt(0).
 
 % The game is not over, we play the next turn
 play(Player):-  write('Nouveau tour de : '),
