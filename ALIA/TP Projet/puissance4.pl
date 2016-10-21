@@ -1,11 +1,11 @@
 :- dynamic board/1. 
 
 % Reverse elements of a List.
-inv([],[]) :- !.
-inv([A|B],R) :- inv(B,X),append(X,[A],R).
+inv([],[]).
+inv([A|B], R) :- inv(B, X),append(X, [A], R).
 
 %%%% Test is the game is finished %%%
-gameover(Winner) :- board(Board), winner(Board,Winner), !.  % There exists a winning configuration: We cut!
+gameover(Winner) :- board(Board), winner(Board, Winner), !.  % There exists a winning configuration: We cut!
 gameover('Draw') :- board(Board), isBoardFull(Board). % the Board is fully instanciated (no free variable): Draw.
 
 %%%% Test if a Board is a winning configuration for the player P.
@@ -23,24 +23,25 @@ isBoardFull([H|T]):- nonvar(H), isBoardFull(T).
 %%%% in the Board (an element which is an free variable).
 % Random 7 because there are 7 columns
 % % Adapt it ! 
-ia(Board, Index,_) :- repeat, Index is random(7), nth0(Index, Board, Elem), var(Elem), !.
+ia(Board, Index, _) :- repeat, Index is random(7), nth0(Index, Board, Elem), var(Elem), !.
 
 %%%% Recursive predicate for playing the game. 
 % The game is over, we use a cut to stop the proof search, and display the winner/board. 
 %play(_):- gameover(Winner), !, write('Game is Over. Winner: '), writeln(Winner), displayBoard.
 
 % The game is not over, we play the next turn
-play(Player):-  write('New turn for:'), writeln(Player),
+play(Player):-  write('New turn for:'),
+				writeln(Player),
 				board(Board), % instanciate the board from the knowledge base 
 				displayBoard(Board), % print it
-				%ia(Board, Move,Player), % ask the AI for a move, that is, an index for the Player
+				%ia(Board, Move, Player), % ask the AI for a move, that is, an index for the Player
 				write('Joueur '), write(Player), 
 				write(' entrez un numéro de colonne : '),
 				read(Move), 
-				playMove(Board,Move,NewBoard,Player), % Play the move and get the result in a new Board
+				playMove(Board, Move, NewBoard, Player), % Play the move and get the result in a new Board
 				applyIt(Board, NewBoard), % Remove the old board from the KB and store the new one
 				write(''),
-				changePlayer(Player,NextPlayer), % Change the player before next turn
+				changePlayer(Player, NextPlayer), % Change the player before next turn
 				play(NextPlayer). % next turn!
 
 %%%% Play a Move, the new Board will be the same, but one value will be instanciated with the Move
@@ -52,16 +53,16 @@ play(Player):-  write('New turn for:'), writeln(Player),
 										
 %%%% Remove old board/save new on in the knowledge base
 % Very important !
-applyIt(Board,NewBoard) :- retract(board(Board)), assert(board(NewBoard)).
+applyIt(Board, NewBoard) :- retract(board(Board)), assert(board(NewBoard)).
 
 %%%% Predicate to get the next player
 % OK ! 
-changePlayer(1,2).
-changePlayer(2,1).
+changePlayer(1, 2).
+changePlayer(2, 1).
 
-%%%% Print the value of the board at index N:
+%%%% Print a line of the board at index Line:
 % OK !
-printLine(N,Board):- nth1(X,Board, Val), nth1(N, Val, V), write(V), write('|'), X > 6, writeln('').
+printLine(N,Board):- nth1(X,Board, Val), inv(Val,ValInv), nth1(N, ValInv, V), write(V), write('|'), X > 6, writeln('').
 
 %%%% Display the board
 % OK !
@@ -85,7 +86,7 @@ displayBoard(Board):-
 % 		]) 
 % at the beginning
 % Adapt it !
-init :- Board=[[0,0,0,0,0,0], 
+init :- Board=[[1,1,1,1,0,0], 
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
@@ -93,18 +94,8 @@ init :- Board=[[0,0,0,0,0,0],
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0]
               ],
-    	assert(board(Board)), /*displayBoard*/ play(1).
+    	assert(board(Board)), play(1).
 
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
 %%%%% From morpion ! (not used)
 test :- length(Board,9), assert(board(Board)),  printtree(Board, 1).
