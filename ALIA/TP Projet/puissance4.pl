@@ -1,3 +1,9 @@
+/* ------------------------------ */
+/* ---------- TP Prolog --------- */
+/* ---------- Puissance4 -------- */
+/* ----------   H4402   --------- */
+/* ------------------------------ */
+
 :- dynamic board/1. 
 
 % Reverse elements of a List.
@@ -16,21 +22,21 @@ match([HL|_],[HP|_],[_|T],P):- HL\= HP, match(T,P,T,P).
 match(L,P):- match(L,P,L,P), !.
 
 %%%% Test if a Board is a winning configuration for the player P.
-% TODO ! 
+% TODO !
 winner(Board,Player):-	winnerCol(Board, Player).
 
 winnerCol(Board, Player):- nth1(_,Board,Val), match(Val, [Player,Player,Player,Player]).
 
 %%%% Recursive predicate that checks if all the elements of the List (a board) 
 %%%% are instanciated: true e.g. for [x,x,o,o,x,o,x,x,o] false for [x,x,o,o,_G125,o,x,x,o]
-% Adapt it ! 
+% Adapt it !
 isBoardNotFull(Board):- nth1(_,Board,Val), nth1(_,Val,Elem), Elem = 0, !.
 
 %%%% Artificial intelligence: choose in a Board the index to play for Player (_)
 %%%% This AI plays randomly and does not care who is playing: it chooses a free position
 %%%% in the Board (an element which is an free variable).
 % Random 7 because there are 7 columns
-% % Adapt it ! 
+% Adapt it !
 ia(Board, Index, _) :- repeat, Index is random(7), nth0(Index, Board, Elem), var(Elem), !.
 
 %%%% Recursive predicate for playing the game. 
@@ -40,12 +46,14 @@ play(_):- gameover(Winner), !, write('Game is Over. Winner: '), writeln(Winner),
 % The game is not over, we play the next turn
 play(Player):-  write('Nouveau tour de : '),
 				writeln(Player),
+				write('\n'),
 				board(Board), % instanciate the board from the knowledge base 
 				displayBoard(Board), % print it
 				%ia(Board, Move, Player), % ask the AI for a move, that is, an index for the Player
-				write('Joueur '), write(Player), 
+				write('\nJoueur '), write(Player), 
 				write(' entrez un numero de colonne : '),
-				read(Move), 
+				read(Move),
+				write('\n'),
 				playMove(Board, Move, NewBoard, Player), % Play the move and get the result in a new Board
 				applyIt(Board, NewBoard), % Remove the old board from the KB and store the new one
 				write(''),
@@ -57,7 +65,7 @@ rowPossible(_, _, Line, Player) :- Line =:= 8 , write('Colonne pleine. Merci de 
 rowPossible(Board, Column, Line, Player) :- nth1(Column, Board, X), nth1(Line, X, 0) ; Line1 is Line+1, rowPossible(Board, Column, Line1, Player).
 
 % Test if a move is valid or not
-moveIsValid(Board, Column, Player) :- Column > 0, Column < 8, rowPossible(Board, Column, 0, Player) ; write('Movement invalide.\n'), play(Player).
+moveIsValid(Board, Column, Player) :- integer(Column), Column > 0, Column < 8, rowPossible(Board, Column, 0, Player) ; Column == end_of_file , halt(0) ; write('Mouvement invalide.\n'), play(Player).
 
 % L1 = first list, L2 = new list, I = index, E = element
 replaceAtIndex([],[],0,_).
@@ -85,16 +93,13 @@ playMove(Board, Column, NewBoard, Player) :- 	moveIsValid(Board, Column, Player)
 applyIt(Board, NewBoard) :- retract(board(Board)), assert(board(NewBoard)).
 
 %%%% Predicate to get the next player
-% OK ! 
 changePlayer(1, 2).
 changePlayer(2, 1).
 
 %%%% Print a line of the board at index Line:
-% OK !
 printLine(N,Board):- nth1(X,Board, Val), inv(Val,ValInv), nth1(N, ValInv, V), write(V), write('|'), X > 6, writeln('').
 
 %%%% Display the board
-% OK !
 displayBoard(Board):-
 	write('|'), printLine(1,Board),
 	write('|'), printLine(2,Board),
@@ -102,6 +107,12 @@ displayBoard(Board):-
 	write('|'), printLine(4,Board),
 	write('|'), printLine(5,Board),
 	write('|'), printLine(6,Board).
+
+displayWelcomeMessage :-	write('|--------------------|\n'),
+							write('|----- TP Prolog ----|\n'),
+							write('|---- Puissance 4 ---|\n'),
+							write('|------- H4402 ------|\n'),
+							write('|--------------------|\n\n').
 
 %%%%% Start the game!
 % The game state will be represented by a list of 7 lists of 6 elements 
@@ -114,7 +125,6 @@ displayBoard(Board):-
 % 		 [_,_,_,_,_,_]
 % 		]) 
 % at the beginning
-% Adapt it !
 init :- Board=[[0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
@@ -123,23 +133,7 @@ init :- Board=[[0,0,0,0,0,0],
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0]
               ],
-    	assert(board(Board)), play(1).
-
-
-%%%%% From morpion ! (not used)
-test :- length(Board,9), assert(board(Board)),  printtree(Board, 1).
-
-
-possibleMove(Board, I) :- nth0(I, Board, Val), var(Val).
-allPossibleMoves(Board, L) :- findall(I, possibleMove(Board, I), L).   % allPossibleMoves([_,_,_,a,a,_], L).
-
-printtree(Board, _) :- isBoardFull(Board), assert(board(Board)). %, retract(board(_)), assert(board(Board)), displayBoard.
-
-printtree(Board, Player) :- allPossibleMoves(Board, L), member(Move,L), %writeln(Move),
-    						NewBoard=Board, nth0(Move,NewBoard,Player),
-    						changePlayer(Player, NewPlayer), 
-    						%print(NewBoard), 
-    						printtree(NewBoard, NewPlayer).
+    	assert(board(Board)), displayWelcomeMessage, play(1).
 
 % Launch the game!
 ?-init.
