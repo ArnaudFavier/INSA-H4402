@@ -5,18 +5,26 @@ inv([],[]).
 inv([A|B], R) :- inv(B, X),append(X, [A], R).
 
 %%%% Test is the game is finished %%%
-gameover(Winner) :- board(Board), winner(Board, Winner), !.  % There exists a winning configuration: We cut!
-gameover('Draw') :- board(Board), isBoardFull(Board). % the Board is fully instanciated (no free variable): Draw.
+gameover(1) :- board(Board), winner(Board, 1), !.  % There exists a winning configuration: We cut!
+gameover(2) :- board(Board), winner(Board, 2), !.  % There exists a winning configuration: We cut!
+gameover('Draw') :- board(Board), not(isBoardNotFull(Board)). % the Board is fully instanciated (no free variable): Draw.
+
+%%%% Test if a pattern P is inside a list L.
+match(_,[],_,_).
+match([H|TL],[H|TP],L,P):- match(TL,TP,L,P).
+match([HL|_],[HP|_],[_|T],P):- HL\= HP, match(T,P,T,P).
+match(L,P):- match(L,P,L,P), !.
 
 %%%% Test if a Board is a winning configuration for the player P.
 % TODO ! 
-winner(_,_).
+winner(Board,Player):-	winnerCol(Board, Player).
+
+winnerCol(Board, Player):- nth1(_,Board,Val), match(Val, [Player,Player,Player,Player]).
 
 %%%% Recursive predicate that checks if all the elements of the List (a board) 
 %%%% are instanciated: true e.g. for [x,x,o,o,x,o,x,x,o] false for [x,x,o,o,_G125,o,x,x,o]
 % Adapt it ! 
-isBoardFull([]).
-isBoardFull([H|T]):- nonvar(H), isBoardFull(T).
+isBoardNotFull(Board):- nth1(_,Board,Val), nth1(_,Val,Elem), Elem = 0, !.
 
 %%%% Artificial intelligence: choose in a Board the index to play for Player (_)
 %%%% This AI plays randomly and does not care who is playing: it chooses a free position
@@ -27,7 +35,7 @@ ia(Board, Index, _) :- repeat, Index is random(7), nth0(Index, Board, Elem), var
 
 %%%% Recursive predicate for playing the game. 
 % The game is over, we use a cut to stop the proof search, and display the winner/board. 
-%play(_):- gameover(Winner), !, write('Game is Over. Winner: '), writeln(Winner), displayBoard.
+play(_):- gameover(Winner), !, write('Game is Over. Winner: '), writeln(Winner), board(Board), displayBoard(Board).
 
 % The game is not over, we play the next turn
 play(Player):-  write('Nouveau tour de : '),
