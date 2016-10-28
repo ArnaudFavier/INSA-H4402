@@ -32,13 +32,15 @@ match([H|TL],[H|TP],L,P):- match(TL,TP,L,P).
 match([HL|_],[HP|_],[_|T],P):- HL\= HP, match(T,P,T,P).
 match(L,P):- match(L,P,L,P), !.
 
-%%%% Test if a Board is a winning configuration for the player P.
-% TODO !
+%%%% Test if a Board is a winning configuration for the player Player.
 winner(Board,Player):-	winnerCol(Board, Player).
 winner(Board,Player):-	winnerHor(Board, Player).
+winner(Board, Player):- winnerDiag(Board,Player).
 
+%%% Check victory condition : align 4 tokens in column : 
 winnerCol(Board, Player):- nth1(_,Board,Val), match(Val, [Player,Player,Player,Player]).
 
+%%% Check victory condition : align 4 tokens in lign : 
 winnerHor(N, Board, Player):- maplist(nthElem(N), Board, L), 
 					 		  match(L, [Player,Player,Player,Player]),!.
 
@@ -46,8 +48,36 @@ winnerHor(N, Board, Player):- N > 0,
 					 N1 is N-1,
 					 winnerHor(N1, Board, Player).
 
-winnerHor(Board,Player):- winnerHor(6, Board, Player).	
+winnerHor(Board,Player):- winnerHor(7, Board, Player).	
 
+%%% Check victory condition : align 4 tokens in diagonal : 
+checkEndDiag(_,D,Player,0):- match(D, [Player,Player,Player,Player]).
+checkEndDiag(Board,D,Player,N):- N > 0,
+					  maplist(nthElem(N), Board, L),
+					  nthElem(N,L,E),
+					  N1 is N-1,
+					  checkEndDiag(Board,[E|D],Player,N1).
+
+checkEndDiag(Board,Player):- checkEndDiag(Board,[],Player,6).
+
+checkAnotherDiag(_,D,Player,0):- match(D, [Player,Player,Player,Player]).
+checkAnotherDiag(Board,D,Player,N):- N > 0,
+					    maplist(nthElem(N), Board, L),
+						N2 is 7-N,
+						nthElem(N2,L,E),
+					    N1 is N-1,
+					    checkAnotherDiag(Board,[E|D],Player,N1).
+
+checkAnotherDiag(Board,Player):- checkAnotherDiag(Board,[],Player,6).
+
+winnerDiag(_,_,X,Player):- checkEndDiag(X,Player),!.
+winnerDiag(_,_,X,Player):- checkAnotherDiag(X,Player),!.
+winnerDiag(Board,N,X,Player):- N < 7,
+					  maplist(nthElem(N), Board, L),
+					  N1 is N+1,
+					  winnerDiag(Board,N1,[L|X],Player).
+
+winnerDiag(Board,Player):- winnerDiag(Board,1,[],Player).
 
 
 %%%% Recursive predicate that checks if all the elements of the List (a board) 
@@ -148,15 +178,13 @@ displayWelcomeMessage :-	write('|--------------------|\n'),
 % 		 [_,_,_,_,_,_]
 % 		]) 
 % at the beginning
-init :- Board=[[0,0,0,0,0,0], 
-               [0,0,0,0,0,0], 
-               [0,0,0,0,0,0], 
-               [0,0,0,0,0,0], 
+init :- Board=[[1,0,0,0,0,0], 
+               [0,1,0,0,0,0], 
+               [0,0,1,0,0,0], 
+               [0,0,0,1,0,0], 
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0]
               ],
     	assert(board(Board)), displayWelcomeMessage, play(1).
 
-% Launch the game!
-?-init.
