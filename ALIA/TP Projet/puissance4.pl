@@ -10,6 +10,17 @@
 inv([],[]).
 inv([A|B], R) :- inv(B, X),append(X, [A], R).
 
+% Return the size of a list
+/* Paramètres : L liste, N longueur de la liste */
+size([],0).
+size([_|L],N):- size(L,N1),
+					N is N1+1.
+
+% Return the element of a list at the N index 
+/* Paramètres : N index de l'élement qu'on veut récupérer, L liste, X élément retourné */
+nthElem(N, L, []):- size(L, N1), N1 < N.
+nthElem(N, L, X):- nth1(N, L, X).
+
 %%%% Test is the game is finished %%%
 gameover(1) :- board(Board), winner(Board, 1), !.  % There exists a winning configuration: We cut!
 gameover(2) :- board(Board), winner(Board, 2), !.  % There exists a winning configuration: We cut!
@@ -24,8 +35,20 @@ match(L,P):- match(L,P,L,P), !.
 %%%% Test if a Board is a winning configuration for the player P.
 % TODO !
 winner(Board,Player):-	winnerCol(Board, Player).
+winner(Board,Player):-	winnerHor(Board, Player).
 
 winnerCol(Board, Player):- nth1(_,Board,Val), match(Val, [Player,Player,Player,Player]).
+
+winnerHor(N, Board, Player):- maplist(nthElem(N), Board, L), 
+					 		  match(L, [Player,Player,Player,Player]),!.
+
+winnerHor(N, Board, Player):- N > 0,
+					 N1 is N-1,
+					 winnerHor(N1, Board, Player).
+
+winnerHor(Board,Player):- winnerHor(6, Board, Player).	
+
+
 
 %%%% Recursive predicate that checks if all the elements of the List (a board) 
 %%%% are instanciated: true e.g. for [x,x,o,o,x,o,x,x,o] false for [x,x,o,o,_G125,o,x,x,o]
