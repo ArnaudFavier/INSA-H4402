@@ -141,7 +141,7 @@ playMove(Board, Column, NewBoard, Player) :- 	moveIsValid(Board, Column, Player)
 												playColumn(E, L, Player),
 												replaceAtIndex(Board, NewBoard, Column, L).
 
-%%%% Remove old board/save new on in the knowledge base
+%%%% Remove old board/save new one in the knowledge base
 % Very important !
 applyIt(Board, NewBoard) :- retract(board(Board)), assert(board(NewBoard)).
 
@@ -166,6 +166,27 @@ displayWelcomeMessage :-	write('|--------------------|\n'),
 							write('|---- Puissance 4 ---|\n'),
 							write('|------- H4402 ------|\n'),
 							write('|--------------------|\n\n').
+
+
+
+%IA that identifies a winning move for the player (1 or 2)
+% winning move : the players wins when he plays this move
+
+winningMove(Column, Player):- playMove(Board,1, NewBoard, Player), winner(Board, Player), Column=1.
+winningMove(Column, Player):- playMove(Board,2, NewBoard, Player), winner(Board, Player), Column=2.
+winningMove(Column, Player):- playMove(Board,3, NewBoard, Player), winner(Board, Player), Column=3.
+winningMove(Column, Player):- playMove(Board,4, NewBoard, Player), winner(Board, Player), Column=4.
+winningMove(Column, Player):- playMove(Board,5, NewBoard, Player), winner(Board, Player), Column=5.
+winningMove(Column, Player):- playMove(Board,6, NewBoard, Player), winner(Board, Player), Column=6.
+winningMove(Column, Player):- playMove(Board,7, NewBoard, Player), winner(Board, Player), Column=7.
+
+%IA identifies a winning move and plays it 
+% if there is a winning move she plays it, if there isn't then she looks for a move that could make the oponent win and plays it
+%if there is nothing then she plays a random move
+playIA(Move) :- winningMove(Move, 1).
+playIA(Move) :- winningMove(Move, 2).
+playIA(Move) :- ia(Board, Move, Player).
+
 
 %%%%% Start the game!
 % The game state will be represented by a list of 7 lists of 6 elements 
