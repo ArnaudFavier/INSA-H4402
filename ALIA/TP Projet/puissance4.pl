@@ -189,7 +189,7 @@ list2ens([X|Y], A) :- member(X,Y), list2ens(Y,A), !.
 list2ens([X|Y], [X|A]) :- list2ens(Y,A).
 
 % give the list of columns which are not filled
-nonFilledColumnIds(Board, Res):- findall(I,(length(Board, Long), between(1,Long,I),nth1(I,Board,Elem),member(0, Elem)), R), list2ens(R,Res).
+nonFilledColumnIds(Board, Res):- findall(I,(length(Board, Long), between(1,Long,I),nth1(I,Board,List),member(0, List)), R), list2ens(R,Res).
 
 % True if the column is not full, false if the column is full
 columnAvailable(Board, Column):- nth1(Column, Board, List), member(0, List).
@@ -215,6 +215,20 @@ winningMove(ActualBoard, Column, Player):- columnAvailable(ActualBoard, 7), play
 %playIA(Board, Move, _) :- winningMove(Board, Move, 1).
 %playIA(Board, Move, _) :- winningMove(Board, Move, 2).
 %playIA(Board, Move, Player) :- ia(Board, Move, Player).
+
+%%% TEST VHUGUET %%%%%%%%%%%%%%%%%%%
+%% Agresive style IA
+% get list of available winning moves
+%availableWinningMoves(Board, Player, List):- findall(I, (length(Board, Long), between(1, Long, I), winningMove(Board, I, Player)), List).
+% if there is at least an avaiable winning move we choose one of them
+%playIA(Board, Move, Player) :- availableWinningMoves(Board, Player, [HList|TList]), not([HList|TList] is []), Move is HList.
+% else ia plays randomly
+%playIA(Board, Move, Player) :- ia(Board, Move, Player).
+
+%% Defensive style IA (---) same as agresive style with a switching of player
+%% Defensive style IA (+++)
+%% Ultimate style IA (merge of =/= styles)
+%%% END TEST VHUGUET %%%%%%%%%%%%%%%
 
 %%%%% Start the game!
 % The game state will be represented by a list of 7 lists of 6 elements 
