@@ -178,6 +178,19 @@ displayWelcomeMessage :-	write('|--------------------|\n'),
 %%%% AI
 % Uncomment to choose
 
+%% Tools for IA 
+% Check if an element belong to a list
+member(X,[X|_]).
+member(X,[_|Z]) :- member(X,Z).
+
+% Convert a list in set
+list2ens([],[]).
+list2ens([X|Y], A) :- member(X,Y), list2ens(Y,A), !.
+list2ens([X|Y], [X|A]) :- list2ens(Y,A).
+
+% give the list of columns which aren't filled
+nonFilledColumnIds(Board, Res):- findall(I,(length(Board, Long), between(1,Long,I),nth1(I,Board,Elem),member(0, Elem)), R), list2ens(R,Res).
+
 %% Completely Random 
 playIA(Board, Move, _) :-	repeat, Move is random(7), nth1(Move, Board, X), nth1(_, X, 0), !.
 
