@@ -188,28 +188,32 @@ list2ens([],[]).
 list2ens([X|Y], A) :- member(X,Y), list2ens(Y,A), !.
 list2ens([X|Y], [X|A]) :- list2ens(Y,A).
 
-% give the list of columns which aren't filled
+% give the list of columns which are not filled
 nonFilledColumnIds(Board, Res):- findall(I,(length(Board, Long), between(1,Long,I),nth1(I,Board,Elem),member(0, Elem)), R), list2ens(R,Res).
 
+% True if the column is not full, false if the column is full
+columnAvailable(Board, Column):- nth1(Column, Board, List), member(0, List).
+
 %% Completely Random 
-playIA(Board, Move, _) :-	repeat, Move is random(7), nth1(Move, Board, X), nth1(_, X, 0), !.
+playIA(Board, Move, _) :- repeat, Move is random(7), nth1(Move, Board, X), nth1(_, X, 0), !.
 
 %% Winning move
 % AI that identifies a winning move for the player (1 or 2)
 % winning move : the players wins when he plays this move
-winningMove(Column, Player):- playMove(Board, 1, _, Player), winner(Board, Player), Column=1.
-winningMove(Column, Player):- playMove(Board, 2, _, Player), winner(Board, Player), Column=2.
-winningMove(Column, Player):- playMove(Board, 3, _, Player), winner(Board, Player), Column=3.
-winningMove(Column, Player):- playMove(Board, 4, _, Player), winner(Board, Player), Column=4.
-winningMove(Column, Player):- playMove(Board, 5, _, Player), winner(Board, Player), Column=5.
-winningMove(Column, Player):- playMove(Board, 6, _, Player), winner(Board, Player), Column=6.
-winningMove(Column, Player):- playMove(Board, 7, _, Player), winner(Board, Player), Column=7.
+
+winningMove(ActualBoard, Column, Player):- columnAvailable(ActualBoard, 1), playMove(Board, 1, _, Player), winner(Board, Player), Column=1.
+winningMove(ActualBoard, Column, Player):- columnAvailable(ActualBoard, 2), playMove(Board, 2, _, Player), winner(Board, Player), Column=2.
+winningMove(ActualBoard, Column, Player):- columnAvailable(ActualBoard, 3), playMove(Board, 3, _, Player), winner(Board, Player), Column=3.
+winningMove(ActualBoard, Column, Player):- columnAvailable(ActualBoard, 4), playMove(Board, 4, _, Player), winner(Board, Player), Column=4.
+winningMove(ActualBoard, Column, Player):- columnAvailable(ActualBoard, 5), playMove(Board, 5, _, Player), winner(Board, Player), Column=5.
+winningMove(ActualBoard, Column, Player):- columnAvailable(ActualBoard, 6), playMove(Board, 6, _, Player), winner(Board, Player), Column=6.
+winningMove(ActualBoard, Column, Player):- columnAvailable(ActualBoard, 7), playMove(Board, 7, _, Player), winner(Board, Player), Column=7.
 
 % AI identifies a winning move and plays it 
 % if there is a winning move she plays it, if there is not then she looks for a move that could make the oponent win and plays it
 % if there is nothing then she plays a random move
-%playIA(_, Move, Player) :- winningMove(Move, 1).
-%playIA(_, Move, Player) :- winningMove(Move, 2).
+%playIA(Board, Move, _) :- winningMove(Board, Move, 1).
+%playIA(Board, Move, _) :- winningMove(Board, Move, 2).
 %playIA(Board, Move, Player) :- ia(Board, Move, Player).
 
 %%%%% Start the game!
