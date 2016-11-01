@@ -6,22 +6,21 @@
 
 :- dynamic board/1. 
 
-% Reverse elements of a List.
+%% Reverse elements of a List
 inv([],[]).
-inv([A|B], R) :- inv(B, X),append(X, [A], R).
+inv([A|B], R) :- inv(B, X), append(X, [A], R).
 
-% Return the size of a list
-/* Paramètres : L liste, N longueur de la liste */
+%% Return the size of a list
+% Parameters: L list, N lenght of the list
 size([],0).
-size([_|L],N):- size(L,N1),
-					N is N1+1.
+size([_|L],N):- size(L,N1), N is N1+1.
 
-% Return the element of a list at the N index 
-/* Paramètres : N index de l'élement qu'on veut récupérer, L liste, X élément retourné */
+%% Return the element of a list at the N index 
+% Parameters: N index of the element we want to get back, L list, X return element
 nthElem(N, L, []):- size(L, N1), N1 < N.
 nthElem(N, L, X):- nth1(N, L, X).
 
-%%%% Test is the game is finished %%%
+%%%% Test is the game is finished
 gameover(1) :- board(Board), winner(Board, 1), !.  % There exists a winning configuration: We cut!
 gameover(2) :- board(Board), winner(Board, 2), !.  % There exists a winning configuration: We cut!
 gameover('Draw') :- board(Board), not(isBoardNotFull(Board)). % the Board is fully instanciated (no free variable): Draw.
@@ -97,21 +96,30 @@ ia(Board, Index, _) :- repeat, Index is random(7), nth0(Index, Board, Elem), var
 play(_):- gameover(Winner), !, write('Game Over. Le gagnant est Joueur '), writeln(Winner), write('\n'), board(Board), displayBoard(Board), write('\n'), read(_), halt(0).
 
 % The game is not over, we play the next turn
-play(Player):-  write('Nouveau tour de : '),
+play(Player):-  write('Nouveau tour de Joueur : '),
 				writeln(Player),
 				write('\n'),
 				board(Board), % instanciate the board from the knowledge base 
 				displayBoard(Board), % print it
-				%ia(Board, Move, Player), % ask the AI for a move, that is, an index for the Player
-				write('\nJoueur '), write(Player), 
-				write(' entrez un numero de colonne : '),
-				read(Move),
+				(
+					(
+					Player is 2, % if it is AI turn
+					playIA(Board, Move, Player) % ask the AI for a move, that is, an index for the Player
+					) 
+				;
+					(
+					write('\nJoueur '),
+					write(Player), 
+					write(' entrez un numero de colonne : '),
+					read(Move) % player turn
+					)
+				),
 				write('\n'),
 				playMove(Board, Move, NewBoard, Player), % Play the move and get the result in a new Board
 				applyIt(Board, NewBoard), % Remove the old board from the KB and store the new one
 				write(''),
 				changePlayer(Player, NextPlayer), % Change the player before next turn
-				play(NextPlayer). % next turn!
+				play(NextPlayer). % next turn
 
 % Test if the column is not complete
 rowPossible(_, _, Line, Player) :- Line =:= 8 , write('Colonne pleine. Merci de jouer une autre colone.\n'), play(Player).
@@ -167,26 +175,29 @@ displayWelcomeMessage :-	write('|--------------------|\n'),
 							write('|------- H4402 ------|\n'),
 							write('|--------------------|\n\n').
 
+%%%% AI
+% Uncomment to choose
 
+%% Completely Random 
+playIA(Board, Move, _) :-	repeat, Move is random(7), nth1(Move, Board, X), nth1(_, X, 0), !.
 
-%IA that identifies a winning move for the player (1 or 2)
+%% Winning move
+% AI that identifies a winning move for the player (1 or 2)
 % winning move : the players wins when he plays this move
+winningMove(Column, Player):- playMove(Board, 1, _, Player), winner(Board, Player), Column=1.
+winningMove(Column, Player):- playMove(Board, 2, _, Player), winner(Board, Player), Column=2.
+winningMove(Column, Player):- playMove(Board, 3, _, Player), winner(Board, Player), Column=3.
+winningMove(Column, Player):- playMove(Board, 4, _, Player), winner(Board, Player), Column=4.
+winningMove(Column, Player):- playMove(Board, 5, _, Player), winner(Board, Player), Column=5.
+winningMove(Column, Player):- playMove(Board, 6, _, Player), winner(Board, Player), Column=6.
+winningMove(Column, Player):- playMove(Board, 7, _, Player), winner(Board, Player), Column=7.
 
-winningMove(Column, Player):- playMove(Board,1, NewBoard, Player), winner(Board, Player), Column=1.
-winningMove(Column, Player):- playMove(Board,2, NewBoard, Player), winner(Board, Player), Column=2.
-winningMove(Column, Player):- playMove(Board,3, NewBoard, Player), winner(Board, Player), Column=3.
-winningMove(Column, Player):- playMove(Board,4, NewBoard, Player), winner(Board, Player), Column=4.
-winningMove(Column, Player):- playMove(Board,5, NewBoard, Player), winner(Board, Player), Column=5.
-winningMove(Column, Player):- playMove(Board,6, NewBoard, Player), winner(Board, Player), Column=6.
-winningMove(Column, Player):- playMove(Board,7, NewBoard, Player), winner(Board, Player), Column=7.
-
-%IA identifies a winning move and plays it 
-% if there is a winning move she plays it, if there isn't then she looks for a move that could make the oponent win and plays it
-%if there is nothing then she plays a random move
-playIA(Move) :- winningMove(Move, 1).
-playIA(Move) :- winningMove(Move, 2).
-playIA(Move) :- ia(Board, Move, Player).
-
+% AI identifies a winning move and plays it 
+% if there is a winning move she plays it, if there is not then she looks for a move that could make the oponent win and plays it
+% if there is nothing then she plays a random move
+%playIA(_, Move, Player) :- winningMove(Move, 1).
+%playIA(_, Move, Player) :- winningMove(Move, 2).
+%playIA(Board, Move, Player) :- ia(Board, Move, Player).
 
 %%%%% Start the game!
 % The game state will be represented by a list of 7 lists of 6 elements 
@@ -199,13 +210,15 @@ playIA(Move) :- ia(Board, Move, Player).
 % 		 [_,_,_,_,_,_]
 % 		]) 
 % at the beginning
-init :- Board=[[1,0,0,0,0,0], 
-               [0,1,0,0,0,0], 
-               [0,0,1,0,0,0], 
-               [0,0,0,1,0,0], 
+init :- Board=[[0,0,0,0,0,0], 
+               [0,0,0,0,0,0], 
+               [0,0,0,0,0,0], 
+               [0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0]
               ],
     	assert(board(Board)), displayWelcomeMessage, play(1).
 
+% Launch the game
+?-init.
