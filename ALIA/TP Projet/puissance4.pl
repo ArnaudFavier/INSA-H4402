@@ -17,7 +17,7 @@ size([_|L],N):- size(L,N1), N is N1+1.
 
 %% Return the element of a list at the N index 
 % Parameters: N index of the element we want to get back, L list, X return element
-nthElem(N, L, []):- size(L, N1), N < N1.
+nthElem(N, L, []):- size(L, N1), N1 < N.
 nthElem(N, L, X):- nth1(N, L, X).
 
 %%%% Test is the game is finished
@@ -103,7 +103,7 @@ play(Player):-  write('Nouveau tour de Joueur : '),
 				displayBoard(Board), % print it
 				(
 					(
-					Player is 2, % if it is AI turn
+					Player is 1, % if it is AI turn
 					playIA(Board, Move, Player) % ask the AI for a move, that is, an index for the Player
 					) 
 				;
