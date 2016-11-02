@@ -21,9 +21,9 @@ nthElem(N, L, []):- size(L, N1), N1 < N.
 nthElem(N, L, X):- nth1(N, L, X).
 
 %%%% Test is the game is finished
-gameover(1) :- board(Board), winner(Board, 1), !.  % There exists a winning configuration: We cut
-gameover(2) :- board(Board), winner(Board, 2), !.  % There exists a winning configuration: We cut
-gameover('Draw') :- board(Board), not(isBoardNotFull(Board)). % the Board is fully instanciated (no free variable): Draw
+gameover(1):- board(Board), winner(Board, 1), !.  % There exists a winning configuration: We cut
+gameover(2):- board(Board), winner(Board, 2), !.  % There exists a winning configuration: We cut
+gameover('Draw'):- board(Board), not(isBoardNotFull(Board)). % the Board is fully instanciated (no free variable): Draw
 
 %%%% Test if a pattern P is inside a list L
 match(_, [], _, _).
@@ -81,14 +81,14 @@ winnerDiag(Board, Player):- winnerDiag(Board, 1, [], Player).
 
 %%%% Recursive predicate that checks if all the elements of the List (a board)
 %%%% are instanciated: true e.g. for [x,x,o,o,x,o,x,x,o] false for [x,x,o,o,_G125,o,x,x,o]
-% Adapt it !
+% Adapt it
 isBoardNotFull(Board):- nth1(_, Board, Val), nth1(_, Val, Elem), Elem = 0, !.
 
 %%%% Artificial intelligence: choose in a Board the index to play for Player (_)
 %%%% This AI plays randomly and does not care who is playing: it chooses a free position
 %%%% in the Board (an element which is an free variable)
 % Random 7 because there are 7 columns
-% Adapt it !
+% Adapt it
 ia(Board, Index, _):- repeat, Index is random(7), nth0(Index, Board, Elem), var(Elem), !.
 
 %%%% Recursive predicate for playing the game.
@@ -150,7 +150,7 @@ playMove(Board, Column, NewBoard, Player):- 	moveIsValid(Board, Column, Player),
 												replaceAtIndex(Board, NewBoard, Column, L).
 
 %%%% Remove old board/save new one in the knowledge base
-% Very important !
+% Very important
 applyIt(Board, NewBoard):- retract(board(Board)), assert(board(NewBoard)).
 
 %%%% Predicate to get the next player
@@ -185,8 +185,8 @@ member(X, [_|Z]):- member(X, Z).
 
 % Convert a list in set
 list2ens([], []).
-list2ens([X|Y], A) :- member(X, Y), list2ens(Y, A), !.
-list2ens([X|Y], [X|A]) :- list2ens(Y, A).
+list2ens([X|Y], A):- member(X, Y), list2ens(Y, A), !.
+list2ens([X|Y], [X|A]):- list2ens(Y, A).
 
 % give the list of columns which are not filled
 nonFilledColumnIds(Board, Res):- findall(I, (length(Board, Long), between(1, Long, I), nth1(I, Board, List), member(0, List)), R), list2ens(R, Res).
@@ -229,7 +229,7 @@ winningMove(ActualBoard, Column, Player):- columnAvailable(ActualBoard, 7), play
 %% Ultimate style IA (merge of =/= styles)
 %%% END TEST VHUGUET %%%%%%%%%%%%%%%
 
-%%%%% Start the game!
+%%%%% Start the game
 % The game state will be represented by a list of 7 lists of 6 elements 
 % board([[_,_,_,_,_,_], 
 % 		 [_,_,_,_,_,_], 
