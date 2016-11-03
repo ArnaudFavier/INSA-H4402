@@ -4,6 +4,8 @@
 /* ----------   H4402   --------- */
 /* ------------------------------ */
 
+:- [tools_ai].
+
 % AI files
 % Uncomment to choose
 %:- [ia_random].
