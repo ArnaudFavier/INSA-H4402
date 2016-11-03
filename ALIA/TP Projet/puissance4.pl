@@ -4,6 +4,9 @@
 /* ----------   H4402   --------- */
 /* ------------------------------ */
 
+% AI files
+:- [ia_random].
+
 :- dynamic board/1. 
 
 %% Reverse elements of a List
@@ -185,7 +188,7 @@ list2ens([X|Y], [X|A]):- list2ens(Y, A).
 columnAvailable(Board, Column):- nth1(Column, Board, List), member(0, List).
 
 %% Completely Random 
-playIA(Board, Move, _):- repeat, M is random(7), Move is M + 1, columnAvailable(Board, Move), !.
+%playIA(Board, Move, _):- repeat, M is random(7), Move is M + 1, columnAvailable(Board, Move), !.
 
 %% Winning move
 % AI that identifies a winning move for the player (1 or 2)
