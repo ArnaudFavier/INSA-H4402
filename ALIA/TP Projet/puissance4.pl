@@ -90,12 +90,6 @@ winnerDiag(Board, N, X, Player):- N < 7,
 
 winnerDiag(Board, Player):- winnerDiag(Board, 1, [], Player).
 
-%%%% Artificial intelligence: choose in a Board the index to play for Player (_)
-%%%% This AI plays randomly and does not care who is playing: it chooses a free position
-%%%% in the Board (an element which is an free variable)
-% Random 7 because there are 7 columns
-iaRandom(Board, Move, _):- repeat, Move is random(7), nth1(Move, Board, X), nth1(_, X, 0), !.
-
 %%%% Recursive predicate for playing the game.
 % The game is over, we use a cut to stop the proof search, and display the winner/board
 play(_):- gameover(Winner), !, write('Game Over. Le gagnant est Joueur '), writeln(Winner), write('\n'), board(Board), displayBoard(Board), write('\n'), read(_), halt(0).
@@ -179,27 +173,6 @@ displayWelcomeMessage:-	write('|--------------------|\n'),
 						write('|---- Puissance 4 ---|\n'),
 						write('|------- H4402 ------|\n'),
 						write('|--------------------|\n\n').
-
-%%%% AI
-% Uncomment to choose
-
-%% Tools for IA 
-% Check if an element belong to a list
-member(X, [X|_]).
-member(X, [_|Z]):- member(X, Z).
-
-% Convert a list in set
-list2ens([], []).
-list2ens([X|Y], A):- member(X, Y), list2ens(Y, A), !.
-list2ens([X|Y], [X|A]):- list2ens(Y, A).
-
-% True if the column is not full, false if the column is full
-columnAvailable(Board, Column):- nth1(Column, Board, List), member(0, List).
-
-%% Winning move
-% AI that identifies a winning move for the player (1 or 2)
-winningMove(ActualBoard, Column, Player):- columnAvailable(ActualBoard, Column), playMove(ActualBoard, Column, Board, Player), !, winner(Board, Player).
-findIndexWinnigMove(Board, Column, Player):- between(1, 7, Column), winningMove(Board, Column, Player).
 	
 %%%%% Start the game
 % The game state will be represented by a list of 7 lists of 6 elements 

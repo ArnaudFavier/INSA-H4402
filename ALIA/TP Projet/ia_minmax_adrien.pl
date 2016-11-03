@@ -1,6 +1,8 @@
 %%%% AI MinMax Adrien %%%%
 
-playIANegaMax(Board, BestMove, Player):- negaMax(2, Board, Player, Player, _, BestMove).
+:- [tools_ai].
+
+playIA(Board, BestMove, Player):- negaMax(2, Board, Player, Player, _, BestMove).
 
 playMoveIA(Board, Column, NewBoard, Player):-	nth1(Column,Board, E),
 												playColumn(E, L, Player),

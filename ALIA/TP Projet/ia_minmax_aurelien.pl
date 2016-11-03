@@ -1,5 +1,7 @@
 %%%% AI MinMax Aurélien %%%%
 
+:- [tools_ai].
+
 % Id = The id of the max value in listscore
 % Value = The max value in listscore
 % ListScore = The list of scores
