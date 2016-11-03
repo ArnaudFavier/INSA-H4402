@@ -213,11 +213,11 @@ findIndexWinnigMove(Board, Column, Player):- between(1, 7, Column), winningMove(
 % 		]) 
 % at the beginning
 init :- Board=[[0,0,0,0,0,0], 
-               [1,1,0,0,0,0], 
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
-               [2,2,2,0,0,0], 
+               [0,0,0,0,0,0], 
+               [0,0,0,0,0,0], 
                [0,0,0,0,0,0]
               ],
     	assert(board(Board)), displayWelcomeMessage, play(1).
