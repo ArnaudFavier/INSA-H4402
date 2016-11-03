@@ -4,13 +4,20 @@
 /* ----------   H4402   --------- */
 /* ------------------------------ */
 
-% AI files
+:- [tools_ai].
+
+% AI - Player 1
 % Uncomment to choose
 %:- [ia_random].
-:- [ia_minmax_adrien].
+%:- [ia_minmax_adrien].
 %:- [ia_attack].
 %:- [ia_defense].
-%:- [ia_attDef].
+:- [ia_attDef].
+
+% Player 2: human or AI Random
+% Uncomment to choose
+%play2(Board, Move, Player):- write('\nJoueur '), write(Player), write(' entrez un numero de colonne : '), read(Move). % player turn
+play2(Board, Move, Player):- iaRandom(Board, Move, _).
 
 :- dynamic board/1. 
 
@@ -106,10 +113,7 @@ play(Player):-  write('Nouveau tour de Joueur : '),
 					) 
 				;
 					(
-					write('\nJoueur '),
-					write(Player), 
-					write(' entrez un numero de colonne : '),
-					read(Move) % player turn
+					play2(Board, Move, Player)
 					)
 				),
 				write('\n'),
