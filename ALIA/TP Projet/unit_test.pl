@@ -90,7 +90,7 @@ test(moveIsValid3) :- not(moveIsValid([],-2,1)).
 test(moveIsValid4) :- not(moveIsValid([],8,1)).
 
 % Test play with empty char value must be false
-test(moveIsValid5) :- not(moveIsValid([],,1)).
+test(moveIsValid5) :- not(moveIsValid([],'',1)).
 
 % Otherwise, must succeed
 test(moveIsValid6) :- moveIsValid([[0,0,0]],1,1).
