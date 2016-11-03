@@ -20,8 +20,15 @@ negaMax([HMoves|TMoves], Board, Depth, Player, PlayerMax, BestValue, BestMove, B
 	Value is -NextPlayerBestValue,
 	(	Value > BestValueTmp ->
 		negaMax(TMoves, Board, Depth, Player, PlayerMax, BestValue, BestMove, Value, HMoves)
-	;
-		negaMax(TMoves, Board, Depth, Player, PlayerMax, BestValue, BestMove, BestValueTmp, BestMoveTmp)
+	;	(	Value = BestValueTmp ->
+			(	R is random(2), R is 1 ->
+				negaMax(TMoves, Board, Depth, Player, PlayerMax, BestValue, BestMove, Value, HMoves)
+				;
+				negaMax(TMoves, Board, Depth, Player, PlayerMax, BestValue, BestMove, BestValueTmp, BestMoveTmp)
+			)
+		;
+			negaMax(TMoves, Board, Depth, Player, PlayerMax, BestValue, BestMove, BestValueTmp, BestMoveTmp)
+		)
 	).
 	
 % Heuristique
