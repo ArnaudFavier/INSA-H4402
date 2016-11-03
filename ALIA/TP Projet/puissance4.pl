@@ -6,9 +6,8 @@
 
 % AI files
 % Uncomment to choose
-:- [ia_random].
-%:- [ia_minmax_adrien].
-%:- [ia_minmax_aurelien].
+%:- [ia_random].
+:- [ia_minmax_adrien].
 %:- [ia_attack].
 %:- [ia_defense].
 %:- [ia_attDef].
