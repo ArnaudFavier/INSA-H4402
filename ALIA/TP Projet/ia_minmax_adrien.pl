@@ -1,5 +1,7 @@
 %%%% AI MinMax Adrien %%%%
 
+:- [tools_ai].
+
 playIA(Board, BestMove, Player):- negaMax(3, Board, Player, Player, _, BestMove).
 
 negaMax(0, Board, _, PlayerMax, Value, _):- value(Board, PlayerMax, Value).
