@@ -4,14 +4,6 @@
 /* ----------   H4402   --------- */
 /* ------------------------------ */
 
-% AI files
-% Uncomment to choose
-:- [ia_random].
-%:- [ia_minmax_adrien].
-%:- [ia_attack].
-%:- [ia_defense].
-%:- [ia_attDef].
-
 :- dynamic board/1. 
 
 %% Reverse elements of a List
@@ -31,6 +23,7 @@ nthElem(N, L, X):- nth1(N, L, X).
 %%%% Test is the game is finished
 gameover(1):- board(Board), winner(Board, 1), !.  % There exists a winning configuration: We cut
 gameover(2):- board(Board), winner(Board, 2), !.  % There exists a winning configuration: We cut
+gameover('Draw'):- board(Board), not(isBoardNotFull(Board)). % the Board is fully instanciated (no free variable): Draw
 
 %%%% Test if a pattern P is inside a list L
 match(_, [], _, _).
@@ -84,6 +77,12 @@ winnerDiag(Board, N, X, Player):- N < 7,
 					  winnerDiag(Board, N1, [L|X], Player).
 
 winnerDiag(Board, Player):- winnerDiag(Board, 1, [], Player).
+
+
+%%%% Recursive predicate that checks if all the elements of the List (a board)
+%%%% are instanciated: true e.g. for [x,x,o,o,x,o,x,x,o] false for [x,x,o,o,_G125,o,x,x,o]
+% Adapt it
+isBoardNotFull(Board):- nth1(_, Board, Val), nth1(_, Val, Elem), Elem = 0, !.
 
 %%%% Artificial intelligence: choose in a Board the index to play for Player (_)
 %%%% This AI plays randomly and does not care who is playing: it chooses a free position
@@ -188,62 +187,41 @@ list2ens([], []).
 list2ens([X|Y], A):- member(X, Y), list2ens(Y, A), !.
 list2ens([X|Y], [X|A]):- list2ens(Y, A).
 
+% give the list of columns which are not filled
+nonFilledColumnIds(Board, Res):- findall(I, (length(Board, Long), between(1, Long, I), nth1(I, Board, List), member(0, List)), R), list2ens(R, Res).
+
 % True if the column is not full, false if the column is full
 columnAvailable(Board, Column):- nth1(Column, Board, List), member(0, List).
 
+%% Completely Random 
+%playIA(Board, Move, _):- iaRandom(Board, Move, _).
+
+%%% CODE VHUGUET %%%%%%%%%%%%%%%%%%%
 %% Winning move
 % AI that identifies a winning move for the player (1 or 2)
 winningMove(ActualBoard, Column, Player):- columnAvailable(ActualBoard, Column), playMove(ActualBoard, Column, Board, Player), !, winner(Board, Player).
-findIndexWinnigMove(Board, Column, Player):- between(1, 7, Column), winningMove(Board, Column, Player).
+%winningMove(ActualBoard, Column, Player):- playMove(ActualBoard, Column, Board, Player), !, winner(Board, Player). % erreur limite colonne
+findIndexWinnigMove(Board, Column, Player):- between(1, 7, Column), winningMove(Board, Column, Player). % Mettre un ! a la fin?
+%Pour tester si j'obtient bien tous les coups gagnants
+%findIndexWinnigMove(Board, Column, Player):- findall(I, (between(1, 7, I), winningMove(Board, I, Player)), Column).
 
+%% Agresive style IA
+%playIA(Board, Move, Player):- ((Player is 1, findIndexWinnigMove(Board, Move, Player)); (Player is 2, findIndexWinnigMove(Board, Move, 2))), Move \= [];
+%						iaRandom(Board, Move, Player).
 
+%% Defensive style IA same as agresive style with a switching of player
+playIA(Board, Move, Player):- ((Player is 1, findIndexWinnigMove(Board, Move, 2)); (Player is 2,findIndexWinnigMove(Board, Move, Player))), Move \= [];
+							iaRandom(Board, Move, Player).
 
+% fusion style IA
+% AI identifies a winning move and plays it 
+% if there is a winning move she plays it, if there is not then she looks for a move that could make the oponent win and plays it
+% if there is nothing then she plays a random move
+%playIA(Board, Move, Player):- ((Player is 1, findIndexWinnigMove(Board, Move, Player)); (Player is 2,findIndexWinnigMove(Board, Move, 2))), Move \= []; %try to win with the move
+%							((Player is 1, findIndexWinnigMove(Board, Move, 2)); (Player is 2,findIndexWinnigMove(Board, Move, Player))), Move \= []; %else try to avoiding an opponent winning move
+%							iaRandom(Board, Move, Player). % else chose an available move randomly
+%%% END CODE VHUGUET %%%%%%%%%%%%%%%
 
-%%% TEST MINIMAX ADUSSAUGE  %%%
-
-% Id = The id of the max value in listscore
-% Value = The max value in listscore
-% ListScore = The list of scores
-maxidforvalue(Id,Value,ListScore) :- max_list(ListScore, Value), nth1(Id,ListScore,Value).
-
-% Same with min
-minidforvalue(Id,Value,ListScore) :- min_list(ListScore, Value), nth1(Id,ListScore,Value).
-
-% Basic predicate : minimax(ConfActuelle, JoueurActuel, MonNum, Score, Level, ColumnToPlay)
-% ConfActuelle = La configuration actuelle du board
-% JoueurActuel = L'id du joueur devant jouer sur ConfActuelle (switch à chaque niveau de l'arbre)
-% MonNum = L'id du joueur ayant lancé le minimax
-% Score = Le score retourné par minimax
-% Level = La hauteur de l'arbre minimax
-% ColumnToPlay = La colonne à jouer, calculée dans le minimax
-
-% Si on arrive au niveau 0, on peut calculer le score après avoir joué sur une pos
-%minimax(ConfActuelle, JoueurActuel, MonNum, 0, 0, ColumnToPlay) :- nombreJetonsAlignes(ConfActuelle, MonNum, 1).
-%minimax(ConfActuelle, JoueurActuel, MonNum, 300, 0, ColumnToPlay) :- nombreJetonsAlignes(ConfActuelle, MonNum, 2).
-%minimax(ConfActuelle, JoueurActuel, MonNum, 500, 0, ColumnToPlay) :- nombreJetonsAlignes(ConfActuelle, MonNum, 3).
-%minimax(ConfActuelle, JoueurActuel, MonNum, 1000, 0, ColumnToPlay) :- nombreJetonsAlignes(ConfActuelle, MonNum, NbJetons), NbJetons>3.
-
-% Sinon, on peut faire décroitre le level et avancer dans l'arbre
-% Si on est le joueur ayant lancé le minimax, on choisi le max parmi les coups sur chaque colonne
-%minimax(ConfActuelle, JoueurActuel, MonNum, Score, Level, ColumnToPlay) :- MonNum=:=JoueurActuel, Level > 0, maxidforvalue(ColumnToPlay, Score, [S1,S2,S3,S4,S5,S6,S7]), NewPlayer is (JoueurActuel mod 2)+1, InferiorLevel is Level-1
-%	playMove(ConfActuelle, 1, NewConf1, JoueurActuel), minimax(NewConf1, NewPlayer, MonNum, S1, InferiorLevel, 1),
-%	playMove(ConfActuelle, 2, NewConf2, JoueurActuel), minimax(NewConf2, NewPlayer, MonNum, S2, InferiorLevel, 2),
-%	playMove(ConfActuelle, 3, NewConf3, JoueurActuel), minimax(NewConf3, NewPlayer, MonNum, S3, InferiorLevel, 3),
-%	playMove(ConfActuelle, 4, NewConf4, JoueurActuel), minimax(NewConf4, NewPlayer, MonNum, S4, InferiorLevel, 4),
-%	playMove(ConfActuelle, 5, NewConf5, JoueurActuel), minimax(NewConf5, NewPlayer, MonNum, S5, InferiorLevel, 5),
-%	playMove(ConfActuelle, 6, NewConf6, JoueurActuel), minimax(NewConf6, NewPlayer, MonNum, S6, InferiorLevel, 6),
-%	playMove(ConfActuelle, 7, NewConf7, JoueurActuel), minimax(NewConf7, NewPlayer, MonNum, S7, InferiorLevel, 7).
-	
-% Si on n'est pas le joueur ayant lancé le minimax, on choisi le min parmi les coups sur chaque colonne
-%minimax(ConfActuelle, JoueurActuel, MonNum, Score, Level, ColumnToPlay) :- MonNum=:=JoueurActuel, Level > 0, minidforvalue(ColumnToPlay, Score, [S1,S2,S3,S4,S5,S6,S7]), NewPlayer is (JoueurActuel mod 2)+1, InferiorLevel is Level-1
-%	playMove(ConfActuelle, 1, NewConf1, JoueurActuel), minimax(NewConf1, NewPlayer, MonNum, S1, InferiorLevel, 1),
-%	playMove(ConfActuelle, 2, NewConf2, JoueurActuel), minimax(NewConf2, NewPlayer, MonNum, S2, InferiorLevel, 2),
-%	playMove(ConfActuelle, 3, NewConf3, JoueurActuel), minimax(NewConf3, NewPlayer, MonNum, S3, InferiorLevel, 3),
-%	playMove(ConfActuelle, 4, NewConf4, JoueurActuel), minimax(NewConf4, NewPlayer, MonNum, S4, InferiorLevel, 4),
-%	playMove(ConfActuelle, 5, NewConf5, JoueurActuel), minimax(NewConf5, NewPlayer, MonNum, S5, InferiorLevel, 5),
-%	playMove(ConfActuelle, 6, NewConf6, JoueurActuel), minimax(NewConf6, NewPlayer, MonNum, S6, InferiorLevel, 6),
-%	playMove(ConfActuelle, 7, NewConf7, JoueurActuel), minimax(NewConf7, NewPlayer, MonNum, S7, InferiorLevel, 7).
-	
 %%%%% Start the game
 % The game state will be represented by a list of 7 lists of 6 elements 
 % board([[_,_,_,_,_,_], 
@@ -256,14 +234,14 @@ minidforvalue(Id,Value,ListScore) :- min_list(ListScore, Value), nth1(Id,ListSco
 % 		]) 
 % at the beginning
 init :- Board=[[0,0,0,0,0,0], 
-               [1,1,0,0,0,0], 
                [0,0,0,0,0,0], 
                [0,0,0,0,0,0], 
+               [1,1,1,0,0,0], 
                [0,0,0,0,0,0], 
-               [2,2,2,0,0,0], 
-               [0,0,0,0,0,0]
+               [0,0,0,0,0,0], 
+               [2,2,2,0,0,0]
               ],
     	assert(board(Board)), displayWelcomeMessage, play(1).
 
-% Le init a du etre remove pour les tests unitaires
+% Launch the game
 ?-init.

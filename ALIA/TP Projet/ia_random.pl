@@ -1,3 +1,3 @@
 %%%% AI Random %%%%
 
-playIA(Board, Move, _):- repeat, M is random(7), Move is M + 1, columnAvailable(Board, Move), !.
+playIA(Board, Move, _):- iaRandom(Board, Move, _).
