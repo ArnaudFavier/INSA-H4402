@@ -4,20 +4,13 @@
 /* ----------   H4402   --------- */
 /* ------------------------------ */
 
-:- [tools_ai].
-
-% AI - Player 1
+% AI files
 % Uncomment to choose
 %:- [ia_random].
-%:- [ia_minmax_adrien].
+:- [ia_minmax_adrien].
 %:- [ia_attack].
 %:- [ia_defense].
-:- [ia_attDef].
-
-% Player 2: human or AI Random
-% Uncomment to choose
-%play2(Board, Move, Player):- write('\nJoueur '), write(Player), write(' entrez un numero de colonne : '), read(Move). % player turn
-play2(Board, Move, Player):- iaRandom(Board, Move, _).
+%:- [ia_attDef].
 
 :- dynamic board/1. 
 
@@ -75,21 +68,21 @@ checkEndDiag(Board, D, Player, N):- N > 0,
 					  N1 is N-1,
 					  checkEndDiag(Board, [E|D], Player, N1).
 
-checkEndDiag(Board, Player):- checkEndDiag(Board, [], Player, 6).
+checkEndDiag(Board, Player):- checkEndDiag(Board, [], Player, 7).
 
 checkAnotherDiag(_, D, Player, 0):- match(D, [Player, Player, Player, Player]).
 checkAnotherDiag(Board, D, Player, N):- N > 0,
 					    maplist(nthElem(N), Board, L),
-						N2 is 7-N,
+						N2 is 8-N,
 						nthElem(N2, L, E),
 					    N1 is N-1,
 					    checkAnotherDiag(Board, [E|D], Player, N1).
 
-checkAnotherDiag(Board, Player):- checkAnotherDiag(Board, [], Player, 6).
+checkAnotherDiag(Board, Player):- checkAnotherDiag(Board, [], Player, 7).
 
 winnerDiag(_, _, X, Player):- checkEndDiag(X, Player), !.
 winnerDiag(_, _, X, Player):- checkAnotherDiag(X, Player), !.
-winnerDiag(Board, N, X, Player):- N < 7,
+winnerDiag(Board, N, X, Player):- N < 8,
 					  maplist(nthElem(N), Board, L),
 					  N1 is N+1,
 					  winnerDiag(Board, N1, [L|X], Player).
@@ -113,7 +106,10 @@ play(Player):-  write('Nouveau tour de Joueur : '),
 					) 
 				;
 					(
-					play2(Board, Move, Player)
+					write('\nJoueur '),
+					write(Player), 
+					write(' entrez un numero de colonne : '),
+					read(Move) % player turn
 					)
 				),
 				write('\n'),
