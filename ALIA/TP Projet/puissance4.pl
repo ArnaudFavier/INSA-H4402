@@ -31,6 +31,7 @@ nthElem(N, L, X):- nth1(N, L, X).
 %%%% Test is the game is finished
 gameover(1):- board(Board), winner(Board, 1), !.  % There exists a winning configuration: We cut
 gameover(2):- board(Board), winner(Board, 2), !.  % There exists a winning configuration: We cut
+gameover('Draw'):- board(Board), not(isBoardNotFull(Board)). % the Board is fully instanciated (no free variable): Draw
 
 %%%% Test if a pattern P is inside a list L
 match(_, [], _, _).
@@ -42,6 +43,9 @@ match(L, P):- match(L, P, L, P), !.
 winner(Board, Player):- winnerCol(Board, Player).
 winner(Board, Player):- winnerHor(Board, Player).
 winner(Board, Player):- winnerDiag(Board, Player).
+
+%%% Check if board is not full %%%
+isBoardNotFull(Board):- nth1(_, Board, Val), nth1(_, Val, Elem), Elem = 0, !.
 
 %%% Check victory condition: align 4 tokens in column:
 winnerCol(Board, Player):- nth1(_, Board, Val), match(Val, [Player, Player, Player, Player]).
