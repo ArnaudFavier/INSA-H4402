@@ -61,6 +61,49 @@ test(firstOcc2) :- not(firstOccurence([4,6,7], -45, 8)).
 % Simple check first occurence test success with multiple same values
 test(firstOcc3) :- firstOccurence([4,6,6,6,7,6,7], 2, 6).
 
+%%%% PLAY COLUMN %%%%
+
+% Test play in empty column
+test(playColumn1) :- playColumn([0,0,0,0,0],[1,0,0,0,0],1).
+
+% Test play in non-empty column
+test(playColumn2) :- playColumn([2,1,2,0,0],[2,1,2,1,0],1).
+
+% Test play in full column, doesnt add anything
+test(playColumn3) :- playColumn([2,1,2,1,2],[2,1,2,1,2],1).
+
+% Others players values must work too
+test(playColumn4) :- playColumn([1,0,0,0,0],[1,baaba,0,0,0],baaba).
+
+%%%% MOVE IS VALID %%%%
+
+% Test play with non-integer column value must be false
+test(moveIsValid1) :- not(moveIsValid([],baaba,1)).
+
+% Test play with zero column value must be false
+test(moveIsValid2) :- not(moveIsValid([],0,1)).
+
+% Test play with negative column value must be false
+test(moveIsValid3) :- not(moveIsValid([],-2,1)).
+
+% Test play with 8 or greater column value must be false
+test(moveIsValid4) :- not(moveIsValid([],8,1)).
+
+% Test play with empty char value must be false
+test(moveIsValid5) :- not(moveIsValid([],,1)).
+
+% Otherwise, must succeed
+test(moveIsValid6) :- moveIsValid([[0,0,0]],1,1).
+
+%%%% PLAY MOVE %%%%
+% PlayMove uses playColumn and moveIsValid, so we can avoid some tests
+
+% Basic play test in first column
+test(playMove1) :- playMove([[0,0,0]], 1, [[1,0,0]], 1).
+
+% Basic play test with multiple columns and different player
+test(playMove1) :- playMove([[0,0,0],[1,2,0]], 2, [[0,0,0],[1,2,1]], 1).
+
 :- end_tests(project).
 
 ?- run_tests.
