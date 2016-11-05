@@ -14,6 +14,7 @@ import static spark.Spark.*;
 
 /**
  * This class define the program's start point {@link Main#main(String[])}
+ * Just run the project and go to http://localhost:9090/search
  */
 public class Main {
 
