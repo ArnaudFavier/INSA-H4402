@@ -82,10 +82,8 @@
                     <input class="mdl-textfield__input" type="text" id="input-search" name="input-search">
                     <label class="mdl-textfield__label" for="input-search">Text...</label>
                 </div>
+                <button class="mdl-button mdl-js-button mdl-button--icon" type="submit" name="action" style="margin-top: -50px"><i class="material-icons">search</i></button>
             </form>
-            <label class="mdl-button mdl-js-button mdl-button--icon" for="search" data-upgraded=",MaterialButton">
-                <i class="material-icons">search</i>
-            </label>
         </div>
     </div>
     <main class="mdl-layout__content">

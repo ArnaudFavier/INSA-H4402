@@ -14,26 +14,36 @@ import java.util.List;
 public class SearchController {
 
 	/**
-	 * For the moment, this method only return a list of keywords associated to our searchString
+	 * For the moment, this method only return a list of urls from Google results
 	 *
 	 * @param searchString the search string given to Google
-	 * @return a list of keywords
+	 * @return a list of urls
 	 */
-	public List<Keyword> getResults(String searchString) {
+	public List<String> getGoogleSearchUrls(String searchString) {
 		// Get google result objects
 		List<Result> googleSearchResults = Services.getGoogleResultsFromString(searchString);
 
 		// Get urls from result objects
 		List<String> googleSearchUrls = new ArrayList<>(googleSearchResults.size());
 		for (Result result : googleSearchResults) {
-			String urlString = result.getFormattedUrl();
+			String urlString = result.getLink();
 
 			System.out.println(urlString);
 			googleSearchUrls.add(urlString);
 		}
 
-		List<Keyword> alchemyKeywords = Services.getKeywordsFromUrls(googleSearchUrls);
+		return googleSearchUrls;
+	}
 
-		return alchemyKeywords;
+	/**
+	 * This method return a list of texts associated to a list of Google Urls
+	 *
+	 * @param googleSearchUrls the search urls get from Google
+	 * @return a list of texts
+	 */
+	public List<String> getTextsFromUrls(List<String> googleSearchUrls) {
+		List<String> alchemyTexts = Services.getTextsFromUrls(googleSearchUrls);
+
+		return alchemyTexts;
 	}
 }

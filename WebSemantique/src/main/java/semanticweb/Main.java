@@ -48,10 +48,12 @@ public class Main {
 
 		post("/search", (request, response) -> {
 			String searchString = request.queryParams("input-search");
-			List<Keyword> keywords = new SearchController().getResults(searchString);
+			List<String> googleResutls = new SearchController().getGoogleSearchUrls(searchString);
+			List<String> texts = new SearchController().getTextsFromUrls(googleResutls);
 
 			Map<String, Object> model = new HashMap<>();
-			model.put("keywords", keywords);
+			model.put("urls", googleResutls);
+			model.put("texts", texts);
 
 			return new ModelAndView(model, "public/velocity/searchResult.vm");
 		}, new VelocityTemplateEngineUTF8());

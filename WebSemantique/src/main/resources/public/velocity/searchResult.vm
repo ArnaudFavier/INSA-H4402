@@ -82,26 +82,21 @@
                     <input class="mdl-textfield__input" type="text" id="input-search" name="input-search">
                     <label class="mdl-textfield__label" for="input-search">Text...</label>
                 </div>
+                <button class="mdl-button mdl-js-button mdl-button--icon" type="submit" name="action" style="margin-top: -50px"><i class="material-icons">search</i></button>
             </form>
-            <label class="mdl-button mdl-js-button mdl-button--icon" for="search" data-upgraded=",MaterialButton">
-                <i class="material-icons">search</i>
-            </label>
         </div>
     </div>
     <main class="mdl-layout__content">
         <div class="mdl-layout__tab-panel is-active" id="overview">
-            #foreach( $keyword in $keywords )
+            #foreach( $url in $urls )
                 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                     <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
                         <i class="material-icons">play_circle_filled</i>
                     </header>
                     <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
                         <div class="mdl-card__supporting-text">
-                            <h4>$keyword.getText()</h4>
-                            <h5>Relevance : $keyword.getRelevance()</h5>
-                            Eodem tempore etiam Hymetii praeclarae indolis viri negotium est actitatum, cuius hunc novimus esse textum. cum Africam pro consule regeret Carthaginiensibus victus inopia iam lassatis, ex horreis Romano populo destinatis frumentum dedit, pauloque postea cum provenisset
-                            segetum copia,
-                            integre sine ulla restituit mora.
+                            <h4>$url</h4>
+                            <p>$texts[$foreach.index]</p>
                         </div>
                         <div class="mdl-card__actions">
                             <a href="#" class="mdl-button">See more about that</a>

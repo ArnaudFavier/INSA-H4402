@@ -10,6 +10,7 @@ import com.ibm.watson.developer_cloud.alchemy.v1.model.Keyword;
 import semanticweb.References;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class Services {
 
 	/**
 	 * @param searchString The string given to Google
-	 * @return A list of Google Results, resulting of the Google research
+	 * @return A list of Google results, resulting of the Google research
 	 */
 	public static List<Result> getGoogleResultsFromString(String searchString) {
 		Customsearch customsearch = new Customsearch(new NetHttpTransport(), new JacksonFactory(), null);
@@ -41,20 +42,25 @@ public class Services {
 
 	/**
 	 * @param urls List of URL
-	 * @return A list of keywords, created by Alchemy from a list of URL
+	 * @return A list of texts, created by Alchemy from a list of URL
 	 */
-	public static List<Keyword> getKeywordsFromUrls(List<String> urls) {
-		final Map<String, Object> params = new HashMap<String, Object>();
-
-		for (String url : urls) {
-			params.put(AlchemyLanguage.URL, url);
-		}
+	public static List<String> getTextsFromUrls(List<String> urls) {
 
 		final AlchemyLanguage language = new AlchemyLanguage();
-
 		language.setApiKey(References.ALCHEMY_API_KEY);
-		List<Keyword> keywords = language.getKeywords(params).execute().getKeywords();
 
-		return keywords;
+		List<String> texts = new ArrayList<>(urls.size());
+
+		for (String url : urls) {
+			try {
+				texts.add(language.getText(new HashMap<String, Object>(){{
+					put(AlchemyLanguage.URL, url);
+				}}).execute().getText());
+			} catch(Exception e) {
+				texts.add("");
+			}
+		}
+
+		return texts;
 	}
 }
