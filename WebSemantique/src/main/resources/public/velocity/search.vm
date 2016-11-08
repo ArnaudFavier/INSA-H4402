@@ -79,7 +79,7 @@
             <div class="mdl-layout-spacer"></div>
             <form method="post" action="search">
                 <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="input-search" name="input-search">
+                    <input class="mdl-textfield__input" type="text" id="input-search" name="input-search" required>
                     <label class="mdl-textfield__label" for="input-search">Text...</label>
                 </div>
                 <button class="mdl-button mdl-js-button mdl-button--icon" type="submit" name="action" style="margin-top: -50px"><i class="material-icons">search</i></button>
