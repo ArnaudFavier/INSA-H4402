@@ -10,7 +10,7 @@ import java.net.URLEncoder;
 /**
  * Created by rim on 08/11/2016.
  */
-public class SportlightController {
+public class SpotlightController {
     public static String getHTML(String urlToRead) throws Exception {
         StringBuilder result = new StringBuilder();
         URL url = new URL(urlToRead);
