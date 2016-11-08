@@ -1,7 +1,7 @@
 package semanticweb;
 
-import com.ibm.watson.developer_cloud.alchemy.v1.model.Keyword;
 import semanticweb.controllers.SearchController;
+import semanticweb.services.Services;
 import spark.ModelAndView;
 import spark.Spark;
 import semanticweb.util.VelocityTemplateEngineUTF8;
@@ -35,6 +35,9 @@ public class Main {
 		Spark.staticFileLocation("public");
 
 		declareRoutes();
+
+        // Test of SPARQL
+		Services.sparqlRDFTripletFromUri(null);
 	}
 
 	/**

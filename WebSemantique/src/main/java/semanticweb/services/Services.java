@@ -6,14 +6,14 @@ import com.google.api.services.customsearch.Customsearch;
 import com.google.api.services.customsearch.model.Result;
 import com.google.api.services.customsearch.model.Search;
 import com.ibm.watson.developer_cloud.alchemy.v1.AlchemyLanguage;
-import com.ibm.watson.developer_cloud.alchemy.v1.model.Keyword;
+import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
 import semanticweb.References;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Contains some services usable by controllers
@@ -45,7 +45,6 @@ public class Services {
 	 * @return A list of texts, created by Alchemy from a list of URL
 	 */
 	public static List<String> getTextsFromUrls(List<String> urls) {
-
 		final AlchemyLanguage language = new AlchemyLanguage();
 		language.setApiKey(References.ALCHEMY_API_KEY);
 
@@ -63,4 +62,44 @@ public class Services {
 
 		return texts;
 	}
+
+	public static void sparqlRDFTripletFromUri (List<String> uri){
+		System.out.println("SPARQL:");
+		
+		String queryString =
+			"PREFIX : <http://dbpedia.org/resource/>\n" +
+			"SELECT * WHERE {\n" +
+			":Bill_Gates ?p ?o\n" +
+			"}";
+
+		Query query = QueryFactory.create(queryString);
+
+		QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
+
+		try {
+			ResultSet results = qexec.execSelect();
+
+			for (; results.hasNext(); ) {
+				QuerySolution qsol = results.nextSolution();
+
+				try {
+					RDFNode r = qsol.get("o");
+					System.out.println("RDF Node: \t" + r);
+				} catch (Exception e) {}
+
+				try {
+					Resource r = qsol.getResource("o");
+					System.out.println("Ressource: \t" + r);
+				} catch (Exception e) {}
+
+				try {
+					Literal l = qsol.getLiteral("o");
+					System.out.println("Literal: \t" + l);
+				} catch (Exception e) {}
+			}
+		} finally {
+			qexec.close();
+		}
+	}
+
 }
