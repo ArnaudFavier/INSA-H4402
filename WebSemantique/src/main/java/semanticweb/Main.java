@@ -41,6 +41,11 @@ public class Main {
 	 * Declare our routes for the website
 	 */
 	private static void declareRoutes() {
+		get("/", (request, response) -> {
+			response.redirect("/search");
+			return null;
+		});
+
 		get("/search", (request, response) -> {
 			Map<String, Object> model = new HashMap<>();
 			return new ModelAndView(model, "public/velocity/search.vm");
