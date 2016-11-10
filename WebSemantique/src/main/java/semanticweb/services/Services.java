@@ -136,19 +136,25 @@ public class Services {
         return uris;
     }
 
+    /**
+     * Return a list of RDF Triplet obtained from DBPedia
+     * based on the list of uri given in parameter.
+     *
+     * @param uris A list of uri
+     * @return A list of RDF Triplet
+     * @throws Exception
+     */
     public static List<RDFTriplet> sparqlRDFTripletFromUri(List<String> uris) {
-
         List<RDFTriplet> listeTriplets = new ArrayList<>();
 
         for (String uri : uris) {
             String queryString =
-                    "PREFIX : <http://dbpedia.org/resource/>\n" +
-                            "SELECT * WHERE {\n" +
-                            ":" + uri + " ?p ?o\n" +
-                            "}";
+                "PREFIX : <http://dbpedia.org/resource/>\n" +
+                "SELECT * WHERE {\n" +
+                ":" + uri + " ?p ?o\n" +
+                "}";
 
             Query query = QueryFactory.create(queryString);
-
             QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
 
             try {
