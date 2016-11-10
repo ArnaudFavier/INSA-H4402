@@ -141,43 +141,44 @@ public class Services {
         return uris;
 	}
 
-	public static void sparqlRDFTripletFromUri (List<String> uri){
+	public static Map<String, List<RDFNode>> sparqlRDFTripletFromUri (List<String> uris){
 		System.out.println("SPARQL:");
-		
-		String queryString =
-			"PREFIX : <http://dbpedia.org/resource/>\n" +
-			"SELECT * WHERE {\n" +
-			":Bill_Gates ?p ?o\n" +
-			"}";
 
-		Query query = QueryFactory.create(queryString);
+		Map<String, List<RDFNode>> listeTriplets = new HashMap<>();
 
-		QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
+		for (String uri : uris) {
+			String queryString =
+				"PREFIX : <http://dbpedia.org/resource/>\n" +
+				"SELECT * WHERE {\n" +
+				":" + uri + " ?p ?o\n" +
+				"}";
 
-		try {
-			ResultSet results = qexec.execSelect();
+			Query query = QueryFactory.create(queryString);
 
-			for (; results.hasNext(); ) {
-				QuerySolution qsol = results.nextSolution();
+			QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
 
-				try {
-					RDFNode r = qsol.get("o");
-					System.out.println("RDF Node: \t" + r);
-				} catch (Exception e) {}
+			List<RDFNode> listeRDFNode = new ArrayList<>();
 
-				try {
-					Resource r = qsol.getResource("o");
-					System.out.println("Ressource: \t" + r);
-				} catch (Exception e) {}
+			try {
+				ResultSet results = qexec.execSelect();
 
-				try {
-					Literal l = qsol.getLiteral("o");
-					System.out.println("Literal: \t" + l);
-				} catch (Exception e) {}
+				for (; results.hasNext(); ) {
+					QuerySolution qsol = results.nextSolution();
+
+					try {
+						RDFNode r = qsol.get("o");
+						System.out.println("RDF Node: \t" + r);
+						listeRDFNode.add(r);
+					} catch (Exception e) {}
+				}
+			} finally {
+				qexec.close();
 			}
-		} finally {
-			qexec.close();
+
+			listeTriplets.put(uri,listeRDFNode);
 		}
+
+		return listeTriplets;
 	}
 
 }

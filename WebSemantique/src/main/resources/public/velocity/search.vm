@@ -23,7 +23,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>H4402</title>
+    <title>SWP - H4402</title>
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -79,7 +79,7 @@
                     <input class="mdl-textfield__input" type="text" id="input-search" name="input-search" required>
                     <label class="mdl-textfield__label" for="input-search">Text...</label>
                 </div>
-                <button class="mdl-button mdl-js-button mdl-button--icon" type="submit" name="action" style="margin-top: -50px"><i class="material-icons">search</i></button>
+                <button class="mdl-button mdl-js-button mdl-button--icon search-icon" type="submit" name="action"><i class="material-icons">search</i></button>
             </form>
         </div>
     </div>
