@@ -64,7 +64,7 @@ public class Main {
 			List<String> texts = new SearchController().getTextsFromUrls(googleResults);
 
 			//To be used by sparql and Jaccard index
-			List<String> uris = new SearchController().getURIsFromTexts(texts, "0.1");
+			//List<String> uris = new SearchController().getURIsFromTexts(texts, "0.1");
 
 			Map<String, Object> model = new HashMap<>();
 			model.put("urls", googleResults);
