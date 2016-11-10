@@ -99,6 +99,7 @@ public class Services {
             byte[] inputBytes = request.getBytes("UTF-8");
             OutputStream os = conn.getOutputStream();
             os.write(inputBytes);
+            os.flush();
             os.close();
 
 
