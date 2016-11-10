@@ -29,6 +29,7 @@ public class SearchController {
 			List<String> uris = new SearchController().getURIsFromTexts(texts, "0.1");
 		}
 		catch (Exception e){
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		}
 
