@@ -25,7 +25,12 @@ public class SearchController {
 		List<String> googleResults = getGoogleSearchUrls(searchString);
 		List<String> texts = getTextsFromUrls(googleResults);
 		// To be used by sparql and Jaccard index
-		//List<String> uris = new SearchController().getURIsFromTexts(texts, "0.1");
+		try{
+			List<String> uris = new SearchController().getURIsFromTexts(texts, "0.1");
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
 
 		// Container for results
 		Map<String, Object> results = new HashMap<>();

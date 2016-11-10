@@ -80,21 +80,18 @@ public class Services {
      */
     public static List<String> getURIsFromTexts(List<String> texts, String confidence) throws Exception {
 
-        // FOR DEBUG : TODO find why its doesn't work with real texts
-        texts = new ArrayList<String>();
-        texts.add("President Obama called Wednesday on Cresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresongress to extend a tax break for students included in last year's economic stimulus package, arguing that the policy provides more generous assistance President Obama called Wednesday on Congress to extend a tax break for students included in last year's economic stimulus package, arguing that the policy provides more generous assistance President Obama called Wednesday on Congress to extend a tax break for students included in last year's economic stimulus package, arguing that the policy provides more generous assistance President Obama called Wednesday on Congress to extend a tax break for students included in last year's economic stimulus package, arguing that the policy provides more generous assistance President Obama called Wednesday on Congress to extend a tax break for students included in last year's economic stimulus package, arguing that the policy provides more generous assistance");
-
         StringBuilder result = new StringBuilder();
         URL url = new URL(dbpediaSpotlightUrl);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setDoOutput(true);
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Accept", "application/json"); //header format accepted
-        conn.connect();
 
         List<String> uris = new ArrayList<String>();
 
         for (String text : texts) {
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Accept", "application/json"); //header format accepted
+            conn.connect();
+
             //formulating request
             String request = "text= " + text;
             request += "&confidence= " + confidence;
@@ -133,6 +130,7 @@ public class Services {
                 uris.add(resource.getString("@URI"));
                 i++;
             }
+            conn.disconnect();
         }
 
         return uris;
