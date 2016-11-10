@@ -75,7 +75,7 @@ public class Services {
 	
 	/**
 	 * 
-	 * @param A text associated with an url
+	 * @param texts A text associated with an url
 	 * @param confidence The confidence range
 	 * @return
 	 * @throws Exception
@@ -84,7 +84,7 @@ public class Services {
 		
 		// FOR DEBUG : TODO find why its doesn't work with real texts
 		texts = new ArrayList<String>();
-		texts.add("President Obama called Wednesday on Congress to extend a tax break for students included in last year's economic stimulus package, arguing that the policy provides more generous assistance");
+		texts.add("President Obama called Wednesday on Cresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresresident Obama called Wednesday on Congresongress to extend a tax break for students included in last year's economic stimulus package, arguing that the policy provides more generous assistance President Obama called Wednesday on Congress to extend a tax break for students included in last year's economic stimulus package, arguing that the policy provides more generous assistance President Obama called Wednesday on Congress to extend a tax break for students included in last year's economic stimulus package, arguing that the policy provides more generous assistance President Obama called Wednesday on Congress to extend a tax break for students included in last year's economic stimulus package, arguing that the policy provides more generous assistance President Obama called Wednesday on Congress to extend a tax break for students included in last year's economic stimulus package, arguing that the policy provides more generous assistance");
 		
         StringBuilder result = new StringBuilder();
         URL url = new URL(dbpediaSpotlightUrl);
@@ -179,6 +179,15 @@ public class Services {
 		}
 
 		return listeTriplets;
+	}
+
+	/**
+	 * @see <a href="https://fr.wikipedia.org/wiki/Indice_et_distance_de_Jaccard">Jaccard Distance</a>
+	 * @param urisForUrl a map linking each url to its uris
+	 * @return a similarity matrix between each URL. 1 = All RDP triplet are the same
+	 */
+	public static float[][] computeJaccardMatrix(Map<String, List<RDFNode>> urisForUrl){
+		return null;
 	}
 
 }
