@@ -1,5 +1,7 @@
-.search-icon {
-    /*margin-top: -50px;*/
+@-moz-document url-prefix() {
+    .search-icon {
+        margin-top: -50px;
+    }
 }
 
 .justify {
