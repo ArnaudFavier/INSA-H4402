@@ -81,9 +81,7 @@ public class Services {
 	 * @throws Exception
 	 */
 	public static List<String> getURIsFromTexts(List<String> texts, String confidence) throws Exception {
-		
-		// FOR DEBUG : TODO find why its doesn't work with real texts
-		texts = new ArrayList<String>();
+
 		texts.add("President Obama called Wednesday on Congress to extend a tax break for students included in last year's economic stimulus package, arguing that the policy provides more generous assistance");
 		
         StringBuilder result = new StringBuilder();
@@ -179,5 +177,7 @@ public class Services {
 			qexec.close();
 		}
 	}
+
+
 
 }
