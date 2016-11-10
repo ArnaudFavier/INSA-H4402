@@ -16,6 +16,10 @@ public class RDFTriplet {
         this.object = object.toString();
     }
 
+    public String getPredicate() {
+        return this.predicate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

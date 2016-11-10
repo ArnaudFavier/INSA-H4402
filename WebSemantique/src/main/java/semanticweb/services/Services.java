@@ -178,7 +178,28 @@ public class Services {
             }
         }
 
+        cleanRDFTriplet(listeTriplets);
+
         return listeTriplets;
+    }
+
+    /**
+     * Remove triplet where the predicate is unmeaning
+     *
+     * @param triplets List of the RDF triplet to clean
+     */
+    private static void cleanRDFTriplet(List<RDFTriplet> triplets) {
+        List<String> predicateToRemove = new ArrayList<>();
+
+        predicateToRemove.add("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+        predicateToRemove.add("http://www.w3.org/2002/07/owl#sameAs");
+
+        for (Iterator<RDFTriplet> iterator = triplets.iterator(); iterator.hasNext(); ) {
+            RDFTriplet triplet = iterator.next();
+            if (predicateToRemove.contains(triplet.getPredicate())) {
+                iterator.remove();
+            }
+        }
     }
 
     public static double jaccardIndex ( List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB ) {
