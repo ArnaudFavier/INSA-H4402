@@ -28,6 +28,13 @@ public class RDFTriplet {
     }
 
     @Override
+    public int hashCode() {
+        int result = predicate != null ? predicate.hashCode() : 0;
+        result = 31 * result + (object != null ? object.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "RDFTriplet{" +
                 "uri='" + uri + '\'' +

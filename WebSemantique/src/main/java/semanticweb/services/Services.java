@@ -139,7 +139,6 @@ public class Services {
     }
 
     public static List<RDFTriplet> sparqlRDFTripletFromUri(List<String> uris) {
-        System.out.println("SPARQL:");
 
         List<RDFTriplet> listeTriplets = new ArrayList<>();
 
@@ -164,7 +163,7 @@ public class Services {
                         RDFNode obj = qsol.get("o");
                         RDFNode predicate = qsol.get("p");
                         RDFTriplet triplet = new RDFTriplet(uri, predicate, obj);
-                        System.out.println(triplet);
+
                         listeTriplets.add(triplet);
                     } catch (Exception e) {
                         System.err.println(e);
@@ -178,12 +177,29 @@ public class Services {
         return listeTriplets;
     }
 
+    public static double jaccardIndex ( List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB ) {
+
+        Set<RDFTriplet> union = new HashSet<>();
+        union.addAll(tripletsA);
+        union.addAll(tripletsB);
+
+        int inter = 0;
+
+        for (RDFTriplet triplet : union) {
+            if (tripletsA.contains(triplet) && tripletsB.contains(triplet)) {
+                inter++;
+            }
+        }
+
+        return 1.0 * inter / union.size();
+    }
+
     /**
      * @param tripletsForUrl a map linking each url to its uris
      * @return a similarity matrix between each URL. 1 = All RDP triplet are the same
      * @see <a href="https://fr.wikipedia.org/wiki/Indice_et_distance_de_Jaccard">Jaccard Distance</a>
      */
-    public static float[][] computeJaccardMatrix(Map<String, List<RDFNode>> tripletsForUrl) {
+    public static double[][] computeJaccardMatrix(Map<String, List<RDFTriplet>> tripletsForUrl) {
         return null;
     }
 
