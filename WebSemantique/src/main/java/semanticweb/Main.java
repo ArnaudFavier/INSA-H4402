@@ -6,6 +6,7 @@ import spark.ModelAndView;
 import spark.Spark;
 import semanticweb.util.VelocityTemplateEngineUTF8;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -37,7 +38,10 @@ public class Main {
 		declareRoutes();
 
         // Test of SPARQL
-		Services.sparqlRDFTripletFromUri(null);
+		List<String> uris = new ArrayList<>();
+		uris.add("Bill_Gates");
+		uris.add("Steve_Jobs");
+		Services.sparqlRDFTripletFromUri(uris);
 	}
 
 	/**
