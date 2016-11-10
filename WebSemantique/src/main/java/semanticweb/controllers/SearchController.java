@@ -1,24 +1,39 @@
 package semanticweb.controllers;
 
 import com.google.api.services.customsearch.model.Result;
-import com.ibm.watson.developer_cloud.alchemy.v1.model.Keyword;
-import org.apache.commons.validator.routines.UrlValidator;
 import semanticweb.services.Services;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import org.json.*;
+import java.util.Map;
 
 /**
  * This controller can be used in our web page to get expected results when research in triggered
  */
 public class SearchController {
+
+	/**
+	 * Main method for the search.
+	 * 		Search on Google and get texts from the Google's results
+	 *
+	 * @param searchString the search string given to Google
+	 * @return a container of urls and texts
+	 */
+	public Map<String, Object> doSearch(String searchString) {
+		// Call private methods
+		List<String> googleResults = getGoogleSearchUrls(searchString);
+		List<String> texts = getTextsFromUrls(googleResults);
+		// To be used by sparql and Jaccard index
+		//List<String> uris = new SearchController().getURIsFromTexts(texts, "0.1");
+
+		// Container for results
+		Map<String, Object> results = new HashMap<>();
+		results.put("urls", googleResults);
+		results.put("texts", texts);
+
+		return results;
+	}
 	
 	/**
 	 * For the moment, this method only return a list of urls from Google results
@@ -26,7 +41,7 @@ public class SearchController {
 	 * @param searchString the search string given to Google
 	 * @return a list of urls
 	 */
-	public List<String> getGoogleSearchUrls(String searchString) {
+	private List<String> getGoogleSearchUrls(String searchString) {
 		// Get google result objects
 		List<Result> googleSearchResults = Services.getGoogleResultsFromString(searchString);
 
@@ -48,13 +63,13 @@ public class SearchController {
 	 * @param googleSearchUrls the search urls get from Google
 	 * @return a list of texts
 	 */
-	public List<String> getTextsFromUrls(List<String> googleSearchUrls) {
+	private List<String> getTextsFromUrls(List<String> googleSearchUrls) {
 		List<String> alchemyTexts = Services.getTextsFromUrls(googleSearchUrls);
 
 		return alchemyTexts;
 	}
 	
-	public List<String> getURIsFromTexts(List<String> texts, String confidence) throws Exception {
+	private List<String> getURIsFromTexts(List<String> texts, String confidence) throws Exception {
         List<String> uris = Services.getURIsFromTexts(texts, confidence);
         
         // Debug

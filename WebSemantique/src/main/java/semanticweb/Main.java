@@ -59,16 +59,16 @@ public class Main {
 		}, new VelocityTemplateEngineUTF8());
 
 		post("/search", (request, response) -> {
+			// Get the input search from the HTTP request
 			String searchString = request.queryParams("input-search");
-			List<String> googleResults = new SearchController().getGoogleSearchUrls(searchString);
-			List<String> texts = new SearchController().getTextsFromUrls(googleResults);
 
-			//To be used by sparql and Jaccard index
-			//List<String> uris = new SearchController().getURIsFromTexts(texts, "0.1");
+			// Execute the search in the controller
+			Map<String, Object> results = new SearchController().doSearch(searchString);
 
+			// Put the results into the model for the view
 			Map<String, Object> model = new HashMap<>();
-			model.put("urls", googleResults);
-			model.put("texts", texts);
+			model.put("urls", results.get("urls"));
+			model.put("texts", results.get("texts"));
 
 			return new ModelAndView(model, "public/velocity/searchResult.vm");
 		}, new VelocityTemplateEngineUTF8());
