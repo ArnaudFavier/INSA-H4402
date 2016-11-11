@@ -15,6 +15,7 @@ import semanticweb.References;
 import semanticweb.model.RDFTriplet;
 import semanticweb.model.URIContainer;
 import semanticweb.model.URLContainer;
+import semanticweb.model.URLGroup;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,16 +60,20 @@ public class Services {
 		final AlchemyLanguage language = new AlchemyLanguage();
 		language.setApiKey(References.ALCHEMY_API_KEY);
 
-		for (URLContainer url : urls) {
+		for (Iterator<URLContainer> iterator = urls.iterator(); iterator.hasNext(); ) {
+			URLContainer url = iterator.next();
 			try {
 				url.setText(language.getText(new HashMap<String, Object>() {{
 					put(AlchemyLanguage.URL, url.getUrl());
 				}}).execute().getText());
 			} catch (Exception e) {
-				url.setText("");
+				// If there is an error, remove this URL
+				iterator.remove();
 			}
 		}
 	}
+
+	private static final int TEXT_MAX_LENGTH = 800;
 
 	/**
 	 * @param urls       The url objects containing the text
@@ -87,8 +92,11 @@ public class Services {
 			conn.setRequestProperty("Accept", "application/json"); //header format accepted
 			conn.connect();
 
+			String text = urlContainer.getText();
+			text = text.length() > TEXT_MAX_LENGTH ? text.substring(0, TEXT_MAX_LENGTH) : text;
+
 			//formulating request
-			String request = "text= " + urlContainer.getText();
+			String request = "text= " + text;
 			request += "&confidence= " + confidence;
 
 			byte[] inputBytes = request.getBytes("UTF-8");
@@ -228,10 +236,10 @@ public class Services {
 		for (i = 0; i < urlCount; i++) {
 			for (j = 0; j < urlCount; j++) {
 				StringBuilder additionnalSpace = new StringBuilder();
-				for (int k = Double.toString(jacquartMatrix[i][j]).length(); k <= 20 ; k++) {
+				for (int k = Double.toString(jacquartMatrix[i][j]).length(); k <= 20; k++) {
 					additionnalSpace.append(' ');
 				}
-				System.out.print(jacquartMatrix[i][j]+additionnalSpace.toString());
+				System.out.print(jacquartMatrix[i][j] + additionnalSpace.toString());
 			}
 			System.out.println();
 		}
@@ -239,4 +247,56 @@ public class Services {
 		return jacquartMatrix;
 	}
 
+	public static List<URLGroup> makeUrlGroups(List<URLContainer> urls, double[][] similarities) {
+		// Compute the threshold
+		double similaritiesSum = 0;
+		int countedElems = 0;
+		for (int i = 0; i < urls.size(); i++) {
+			for (int j = 0; j < i; j++) {
+				similaritiesSum += similarities[i][j];
+				countedElems++;
+			}
+		}
+		double threshold = similaritiesSum / countedElems;
+
+		threshold *= 0.8;
+
+		return makeUrlGroups(urls, similarities, threshold);
+	}
+
+	public static List<URLGroup> makeUrlGroups(List<URLContainer> urls, double[][] similarities, double threshold) {
+		List<URLGroup> groups = new ArrayList<>();
+
+		for (int i = 0; i < urls.size(); i++) {
+			URLContainer urlToAdd = urls.get(i);
+			boolean added = false;
+			for (URLGroup group : groups) {
+				boolean canAdd = true;
+				for (URLContainer otherUrl : group.getUrls()) {
+					int j = urls.indexOf(otherUrl);
+					canAdd &= similarities[i][j] > threshold;
+				}
+				if (canAdd) {
+					group.addUrl(urlToAdd);
+					added = true;
+				}
+			}
+
+			// If we haven't added the url to any group, then we create an group especially for this url
+			if (!added) {
+				URLGroup newGroup = new URLGroup();
+				newGroup.addUrl(urlToAdd);
+				groups.add(newGroup);
+			}
+		}
+
+		for (URLGroup group : groups) {
+			System.out.println("-- Nouveau groupe --");
+			for (URLContainer url : group.getUrls()) {
+				System.out.println(url.getUrl());
+			}
+		}
+
+		return groups;
+	}
 }

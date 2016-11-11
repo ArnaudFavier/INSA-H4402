@@ -31,7 +31,8 @@ public class SearchController {
 			for(URLContainer urlContainer : urlContainers){
 				Services.initSparqlRDFTripletFromUris(urlContainer.getUris());
 			}
-			Services.computeJaccardMatrix(urlContainers);
+			double[][] similarities = Services.computeJaccardMatrix(urlContainers);
+			Services.makeUrlGroups(urlContainers, similarities);
 		}
 		catch (Exception e){
 			System.err.println(e.getMessage());
