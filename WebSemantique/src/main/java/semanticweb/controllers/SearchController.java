@@ -1,6 +1,7 @@
 package semanticweb.controllers;
 
 import com.google.api.services.customsearch.model.Result;
+import semanticweb.model.URLContainer;
 import semanticweb.services.Services;
 
 import java.util.ArrayList;
@@ -22,11 +23,15 @@ public class SearchController {
 	 */
 	public Map<String, Object> doSearch(String searchString) {
 		// Call private methods
-		List<String> googleResults = getGoogleSearchUrls(searchString);
-		List<String> texts = getTextsFromUrls(googleResults);
+		List<URLContainer> urlContainers = getGoogleSearchUrls(searchString);
+		Services.initUrlTexts(urlContainers);
 		// To be used by sparql and Jaccard index
 		try{
-			List<String> uris = new SearchController().getURIsFromTexts(texts, "0.1");
+			Services.initUrisFromUrlTexts(urlContainers, 0.1f);
+			for(URLContainer urlContainer : urlContainers){
+				Services.initSparqlRDFTripletFromUris(urlContainer.getUris());
+			}
+			Services.computeJaccardMatrix(urlContainers);
 		}
 		catch (Exception e){
 			System.err.println(e.getMessage());
@@ -35,8 +40,9 @@ public class SearchController {
 
 		// Container for results
 		Map<String, Object> results = new HashMap<>();
-		results.put("urls", googleResults);
-		results.put("texts", texts);
+		//results.put("urls", googleResults);
+		//results.put("texts", texts);
+		results.put("urlContainers", urlContainers);
 
 		return results;
 	}
@@ -47,43 +53,19 @@ public class SearchController {
 	 * @param searchString the search string given to Google
 	 * @return a list of urls
 	 */
-	private List<String> getGoogleSearchUrls(String searchString) {
+	private List<URLContainer> getGoogleSearchUrls(String searchString) {
 		// Get google result objects
 		List<Result> googleSearchResults = Services.getGoogleResultsFromString(searchString);
 
 		// Get urls from result objects
-		List<String> googleSearchUrls = new ArrayList<>(googleSearchResults.size());
+		List<URLContainer> googleSearchUrls = new ArrayList<>(googleSearchResults.size());
 		for (Result result : googleSearchResults) {
 			String urlString = result.getLink();
 
 			System.out.println(urlString);
-			googleSearchUrls.add(urlString);
+			googleSearchUrls.add(new URLContainer(urlString));
 		}
 
 		return googleSearchUrls;
 	}
-
-	/**
-	 * This method return a list of texts associated to a list of Google Urls
-	 *
-	 * @param googleSearchUrls the search urls get from Google
-	 * @return a list of texts
-	 */
-	private List<String> getTextsFromUrls(List<String> googleSearchUrls) {
-		List<String> alchemyTexts = Services.getTextsFromUrls(googleSearchUrls);
-
-		return alchemyTexts;
-	}
-	
-	private List<String> getURIsFromTexts(List<String> texts, String confidence) throws Exception {
-        List<String> uris = Services.getURIsFromTexts(texts, confidence);
-        
-        // Debug
-        System.out.println("URIS");
-        for(String uri : uris) {
-        	System.out.println(uri);
-        }
-        
-        return uris;
-    }
 }

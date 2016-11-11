@@ -38,20 +38,6 @@ public class Main {
         Spark.staticFileLocation("public");
 
         declareRoutes();
-
-        // Test of SPARQL
-        List<String> urisA = new ArrayList<>();
-        List<String> urisB = new ArrayList<>();
-        urisA.add("Bill_Gates");
-        urisB.add("Barack_Obama");
-        List<RDFTriplet> tripletsA = Services.sparqlRDFTripletFromUri(urisA);
-        List<RDFTriplet> tripletsB = Services.sparqlRDFTripletFromUri(urisB);
-
-        System.out.println(tripletsA);
-        System.out.println(tripletsB);
-
-        System.out.println(Services.jaccardIndex(tripletsA, tripletsB));
-
     }
 
     /**
@@ -75,12 +61,7 @@ public class Main {
             // Execute the search in the controller
             Map<String, Object> results = new SearchController().doSearch(searchString);
 
-            // Put the results into the model for the view
-            Map<String, Object> model = new HashMap<>();
-            model.put("urls", results.get("urls"));
-            model.put("texts", results.get("texts"));
-
-            return new ModelAndView(model, "public/velocity/searchResult.vm");
+            return new ModelAndView(results, "public/velocity/searchResult.vm");
         }, new VelocityTemplateEngineUTF8());
     }
 }

@@ -85,12 +85,12 @@
     </div>
     <main class="mdl-layout__content">
         <div class="mdl-layout__tab-panel is-active" id="overview">
-            #foreach( $url in $urls )
+            #foreach( $urlContainer in $urlContainers )
                 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                     <div class="mdl-card mdl-cell mdl-cell--12-col-desktop mdl-cell--8-col-tablet mdl-cell--6-col-phone">
                         <div class="mdl-card__supporting-text">
-                            <h4>$url</h4>
-                            <p class="justify">$texts[$foreach.index]</p>
+                            <h4>$urlContainer.getUrl()</h4>
+                            <p class="justify">$urlContainer.getText()</p>
                         </div>
                         <div class="mdl-card__actions">
                             <a href="#" class="mdl-button">See more about that</a>
