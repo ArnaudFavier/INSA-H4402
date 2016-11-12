@@ -85,12 +85,17 @@
     </div>
     <main class="mdl-layout__content">
         <div class="mdl-layout__tab-panel is-active" id="overview">
-            #foreach( $urlContainer in $urlContainers )
+            #foreach( $urlGroup in $urlGroups )
                 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-                    <div class="mdl-card mdl-cell mdl-cell--12-col-desktop mdl-cell--8-col-tablet mdl-cell--6-col-phone">
+                    <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--white mdl-color-text--white mdl-card__supporting-text">
+                        <img src="$urlGroup.getImageUrl()" alt="group_image"/>
+                    </header>
+                    <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
                         <div class="mdl-card__supporting-text">
-                            <h4>$urlContainer.getUrl()</h4>
-                            <p class="justify">$urlContainer.getText()</p>
+                            <h4 class="capitalized">$urlGroup.getBestKeyword().getText()</h4>
+                            #foreach( $urlContainer in $urlGroup.getUrls() )
+                                <p><a class="justify" href="$urlContainer.getUrl()">$urlContainer.getUrl()</a></p>
+                            #end
                         </div>
                         <div class="mdl-card__actions">
                             <a href="#" class="mdl-button">See more about that</a>

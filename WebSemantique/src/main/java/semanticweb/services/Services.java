@@ -6,6 +6,7 @@ import com.google.api.services.customsearch.Customsearch;
 import com.google.api.services.customsearch.model.Result;
 import com.google.api.services.customsearch.model.Search;
 import com.ibm.watson.developer_cloud.alchemy.v1.AlchemyLanguage;
+import com.ibm.watson.developer_cloud.alchemy.v1.model.Keyword;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
 import org.json.JSONArray;
@@ -84,7 +85,8 @@ public class Services {
 
 		URL dbpediaURL = new URL(dbpediaSpotlightUrl);
 
-		for (URLContainer urlContainer : urls) {
+		for (Iterator<URLContainer> iterator = urls.iterator(); iterator.hasNext(); ) {
+			URLContainer urlContainer = iterator.next();
 			StringBuilder result = new StringBuilder();
 			HttpURLConnection conn = (HttpURLConnection) dbpediaURL.openConnection();
 			conn.setDoOutput(true);
@@ -107,20 +109,26 @@ public class Services {
 
 
 			//result of request in json
-			BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String line;
-			while ((line = rd.readLine()) != null) {
-				result.append(line);
-			}
-			rd.close();
-
-
-			String jsonString = result.toString();
-			JSONObject jsonObject = new JSONObject(jsonString);
-			JSONArray resources;
 			try {
+				BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				String line;
+				while ((line = rd.readLine()) != null) {
+					result.append(line);
+				}
+				rd.close();
+			} catch (Exception ex) {
+				System.err.println(ex.toString());
+				iterator.remove();
+				continue;
+			}
+
+			JSONArray resources;
+			String jsonString = result.toString();
+			try {
+				JSONObject jsonObject = new JSONObject(jsonString);
 				resources = jsonObject.getJSONArray("Resources");
 			} catch (Exception e) {
+				System.err.println("line = "+jsonString);
 				System.err.println(e.getMessage());
 				e.printStackTrace();
 				resources = null;
@@ -290,13 +298,79 @@ public class Services {
 			}
 		}
 
+		// Look again if firsts url can fit in lasts groups
+		for (int i = 0; i < urls.size(); i++) {
+			URLContainer urlToAdd = urls.get(i);
+			for (URLGroup group : groups) {
+				boolean canAdd = true;
+				for (URLContainer otherUrl : group.getUrls()) {
+					if(otherUrl != urlToAdd) {
+						int j = urls.indexOf(otherUrl);
+						canAdd &= similarities[i][j] > threshold;
+					}
+					else{
+						canAdd = false;
+						break;
+					}
+				}
+				if (canAdd) {
+					group.addUrl(urlToAdd);
+				}
+			}
+		}
+
 		for (URLGroup group : groups) {
-			System.out.println("-- Nouveau groupe --");
+			System.out.println("-- New group --");
 			for (URLContainer url : group.getUrls()) {
 				System.out.println(url.getUrl());
 			}
 		}
 
 		return groups;
+	}
+
+	public static void initKeywordsOfGroups(List<URLGroup> groups) {
+		final AlchemyLanguage language = new AlchemyLanguage();
+		language.setApiKey(References.ALCHEMY_API_KEY);
+
+		for (URLGroup group : groups) {
+			HashMap<String, Object> urlsMap = new HashMap<>();
+			for (URLContainer url : group.getUrls()) {
+				urlsMap.put(AlchemyLanguage.URL, url.getUrl());
+			}
+
+			try {
+				List<Keyword> keywords = language.getKeywords(urlsMap).execute().getKeywords();
+				group.setKeywords(keywords);
+			} catch (Exception ex) {
+				// Fuck it
+				System.out.println(ex.toString());
+			}
+		}
+	}
+
+	public static void initImageUrlOfGroups(List<URLGroup> groups) {
+		Customsearch customsearch = new Customsearch(new NetHttpTransport(), new JacksonFactory(), null);
+
+		System.out.println("Groups : ");
+		for (URLGroup group : groups) {
+			String keyword = group.getBestKeyword().getText();
+
+			System.out.println("Keywords = "+group.getKeywords().toString());
+			try {
+				com.google.api.services.customsearch.Customsearch.Cse.List list = customsearch.cse().list(keyword);
+				list.setSearchType("image");
+				list.setFileType("png,jpg");
+				list.setKey(References.GOOGLE_API_KEY);
+				list.setCx(References.GOOGLE_SEARCH_ENGINE_ID);
+
+				Search search = list.execute();
+				List<Result> results = search.getItems();
+				group.setImageUrl(results.get(0).getLink());
+				System.out.println("Image = "+group.getImageUrl());
+			} catch (Exception ex) {
+				System.out.println(ex.toString());
+			}
+		}
 	}
 }

@@ -2,6 +2,7 @@ package semanticweb.controllers;
 
 import com.google.api.services.customsearch.model.Result;
 import semanticweb.model.URLContainer;
+import semanticweb.model.URLGroup;
 import semanticweb.services.Services;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class SearchController {
 		// Call private methods
 		List<URLContainer> urlContainers = getGoogleSearchUrls(searchString);
 		Services.initUrlTexts(urlContainers);
+		List<URLGroup> groups = new ArrayList<>();
 		// To be used by sparql and Jaccard index
 		try{
 			Services.initUrisFromUrlTexts(urlContainers, 0.1f);
@@ -32,7 +34,9 @@ public class SearchController {
 				Services.initSparqlRDFTripletFromUris(urlContainer.getUris());
 			}
 			double[][] similarities = Services.computeJaccardMatrix(urlContainers);
-			Services.makeUrlGroups(urlContainers, similarities);
+			groups = Services.makeUrlGroups(urlContainers, similarities);
+			Services.initKeywordsOfGroups(groups);
+			Services.initImageUrlOfGroups(groups);
 		}
 		catch (Exception e){
 			System.err.println(e.getMessage());
@@ -43,7 +47,7 @@ public class SearchController {
 		Map<String, Object> results = new HashMap<>();
 		//results.put("urls", googleResults);
 		//results.put("texts", texts);
-		results.put("urlContainers", urlContainers);
+		results.put("urlGroups", groups);
 
 		return results;
 	}
