@@ -35,6 +35,8 @@ public class Services {
 	private static final int TEXT_MAX_LENGTH = 800;
 	private static final double COEF_DIRECT_LINK = 0.5;
 	private static final double COEF_THRESHOLD = 0.8;
+    private static final double LIST_SIZE_INFLUENCE = 0.5;
+    private static final double COEF_PREDICAT_SIMILARITY = 0.9;
 
 	/**
 	 * Call Google Custom Search API for the search string given
@@ -284,6 +286,159 @@ public class Services {
 
 		return jacquartMatrix;
 	}
+
+    /**
+     * @param sizeListA size of the first list
+     * @param sizeListB size of the second list
+     * @return a coef about sizes of lists
+     */
+    public static double listSizeCoef(int sizeListA, int sizeListB) {
+        return sizeListA >= sizeListB ? (double)(sizeListA)/sizeListB : (double)(sizeListB)/sizeListA;
+    }
+
+    /**
+     * Give the similarity matrix for a list of urls balance by the coefficient between the two list sizes
+     * 1 = All RDP triplet are the same
+     *
+     * @param urls all urls objects filled with uris and rdf-triplets
+     * @return a similarity matrix between each URL balance by the coefficient between the two list sizes
+     */
+    public static double[][] computeJaccardMatrixWithListSizeCoef(List<URLContainer> urls) {
+
+        final int urlCount = urls.size();
+        double[][] jacquartMatrix = new double[urlCount][urlCount];
+
+        // Set the diagonal to 1
+        for (int urlId = 0; urlId < urlCount; urlId++) {
+            jacquartMatrix[urlId][urlId] = 1;
+        }
+
+        // We compute only on triangular matrix, then copy
+        int i = 0;
+        int j;
+        for (URLContainer urlContainer1 : urls) {
+            j = 0;
+            List<RDFTriplet> tripletsUrl1 = urlContainer1.getRdfTriplets();
+            for (URLContainer urlContainer2 : urls) {
+                // When we reach the diagonal, break
+                if (i == j)
+                    break;
+                List<RDFTriplet> tripletsUrl2 = urlContainer2.getRdfTriplets();
+
+                jacquartMatrix[i][j] = jacquartMatrix[j][i] = jaccardIndex(tripletsUrl1, tripletsUrl2) * LIST_SIZE_INFLUENCE * listSizeCoef(tripletsUrl1.size(), tripletsUrl2.size());
+
+                j++;
+            }
+            i++;
+        }
+
+        for (i = 0; i < urlCount; i++) {
+            for (j = 0; j < urlCount; j++) {
+                StringBuilder additionnalSpace = new StringBuilder();
+                for (int k = Double.toString(jacquartMatrix[i][j]).length(); k <= 20; k++) {
+                    additionnalSpace.append(' ');
+                }
+                System.out.print(jacquartMatrix[i][j] + additionnalSpace.toString());
+            }
+            System.out.println();
+        }
+
+        return jacquartMatrix;
+    }
+
+
+
+    /**
+     * @param triplets A list of RDFTriplet
+     * @param predicate The RDFTriplet's predicate we search
+     * @return true if there at least one RDFTriplets with the same predicate as this we have in parameters, else return
+     * false
+     */
+    public static boolean containsPredicate(List<RDFTriplet> triplets, String predicate){
+        for (RDFTriplet triplet : triplets) {
+            if(triplet.getPredicate().equals(predicate))
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param tripletsA First list of RDFTriplet
+     * @param tripletsB Second list of RDFTriplet
+     * @return an index based on jaccard index and the fact that RDFTriplets of the two list have same predicat
+     * but different object
+     */
+    public static double PredicateSimilarityAndJaccardIndex(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB){
+        Set<RDFTriplet> union = new HashSet<>();
+        union.addAll(tripletsA);
+        union.addAll(tripletsB);
+
+        int intersection = 0;
+        double coef = 1.0;
+
+        for (RDFTriplet triplet : union) {
+            if (tripletsA.contains(triplet) && tripletsB.contains(triplet)) {
+                intersection++;
+            }else if(containsPredicate(tripletsA, triplet.getPredicate()) && containsPredicate(tripletsB, triplet.getPredicate())){
+                coef *= COEF_PREDICAT_SIMILARITY;
+            }
+
+        }
+        return coef * ((double)(intersection) / union.size());
+    }
+
+    /**
+     * Give the similarity matrix for a list of urls
+     * 1 = All RDP triplet are the same
+     *
+     * @param urls all urls objects filled with uris and rdf-triplets
+     * @return a similarity matrix between each URL
+     */
+    public static double[][] computeJaccardMatrixWithPredicateSimilarityIndex(List<URLContainer> urls) {
+        final int urlCount = urls.size();
+        double[][] jacquartMatrix = new double[urlCount][urlCount];
+
+        // Set the diagonal to 1
+        for (int urlId = 0; urlId < urlCount; urlId++) {
+            jacquartMatrix[urlId][urlId] = 1;
+        }
+
+        // We compute only on triangular matrix, then copy
+        int i = 0;
+        int j;
+        for (URLContainer urlContainer1 : urls) {
+            j = 0;
+            List<RDFTriplet> tripletsUrl1 = urlContainer1.getRdfTriplets();
+            for (URLContainer urlContainer2 : urls) {
+                // When we reach the diagonal, break
+                if (i == j)
+                    break;
+                List<RDFTriplet> tripletsUrl2 = urlContainer2.getRdfTriplets();
+
+                jacquartMatrix[i][j] = jacquartMatrix[j][i] = PredicateSimilarityAndJaccardIndex(tripletsUrl1, tripletsUrl2);
+
+                j++;
+            }
+            i++;
+        }
+
+        // Print log in console
+        for (i = 0; i < urlCount; i++) {
+            for (j = 0; j < urlCount; j++) {
+                StringBuilder additionnalSpace = new StringBuilder();
+                for (int k = Double.toString(jacquartMatrix[i][j]).length(); k <= 20; k++) {
+                    additionnalSpace.append(' ');
+                }
+                System.out.print(jacquartMatrix[i][j] + additionnalSpace.toString());
+            }
+            System.out.println();
+        }
+
+        return jacquartMatrix;
+    }
+
+
 
 	/**
 	 * Compute the threshold to create the group
