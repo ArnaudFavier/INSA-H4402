@@ -1,16 +1,12 @@
 package semanticweb;
 
 import semanticweb.controllers.SearchController;
-import semanticweb.model.RDFTriplet;
-import semanticweb.services.Services;
+import semanticweb.util.VelocityTemplateEngineUTF8;
 import spark.ModelAndView;
 import spark.Spark;
-import semanticweb.util.VelocityTemplateEngineUTF8;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import static spark.Spark.*;
 

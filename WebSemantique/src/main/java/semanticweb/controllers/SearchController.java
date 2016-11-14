@@ -16,25 +16,31 @@ import java.util.Map;
 public class SearchController {
 
 	/**
-	 * Main method for the search.
-	 * 		Search on Google and get texts from the Google's results
+	 * Main method for the search
 	 *
 	 * @param searchString the search string given to Google
 	 * @return a container of urls and texts
 	 */
 	public Map<String, Object> doSearch(String searchString) {
-		// Call private methods
+		// Get Google results
 		List<URLContainer> urlContainers = getGoogleSearchUrls(searchString);
+		// Get Alchemy text
 		Services.initUrlTexts(urlContainers);
 		List<URLGroup> groups = new ArrayList<>();
-		// To be used by sparql and Jaccard index
+
 		try{
+			// Get uri
 			Services.initUrisFromUrlTexts(urlContainers, 0.1f);
-			for(URLContainer urlContainer : urlContainers){
+			// Get RDF triplet
+			for (URLContainer urlContainer : urlContainers) {
 				Services.initSparqlRDFTripletFromUris(urlContainer.getUris());
 			}
+
+			// Compute
 			double[][] similarities = Services.computeJaccardMatrix(urlContainers);
 			groups = Services.makeUrlGroups(urlContainers, similarities);
+
+			// Shaping
 			Services.initKeywordsOfGroups(groups);
 			Services.initImageUrlOfGroups(groups);
 		}
@@ -45,8 +51,6 @@ public class SearchController {
 
 		// Container for results
 		Map<String, Object> results = new HashMap<>();
-		//results.put("urls", googleResults);
-		//results.put("texts", texts);
 		results.put("urlGroups", groups);
 
 		return results;

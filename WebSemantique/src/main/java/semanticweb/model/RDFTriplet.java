@@ -2,9 +2,6 @@ package semanticweb.model;
 
 import org.apache.jena.rdf.model.RDFNode;
 
-/**
- * Created by adussauge on 10/11/16.
- */
 public class RDFTriplet {
     private String uri;
     private String predicate;

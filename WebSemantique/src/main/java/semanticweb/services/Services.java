@@ -32,10 +32,15 @@ import java.util.*;
 public class Services {
 
 	private static final String dbpediaSpotlightUrl = "http://spotlight.sztaki.hu:2222/rest/annotate";
+	private static final int TEXT_MAX_LENGTH = 800;
+	private static final double COEF_DIRECT_LINK = 0.5;
+	private static final double COEF_THRESHOLD = 0.8;
 
 	/**
-	 * @param searchString The string given to Google
-	 * @return A list of Google results, resulting of the Google research
+	 * Call Google Custom Search API for the search string given
+	 *
+	 * @param searchString the string given to Google
+	 * @return q list of Google results, resulting of the Google research
 	 */
 	public static List<Result> getGoogleResultsFromString(String searchString) {
 		Customsearch customsearch = new Customsearch(new NetHttpTransport(), new JacksonFactory(), null);
@@ -45,17 +50,20 @@ public class Services {
 			com.google.api.services.customsearch.Customsearch.Cse.List list = customsearch.cse().list(searchString);
 			list.setKey(References.GOOGLE_API_KEY);
 			list.setCx(References.GOOGLE_SEARCH_ENGINE_ID);
+
 			Search search = list.execute();
 			results = search.getItems();
 		} catch (IOException ex) {
 			System.err.println(ex);
 		}
+
 		return results;
 	}
 
 	/**
-	 * @param urls List of URL
-	 * @return A list of texts, created by Alchemy from a list of URL
+	 * For each url, set the text given by Alchemy from this url
+	 *
+	 * @param urls list of URL
 	 */
 	public static void initUrlTexts(List<URLContainer> urls) {
 		final AlchemyLanguage language = new AlchemyLanguage();
@@ -74,15 +82,14 @@ public class Services {
 		}
 	}
 
-	private static final int TEXT_MAX_LENGTH = 800;
-
 	/**
-	 * @param urls       The url objects containing the text
-	 * @param confidence The confidence range
-	 * @throws Exception Can throw exceptions
+	 * For each url, give the list of uris associate to this url's text
+	 *
+	 * @param urls the url objects containing the text
+	 * @param confidence the confidence range
+	 * @throws Exception can throw exceptions
 	 */
 	public static void initUrisFromUrlTexts(List<URLContainer> urls, float confidence) throws Exception {
-
 		URL dbpediaURL = new URL(dbpediaSpotlightUrl);
 
 		for (Iterator<URLContainer> iterator = urls.iterator(); iterator.hasNext(); ) {
@@ -91,13 +98,13 @@ public class Services {
 			HttpURLConnection conn = (HttpURLConnection) dbpediaURL.openConnection();
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Accept", "application/json"); //header format accepted
+			conn.setRequestProperty("Accept", "application/json"); // header format accepted
 			conn.connect();
 
 			String text = urlContainer.getText();
 			text = text.length() > TEXT_MAX_LENGTH ? text.substring(0, TEXT_MAX_LENGTH) : text;
 
-			//formulating request
+			// Formulating request
 			String request = "text= " + text;
 			request += "&confidence= " + confidence;
 
@@ -107,8 +114,7 @@ public class Services {
 			os.flush();
 			os.close();
 
-
-			//result of request in json
+			// Result of request in json
 			try {
 				BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 				String line;
@@ -149,14 +155,13 @@ public class Services {
 	}
 
 	/**
-	 * Return a list of RDF Triplet obtained from DBPedia
-	 * based on the list of uri given in parameter.
+	 * For each uri, set a list of RDF Triplet obtained from DBPedia Sparql based on this uri
 	 *
 	 * @param uris A list of uri
-	 * @return A list of RDF Triplet
 	 * @throws Exception
 	 */
 	public static void initSparqlRDFTripletFromUris(List<URIContainer> uris) {
+		// Create the query
 		for (URIContainer uri : uris) {
 			String queryString =
 					"PREFIX : <http://dbpedia.org/resource/>\n" +
@@ -165,9 +170,10 @@ public class Services {
 							"}";
 
 			Query query = QueryFactory.create(queryString);
-
+			// Execute the query
 			QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
 
+			// Fecth results
 			try {
 				ResultSet results = qexec.execSelect();
 
@@ -190,11 +196,20 @@ public class Services {
 		}
 	}
 
+	/**
+	 * Compute the Jaccard index with additions
+	 *
+	 * @param tripletsA list of triplets from the first url
+	 * @param tripletsB list of triplets from the second url
+	 * @return the value of jaccard index for the two given urls
+	 */
 	private static double jaccardIndex(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB) {
+		// Union of all urls
 		Set<RDFTriplet> union = new HashSet<>();
 		union.addAll(tripletsA);
 		union.addAll(tripletsB);
 
+		// Same triplet
 		int intersection = 0;
 		for (RDFTriplet triplet : union) {
 			if (tripletsA.contains(triplet) && tripletsB.contains(triplet)) {
@@ -202,29 +217,32 @@ public class Services {
 			}
 		}
 
+		// First compute of index's value
 		double indexValue = 1.0 * intersection / union.size();
 
-		// Check if a direct link exists (+ 1)
+		// Direct link exists
 		for (RDFTriplet tripletA : tripletsA) {
 			for (RDFTriplet tripletB : tripletsB) {
 			if (tripletA.getObject() == tripletB.getUri()
 					|| tripletA.getUri() == tripletB.getObject()) {
-				indexValue += 0.5;
+				indexValue += COEF_DIRECT_LINK;
 				}
 			}
 		}
 
-		// Return max 1
+		// Return max 1.0
 		return ((indexValue) < (1.0) ? (indexValue) : (1.0));
 	}
 
 	/**
+	 * Give the similarity matrix for a list of urls
+	 * 1 = All RDP triplet are the same
+	 *
 	 * @param urls all urls objects filled with uris and rdf-triplets
-	 * @return a similarity matrix between each URL. 1 = All RDP triplet are the same
+	 * @return a similarity matrix between each URL
 	 * @see <a href="https://fr.wikipedia.org/wiki/Indice_et_distance_de_Jaccard">Jaccard Distance</a>
 	 */
 	public static double[][] computeJaccardMatrix(List<URLContainer> urls) {
-
 		final int urlCount = urls.size();
 		double[][] jacquartMatrix = new double[urlCount][urlCount];
 
@@ -252,6 +270,7 @@ public class Services {
 			i++;
 		}
 
+		// Print log in console
 		for (i = 0; i < urlCount; i++) {
 			for (j = 0; j < urlCount; j++) {
 				StringBuilder additionnalSpace = new StringBuilder();
@@ -266,9 +285,16 @@ public class Services {
 		return jacquartMatrix;
 	}
 
+	/**
+	 * Compute the threshold to create the group
+	 *
+	 * @param urls list of urls
+	 * @param similarities the similarities matrix previously computed for this urls
+	 * @return call to makeUrlGroups function, which creates lists of groups
+	 */
 	public static List<URLGroup> makeUrlGroups(List<URLContainer> urls, double[][] similarities) {
 		// Compute the threshold
-		double similaritiesSum = 0;
+		double similaritiesSum = 0.0;
 		int countedElems = 0;
 		for (int i = 0; i < urls.size(); i++) {
 			for (int j = 0; j < i; j++) {
@@ -278,11 +304,19 @@ public class Services {
 		}
 		double threshold = similaritiesSum / countedElems;
 
-		threshold *= 0.8;
+		threshold *= COEF_THRESHOLD;
 
 		return makeUrlGroups(urls, similarities, threshold);
 	}
 
+	/**
+	 * Create groups of urls according to their similarities and the previous computed threshold
+	 *
+	 * @param urls list of urls
+	 * @param similarities the similarities matrix previously computed for this urls
+	 * @param threshold the threshold previously computed for this urls
+	 * @return lists of groups which contains urls
+	 */
 	public static List<URLGroup> makeUrlGroups(List<URLContainer> urls, double[][] similarities, double threshold) {
 		List<URLGroup> groups = new ArrayList<>();
 
@@ -330,6 +364,7 @@ public class Services {
 			}
 		}
 
+		// Print log in console
 		for (URLGroup group : groups) {
 			System.out.println("-- New group --");
 			for (URLContainer url : group.getUrls()) {
@@ -340,26 +375,39 @@ public class Services {
 		return groups;
 	}
 
+	/**
+	 * Set the keywords from Alchemy for a list of groups
+	 *
+	 * @param groups the list of groups
+	 */
 	public static void initKeywordsOfGroups(List<URLGroup> groups) {
 		final AlchemyLanguage language = new AlchemyLanguage();
 		language.setApiKey(References.ALCHEMY_API_KEY);
 
 		for (URLGroup group : groups) {
+			// Create the Alchemy url container
 			HashMap<String, Object> urlsMap = new HashMap<>();
 			for (URLContainer url : group.getUrls()) {
 				urlsMap.put(AlchemyLanguage.URL, url.getUrl());
 			}
 
 			try {
+				// Get the keyword from Alchemy
 				List<Keyword> keywords = language.getKeywords(urlsMap).execute().getKeywords();
+				// Set the keywords to the group
 				group.setKeywords(keywords);
 			} catch (Exception ex) {
-				// Fuck it
+				System.err.println("No keywords found for the group " + group.getUrls());
 				System.out.println(ex.toString());
 			}
 		}
 	}
 
+	/**
+	 * Give an image for the group based on best group's keywords
+	 *
+	 * @param groups the group of url
+	 */
 	public static void initImageUrlOfGroups(List<URLGroup> groups) {
 		Customsearch customsearch = new Customsearch(new NetHttpTransport(), new JacksonFactory(), null);
 
