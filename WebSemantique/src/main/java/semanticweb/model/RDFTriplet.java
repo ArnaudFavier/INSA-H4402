@@ -20,6 +20,14 @@ public class RDFTriplet {
         return this.predicate;
     }
 
+    public String getUri() {
+        return this.uri;
+    }
+
+    public String getObject() {
+        return this.object;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -191,20 +191,31 @@ public class Services {
 	}
 
 	private static double jaccardIndex(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB) {
-
 		Set<RDFTriplet> union = new HashSet<>();
 		union.addAll(tripletsA);
 		union.addAll(tripletsB);
 
-		int inter = 0;
-
+		int intersection = 0;
 		for (RDFTriplet triplet : union) {
 			if (tripletsA.contains(triplet) && tripletsB.contains(triplet)) {
-				inter++;
+				intersection++;
 			}
 		}
 
-		return 1.0 * inter / union.size();
+		double indexValue = 1.0 * intersection / union.size();
+
+		// Check if a direct link exists (+ 1)
+		for (RDFTriplet tripletA : tripletsA) {
+			for (RDFTriplet tripletB : tripletsB) {
+			if (tripletA.getObject() == tripletB.getUri()
+					|| tripletA.getUri() == tripletB.getObject()) {
+				indexValue += 0.5;
+				}
+			}
+		}
+
+		// Return max 1
+		return ((indexValue) < (1.0) ? (indexValue) : (1.0));
 	}
 
 	/**
