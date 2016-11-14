@@ -20,3 +20,7 @@
 .capitalized {
     text-transform: capitalize;
 }
+
+.group-image {
+    max-height: 200px;
+}

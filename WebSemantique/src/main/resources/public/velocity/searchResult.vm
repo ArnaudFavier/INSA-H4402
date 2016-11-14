@@ -88,7 +88,7 @@
             #foreach( $urlGroup in $urlGroups )
                 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                     <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--white mdl-color-text--white mdl-card__supporting-text">
-                        <img src="$urlGroup.getImageUrl()" alt="group_image"/>
+                        <img class="group-image" src="$urlGroup.getImageUrl()" alt="group_image"/>
                     </header>
                     <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
                         <div class="mdl-card__supporting-text">
