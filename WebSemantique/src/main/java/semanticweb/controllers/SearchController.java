@@ -37,7 +37,7 @@ public class SearchController {
 			}
 
 			// Compute
-			double[][] similarities = Services.computeJaccardMatrixWithListSizeCoef(urlContainers);
+			double[][] similarities = Services.computeSimilarityMatrix(urlContainers);
 			groups = Services.makeUrlGroups(urlContainers, similarities);
 
 			// Shaping

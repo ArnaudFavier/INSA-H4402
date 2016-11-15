@@ -31,8 +31,8 @@ import java.util.*;
  */
 public class Services {
 
-	/* Choose the index to use: 1 = Jaccard, 2 = Sorensen-Dice, 3 = Tversky */
-	private static final int INDEX_SELECTED = 1;
+	/* Choose the index to use: 1 = Jaccard, 2 = Sorensen-Dice, 3 = Tversky , ' = Jaccard index balance by predicate similarity*/
+	private static final int INDEX_SELECTED = 4;
 	/* --- */
 	private static final String dbpediaSpotlightUrl = "http://spotlight.sztaki.hu:2222/rest/annotate"; // URL of DBPedia Spotlight
 	private static final int TEXT_MAX_LENGTH = 800; // Maximum length of a text, to be analyzed by Alchemy
@@ -272,7 +272,7 @@ public class Services {
 	 * @return a similarity matrix between each URL
 	 * @see <a href="https://fr.wikipedia.org/wiki/Indice_et_distance_de_Jaccard">Jaccard Distance</a>
 	 */
-	public static double[][] computeJaccardMatrix(List<URLContainer> urls) {
+	public static double[][] computeSimilarityMatrix(List<URLContainer> urls) {
 		final int urlCount = urls.size();
 		double[][] jacquartMatrix = new double[urlCount][urlCount];
 
@@ -293,9 +293,27 @@ public class Services {
 					break;
 				List<RDFTriplet> tripletsUrl2 = urlContainer2.getRdfTriplets();
 
-				jacquartMatrix[i][j] = jacquartMatrix[j][i] = jaccardIndex(tripletsUrl1, tripletsUrl2);
+                double indexValue = 0;
+                switch (INDEX_SELECTED) {
+                    case 2: // SorensenDiceIndex
+                        indexValue = sorensenDiceIndex(tripletsUrl1, tripletsUrl2);
+                        break;
+                    case 3: // TverskyIndex
+                        double alpha = 0.5;
+                        double beta = 0.5;
+                        indexValue = tverskyIndex(tripletsUrl1, tripletsUrl2, alpha, beta);
+                        break;
+                    case 4: // Jaccard index balance by predicate similarity
+                        indexValue = PredicateSimilarityAndJaccardIndex(tripletsUrl1, tripletsUrl2);
+                        break;
+                    case 1: // JaccardIndex
+                    default:
+                        indexValue = jaccardIndex(tripletsUrl1, tripletsUrl2);
+                        break;
+                }
+                jacquartMatrix[i][j] = jacquartMatrix[j][i] = indexValue;
 
-				j++;
+                j++;
 			}
 			i++;
 		}
@@ -331,7 +349,7 @@ public class Services {
      * @param urls all urls objects filled with uris and rdf-triplets
      * @return a similarity matrix between each URL balance by the coefficient between the two list sizes
      */
-    public static double[][] computeJaccardMatrixWithListSizeCoef(List<URLContainer> urls) {
+    public static double[][] computeSimilarityMatrixWithListSizeCoef(List<URLContainer> urls) {
 
         final int urlCount = urls.size();
         double[][] jacquartMatrix = new double[urlCount][urlCount];
@@ -363,6 +381,9 @@ public class Services {
 						double beta = 0.5;
 						indexValue = tverskyIndex(tripletsUrl1, tripletsUrl2, alpha, beta);
 						break;
+                    case 4: // Jaccard index balance by predicate similarity
+                        indexValue = PredicateSimilarityAndJaccardIndex(tripletsUrl1, tripletsUrl2);
+                        break;
 					case 1: // JaccardIndex
 					default:
 						indexValue = jaccardIndex(tripletsUrl1, tripletsUrl2);
@@ -408,7 +429,7 @@ public class Services {
     /**
      * @param tripletsA First list of RDFTriplet
      * @param tripletsB Second list of RDFTriplet
-     * @return an index based on jaccard index and the fact that RDFTriplets of the two list have same predicat
+     * @return an index based on jaccard index and the fact that RDFTriplets of the two list have same predicate
      * but different object
      */
     public static double PredicateSimilarityAndJaccardIndex(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB){
@@ -428,56 +449,6 @@ public class Services {
 
         }
         return coef * ((double)(intersection) / union.size());
-    }
-
-    /**
-     * Give the similarity matrix for a list of urls
-     * 1 = All RDP triplet are the same
-     *
-     * @param urls all urls objects filled with uris and rdf-triplets
-     * @return a similarity matrix between each URL
-     */
-    public static double[][] computeJaccardMatrixWithPredicateSimilarityIndex(List<URLContainer> urls) {
-        final int urlCount = urls.size();
-        double[][] jacquartMatrix = new double[urlCount][urlCount];
-
-        // Set the diagonal to 1
-        for (int urlId = 0; urlId < urlCount; urlId++) {
-            jacquartMatrix[urlId][urlId] = 1;
-        }
-
-        // We compute only on triangular matrix, then copy
-        int i = 0;
-        int j;
-        for (URLContainer urlContainer1 : urls) {
-            j = 0;
-            List<RDFTriplet> tripletsUrl1 = urlContainer1.getRdfTriplets();
-            for (URLContainer urlContainer2 : urls) {
-                // When we reach the diagonal, break
-                if (i == j)
-                    break;
-                List<RDFTriplet> tripletsUrl2 = urlContainer2.getRdfTriplets();
-
-                jacquartMatrix[i][j] = jacquartMatrix[j][i] = PredicateSimilarityAndJaccardIndex(tripletsUrl1, tripletsUrl2);
-
-                j++;
-            }
-            i++;
-        }
-
-        // Print log in console
-        for (i = 0; i < urlCount; i++) {
-            for (j = 0; j < urlCount; j++) {
-                StringBuilder additionnalSpace = new StringBuilder();
-                for (int k = Double.toString(jacquartMatrix[i][j]).length(); k <= 20; k++) {
-                    additionnalSpace.append(' ');
-                }
-                System.out.print(jacquartMatrix[i][j] + additionnalSpace.toString());
-            }
-            System.out.println();
-        }
-
-        return jacquartMatrix;
     }
 
     /**
