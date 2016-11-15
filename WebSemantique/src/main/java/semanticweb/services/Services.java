@@ -31,12 +31,16 @@ import java.util.*;
  */
 public class Services {
 
-	private static final String dbpediaSpotlightUrl = "http://spotlight.sztaki.hu:2222/rest/annotate";
-	private static final int TEXT_MAX_LENGTH = 800;
-	private static final double COEF_DIRECT_LINK = 0.25;
-	private static final double COEF_THRESHOLD = 0.8;
-    private static final double LIST_SIZE_INFLUENCE = 0.5;
-    private static final double COEF_PREDICAT_SIMILARITY = 0.9;
+	/* Choose the index to use: 1 = Jaccard, 2 = Sorensen-Dice, 3 = Tversky */
+	private static final int INDEX_SELECTED = 1;
+	/* --- */
+	private static final String dbpediaSpotlightUrl = "http://spotlight.sztaki.hu:2222/rest/annotate"; // URL of DBPedia Spotlight
+	private static final int TEXT_MAX_LENGTH = 800; // Maximum length of a text, to be analyzed by Alchemy
+	private static final double COEF_DIRECT_LINK = 0.25; // Coefficient added when a direct link was found
+	private static final double COEF_THRESHOLD = 0.8; // Coefficient to make group more or less restrictive
+    private static final double LIST_SIZE_INFLUENCE = 0.5; //
+    private static final double COEF_PREDICAT_SIMILARITY = 0.9; //
+
 
 	/**
 	 * Call Google Custom Search API for the search string given
@@ -349,7 +353,22 @@ public class Services {
                     break;
                 List<RDFTriplet> tripletsUrl2 = urlContainer2.getRdfTriplets();
 
-                jacquartMatrix[i][j] = jacquartMatrix[j][i] = jaccardIndex(tripletsUrl1, tripletsUrl2) * LIST_SIZE_INFLUENCE * listSizeCoef(tripletsUrl1.size(), tripletsUrl2.size());
+				double indexValue = 0;
+				switch (INDEX_SELECTED) {
+					case 2: // SorensenDiceIndex
+						indexValue = sorensenDiceIndex(tripletsUrl1, tripletsUrl2);
+						break;
+					case 3: // TverskyIndex
+						double alpha = 0.5;
+						double beta = 0.5;
+						indexValue = tverskyIndex(tripletsUrl1, tripletsUrl2, alpha, beta);
+						break;
+					case 1: // JaccardIndex
+					default:
+						indexValue = jaccardIndex(tripletsUrl1, tripletsUrl2);
+						break;
+				}
+                jacquartMatrix[i][j] = jacquartMatrix[j][i] = indexValue * LIST_SIZE_INFLUENCE * listSizeCoef(tripletsUrl1.size(), tripletsUrl2.size());
 
                 j++;
             }
@@ -469,7 +488,7 @@ public class Services {
      * @return the value of Sorensen-Dice index for the two given urls
 	 * @see <a href="https://fr.wikipedia.org/wiki/Indice_de_S%C3%B8rensen-Dice">Sorensen-Dice index</a>
      */
-    private static double SorensenDiceIndex(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB) {
+    private static double sorensenDiceIndex(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB) {
         // Intersection of the two lists
         Set<RDFTriplet> intersection = new HashSet<>();
 
@@ -495,7 +514,7 @@ public class Services {
 	 * @see <a href="https://en.wikipedia.org/wiki/Tversky_index">Tversky index</a>
 	 *
      */
-    private static double TverskyIndex(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB, double alpha, double beta) {
+    private static double tverskyIndex(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB, double alpha, double beta) {
         // Union of all urls
         Set<RDFTriplet> union = new HashSet<>();
         union.addAll(tripletsA);
