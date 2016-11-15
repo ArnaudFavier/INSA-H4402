@@ -438,6 +438,72 @@ public class Services {
         return jacquartMatrix;
     }
 
+    /**
+     * Compute the Sorensen-Dice index with additions
+     *
+     * @param tripletsA list of triplets from the first url
+     * @param tripletsB list of triplets from the second url
+     * @return the value of Sorensen-Dice index for the two given urls
+     */
+    private static double SorensenDiceIndex(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB) {
+        // Intersection of the two lists
+        Set<RDFTriplet> intersection = new HashSet<>();
+
+        // compute intersection of the two list
+        for (RDFTriplet tripletA : tripletsA) {
+            if(tripletsB.contains(tripletA)){
+                intersection.add(tripletA);
+            }
+        }
+
+        //  return index's value computed
+        return (double)(2 * intersection.size())/(tripletsA.size() + tripletsB.size());
+    }
+
+    /**
+     * Compute the Tversky index with additions
+     *
+     * @param tripletsA list of triplets from the first url
+     * @param tripletsB list of triplets from the second url
+     * @param alpha alpha coefficient for Tversky index
+     * @param beta beta coefficient for Tversky index
+     * @return the value of Tversky index for the two given urls
+     */
+    private static double TverskyIndex(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB, double alpha, double beta) {
+        // Union of all urls
+        Set<RDFTriplet> union = new HashSet<>();
+        union.addAll(tripletsA);
+        union.addAll(tripletsB);
+
+        // Intersection of the two lists
+        Set<RDFTriplet> intersection = new HashSet<>();
+        // compute intersection of the two list
+        for (RDFTriplet tripletA : tripletsA) {
+            if(tripletsB.contains(tripletA)){
+                intersection.add(tripletA);
+            }
+        }
+
+        // tripletsA - tripletsB list
+        Set<RDFTriplet> tripletsAminusB = new HashSet<>();
+        for (RDFTriplet tripletA: tripletsA) {
+            if(!(tripletsB.contains(tripletA))){
+                tripletsAminusB.add(tripletA);
+            }
+        }
+
+        // tripletsB - tripletsA list
+        Set<RDFTriplet> tripletsBminusA = new HashSet<>();
+        for (RDFTriplet tripletB: tripletsB) {
+            if(!(tripletsA.contains(tripletB))){
+                tripletsAminusB.add(tripletB);
+            }
+        }
+
+        //  return index's value computed
+        return (double)(intersection.size())/(union.size() + (alpha * tripletsAminusB.size()) + (beta * tripletsBminusA.size()));
+    }
+
 
 
 	/**
