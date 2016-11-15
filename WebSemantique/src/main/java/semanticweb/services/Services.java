@@ -33,7 +33,7 @@ public class Services {
 
 	private static final String dbpediaSpotlightUrl = "http://spotlight.sztaki.hu:2222/rest/annotate";
 	private static final int TEXT_MAX_LENGTH = 800;
-	private static final double COEF_DIRECT_LINK = 0.5;
+	private static final double COEF_DIRECT_LINK = 0.25;
 	private static final double COEF_THRESHOLD = 0.8;
     private static final double LIST_SIZE_INFLUENCE = 0.5;
     private static final double COEF_PREDICAT_SIMILARITY = 0.9;
@@ -228,6 +228,30 @@ public class Services {
 			if (tripletA.getObject() == tripletB.getUri()
 					|| tripletA.getUri() == tripletB.getObject()) {
 				indexValue += COEF_DIRECT_LINK;
+				}
+			}
+		}
+
+		// Call computeDirectLink
+		return computeDirectLink(tripletsA, tripletsB, indexValue);
+	}
+
+	/**
+	 * Search for direct link between the two lists of triplets,
+	 * and modify the index value consequently
+	 *
+	 * @param tripletsA list of triplets from the first url
+	 * @param tripletsB list of triplets from the second url
+	 * @param indexValue the value of jaccard index for the two given urls, previously computed
+	 * @return index's value modified by direct link coefficient
+	 */
+	public static double computeDirectLink(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB, double indexValue) {
+		// Direct link exists
+		for (RDFTriplet tripletA : tripletsA) {
+			for (RDFTriplet tripletB : tripletsB) {
+				if (tripletA.getObject() == tripletB.getUri()
+						|| tripletA.getUri() == tripletB.getObject()) {
+					indexValue += COEF_DIRECT_LINK;
 				}
 			}
 		}
