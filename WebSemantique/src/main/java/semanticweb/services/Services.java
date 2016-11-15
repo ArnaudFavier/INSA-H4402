@@ -32,7 +32,7 @@ import java.util.*;
 public class Services {
 
 	/* Choose the index to use: 1 = Jaccard, 2 = Sorensen-Dice, 3 = Tversky , ' = Jaccard index balance by predicate similarity*/
-	private static final int INDEX_SELECTED = 4;
+	private static final int INDEX_SELECTED = 1;
 	/* --- */
 	private static final String dbpediaSpotlightUrl = "http://spotlight.sztaki.hu:2222/rest/annotate"; // URL of DBPedia Spotlight
 	private static final int TEXT_MAX_LENGTH = 800; // Maximum length of a text, to be analyzed by Alchemy
