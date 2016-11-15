@@ -468,6 +468,7 @@ public class Services {
      * @param tripletsA list of triplets from the first url
      * @param tripletsB list of triplets from the second url
      * @return the value of Sorensen-Dice index for the two given urls
+	 * @see <a href="https://fr.wikipedia.org/wiki/Indice_de_S%C3%B8rensen-Dice">Sorensen-Dice index</a>
      */
     private static double SorensenDiceIndex(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB) {
         // Intersection of the two lists
@@ -492,6 +493,8 @@ public class Services {
      * @param alpha alpha coefficient for Tversky index
      * @param beta beta coefficient for Tversky index
      * @return the value of Tversky index for the two given urls
+	 * @see <a href="https://en.wikipedia.org/wiki/Tversky_index">Tversky index</a>
+	 *
      */
     private static double TverskyIndex(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB, double alpha, double beta) {
         // Union of all urls
