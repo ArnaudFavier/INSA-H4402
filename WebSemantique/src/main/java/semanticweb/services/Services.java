@@ -245,7 +245,7 @@ public class Services {
 	 * @param indexValue the value of jaccard index for the two given urls, previously computed
 	 * @return index's value modified by direct link coefficient
 	 */
-	public static double computeDirectLink(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB, double indexValue) {
+	private static double computeDirectLink(List<RDFTriplet> tripletsA, List<RDFTriplet> tripletsB, double indexValue) {
 		// Direct link exists
 		for (RDFTriplet tripletA : tripletsA) {
 			for (RDFTriplet tripletB : tripletsB) {
@@ -356,6 +356,7 @@ public class Services {
             i++;
         }
 
+		// Print log in console
         for (i = 0; i < urlCount; i++) {
             for (j = 0; j < urlCount; j++) {
                 StringBuilder additionnalSpace = new StringBuilder();
@@ -369,8 +370,6 @@ public class Services {
 
         return jacquartMatrix;
     }
-
-
 
     /**
      * @param triplets A list of RDFTriplet
@@ -530,8 +529,6 @@ public class Services {
         //  return index's value computed
         return (double)(intersection.size())/(union.size() + (alpha * tripletsAminusB.size()) + (beta * tripletsBminusA.size()));
     }
-
-
 
 	/**
 	 * Compute the threshold to create the group
