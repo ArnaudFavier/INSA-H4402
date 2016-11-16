@@ -226,16 +226,6 @@ public class Services {
 		// First compute of index's value
 		double indexValue = 1.0 * intersection / union.size();
 
-		// Direct link exists
-		for (RDFTriplet tripletA : tripletsA) {
-			for (RDFTriplet tripletB : tripletsB) {
-			if (tripletA.getObject() == tripletB.getUri()
-					|| tripletA.getUri() == tripletB.getObject()) {
-				indexValue += COEF_DIRECT_LINK;
-				}
-			}
-		}
-
 		// Call computeDirectLink
 		return computeDirectLink(tripletsA, tripletsB, indexValue);
 	}
