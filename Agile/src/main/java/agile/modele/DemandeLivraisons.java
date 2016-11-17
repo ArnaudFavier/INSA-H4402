@@ -1,8 +1,10 @@
 package agile.modele;
 
-public class DemandeLivraisons {
+public class DemandeLivraisons
+{
 
-    public DemandeLivraisons() {
-    }
+	public DemandeLivraisons()
+	{
+	}
 
 }

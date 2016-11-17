@@ -1,12 +1,31 @@
 package agile;
 
-import org.junit.Test;
+import agile.modele.Plan;
+import agile.xml.DeserialiseurPlanXML;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-import com.google.java.contract.Ensures;
-import com.google.java.contract.Requires;
-
-public class Main {
-	public static final void main(String[] args) {
-		System.out.println("Success");
+public class Main extends Application {
+	public static void main(String[] args) {
+		launch(args);	
 	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+		primaryStage.setTitle("Hello World");
+		primaryStage.setScene(new Scene(root, 300, 275));
+		primaryStage.show();
+		
+		try {
+			Plan plan = DeserialiseurPlanXML.charger();
+			System.out.println(plan);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
 }
