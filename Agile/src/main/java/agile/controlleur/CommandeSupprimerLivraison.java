@@ -1,14 +1,7 @@
+package agile.controlleur;
 
-import java.util.*;
+public class CommandeSupprimerLivraison implements Commande {
 
-/**
- * 
- */
-public class CommandeSupprimerLivraison extends Commande {
-
-    /**
-     * Default constructor
-     */
     public CommandeSupprimerLivraison() {
     }
 

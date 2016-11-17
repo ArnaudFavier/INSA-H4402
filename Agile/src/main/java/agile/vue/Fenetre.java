@@ -1,14 +1,7 @@
+package agile.vue;
 
-import java.util.*;
-
-/**
- * 
- */
 public class Fenetre {
 
-    /**
-     * Default constructor
-     */
     public Fenetre() {
     }
 

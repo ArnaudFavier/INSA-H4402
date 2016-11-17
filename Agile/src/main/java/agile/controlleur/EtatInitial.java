@@ -1,14 +1,7 @@
+package agile.controlleur;
 
-import java.util.*;
+public class EtatInitial extends EtatDefaut {
 
-/**
- * 
- */
-public class EtatInitial extends EtatDefaut [abstract] {
-
-    /**
-     * Default constructor
-     */
     public EtatInitial() {
     }
 

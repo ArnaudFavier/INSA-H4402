@@ -1,10 +1,6 @@
+package agile.controlleur;
 
-import java.util.*;
-
-/**
- * 
- */
-public interface Commande extends Historique {
+public interface Commande {
 
 
 }

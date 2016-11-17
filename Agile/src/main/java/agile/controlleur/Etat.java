@@ -1,9 +1,5 @@
+package agile.controlleur;
 
-import java.util.*;
-
-/**
- * 
- */
 public interface Etat {
 
 }

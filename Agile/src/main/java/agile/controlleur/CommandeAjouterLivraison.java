@@ -1,14 +1,7 @@
+package agile.controlleur;
 
-import java.util.*;
+public class CommandeAjouterLivraison implements Commande {
 
-/**
- * 
- */
-public class CommandeAjouterLivraison extends Commande {
-
-    /**
-     * Default constructor
-     */
     public CommandeAjouterLivraison() {
     }
 

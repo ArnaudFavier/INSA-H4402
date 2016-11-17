@@ -1,20 +1,10 @@
+package agile.modele;
 
-import java.util.*;
-
-/**
- * 
- */
 public class Tournee {
 
-    /**
-     * Default constructor
-     */
     public Tournee() {
     }
 
-    /**
-     * 
-     */
-    public void dureeTotale;
+    public int dureeTotale;
 
 }

@@ -1,14 +1,7 @@
+package agile.controlleur;
 
-import java.util.*;
+public class EtatAjoutLivraison extends EtatDefaut {
 
-/**
- * 
- */
-public class EtatAjoutLivraison extends EtatDefaut [abstract] {
-
-    /**
-     * Default constructor
-     */
     public EtatAjoutLivraison() {
     }
 

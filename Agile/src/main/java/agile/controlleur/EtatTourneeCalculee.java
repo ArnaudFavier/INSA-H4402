@@ -1,14 +1,7 @@
+package agile.controlleur;
 
-import java.util.*;
+public class EtatTourneeCalculee extends EtatDefaut {
 
-/**
- * 
- */
-public class EtatTourneeCalculee extends EtatDefaut [abstract] {
-
-    /**
-     * Default constructor
-     */
     public EtatTourneeCalculee() {
     }
 

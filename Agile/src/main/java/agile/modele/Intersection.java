@@ -1,31 +1,15 @@
+package agile.modele;
 
-import java.util.*;
-
-/**
- * 
- */
 public class Intersection {
 
-    /**
-     * Default constructor
-     */
     public Intersection() {
     }
 
-    /**
-     * 
-     */
-    public void id;
+    public int id;
 
-    /**
-     * 
-     */
-    public void x;
+    public int x;
 
-    /**
-     * 
-     */
-    public void y;
+    public int y;
 
 
 }

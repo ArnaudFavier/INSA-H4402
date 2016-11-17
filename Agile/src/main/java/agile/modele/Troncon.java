@@ -1,33 +1,14 @@
+package agile.modele;
 
-import java.util.*;
-
-/**
- * 
- */
 public class Troncon {
 
-    /**
-     * Default constructor
-     */
     public Troncon() {
     }
 
-    /**
-     * 
-     */
-    public void longueur;
+    public int longueur;
 
-    /**
-     * 
-     */
-    public void vitesse;
+    public int vitesse;
 
-    /**
-     * 
-     */
-    public void nomRue;
-
-
-
+    public int nomRue;
 
 }

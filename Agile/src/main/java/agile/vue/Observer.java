@@ -1,9 +1,5 @@
+package agile.vue;
 
-import java.util.*;
-
-/**
- * 
- */
 public interface Observer {
 
 }

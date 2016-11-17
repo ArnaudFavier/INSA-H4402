@@ -1,33 +1,14 @@
+package agile.modele;
 
-import java.util.*;
-
-/**
- * 
- */
 public class Livraison {
 
-    /**
-     * Default constructor
-     */
     public Livraison() {
     }
 
-    /**
-     * 
-     */
-    public void duree;
+    public int duree;
 
-    /**
-     * 
-     */
-    public void debutPlage;
+    public int debutPlage;
 
-    /**
-     * 
-     */
-    public void finPlage;
-
-
-
+    public int finPlage;
 
 }
