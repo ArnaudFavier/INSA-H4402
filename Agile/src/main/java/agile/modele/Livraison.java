@@ -2,13 +2,16 @@ package agile.modele;
 
 public class Livraison {
 
-    public Livraison() {
+    private int duree;
+    Intersection intersection;
+    
+    
+    public Livraison(int duree, Intersection intersection) {
+	super();
+	this.duree = duree;
+	this.intersection = intersection;
     }
-
-    public int duree;
-
-    public int debutPlage;
-
-    public int finPlage;
+    
+    
 
 }

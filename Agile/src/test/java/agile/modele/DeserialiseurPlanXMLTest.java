@@ -28,11 +28,11 @@ public class DeserialiseurPlanXMLTest {
 	assertEquals(plan.getIntersections().get(0).getId(), 0);
 	assertEquals(plan.getIntersections().get(0).getX(), 134);
 	assertEquals(plan.getIntersections().get(0).getY(), 193);
-	
+
 	assertEquals(plan.getIntersections().get(1).getId(), 1);
 	assertEquals(plan.getIntersections().get(1).getX(), 195);
 	assertEquals(plan.getIntersections().get(1).getY(), 291);
-	
+
 	assertEquals(plan.getTroncons().get(0).getLongueur(), 9234);
 	assertEquals(plan.getTroncons().get(0).getNomRue(), "v0");
 	assertEquals(plan.getTroncons().get(0).getVitesse(), 41);

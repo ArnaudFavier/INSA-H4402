@@ -2,7 +2,9 @@ package agile.modele;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import agile.xml.DeserialiseurPlanXML;
 
@@ -18,6 +20,11 @@ public class Plan {
     private List<Intersection> intersections;
 
     /**
+     * Une map des ids des intersections en fonction
+     */
+    private Map<Integer, Intersection> intersectionsParId;
+
+    /**
      * La liste des tronçons du plan
      */
     private List<Troncon> troncons;
@@ -27,6 +34,7 @@ public class Plan {
      */
     public Plan() {
 	intersections = new ArrayList<>();
+	intersectionsParId = new HashMap<>();
 	troncons = new ArrayList<>();
     }
 
@@ -38,6 +46,7 @@ public class Plan {
      */
     public void addIntersection(Intersection intersection) {
 	intersections.add(intersection);
+	intersectionsParId.put(intersection.getId(), intersection);
     }
 
     /**
@@ -67,6 +76,14 @@ public class Plan {
      */
     public List<Troncon> getTroncons() {
 	return Collections.unmodifiableList(troncons);
+    }
+
+    /**
+     * @param id L'id de l'intersection recherchée
+     * @return l'intersection correspondant à l'id donné
+     */
+    public Intersection getIntersectionParId(int id) {
+	return intersectionsParId.get(id);
     }
 
 }
