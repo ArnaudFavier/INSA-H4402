@@ -17,22 +17,73 @@ import agile.modele.Intersection;
 import agile.modele.Plan;
 import agile.modele.Troncon;
 
+/**
+ * La classe permettant le parsage XML (SAX) des fichiers de plan
+ */
 public class DeserialiseurPlanXML extends DefaultHandler {
+    /**
+     * Le nom du noeud xml reseau
+     */
     private static final String RESEAU_NODE_NAME = "reseau";
+
+    /**
+     * Le nom du noeud xml noeud
+     */
     private static final String NOEUD_NODE_NAME = "noeud";
+
+    /**
+     * Le nom du noeud xml troncon
+     */
     private static final String TRONCON_NODE_NAME = "troncon";
 
+    /**
+     * Le nom de l'attribut xml id
+     */
     private static final String ID_ATTR_NAME = "id";
+
+    /**
+     * Le nom de l'attribut xml x
+     */
     private static final String X_ATTR_NAME = "x";
+
+    /**
+     * Le nom de l'attribut xml y
+     */
     private static final String Y_ATTR_NAME = "y";
+
+    /**
+     * Le nom de l'attribut xml destination
+     */
     private static final String DESTINATION_ATTR_NAME = "destination";
+
+    /**
+     * Le nom de l'attribut xml longueur
+     */
     private static final String LONGUEUR_ATTR_NAME = "longueur";
+
+    /**
+     * Le nom de l'attribut xml nomRue
+     */
     private static final String NOMRUE_ATTR_NAME = "nomRue";
+
+    /**
+     * Le nom de l'attribut xml origine
+     */
     private static final String ORIGINE_ATTR_NAME = "origine";
+
+    /**
+     * Le nom de l'attribut xml vitesse
+     */
     private static final String VITESSE_ATTR_NAME = "vitesse";
 
+    /**
+     * Le plan créé à la fin du parsing
+     */
     private Plan plan;
 
+    /**
+     * Les intersections en fonction des ids, utilisé pendant le parsing
+     */
     private Map<Integer, Intersection> intersectionParId;
 
     @Override
@@ -65,11 +116,34 @@ public class DeserialiseurPlanXML extends DefaultHandler {
 
     }
 
+    /**
+     * Permet le chargement d'un plan, ouvre une fenêtre FileChooser dans
+     * laquelle il faut choisir un xml de plan
+     * 
+     * @return Le plan créé à partir du xml
+     * @throws SAXException
+     *             Renvoyé si une erreur de parsage est détectée par SAX
+     * @throws ParserConfigurationException
+     * @throws IOException
+     *             Renvoyé si il y a une erreur d'ouverture du fichier
+     */
     public static Plan charger() throws SAXException, ParserConfigurationException, IOException {
 	File xml = OuvreurDeFichierXml.getInstance().ouvre();
 	return charger(xml);
     }
 
+    /**
+     * Permet le chargement d'un plan a partir d'un fichier passé en paramètre
+     * 
+     * @param file
+     *            Le fichier duquel on charge le plan
+     * @return Le plan créé à partir du xml
+     * @throws SAXException
+     *             Renvoyé si une erreur de parsage est détectée par SAX
+     * @throws ParserConfigurationException
+     * @throws IOException
+     *             Renvoyé si il y a une erreur d'ouverture du fichier
+     */
     public static Plan charger(File file) throws SAXException, ParserConfigurationException, IOException {
 	SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 

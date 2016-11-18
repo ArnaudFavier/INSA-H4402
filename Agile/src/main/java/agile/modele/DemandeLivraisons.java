@@ -11,17 +11,17 @@ public class DemandeLivraisons {
     /**
      * L'entrepot de la demande de livraisons
      */
-    Entrepot entrepot;
+    private Entrepot entrepot;
     
     /**
      * Les livraisons
      */
-    List<Livraison> livraisons;
+    private List<Livraison> livraisons;
     
     /**
      * Le plan dans lequel on effectue les livraisons
      */
-    Plan plan;
+    private Plan plan;
     
     /**
      * Constructeur de DemandeLivraisons

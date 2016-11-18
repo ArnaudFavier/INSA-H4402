@@ -4,21 +4,39 @@ import java.io.File;
 
 import javafx.stage.FileChooser;
 
-public class OuvreurDeFichierXml {
-	private static OuvreurDeFichierXml instance = null;
+/**
+ * La classe permettant permettant l'affichage d'un FileChooser proposant des
+ * fichiers xml
+ * Utilisé par les Deserialiseur de plan et de demandes de livraisons
+ * @see DeserialiseurPlanXML
+ * @see DeserialiseurDemandeLivraisonsXML
+ */
+public final class OuvreurDeFichierXml {
+    
+    /**
+     * L'instance du Singleton
+     */
+    private static OuvreurDeFichierXml instance = null;
 
-	private OuvreurDeFichierXml() {
-	}
+    private OuvreurDeFichierXml() {
+    }
 
-	protected static OuvreurDeFichierXml getInstance() {
-		if (instance == null)
-			instance = new OuvreurDeFichierXml();
-		return instance;
-	}
+    /**
+     * @return L'instance du Singleton
+     */
+    protected static OuvreurDeFichierXml getInstance() {
+	if (instance == null)
+	    instance = new OuvreurDeFichierXml();
+	return instance;
+    }
 
-	public File ouvre() {
-		FileChooser fileChooserXML = new FileChooser();
-		fileChooserXML.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Fichier XML", "*.xml"));
-		return fileChooserXML.showOpenDialog(null);
-	}
+    /**
+     * Permet l'affichage d'un FileChooser proposant des fichiers xml
+     * @return Le fichier selectionné par l'utilisateur
+     */
+    public File ouvre() {
+	FileChooser fileChooserXML = new FileChooser();
+	fileChooserXML.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Fichier XML", "*.xml"));
+	return fileChooserXML.showOpenDialog(null);
+    }
 }
