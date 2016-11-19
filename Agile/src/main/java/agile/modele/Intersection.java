@@ -1,5 +1,8 @@
 package agile.modele;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Représente une intersection du plan
  */
@@ -21,6 +24,11 @@ public class Intersection {
     private int y;
 
     /**
+     * La liste des Troncon auquel l'Intersection appartient
+     */
+    private List<Troncon> troncons;
+
+    /**
      * Le constructeur de Intersection
      * 
      * @param id
@@ -31,10 +39,11 @@ public class Intersection {
      *            La coordonnée y de l'intersection dans le plan
      */
     public Intersection(int id, int x, int y) {
-	super();
 	this.id = id;
 	this.x = x;
 	this.y = y;
+
+	troncons = new ArrayList<>();
     }
 
     @Override
@@ -46,21 +55,21 @@ public class Intersection {
      * @return L'identifiant de l'intersection
      */
     public int getId() {
-        return id;
+	return id;
     }
 
     /**
      * @return La coordonnée x de l'intersection dans le plan
      */
     public int getX() {
-        return x;
+	return x;
     }
 
     /**
      * @return La coordonnée y de l'intersection dans le plan
      */
     public int getY() {
-        return y;
+	return y;
     }
 
     @Override
@@ -81,5 +90,17 @@ public class Intersection {
 	    return false;
 	return true;
     }
-    
+
+    /**
+     * Ajouter un troncon auquel l'intersection appartient On ne vérifie pas
+     * qu'on appartient bien, l'opération est faite au sein de ce package
+     * uniquement (protected)
+     * 
+     * @param troncon
+     *            Le troncon ajouté
+     */
+    protected void ajouterTroncon(Troncon troncon) {
+	troncons.add(troncon);
+    }
+
 }

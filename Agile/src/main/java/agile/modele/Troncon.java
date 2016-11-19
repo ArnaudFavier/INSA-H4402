@@ -11,17 +11,17 @@ public class Troncon {
      * La longueur du tronçon
      */
     private int longueur;
-    
+
     /**
      * La vitesse assignée au tronçon
      */
     private int vitesse;
-    
+
     /**
      * Le nom de la rue
      */
     private String nomRue;
-    
+
     /**
      * Les deux intersections associées au tronçon
      */
@@ -29,11 +29,17 @@ public class Troncon {
 
     /**
      * Le constructeur
-     * @param longueur La longueur du tronçon
-     * @param vitesse La vitesse assignée au tronçon
-     * @param nomRue Le nom de la rue
-     * @param inter1 La première intersection du tronçon
-     * @param inter2 La seconde intersection du tronçon
+     * 
+     * @param longueur
+     *            La longueur du tronçon
+     * @param vitesse
+     *            La vitesse assignée au tronçon
+     * @param nomRue
+     *            Le nom de la rue
+     * @param inter1
+     *            La première intersection du tronçon
+     * @param inter2
+     *            La seconde intersection du tronçon
      */
     public Troncon(int longueur, int vitesse, String nomRue, Intersection inter1, Intersection inter2) {
 	super();
@@ -43,6 +49,15 @@ public class Troncon {
 	intersections = new Intersection[2];
 	intersections[0] = inter1;
 	intersections[1] = inter2;
+
+	// Ajouter ce troncon aux intersections le composant afin d'avoir un
+	// lien bilatéral
+	if (inter1 != null) {
+	    inter1.ajouterTroncon(this);
+	}
+	if (inter2 != null && !inter2.equals(inter1)) {
+	    inter2.ajouterTroncon(this);
+	}
     }
 
     @Override
@@ -55,41 +70,41 @@ public class Troncon {
      * @return La longueur du tronçon
      */
     public int getLongueur() {
-        return longueur;
+	return longueur;
     }
 
     /**
      * @return La vitesse assignée au tronçon
      */
     public int getVitesse() {
-        return vitesse;
+	return vitesse;
     }
 
     /**
      * @return Le nom de la rue
      */
     public String getNomRue() {
-        return nomRue;
+	return nomRue;
     }
 
     /**
      * @return Les deux intersections du tronçon
      */
     public Intersection[] getIntersections() {
-        return intersections;
+	return intersections;
     }
-    
+
     /**
      * @return La première intersection du tronçon
      */
-    public Intersection getOrigine(){
+    public Intersection getOrigine() {
 	return intersections[0];
     }
-    
+
     /**
      * @return La seconde intersection du tronçon
      */
-    public Intersection getDestination(){
+    public Intersection getDestination() {
 	return intersections[1];
     }
 }
