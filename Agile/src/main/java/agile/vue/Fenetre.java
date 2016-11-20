@@ -5,6 +5,7 @@ import java.io.IOException;
 import agile.controlleur.FenetreControlleur;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Fenetre {
@@ -28,6 +29,7 @@ public class Fenetre {
 		this.stage.setTitle("PLD Agile - H4402");
 		this.stage.setMinWidth(600);
 		this.stage.setMinHeight(400);
+		this.stage.getIcons().add(new Image("file:src/main/resources/icon.png"));
 		this.stage.setScene(new Scene(loader.load()));
 		this.stage.show();
 
