@@ -26,7 +26,9 @@ public class Fenetre {
 		loader.setLocation(getClass().getResource("fenetre.fxml"));
 
 		this.stage.setTitle("PLD Agile - H4402");
-		this.stage.setScene(new Scene(loader.load(), 300, 275));
+		this.stage.setMinWidth(600);
+		this.stage.setMinHeight(400);
+		this.stage.setScene(new Scene(loader.load()));
 		this.stage.show();
 
 		// Give the controller access to the main

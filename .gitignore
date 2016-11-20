@@ -10,3 +10,6 @@ target/
 *~
 *.iml
 nb-configuration.xml
+*.prefs
+*.project
+*.classpath
