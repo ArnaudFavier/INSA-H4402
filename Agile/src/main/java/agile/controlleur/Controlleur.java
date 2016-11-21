@@ -10,7 +10,7 @@ public class Controlleur {
 	private Plan plan;
 	private DemandeLivraisons demandeLivraisons;
 
-	// Instances associées à chaque etat possible du controleur
+	// Instances associées à chaque état possible du controleur
 	protected final EtatInitial etatInitial = new EtatInitial();
 	protected final EtatAjoutLivraison etatAjoutLivraison = new EtatAjoutLivraison();
 	protected final EtatDemandeLivraisonChargee etatDemandeLivraisonChargee = new EtatDemandeLivraisonChargee();
@@ -27,21 +27,29 @@ public class Controlleur {
 		etatCourant = etat;
 	}
 
-	public void chargerPlan(Controlleur controlleur) {
+	public void chargerPlan(Controlleur controlleur) throws Exception {
 		plan = etatCourant.chargerPlan(this, historique);
+
+		if (plan == null) {
+			throw new Exception();
+		}
+
 		System.out.println("Controlleur:: chargerPlan : " + plan);
 		System.out.println(etatCourant.toString());
 	}
 
-	public void chargerDemandeLivraisons(Controlleur controlleur) {
+	public void chargerDemandeLivraisons(Controlleur controlleur) throws Exception {
 		demandeLivraisons = etatCourant.chargerDemandeLivraisons(this);
+
+		if (demandeLivraisons == null) {
+			throw new Exception();
+		}
+
 		System.out.println("Controlleur:: chargerDemandeLivraisons : " + demandeLivraisons);
 		System.out.println(etatCourant.toString());
-
 	}
 
 	public void calculerTournee(Controlleur controlleur) {
-		// TODO
 		etatCourant.calculerTournee(this);
 	}
 

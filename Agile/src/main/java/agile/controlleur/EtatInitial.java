@@ -12,7 +12,6 @@ public class EtatInitial extends EtatDefaut {
 
 	@Override
 	public void redo(Historique historique) {
-		// TODO Auto-generated method stub
 		historique.redo();
 	}
 

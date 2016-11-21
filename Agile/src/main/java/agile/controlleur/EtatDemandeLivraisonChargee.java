@@ -8,7 +8,7 @@ public class EtatDemandeLivraisonChargee extends EtatDefaut {
 	}
 
 	@Override
-	public Plan chargerPlan(Controlleur controlleur, Historique historique) {
+	public Plan chargerPlan(Controlleur controlleur, Historique historique) throws Exception {
 		return controlleur.getPlan();
 	}
 

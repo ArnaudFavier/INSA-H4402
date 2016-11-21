@@ -1,6 +1,5 @@
 package agile.vue;
 
-//import java.awt.Color;
 import java.io.IOException;
 
 import agile.controlleur.Controlleur;
@@ -34,11 +33,13 @@ public class Fenetre {
 		this.stage.setScene(new Scene(loader.load()));
 		this.stage.show();
 
-		// Give the controller access to the main
-		FenetreEcouteur fenetreControlleur = loader.getController();
-		fenetreControlleur.setFenetre(this);
-		fenetreControlleur.setControlleur(controlleur);
+		FenetreEcouteur fenetreEcouteur = loader.getController();
+		fenetreEcouteur.setFenetre(this);
+		fenetreEcouteur.setControlleur(controlleur);
+	}
 
+	public Stage getStage() {
+		return this.stage;
 	}
 
 }

@@ -13,72 +13,51 @@ public abstract class EtatDefaut implements Etat {
 	}
 
 	@Override
-	public Plan chargerPlan(Controlleur controlleur, Historique historique) {
+	public Plan chargerPlan(Controlleur controlleur, Historique historique) throws Exception {
 		Plan plan = controlleur.getPlan();
+		Plan planACharger = DeserialiseurPlanXML.charger();
 
-		try {
-			Plan planACharger = DeserialiseurPlanXML.charger();
-
-			if (planACharger != null) {
-				plan = planACharger;
-				historique.reset();
-				controlleur.setEtatCourant(controlleur.etatPlanCharge);
-			}
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		if (planACharger != null) {
+			plan = planACharger;
+			historique.reset();
+			controlleur.setEtatCourant(controlleur.etatPlanCharge);
 		}
-		return plan;
 
+		return plan;
 	}
 
 	@Override
-	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) {
+	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) throws Exception {
 		System.out.println("Chargement livraisons...");
 		return controlleur.getDemandeLivraisons();
-
 	}
 
 	@Override
 	public void calculerTournee(Controlleur controlleur) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void genererFeuilleDeRoute(Controlleur controlleur) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void enregistrerFeuilleDeRoute(Controlleur controlleur) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void ajouterLivraison(Controlleur controlleur) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void modifierLivraison(Controlleur controlleur) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void undo(Historique historique) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void redo(Historique historique) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

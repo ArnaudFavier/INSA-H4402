@@ -8,7 +8,7 @@ import javafx.scene.shape.Line;
 public class VuePlan implements Observer {
 
 	public static void AffichageTest(AnchorPane pane) {
-		// Tronçon
+		// TronÃ§on
 		Line troncon = new Line(20, 20, 20, 100);
 		troncon.setStroke(Color.GRAY);
 
@@ -26,14 +26,14 @@ public class VuePlan implements Observer {
 		livraison.setRadius(2);
 		livraison.setFill(Color.BLUE);
 
-		// Entrepôt
+		// EntrepÃ´t
 		Circle entrepot = new Circle();
 		entrepot.setCenterX(50);
 		entrepot.setCenterY(50);
 		entrepot.setRadius(2);
 		entrepot.setFill(Color.RED);
 
-		// Tronçon d'une tournée
+		// TronÃ§on d'une tournÃ©e
 		Line chemin = new Line(20, 20, 50, 50);
 		chemin.setStroke(Color.GREEN);
 
