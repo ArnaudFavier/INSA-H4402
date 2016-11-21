@@ -55,30 +55,40 @@ public class DeserialiseurDemandeLivraisonsXML extends DefaultHandler {
     private static final String DUREE_ATTR_NAME = "duree";
 
     /**
-     * Le séparateur de chaine utilisé dans les heures du xml
+     * Le nom de l'attribut xml debutPlage
+     */
+    private static final String DEBUT_PLAGE_ATTR_NAME = "debutPlage";
+
+    /**
+     * Le nom de l'attribut xml finPlage
+     */
+    private static final String FIN_PLAGE_ATTR_NAME = "finPlage";
+
+    /**
+     * Le sï¿½parateur de chaine utilisÃ© dans les heures du xml
      */
     private static final String HEURE_SEPARATEUR = ":";
 
     /**
-     * La liste des livraisons utilisée pendant le parsing du xml
+     * La liste des livraisons utilisÃ©e pendant le parsing du xml
      */
     private List<Livraison> livraisons;
 
     /**
-     * L'entrepot initialisé pendant le parsing du xml
+     * L'entrepot initialisï¿½ pendant le parsing du xml
      */
     private Entrepot entrepot;
 
     /**
-     * Le plan auquel la demande de livraison se réfère
+     * Le plan auquel la demande de livraison se rÃ©fÃ¨re
      */
     private Plan plan;
 
     /**
-     * Le constructeur (privé, manipulé par la classe)
+     * Le constructeur (privÃ©, manipulÃ© par la classe)
      * 
      * @param plan
-     *            Le plan auquel la demande de livraison se réfère
+     *            Le plan auquel la demande de livraison se rÃ©fÃ¨re
      */
     private DeserialiseurDemandeLivraisonsXML(Plan plan) {
 	this.plan = plan;
@@ -97,24 +107,33 @@ public class DeserialiseurDemandeLivraisonsXML extends DefaultHandler {
 	} else if (qName.equalsIgnoreCase(LIVRAISON_NODE_NAME)) {
 	    int id = Integer.parseInt(attributes.getValue(ADRESSE_ATTR_NAME));
 	    int duree = Integer.parseInt(attributes.getValue(DUREE_ATTR_NAME));
+	    String debutPlageString = attributes.getValue(DEBUT_PLAGE_ATTR_NAME);
+	    String finPlageString = attributes.getValue(FIN_PLAGE_ATTR_NAME);
 
-	    Livraison livraison = new Livraison(duree, plan.getIntersectionParId(id));
-	    livraisons.add(livraison);
+	    if (debutPlageString == null || finPlageString == null) {
+		Livraison livraison = new Livraison(duree, plan.getIntersectionParId(id));
+		livraisons.add(livraison);
+	    } else {
+		Temps debutPlage = parseHeure(debutPlageString);
+		Temps finPlage = parseHeure(finPlageString);
+		Livraison livraison = new Livraison(duree, plan.getIntersectionParId(id), debutPlage, finPlage);
+		livraisons.add(livraison);
+	    }
 	}
     }
 
     /**
-     * Permet la conversion d'une chaine représentant une heure en un objet
+     * Permet la conversion d'une chaine reprÃ©sentant une heure en un objet
      * Temps
      * 
      * @param heureString
-     *            La chaine représentant un temps
-     * @return L'objet Temps créé
+     *            La chaine reprÃ©sentant un temps
+     * @return L'objet Temps crÃ©Ã©
      * @throws NumberFormatException
-     *             Déclenché la chaine contient des caractères non numériques
-     *             (autre que le séparateur)
+     *             DÃ©clenchÃ© la chaine contient des caractÃ¨res non numÃ©riques
+     *             (autre que le sÃ©parateur)
      * @throws ArrayIndexOutOfBoundsException
-     *             Déclenché si la chaine ne contient pas assez de séparateur
+     *             DÃ©clenchÃ© si la chaine ne contient pas assez de sÃ©parateur
      */
     private static Temps parseHeure(String heureString) throws NumberFormatException, ArrayIndexOutOfBoundsException {
 	String[] heureDepartSplit = heureString.split(HEURE_SEPARATEUR);
@@ -125,18 +144,18 @@ public class DeserialiseurDemandeLivraisonsXML extends DefaultHandler {
     }
 
     /**
-     * Permet le chargement d'une demande de livraisons, ouvre une fenêtre
+     * Permet le chargement d'une demande de livraisons, ouvre une fenÃªtre
      * FileChooser dans laquelle il faut choisir un xml d'une demande de
      * livraisons
      * 
      * @param plan
-     *            Le plan auquel la demande de livraisons se réfère
-     * @return La demande de livraisons créée à partir du xml
+     *            Le plan auquel la demande de livraisons se rÃ©fÃ¨re
+     * @return La demande de livraisons crÃ©Ã©e Ã  partir du xml
      * @throws SAXException
-     *             Renvoyé si une erreur de parsage est détectée par SAX
+     *             RenvoyÃ© si une erreur de parsage est dÃ©tectÃ©e par SAX
      * @throws ParserConfigurationException
      * @throws IOException
-     *             Renvoyé si il y a une erreur d'ouverture du fichier
+     *             RenvoyÃ© si il y a une erreur d'ouverture du fichier
      */
     public static DemandeLivraisons charger(Plan plan) throws SAXException, ParserConfigurationException, IOException {
 	File xml = OuvreurDeFichierXml.getInstance().ouvre();
@@ -145,18 +164,18 @@ public class DeserialiseurDemandeLivraisonsXML extends DefaultHandler {
 
     /**
      * Permet le chargement d'une demande de livraisons a partir d'un fichier
-     * passé en paramètre
+     * passÃ© en paramÃ¨tre
      * 
      * @param plan
-     *            Le plan auquel la demande de livraisons se réfère
+     *            Le plan auquel la demande de livraisons se rÃ©fÃ¨re
      * @param file
      *            Le fichier duquel on charge la demande de livraisons
-     * @return La demande de livraisons créée à partir du xml
+     * @return La demande de livraisons crÃ©Ã©e Ã  partir du xml
      * @throws SAXException
-     *             Renvoyé si une erreur de parsage est détectée par SAX
+     *             RenvoyÃ© si une erreur de parsage est dÃ©tectÃ©e par SAX
      * @throws ParserConfigurationException
      * @throws IOException
-     *             Renvoyé si il y a une erreur d'ouverture du fichier
+     *             RenvoyÃ© si il y a une erreur d'ouverture du fichier
      */
     public static DemandeLivraisons charger(File file, Plan plan)
 	    throws SAXException, ParserConfigurationException, IOException {

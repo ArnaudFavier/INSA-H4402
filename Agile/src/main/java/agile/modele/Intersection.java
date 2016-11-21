@@ -1,10 +1,11 @@
 package agile.modele;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * Représente une intersection du plan
+ * ReprÃ©sente une intersection du plan
  */
 public class Intersection {
 
@@ -14,12 +15,12 @@ public class Intersection {
     private int id;
 
     /**
-     * La coordonnée x de l'intersection dans le plan
+     * La coordonnÃ©e x de l'intersection dans le plan
      */
     private int x;
 
     /**
-     * La coordonnée y de l'intersection dans le plan
+     * La coordonnÃ©e y de l'intersection dans le plan
      */
     private int y;
 
@@ -34,9 +35,9 @@ public class Intersection {
      * @param id
      *            L'identifiant de l'intersection
      * @param x
-     *            La coordonnée x de l'intersection dans le plan
+     *            La coordonnÃ©e x de l'intersection dans le plan
      * @param y
-     *            La coordonnée y de l'intersection dans le plan
+     *            La coordonnï¿½e y de l'intersection dans le plan
      */
     public Intersection(int id, int x, int y) {
 	this.id = id;
@@ -59,14 +60,14 @@ public class Intersection {
     }
 
     /**
-     * @return La coordonnée x de l'intersection dans le plan
+     * @return La coordonnï¿½e x de l'intersection dans le plan
      */
     public int getX() {
 	return x;
     }
 
     /**
-     * @return La coordonnée y de l'intersection dans le plan
+     * @return La coordonnï¿½e y de l'intersection dans le plan
      */
     public int getY() {
 	return y;
@@ -92,15 +93,21 @@ public class Intersection {
     }
 
     /**
-     * Ajouter un troncon auquel l'intersection appartient On ne vérifie pas
-     * qu'on appartient bien, l'opération est faite au sein de ce package
+     * Ajouter un troncon auquel l'intersection appartient On ne vÃ©rifie pas
+     * qu'on appartient bien, l'opÃ©ration est faite au sein de ce package
      * uniquement (protected)
      * 
      * @param troncon
-     *            Le troncon ajouté
+     *            Le troncon ajoutÃ©
      */
     protected void ajouterTroncon(Troncon troncon) {
 	troncons.add(troncon);
     }
 
+    /**
+     * @return La liste des Troncon auquel l'Intersection appartient
+     */
+    public List<Troncon> getTroncons() {
+        return Collections.unmodifiableList(troncons);
+    }
 }

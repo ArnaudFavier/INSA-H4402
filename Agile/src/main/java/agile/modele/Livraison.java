@@ -1,12 +1,12 @@
 package agile.modele;
 
 /**
- * Représente une livraison à effectuer
+ * Reprï¿½sente une livraison Ã  effectuer
  */
 public class Livraison {
 
     /**
-     * Durée de la livraison
+     * Durï¿½e de la livraison
      */
     private int duree;
     
@@ -16,18 +16,49 @@ public class Livraison {
     private Intersection intersection;
     
     /**
+     * Definit si la livraison a une contrainte de Temps (plage)
+     */
+    private boolean contrainteTemps;
+    
+    /**
+     * Debut plage
+     */
+    private Temps debutPlage;
+    
+    /**
+     * Fin plage
+     */
+    private Temps finPlage;
+    
+    /**
      * Le constructeur 
-     * @param duree Durée de la livraison
+     * @param duree DurÃ©e de la livraison
      * @param intersection L'intersection sur laquelle se situe la livraison
      */
     public Livraison(int duree, Intersection intersection) {
 	super();
 	this.duree = duree;
 	this.intersection = intersection;
+	this.contrainteTemps = false;
+    }
+    
+    /**
+     * Le constructeur avec plage horaire
+     * @param duree DurÃ©e de la livraison
+     * @param intersection L'intersection sur laquelle se situe la livraison
+     */
+    public Livraison(int duree, Intersection intersection, Temps debutPlage, Temps finPlage) {
+	super();
+	this.duree = duree;
+	this.intersection = intersection;
+	this.debutPlage = debutPlage;
+	this.finPlage = finPlage;
+	this.contrainteTemps = true;
     }
 
+
     /**
-     * @return Durée de la livraison
+     * @return DurÃ©e de la livraison
      */
     public int getDuree() {
         return duree;
@@ -39,5 +70,26 @@ public class Livraison {
     public Intersection getIntersection() {
         return intersection;
     }
-    
+
+    /**
+     * @return Un boolÃ©en disant si on a une plage Ã  respecter
+     */
+    public boolean ContrainteDeTemps() {
+        return contrainteTemps;
+    }
+
+    /**
+     * @return Le dÃ©but de la plage si elle existe, null sinon
+     */
+    public Temps getDebutPlage() {
+        return debutPlage;
+    }
+
+    /**
+     * @return La fin de la plage si elle existe, null sinon
+     */
+    public Temps getFinPlage() {
+        return finPlage;
+    }
+
 }

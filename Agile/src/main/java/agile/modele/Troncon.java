@@ -3,17 +3,17 @@ package agile.modele;
 import java.util.Arrays;
 
 /**
- * Représente un tronçon
+ * Reprï¿½sente un tronÃ§on
  */
 public class Troncon {
 
     /**
-     * La longueur du tronçon
+     * La longueur du tronÃ§on
      */
     private int longueur;
 
     /**
-     * La vitesse assignée au tronçon
+     * La vitesse assignÃ©e au tronÃ§on
      */
     private int vitesse;
 
@@ -21,9 +21,14 @@ public class Troncon {
      * Le nom de la rue
      */
     private String nomRue;
+    
+    /**
+     * Le cout de la traversÃ©e du tronÃ§on
+     */
+    private float cost;
 
     /**
-     * Les deux intersections associées au tronçon
+     * Les deux intersections associÃ©es au tronÃ§on
      */
     private Intersection[] intersections;
 
@@ -31,15 +36,15 @@ public class Troncon {
      * Le constructeur
      * 
      * @param longueur
-     *            La longueur du tronçon
+     *            La longueur du tronÃ§on
      * @param vitesse
-     *            La vitesse assignée au tronçon
+     *            La vitesse assignÃ©e au tronÃ§on
      * @param nomRue
      *            Le nom de la rue
      * @param inter1
-     *            La première intersection du tronçon
+     *            La premiÃ¨re intersection du tronÃ§on
      * @param inter2
-     *            La seconde intersection du tronçon
+     *            La seconde intersection du tronÃ§on
      */
     public Troncon(int longueur, int vitesse, String nomRue, Intersection inter1, Intersection inter2) {
 	super();
@@ -49,14 +54,11 @@ public class Troncon {
 	intersections = new Intersection[2];
 	intersections[0] = inter1;
 	intersections[1] = inter2;
+	cost = longueur/(float)vitesse;
 
-	// Ajouter ce troncon aux intersections le composant afin d'avoir un
-	// lien bilatéral
+	// Ajouter ce troncon Ã  la premiÃ¨re intersection (lien unidirectionnel)
 	if (inter1 != null) {
 	    inter1.ajouterTroncon(this);
-	}
-	if (inter2 != null && !inter2.equals(inter1)) {
-	    inter2.ajouterTroncon(this);
 	}
     }
 
@@ -67,17 +69,24 @@ public class Troncon {
     }
 
     /**
-     * @return La longueur du tronçon
+     * @return La longueur du tronÃ§on
      */
     public int getLongueur() {
 	return longueur;
     }
 
     /**
-     * @return La vitesse assignée au tronçon
+     * @return La vitesse assignÃ©e au tronÃ§on
      */
     public int getVitesse() {
 	return vitesse;
+    }
+    
+    /**
+     * @return Le cout de la traversÃ©e du tronÃ§on
+     */
+    public float getCout(){
+	return cost;
     }
 
     /**
@@ -88,21 +97,21 @@ public class Troncon {
     }
 
     /**
-     * @return Les deux intersections du tronçon
+     * @return Les deux intersections du tronÃ§on
      */
     public Intersection[] getIntersections() {
 	return intersections;
     }
 
     /**
-     * @return La première intersection du tronçon
+     * @return La premiÃ¨re intersection du tronÃ§on
      */
     public Intersection getOrigine() {
 	return intersections[0];
     }
 
     /**
-     * @return La seconde intersection du tronçon
+     * @return La seconde intersection du tronÃ§on
      */
     public Intersection getDestination() {
 	return intersections[1];
