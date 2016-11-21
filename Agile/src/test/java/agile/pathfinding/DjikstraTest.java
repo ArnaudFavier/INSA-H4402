@@ -1,4 +1,4 @@
-package agile.modele;
+package agile.pathfinding;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import agile.modele.Chemin;
+import agile.modele.DemandeLivraisons;
+import agile.modele.Livraison;
+import agile.modele.Plan;
+import agile.pathfinding.Djikstra;
 import agile.xml.DeserialiseurDemandeLivraisonsXML;
 import agile.xml.DeserialiseurPlanXML;
 

@@ -1,12 +1,12 @@
 package agile.modele;
 
 /**
- * <<<<<<< HEAD Repr�sente une livraison à effectuer
+ * Représente une livraison à effectuer
  */
 public class Livraison {
 
     /**
-     * Dur�e de la livraison
+     * Durée de la livraison
      */
     private int duree;
 

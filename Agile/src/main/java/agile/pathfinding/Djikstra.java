@@ -1,10 +1,14 @@
-package agile.modele;
+package agile.pathfinding;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
+
+import agile.modele.Chemin;
+import agile.modele.Intersection;
+import agile.modele.Troncon;
 
 public final class Djikstra {
     private Djikstra() {
