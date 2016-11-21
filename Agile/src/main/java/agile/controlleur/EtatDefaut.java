@@ -13,7 +13,7 @@ public abstract class EtatDefaut implements Etat {
 	}
 
 	@Override
-	public Plan chargerPlan(Controlleur controlleur) {
+	public Plan chargerPlan(Controlleur controlleur, Historique historique) {
 		Plan plan = controlleur.getPlan();
 
 		try {
@@ -21,6 +21,7 @@ public abstract class EtatDefaut implements Etat {
 
 			if (planACharger != null) {
 				plan = planACharger;
+				historique.reset();
 				controlleur.setEtatCourant(controlleur.etatPlanCharge);
 			}
 

@@ -3,30 +3,30 @@ package agile.modele;
 import java.util.List;
 
 /**
- * Cette classe permet d'englober plusieurs troncons, afin de représenter des
- * chemins entre deux intersections qui ne sont pas directement connectées
+ * Cette classe permet d'englober plusieurs troncons, afin de reprï¿½senter des
+ * chemins entre deux intersections qui ne sont pas directement connectï¿½es
  */
 public class Chemin {
-    /**
-     * La liste des troncons composant le chemin
-     */
-    private List<Troncon> troncons;
-    
-    /**
-     * Le cout du chemin
-     */
-    private int cout;
+	/**
+	 * La liste des troncons composant le chemin
+	 */
+	private List<Troncon> troncons;
 
-    private Chemin(List<Troncon> troncons, int cout) {
-	this.troncons = troncons;
-	this.cout = cout;
-    }
+	/**
+	 * Le cout du chemin
+	 */
+	private int cout;
 
-    /**
-     * @return Le cout du chemin
-     */
-    public int getCout() {
-	return cout;
-    }
+	private Chemin(List<Troncon> troncons, int cout) {
+		this.troncons = troncons;
+		this.cout = cout;
+	}
+
+	/**
+	 * @return Le cout du chemin
+	 */
+	public int getCout() {
+		return cout;
+	}
 
 }

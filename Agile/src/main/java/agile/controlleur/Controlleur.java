@@ -28,7 +28,7 @@ public class Controlleur {
 	}
 
 	public void chargerPlan(Controlleur controlleur) {
-		plan = etatCourant.chargerPlan(this);
+		plan = etatCourant.chargerPlan(this, historique);
 		System.out.println("Controlleur:: chargerPlan : " + plan);
 		System.out.println(etatCourant.toString());
 	}
@@ -41,6 +41,7 @@ public class Controlleur {
 	}
 
 	public void calculerTournee(Controlleur controlleur) {
+		// TODO
 		etatCourant.calculerTournee(this);
 	}
 

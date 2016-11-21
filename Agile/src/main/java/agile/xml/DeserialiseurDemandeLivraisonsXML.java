@@ -24,6 +24,7 @@ import agile.modele.Temps;
  * livraisons
  */
 public class DeserialiseurDemandeLivraisonsXML extends DefaultHandler {
+
 	/**
 	 * Le nom du noeud xml demandeDeLivraisons
 	 */
@@ -53,6 +54,16 @@ public class DeserialiseurDemandeLivraisonsXML extends DefaultHandler {
 	 * Le nom de l'attribut xml duree
 	 */
 	private static final String DUREE_ATTR_NAME = "duree";
+
+	/**
+	 * Le nom de l'attribut xml debutPlage
+	 */
+	private static final String DEBUT_PLAGE = "debutPlage";
+
+	/**
+	 * Le nom de l'aittribut xml finPlage
+	 */
+	private static final String FIN_PLAGE = "finPlage";
 
 	/**
 	 * Le s�parateur de chaine utilis� dans les heures du xml
@@ -97,8 +108,12 @@ public class DeserialiseurDemandeLivraisonsXML extends DefaultHandler {
 		} else if (qName.equalsIgnoreCase(LIVRAISON_NODE_NAME)) {
 			int id = Integer.parseInt(attributes.getValue(ADRESSE_ATTR_NAME));
 			int duree = Integer.parseInt(attributes.getValue(DUREE_ATTR_NAME));
+			String debutPlageString = attributes.getValue(DEBUT_PLAGE);
+			String finPlageString = attributes.getValue(FIN_PLAGE);
+			Temps debutPlage = parseHeure(debutPlageString);
+			Temps finPlage = parseHeure(finPlageString);
 
-			Livraison livraison = new Livraison(duree, plan.getIntersectionParId(id));
+			Livraison livraison = new Livraison(duree, debutPlage, finPlage, plan.getIntersectionParId(id));
 			livraisons.add(livraison);
 		}
 	}

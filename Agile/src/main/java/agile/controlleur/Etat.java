@@ -4,7 +4,7 @@ import agile.modele.DemandeLivraisons;
 import agile.modele.Plan;
 
 public interface Etat {
-	public Plan chargerPlan(Controlleur controlleur);
+	public Plan chargerPlan(Controlleur controlleur, Historique historique);
 
 	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur);
 

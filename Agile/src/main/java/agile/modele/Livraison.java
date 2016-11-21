@@ -1,43 +1,79 @@
 package agile.modele;
 
 /**
- * Représente une livraison à effectuer
+ * Reprï¿½sente une livraison ï¿½ effectuer
  */
 public class Livraison {
 
-    /**
-     * Durée de la livraison
-     */
-    private int duree;
-    
-    /**
-     * L'intersection sur laquelle se situe la livraison
-     */
-    private Intersection intersection;
-    
-    /**
-     * Le constructeur 
-     * @param duree Durée de la livraison
-     * @param intersection L'intersection sur laquelle se situe la livraison
-     */
-    public Livraison(int duree, Intersection intersection) {
-	super();
-	this.duree = duree;
-	this.intersection = intersection;
-    }
+	/**
+	 * Durï¿½e de la livraison
+	 */
+	private int duree;
 
-    /**
-     * @return Durée de la livraison
-     */
-    public int getDuree() {
-        return duree;
-    }
+	/**
+	 * Heure de dÃ©but de plage de livraison
+	 */
+	private Temps debutPlage;
 
-    /**
-     * @return L'intersection sur laquelle se situe la livraison
-     */
-    public Intersection getIntersection() {
-        return intersection;
-    }
-    
+	/**
+	 * Heure de fin de plage de livraison
+	 */
+	private Temps finPlage;
+
+	/**
+	 * L'intersection sur laquelle se situe la livraison
+	 */
+	private Intersection intersection;
+
+	/**
+	 * Le constructeur
+	 * 
+	 * @param duree
+	 *            Durï¿½e de la livraison
+	 * @param intersection
+	 *            L'intersection sur laquelle se situe la livraison
+	 */
+	public Livraison(int duree, Temps debutPlage, Temps finPlage, Intersection intersection) {
+		super();
+		this.duree = duree;
+		this.debutPlage = debutPlage;
+		this.finPlage = finPlage;
+		this.intersection = intersection;
+	}
+
+	public void modifier(Temps debutPlage, Temps finPlage) {
+		this.debutPlage = debutPlage;
+		this.finPlage = finPlage;
+	}
+
+	/**
+	 * @return Durï¿½e de la livraison
+	 */
+	public int getDuree() {
+		return duree;
+	}
+
+	/**
+	 * @return L'intersection sur laquelle se situe la livraison
+	 */
+	public Intersection getIntersection() {
+		return intersection;
+	}
+
+	/**
+	 * 
+	 * @return L'heure de debut de plage
+	 */
+	public Temps getDebutPlage() {
+		return debutPlage;
+	}
+
+	/**
+	 * 
+	 * @return L'heure de fin de plage
+	 */
+	public Temps getFinPlage() {
+		return finPlage;
+	}
+
 }
