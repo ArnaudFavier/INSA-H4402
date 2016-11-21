@@ -2,6 +2,8 @@ package agile.vue;
 
 import agile.controlleur.Controlleur;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 
 public class FenetreEcouteur {
@@ -9,7 +11,7 @@ public class FenetreEcouteur {
 	@FXML
 	private AnchorPane dessinTest;
 
-	private Fenetre fenetre; // Référence vers la fenêtre
+	private Fenetre fenetre;
 	private Controlleur controlleur;
 
 	/**
@@ -32,7 +34,17 @@ public class FenetreEcouteur {
 	 */
 	@FXML
 	private void boutonOuvrirPlan() {
-		controlleur.chargerPlan(this.controlleur);
+		try {
+			controlleur.chargerPlan(this.controlleur);
+		} catch (Exception e) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(fenetre.getStage());
+			alert.setTitle("Plan invalide");
+			alert.setHeaderText("Plan incorrect");
+			alert.setContentText("Merci de sélectionner un plan valide.");
+
+			alert.showAndWait();
+		}
 	}
 
 	/**
@@ -40,13 +52,49 @@ public class FenetreEcouteur {
 	 */
 	@FXML
 	private void boutonOuvrirLivraison() {
-		controlleur.chargerDemandeLivraisons(this.controlleur);
+		if (controlleur.getPlan() == null) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(fenetre.getStage());
+			alert.setTitle("Plan invalide");
+			alert.setHeaderText("Plan incorrect");
+			alert.setContentText("Merci de sélectionner un plan avant une demande de livraisons.");
+
+			alert.showAndWait();
+		} else {
+			try {
+				controlleur.chargerDemandeLivraisons(this.controlleur);
+			} catch (Exception e) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.initOwner(fenetre.getStage());
+				alert.setTitle("Livraisons invalide");
+				alert.setHeaderText("Livraisons incorrectes");
+				alert.setContentText("Merci de sélectionner une demande de livraisons valide.");
+
+				alert.showAndWait();
+			}
+		}
 	}
 
 	/**
-	 * Est appelé par la fenêtre pour passer une référence vers celle-ci
+	 * Appelé quand l'uilisateur clique sur le bouton "Calculer tournée"
+	 */
+	@FXML
+	private void boutonCalculerTournee() {
+		controlleur.calculerTournee(this.controlleur);
+	}
+
+	/**
+	 * Appelé quand l'uilisateur clique sur le bouton "Exporter tournée"
+	 */
+	@FXML
+	private void boutonExporterTournee() {
+		controlleur.enregistrerFeuilleDeRoute(this.controlleur);
+	}
+
+	/**
+	 * Est appelé par le controlleur pour passer une référence vers celle-ci
 	 * 
-	 * @param fenetre
+	 * @param controlleur
 	 */
 	public void setFenetre(Fenetre fenetre) {
 		this.fenetre = fenetre;

@@ -4,9 +4,9 @@ import agile.modele.DemandeLivraisons;
 import agile.modele.Plan;
 
 public interface Etat {
-	public Plan chargerPlan(Controlleur controlleur, Historique historique);
+	public Plan chargerPlan(Controlleur controlleur, Historique historique) throws Exception;
 
-	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur);
+	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) throws Exception;
 
 	public void calculerTournee(Controlleur controlleur);
 
