@@ -1,8 +1,5 @@
 package agile.controlleur;
 
-import agile.modele.Plan;
-import agile.xml.DeserialiseurPlanXML;
-
 public class Controlleur {
 
 	private Historique historique;
@@ -22,12 +19,12 @@ public class Controlleur {
 	}
 
 	public void chargerPlan() {
-		try {
-			Plan plan = DeserialiseurPlanXML.charger();
-			System.out.println(plan);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		/*
+		 * try { Plan plan = DeserialiseurPlanXML.charger();
+		 * System.out.println(plan); } catch (Exception ex) {
+		 * ex.printStackTrace(); }
+		 */
+		etatCourant.chargerPlan(this);
 	}
 
 	public void chargerDemandeLivraison(Controlleur controlleur) {
