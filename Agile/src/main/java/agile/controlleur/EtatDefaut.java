@@ -1,6 +1,7 @@
 package agile.controlleur;
 
 import agile.modele.Plan;
+import agile.xml.DeserialiseurPlanXML;
 
 public abstract class EtatDefaut implements Etat {
 
@@ -12,7 +13,20 @@ public abstract class EtatDefaut implements Etat {
 
 	@Override
 	public Plan chargerPlan(Controlleur controlleur) {
-		return null;
+		Plan plan = controlleur.getPlan();
+
+		try {
+			Plan planACharger = DeserialiseurPlanXML.charger();
+
+			if (planACharger != null) {
+				plan = planACharger;
+				controlleur.setEtatCourant(controlleur.etatPlanCharge);
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return plan;
 
 	}
 

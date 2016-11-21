@@ -27,7 +27,8 @@ public class Controlleur {
 
 	public void chargerPlan(Controlleur controlleur) {
 		plan = etatCourant.chargerPlan(this);
-		System.err.println(plan);
+		System.out.println("Controlleur:: chargerPlan : " + plan);
+		System.out.println(etatCourant.toString());
 	}
 
 	public void chargerDemandeLivraison(Controlleur controlleur) {
@@ -64,6 +65,10 @@ public class Controlleur {
 
 	public Plan getPlan() {
 		return this.plan;
+	}
+
+	public Historique getHistorique() {
+		return this.historique;
 	}
 
 }
