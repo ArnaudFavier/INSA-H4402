@@ -19,44 +19,39 @@ public class Controlleur {
 	}
 
 	public void chargerPlan() {
-		/*
-		 * try { Plan plan = DeserialiseurPlanXML.charger();
-		 * System.out.println(plan); } catch (Exception ex) {
-		 * ex.printStackTrace(); }
-		 */
 		etatCourant.chargerPlan(this);
 	}
 
 	public void chargerDemandeLivraison(Controlleur controlleur) {
-
+		etatCourant.chargerDemandeLivraison(this);
 	}
 
 	public void calculerTournee(Controlleur controlleur) {
-
+		etatCourant.calculerTournee(this);
 	}
 
 	public void genererFeuilleDeRoute(Controlleur controlleur) {
-
+		etatCourant.genererFeuilleDeRoute(this);
 	}
 
 	public void enregistrerFeuilleDeRoute(Controlleur controlleur) {
-
+		etatCourant.enregistrerFeuilleDeRoute(this);
 	}
 
 	public void ajouterLivraison(Controlleur controlleur) {
-
+		etatCourant.ajouterLivraison(this);
 	}
 
 	public void modifierLivraison(Controlleur controlleur) {
-
+		etatCourant.modifierLivraison(this);
 	}
 
 	public void undo(Historique historique) {
-
+		etatCourant.undo(historique);
 	}
 
 	public void redo(Historique historique) {
-
+		etatCourant.redo(historique);
 	}
 
 }
