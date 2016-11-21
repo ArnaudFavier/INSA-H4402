@@ -6,10 +6,10 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agile.vue.FenetreEcouteur">
    <children>
-      <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="14.0" onAction="#boutonOuvrirPlan" style="-fx-background-color: #f6f6f6;" text="Ouvrir plan" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-      <JFXButton buttonType="RAISED" layoutX="110.0" layoutY="10.0" onAction="#boutonOuvrirLivraison" style="-fx-background-color: #f6f6f6;" text="Ouvrir livraison" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="10.0" />
-      <Separator layoutY="39.0" prefHeight="25.0" prefWidth="606.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
-      <AnchorPane fx:id="dessinTest" prefHeight="360.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+      <AnchorPane fx:id="dessinTest" prefHeight="360.0" prefWidth="600.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       </AnchorPane>
+      <Separator layoutY="39.0" prefHeight="10.0" prefWidth="606.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="14.0" onAction="#boutonOuvrirPlan" style="-fx-background-color: #f6f6f6;" text="Ouvrir plan" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+      <JFXButton buttonType="RAISED" layoutX="110.0" layoutY="10.0" onAction="#boutonOuvrirLivraison" style="-fx-background-color: #f6f6f6;" text="Ouvrir livraison" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" />
    </children>
 </AnchorPane>
