@@ -1,5 +1,7 @@
 package agile.controlleur;
 
+import agile.modele.Plan;
+
 public abstract class EtatDefaut implements Etat {
 
 	/**
@@ -9,8 +11,8 @@ public abstract class EtatDefaut implements Etat {
 	}
 
 	@Override
-	public void chargerPlan(Controlleur controlleur) {
-		// TODO Auto-generated method stub
+	public Plan chargerPlan(Controlleur controlleur) {
+		return null;
 
 	}
 

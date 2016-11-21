@@ -13,17 +13,17 @@ public class Fenetre {
 
 	private Stage stage;
 
-	public Fenetre(Stage stage) {
+	public Fenetre(Stage stage, Controlleur controlleur) {
 		this.stage = stage;
 
 		try {
-			initialisation();
+			initialisation(controlleur);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	private void initialisation() throws IOException {
+	private void initialisation(Controlleur controlleur) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("fenetre.fxml"));
 
@@ -37,7 +37,6 @@ public class Fenetre {
 		// Give the controller access to the main
 		FenetreEcouteur fenetreControlleur = loader.getController();
 		fenetreControlleur.setFenetre(this);
-		Controlleur controlleur = new Controlleur();
 		fenetreControlleur.setControlleur(controlleur);
 
 	}

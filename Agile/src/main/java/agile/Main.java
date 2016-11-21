@@ -1,5 +1,6 @@
 package agile;
 
+import agile.controlleur.Controlleur;
 import agile.vue.Fenetre;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -14,6 +15,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		fenetre = new Fenetre(primaryStage);
+		Controlleur controlleur = new Controlleur();
+		fenetre = new Fenetre(primaryStage, controlleur);
 	}
 }

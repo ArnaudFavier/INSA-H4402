@@ -1,9 +1,12 @@
 package agile.controlleur;
 
+import agile.modele.Plan;
+
 public class Controlleur {
 
 	private Historique historique;
 	private Etat etatCourant;
+	private Plan plan;
 
 	// Instances associées à chaque etat possible du controleur
 	protected final EtatInitial etatInitial = new EtatInitial();
@@ -23,7 +26,8 @@ public class Controlleur {
 	}
 
 	public void chargerPlan(Controlleur controlleur) {
-		etatCourant.chargerPlan(this);
+		plan = etatCourant.chargerPlan(this);
+		System.err.println(plan);
 	}
 
 	public void chargerDemandeLivraison(Controlleur controlleur) {

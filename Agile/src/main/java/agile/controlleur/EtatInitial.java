@@ -9,21 +9,22 @@ public class EtatInitial extends EtatDefaut {
 	}
 
 	@Override
-	public void chargerPlan(Controlleur controlleur) {
+	public Plan chargerPlan(Controlleur controlleur) {
 		// TODO Auto-generated method stub
 
 		try {
 			Plan plan = DeserialiseurPlanXML.charger();
 
 			if (plan != null) {
-
 				System.out.println(plan);
 				controlleur.setEtatCourant(controlleur.etatPlanCharge);
 			}
+			return plan;
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		return null;
 
 	}
 
