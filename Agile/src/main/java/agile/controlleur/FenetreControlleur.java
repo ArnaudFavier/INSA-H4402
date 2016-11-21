@@ -1,9 +1,7 @@
 package agile.controlleur;
 
-import agile.modele.Plan;
 import agile.vue.Fenetre;
 import agile.vue.VuePlan;
-import agile.xml.DeserialiseurPlanXML;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
@@ -37,7 +35,7 @@ public class FenetreControlleur {
 	 */
 	@FXML
 	private void boutonChargerPlan() {
-		controlleur.chargerPlan();
+		controlleur.chargerPlan(this.controlleur);
 	}
 
 	/**
@@ -50,7 +48,7 @@ public class FenetreControlleur {
 
 	}
 
-	public void setControlleur(Controlleur controlleur){
+	public void setControlleur(Controlleur controlleur) {
 		this.controlleur = controlleur;
 	}
 

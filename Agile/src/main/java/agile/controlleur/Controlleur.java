@@ -18,7 +18,7 @@ public class Controlleur {
 		etatCourant = etatInitial;
 	}
 
-	public void chargerPlan() {
+	public void chargerPlan(Controlleur controlleur) {
 		etatCourant.chargerPlan(this);
 	}
 
