@@ -14,6 +14,7 @@ public class FenetreControlleur {
 
 	// Reference to the fenetre.
 	private Fenetre fenetre;
+	private Controlleur controlleur;
 
 	/**
 	 * The constructor. The constructor is called before the initialize()
@@ -35,13 +36,8 @@ public class FenetreControlleur {
 	 * Called when the user clicks on the "Ouvrir un plan" button.
 	 */
 	@FXML
-	private void handleOuvrirPlan() {
-		try {
-			Plan plan = DeserialiseurPlanXML.charger();
-			System.out.println(plan);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+	private void boutonChargerPlan() {
+		controlleur.chargerPlan();
 	}
 
 	/**
@@ -52,6 +48,10 @@ public class FenetreControlleur {
 	public void setFenetre(Fenetre fenetre) {
 		this.fenetre = fenetre;
 
+	}
+
+	public void setControlleur(Controlleur controlleur){
+		this.controlleur = controlleur;
 	}
 
 }

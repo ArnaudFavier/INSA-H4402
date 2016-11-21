@@ -1,10 +1,11 @@
 package agile.controlleur;
 
 import agile.vue.Fenetre;
+import agile.xml.DeserialiseurPlanXML;
+import agile.modele.Plan;
 
 public class Controlleur {
 
-	private Fenetre fenetre;
 	private Historique historique;
 	private Etat etatCourant;
 
@@ -17,11 +18,18 @@ public class Controlleur {
 	protected final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 
 	public Controlleur(Fenetre fenetre) {
-		this.fenetre = fenetre;
 		historique = new Historique();
 		etatCourant = etatInitial;
 	}
 
+	public void chargerPlan(){
+		try {
+			Plan plan = DeserialiseurPlanXML.charger();
+			System.out.println(plan);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 	// TODO : Implementer les événements (IHM etc), voir diagramme
 
 }

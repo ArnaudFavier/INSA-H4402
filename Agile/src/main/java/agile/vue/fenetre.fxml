@@ -9,7 +9,7 @@
    <children>
       <ToolBar minWidth="-Infinity" prefHeight="40.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <Button fx:id="button_ouvrir_plan" mnemonicParsing="false" onAction="#handleOuvrirPlan" text="Ouvrir un plan" />
+          <Button fx:id="button_ouvrir_plan" mnemonicParsing="false" onAction="#boutonChargerPlan" text="Ouvrir un plan" />
         </items>
       </ToolBar>
       <AnchorPane fx:id="dessinTest"  xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" prefHeight="360.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">

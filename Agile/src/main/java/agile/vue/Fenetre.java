@@ -7,9 +7,11 @@ import java.security.Principal;
 import java.util.Enumeration;
 
 
+import agile.controlleur.Controlleur;
 import agile.controlleur.FenetreControlleur;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.scene.shape.*;
@@ -45,6 +47,8 @@ public class Fenetre {
 		// Give the controller access to the main
 		FenetreControlleur fenetreControlleur = loader.getController();
 		fenetreControlleur.setFenetre(this);
+		Controlleur controlleur = new Controlleur();
+		fenetreControlleur.setControlleur(controlleur);
 
 	}
 	
