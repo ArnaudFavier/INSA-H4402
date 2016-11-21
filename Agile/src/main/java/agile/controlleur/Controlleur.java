@@ -62,4 +62,8 @@ public class Controlleur {
 		etatCourant.redo(historique);
 	}
 
+	public Plan getPlan() {
+		return this.plan;
+	}
+
 }

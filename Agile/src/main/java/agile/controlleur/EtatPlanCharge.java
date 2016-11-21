@@ -1,5 +1,8 @@
 package agile.controlleur;
 
+import agile.modele.DemandeLivraisons;
+import agile.xml.DeserialiseurDemandeLivraisonsXML;
+
 public class EtatPlanCharge extends EtatDefaut {
 
 	public EtatPlanCharge() {
@@ -8,7 +11,8 @@ public class EtatPlanCharge extends EtatDefaut {
 	@Override
 	public void chargerDemandeLivraison(Controlleur controlleur) {
 		try {
-			System.out.println("Charger demande livraison...");
+			DemandeLivraisons demandeLivraison = DeserialiseurDemandeLivraisonsXML.charger(controlleur.getPlan());
+			System.out.println(demandeLivraison.toString());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
