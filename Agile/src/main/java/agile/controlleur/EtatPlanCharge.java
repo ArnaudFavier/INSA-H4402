@@ -9,13 +9,16 @@ public class EtatPlanCharge extends EtatDefaut {
 	}
 
 	@Override
-	public void chargerDemandeLivraison(Controlleur controlleur) {
+	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) {
+		DemandeLivraisons demandeLivraisons = null;
 		try {
-			DemandeLivraisons demandeLivraison = DeserialiseurDemandeLivraisonsXML.charger(controlleur.getPlan());
-			System.out.println(demandeLivraison.toString());
+			demandeLivraisons = DeserialiseurDemandeLivraisonsXML.charger(controlleur.getPlan());
+			if (demandeLivraisons != null) {
+				controlleur.setEtatCourant(controlleur.etatDemandeLivraisonChargee);
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		return demandeLivraisons;
 	}
-
 }

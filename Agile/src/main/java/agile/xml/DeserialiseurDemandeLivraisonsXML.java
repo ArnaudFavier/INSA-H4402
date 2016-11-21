@@ -159,6 +159,11 @@ public class DeserialiseurDemandeLivraisonsXML extends DefaultHandler {
      */
     public static DemandeLivraisons charger(Plan plan) throws SAXException, ParserConfigurationException, IOException {
 	File xml = OuvreurDeFichierXml.getInstance().ouvre();
+
+	if (xml == null) {
+	    return null;
+	}
+
 	return charger(xml, plan);
     }
 
@@ -186,5 +191,4 @@ public class DeserialiseurDemandeLivraisonsXML extends DefaultHandler {
 	saxParser.parse(file, handler);
 	return new DemandeLivraisons(handler.entrepot, handler.livraisons, plan);
     }
-
 }

@@ -40,7 +40,7 @@ public class FenetreEcouteur {
 	 */
 	@FXML
 	private void boutonOuvrirLivraison() {
-		controlleur.chargerDemandeLivraison(this.controlleur);
+		controlleur.chargerDemandeLivraisons(this.controlleur);
 	}
 
 	/**

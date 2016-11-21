@@ -35,7 +35,7 @@ public class Chemin {
     public float getCout() {
 	return cout;
     }
-
+    
     /**
      * @return Une vue non-modifiable de la liste des troncons composant le chemin
      */

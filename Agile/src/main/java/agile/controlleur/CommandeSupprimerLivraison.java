@@ -1,8 +1,27 @@
 package agile.controlleur;
 
+import agile.modele.Livraison;
+import agile.modele.Tournee;
+
 public class CommandeSupprimerLivraison implements Commande {
 
-    public CommandeSupprimerLivraison() {
-    }
+	private Tournee tournee;
+	private Livraison livraison;
+
+	public CommandeSupprimerLivraison(Tournee tournee, Livraison livraison) {
+		this.tournee = tournee;
+		this.livraison = livraison;
+	}
+
+	@Override
+	public void doCde() {
+		tournee.supprimerLivraison(livraison);
+	}
+
+	@Override
+	public void undoCde() {
+		tournee.ajouterLivraison(livraison);
+
+	}
 
 }

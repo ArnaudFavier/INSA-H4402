@@ -1,6 +1,7 @@
 package agile.modele;
 
 /**
+<<<<<<< HEAD
  * Repr�sente une livraison à effectuer
  */
 public class Livraison {
@@ -91,5 +92,4 @@ public class Livraison {
     public Temps getFinPlage() {
         return finPlage;
     }
-
 }

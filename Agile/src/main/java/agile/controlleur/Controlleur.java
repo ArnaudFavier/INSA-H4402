@@ -1,12 +1,14 @@
 package agile.controlleur;
 
+import agile.modele.DemandeLivraisons;
 import agile.modele.Plan;
 
 public class Controlleur {
 
-	private Historique historique;
 	private Etat etatCourant;
+	private Historique historique;
 	private Plan plan;
+	private DemandeLivraisons demandeLivraisons;
 
 	// Instances associées à chaque etat possible du controleur
 	protected final EtatInitial etatInitial = new EtatInitial();
@@ -26,15 +28,20 @@ public class Controlleur {
 	}
 
 	public void chargerPlan(Controlleur controlleur) {
-		plan = etatCourant.chargerPlan(this);
-		System.err.println(plan);
+		plan = etatCourant.chargerPlan(this, historique);
+		System.out.println("Controlleur:: chargerPlan : " + plan);
+		System.out.println(etatCourant.toString());
 	}
 
-	public void chargerDemandeLivraison(Controlleur controlleur) {
-		etatCourant.chargerDemandeLivraison(this);
+	public void chargerDemandeLivraisons(Controlleur controlleur) {
+		demandeLivraisons = etatCourant.chargerDemandeLivraisons(this);
+		System.out.println("Controlleur:: chargerDemandeLivraisons : " + demandeLivraisons);
+		System.out.println(etatCourant.toString());
+
 	}
 
 	public void calculerTournee(Controlleur controlleur) {
+		// TODO
 		etatCourant.calculerTournee(this);
 	}
 
@@ -64,6 +71,14 @@ public class Controlleur {
 
 	public Plan getPlan() {
 		return this.plan;
+	}
+
+	public Historique getHistorique() {
+		return this.historique;
+	}
+
+	public DemandeLivraisons getDemandeLivraisons() {
+		return this.demandeLivraisons;
 	}
 
 }
