@@ -29,6 +29,37 @@ public class Controlleur {
 			ex.printStackTrace();
 		}
 	}
-	// TODO : Implementer les événements (IHM etc), voir diagramme
+
+	public void chargerDemandeLivraison(Controlleur controlleur) {
+
+	}
+
+	public void calculerTournee(Controlleur controlleur) {
+
+	}
+
+	public void genererFeuilleDeRoute(Controlleur controlleur) {
+
+	}
+
+	public void enregistrerFeuilleDeRoute(Controlleur controlleur) {
+
+	}
+
+	public void ajouterLivraison(Controlleur controlleur) {
+
+	}
+
+	public void modifierLivraison(Controlleur controlleur) {
+
+	}
+
+	public void undo(Historique historique) {
+
+	}
+
+	public void redo(Historique historique) {
+
+	}
 
 }
