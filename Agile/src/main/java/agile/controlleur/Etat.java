@@ -1,11 +1,12 @@
 package agile.controlleur;
 
+import agile.modele.DemandeLivraisons;
 import agile.modele.Plan;
 
 public interface Etat {
 	public Plan chargerPlan(Controlleur controlleur);
 
-	public void chargerDemandeLivraison(Controlleur controlleur);
+	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur);
 
 	public void calculerTournee(Controlleur controlleur);
 
