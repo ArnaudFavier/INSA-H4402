@@ -18,6 +18,10 @@ public class Controlleur {
 		etatCourant = etatInitial;
 	}
 
+	protected void setEtatCourant(Etat etat) {
+		etatCourant = etat;
+	}
+
 	public void chargerPlan(Controlleur controlleur) {
 		etatCourant.chargerPlan(this);
 	}

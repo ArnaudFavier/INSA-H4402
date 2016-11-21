@@ -14,7 +14,13 @@ public class EtatInitial extends EtatDefaut {
 
 		try {
 			Plan plan = DeserialiseurPlanXML.charger();
-			System.out.println(plan);
+
+			if (plan != null) {
+
+				System.out.println(plan);
+				controlleur.setEtatCourant(controlleur.etatPlanCharge);
+			}
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
