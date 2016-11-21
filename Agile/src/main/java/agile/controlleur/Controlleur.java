@@ -1,8 +1,7 @@
 package agile.controlleur;
 
-import agile.vue.Fenetre;
-import agile.xml.DeserialiseurPlanXML;
 import agile.modele.Plan;
+import agile.xml.DeserialiseurPlanXML;
 
 public class Controlleur {
 
@@ -17,12 +16,12 @@ public class Controlleur {
 	protected final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
 	protected final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 
-	public Controlleur(Fenetre fenetre) {
+	public Controlleur() {
 		historique = new Historique();
 		etatCourant = etatInitial;
 	}
 
-	public void chargerPlan(){
+	public void chargerPlan() {
 		try {
 			Plan plan = DeserialiseurPlanXML.charger();
 			System.out.println(plan);
