@@ -140,4 +140,13 @@ public class Tournee {
 		}
 		return intersectionsTSP;
 	}
+
+	public void supprimerLivraison(Livraison livraison) {
+		livraisonsTSP.remove(livraison);
+	}
+
+	public void ajouterLivraison(Livraison livraison) {
+		livraisonsTSP.add(livraison);
+
+	}
 }
