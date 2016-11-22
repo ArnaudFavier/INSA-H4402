@@ -4,27 +4,40 @@
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agile.vue.FenetreEcouteur">
    <children>
       <AnchorPane fx:id="notification" prefHeight="40.0" prefWidth="600.0" AnchorPane.bottomAnchor="370.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       </AnchorPane>
-      <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="14.0" maxHeight="25.0" maxWidth="75.0" minHeight="25.0" minWidth="75.0" onAction="#boutonOuvrirPlan" prefHeight="25.0" prefWidth="75.0" style="-fx-background-color: #F5F5F5;" text="Ouvrir plan" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+      <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="14.0" onAction="#boutonOuvrirPlan" style="-fx-background-color: #F5F5F5;" text="Ouvrir plan" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="110.0" layoutY="10.0" maxHeight="25.0" maxWidth="96.0" minHeight="25.0" minWidth="96.0" onAction="#boutonOuvrirLivraison" prefHeight="25.0" prefWidth="96.0" style="-fx-background-color: #F5F5F5;" text="Ouvrir livraison" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="95.0">
+         </cursor>
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="100.0" layoutY="367.0" onAction="#boutonOuvrirLivraison" style="-fx-background-color: #F5F5F5;" text="Ouvrir livraison" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="197.0" layoutY="365.0" maxHeight="25.0" maxWidth="103.0" minHeight="25.0" minWidth="103.0" onAction="#boutonCalculerTournee" prefHeight="25.0" prefWidth="103.0" style="-fx-background-color: #F5F5F5;" text="Calculer tournée" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="201.0">
+         </cursor>
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="197.0" layoutY="365.0" onAction="#boutonCalculerTournee" style="-fx-background-color: #F5F5F5;" text="Calculer tournée" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="212.0">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="316.0" layoutY="365.0" maxHeight="25.0" maxWidth="106.0" minHeight="25.0" minWidth="106.0" onAction="#boutonExporterTournee" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #F5F5F5;" text="Exporter tournée" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="314.0">
+         </cursor>
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="316.0" layoutY="365.0" onAction="#boutonExporterTournee" style="-fx-background-color: #F5F5F5;" text="Exporter tournée" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="332.0">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></JFXButton>
-      <JFXTreeTableView fx:id="tableView" layoutY="45.0" prefHeight="305.0" prefWidth="600.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+         </cursor>
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></JFXButton>
+      <JFXTreeTableView fx:id="livraisonTableView" layoutY="45.0" prefHeight="305.0" prefWidth="600.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
    </children>
 </AnchorPane>
