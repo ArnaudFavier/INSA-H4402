@@ -4,12 +4,8 @@ import agile.controlleur.Controlleur;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
 
 public class FenetreEcouteur {
-
-	@FXML
-	private AnchorPane dessinTest;
 
 	private Fenetre fenetre;
 	private Controlleur controlleur;
@@ -26,7 +22,6 @@ public class FenetreEcouteur {
 	 */
 	@FXML
 	private void initialize() {
-		VuePlan.AffichageTest(dessinTest);
 	}
 
 	/**
