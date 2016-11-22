@@ -10,28 +10,28 @@
    <children>
       <AnchorPane fx:id="notification" prefHeight="40.0" prefWidth="600.0" AnchorPane.bottomAnchor="370.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       </AnchorPane>
-      <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="14.0" onAction="#boutonOuvrirPlan" style="-fx-background-color: #F5F5F5;" text="Ouvrir plan" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+      <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="14.0" maxHeight="23.0" maxWidth="75.0" minHeight="23.0" minWidth="75.0" onAction="#boutonOuvrirPlan" prefHeight="23.0" prefWidth="75.0" style="-fx-background-color: #F5F5F5;" text="Ouvrir plan" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <font>
             <Font name="Arial" size="12.0" />
          </font></JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="100.0" layoutY="367.0" onAction="#boutonOuvrirLivraison" style="-fx-background-color: #F5F5F5;" text="Ouvrir livraison" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0">
+      <JFXButton buttonType="RAISED" layoutX="100.0" layoutY="367.0" maxHeight="23.0" maxWidth="97.0" minHeight="23.0" minWidth="97.0" onAction="#boutonOuvrirLivraison" prefHeight="23.0" prefWidth="97.0" style="-fx-background-color: #F5F5F5;" text="Ouvrir livraison" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <font>
             <Font name="Arial" size="12.0" />
          </font></JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="197.0" layoutY="365.0" onAction="#boutonCalculerTournee" style="-fx-background-color: #F5F5F5;" text="Calculer tournée" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="212.0">
+      <JFXButton buttonType="RAISED" layoutX="197.0" layoutY="365.0" maxHeight="23.0" maxWidth="105.0" minHeight="23.0" minWidth="105.0" onAction="#boutonCalculerTournee" prefHeight="23.0" prefWidth="105.0" style="-fx-background-color: #F5F5F5;" text="Calculer tournée" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="212.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <font>
             <Font name="Arial" size="12.0" />
          </font></JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="316.0" layoutY="365.0" onAction="#boutonExporterTournee" style="-fx-background-color: #F5F5F5;" text="Exporter tournée" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="332.0">
+      <JFXButton buttonType="RAISED" layoutX="316.0" layoutY="365.0" maxHeight="23.0" maxWidth="106.0" minHeight="23.0" minWidth="106.0" onAction="#boutonExporterTournee" prefHeight="23.0" prefWidth="106.0" style="-fx-background-color: #F5F5F5;" text="Exporter tournée" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="332.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
