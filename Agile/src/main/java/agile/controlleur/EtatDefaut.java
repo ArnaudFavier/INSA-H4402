@@ -1,8 +1,8 @@
 package agile.controlleur;
 
-import agile.modele.Chemin;
 import agile.modele.DemandeLivraisons;
 import agile.modele.Plan;
+import agile.modele.Tournee;
 import agile.xml.DeserialiseurDemandeLivraisonsXML;
 import agile.xml.DeserialiseurPlanXML;
 
@@ -45,8 +45,8 @@ public abstract class EtatDefaut implements Etat {
 	}
 
 	@Override
-	public Chemin calculerTournee(Controlleur controlleur) {
-		return controlleur.getChemin();
+	public Tournee calculerTournee(Controlleur controlleur) {
+		return controlleur.getTournee();
 	}
 
 	@Override

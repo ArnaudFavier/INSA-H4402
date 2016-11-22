@@ -1,8 +1,8 @@
 package agile.controlleur;
 
-import agile.modele.Chemin;
 import agile.modele.DemandeLivraisons;
 import agile.modele.Plan;
+import agile.modele.Tournee;
 
 public class Controlleur {
 
@@ -10,7 +10,7 @@ public class Controlleur {
 	private Historique historique;
 	private Plan plan;
 	private DemandeLivraisons demandeLivraisons;
-	private Chemin chemin;
+	private Tournee tournee;
 
 	// Instances associées à chaque état possible du controleur
 	protected final EtatInitial etatInitial = new EtatInitial();
@@ -52,11 +52,11 @@ public class Controlleur {
 	}
 
 	public void calculerTournee(Controlleur controlleur) throws Exception {
-		chemin = etatCourant.calculerTournee(this);
-		System.out.println("Controlleur:: chargerDemandeLivraisons : " + demandeLivraisons);
+		tournee = etatCourant.calculerTournee(this);
+		System.out.println("Controlleur:: calculerTournee : " + tournee);
 		System.out.println(etatCourant.toString());
 
-		if (chemin == null) {
+		if (tournee == null) {
 			throw new Exception();
 		}
 	}
@@ -101,12 +101,12 @@ public class Controlleur {
 		this.demandeLivraisons = demandeLivraisons;
 	}
 
-	public Chemin getChemin() {
-		return chemin;
+	public Tournee getTournee() {
+		return tournee;
 	}
 
-	public void setChemin(Chemin chemin) {
-		this.chemin = chemin;
+	public void setTournee(Tournee tournee) {
+		this.tournee = tournee;
 	}
 
 }

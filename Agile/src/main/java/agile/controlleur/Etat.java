@@ -1,15 +1,15 @@
 package agile.controlleur;
 
-import agile.modele.Chemin;
 import agile.modele.DemandeLivraisons;
 import agile.modele.Plan;
+import agile.modele.Tournee;
 
 public interface Etat {
 	public Plan chargerPlan(Controlleur controlleur, Historique historique) throws Exception;
 
 	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) throws Exception;
 
-	public Chemin calculerTournee(Controlleur controlleur);
+	public Tournee calculerTournee(Controlleur controlleur);
 
 	public void genererFeuilleDeRoute(Controlleur controlleur);
 
