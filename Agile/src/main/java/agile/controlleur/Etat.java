@@ -11,8 +11,6 @@ public interface Etat {
 
 	public Tournee calculerTournee(Controlleur controlleur);
 
-	public void genererFeuilleDeRoute(Controlleur controlleur);
-
 	public void enregistrerFeuilleDeRoute(Controlleur controlleur);
 
 	public void ajouterLivraison(Controlleur controlleur);

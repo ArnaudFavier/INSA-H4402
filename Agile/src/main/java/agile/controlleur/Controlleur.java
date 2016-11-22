@@ -61,10 +61,6 @@ public class Controlleur {
 		}
 	}
 
-	public void genererFeuilleDeRoute(Controlleur controlleur) {
-		etatCourant.genererFeuilleDeRoute(this);
-	}
-
 	public void enregistrerFeuilleDeRoute(Controlleur controlleur) {
 		etatCourant.enregistrerFeuilleDeRoute(this);
 	}
