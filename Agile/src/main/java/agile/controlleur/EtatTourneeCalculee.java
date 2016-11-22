@@ -129,7 +129,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 					} else {
 						out.print("Prendre ");
 					}
-					out.println("la rue " + troncon.getNomRue() + ".");
+					out.println(troncon.getNomRue() + ".");
 					derniereRue = troncon.getNomRue();
 					etapeActuelle++;
 				}
