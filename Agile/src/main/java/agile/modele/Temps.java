@@ -19,7 +19,8 @@ public class Temps implements Comparable<Temps> {
 	 */
 	private int seconde;
 
-	/// TODO Ajouter les annotations cofoja pr�cisant les conditions de cr�ation
+	/// TODO Ajouter les annotations cofoja pr�cisant les conditions de
+	/// cr�ation
 	/// (heure < 24, >= 0,...)
 	/**
 	 * Constructeur
@@ -42,7 +43,8 @@ public class Temps implements Comparable<Temps> {
 	 * 
 	 * @param autreTemps
 	 *            L'objet Temps avec laquelle on compare l'instance courante
-	 * @return 0 si �galit�, -1 si this est plus t�t, 1 si this est plus tard
+	 * @return 0 si �galit�, -1 si this est plus t�t, 1 si this est plus
+	 *         tard
 	 */
 	@Override
 	public int compareTo(Temps autreTemps) {
@@ -111,6 +113,11 @@ public class Temps implements Comparable<Temps> {
 	 */
 	public int getSeconde() {
 		return seconde;
+	}
+
+	@Override
+	public String toString() {
+		return heure + ":" + minute + ":" + seconde + ":";
 	}
 
 }

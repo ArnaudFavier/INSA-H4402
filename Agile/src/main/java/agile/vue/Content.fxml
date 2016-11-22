@@ -18,7 +18,7 @@
 			<!-- <JFXTreeTableView fx:id="livraisonTableView" prefHeight="470.0" prefWidth="800.0" /> -->
 			<HBox alignment="CENTER" prefWidth="800.0">
 				<Label minWidth="180.0" styleClass="title-label" text="Liste des livraisons">Read Only Tree Table View</Label>
-				<Label fx:id="treeTableViewCount" minWidth="80.0" styleClass="title-label" />
+				<Label fx:id="treeTableViewCount" minWidth="150.0" styleClass="title-label" />
 				<JFXButton fx:id="treeTableViewAdd" buttonType="RAISED" style="-fx-background-color: WHITE;" text="+">
                <HBox.margin>
                   <Insets left="5.0" right="5.0" />
@@ -28,13 +28,17 @@
                   <Insets left="5.0" right="5.0" />
                </HBox.margin>
             </JFXButton>
-				<StackPane prefWidth="556.0" HBox.hgrow="ALWAYS"><StackPane maxWidth="200" StackPane.alignment="CENTER_RIGHT"><JFXTextField fx:id="searchField" promptText="Search..." /></StackPane></StackPane>
+				<StackPane prefWidth="556.0" HBox.hgrow="ALWAYS"><StackPane maxWidth="200" StackPane.alignment="CENTER_RIGHT"><JFXTextField fx:id="searchField" promptText="Rechercher..." /></StackPane></StackPane>
 			</HBox>
 			<JFXTreeTableView fx:id="livraisonTreeTableView" prefWidth="800.0">
 				<columns>
-					<JFXTreeTableColumn fx:id="colonneAdresse" minWidth="133" prefWidth="133" resizable="false" text="Adresse" />
-					<JFXTreeTableColumn fx:id="colonneDuree" minWidth="133" resizable="false" text="Duree" />
-					<JFXTreeTableColumn fx:id="colonnePlageDebut" minWidth="133" resizable="false" text="Plage début" />
+					<JFXTreeTableColumn fx:id="colonneAdresse" maxWidth="1.7976931348623157E308" minWidth="160.0" prefWidth="160.0" resizable="false" text="Adresse" />
+					<JFXTreeTableColumn fx:id="colonneDuree" maxWidth="1.7976931348623157E308" minWidth="105.0" prefWidth="105.0" resizable="false" text="Duree" />
+					<JFXTreeTableColumn fx:id="colonnePlageDebut" maxWidth="1.7976931348623157E308" minWidth="105.0" prefWidth="105.0" resizable="false" text="Plage début" />
+               <JFXTreeTableColumn fx:id="colonnePlageFin" maxWidth="1.7976931348623157E308" minWidth="105.0" prefWidth="105.0" resizable="false" text="Plage Fin" />
+               <JFXTreeTableColumn fx:id="colonneHeureArrivee" maxWidth="1.7976931348623157E308" minWidth="105.0" prefWidth="105.0" resizable="false" text="Heure arrivé" />
+               <JFXTreeTableColumn fx:id="colonneHeureDepart" maxWidth="1.7976931348623157E308" minWidth="105.0" prefWidth="105.0" resizable="false" text="Heure départ" />
+               <JFXTreeTableColumn fx:id="colonneTempsAttente" maxWidth="1.7976931348623157E308" minWidth="105.0" prefWidth="105.0" resizable="false" text="Temps attente" />
 				</columns>
 			</JFXTreeTableView>
 			<HBox prefHeight="100.0" prefWidth="200.0">

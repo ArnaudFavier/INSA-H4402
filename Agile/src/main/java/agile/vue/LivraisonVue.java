@@ -12,14 +12,14 @@ public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
 
 	StringProperty intersection;
 	StringProperty duree;
-	StringProperty debutPlage;
-	StringProperty finPlage;
+	StringProperty plageDebut;
+	StringProperty plageFin;
 
-	public LivraisonVue(String intersection, String duree, String debutPlage, String finPlage) {
+	public LivraisonVue(String intersection, String duree, String plageDebut, String plageFin) {
 		this.intersection = new SimpleStringProperty(intersection);
 		this.duree = new SimpleStringProperty(duree);
-		this.debutPlage = new SimpleStringProperty(debutPlage);
-		this.finPlage = new SimpleStringProperty(finPlage);
+		this.plageDebut = new SimpleStringProperty(plageDebut);
+		this.plageFin = new SimpleStringProperty(plageFin);
 	}
 
 }
