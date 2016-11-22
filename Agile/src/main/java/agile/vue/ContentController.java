@@ -1,27 +1,51 @@
 package agile.vue;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableColumn;
+import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import agile.controlleur.Controlleur;
 import io.datafx.controller.FXMLController;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeTableColumn;
-import javafx.util.Callback;
 
 @FXMLController(value = "Content.fxml")
 public class ContentController {
 
 	/* FXML view elements */
 	@FXML
-	private com.jfoenix.controls.JFXTreeTableView<LivraisonVue> livraisonTableView;
+	private JFXTreeTableView<LivraisonVue> livraisonTreeTableView;
+	@FXML
+	private JFXTreeTableColumn<LivraisonVue, String> colonneAdresse;
+	@FXML
+	private JFXTreeTableColumn<LivraisonVue, String> colonneDuree;
+	@FXML
+	private JFXTreeTableColumn<LivraisonVue, String> colonnePlageDebut;
+	@FXML
+	private JFXTreeTableColumn<LivraisonVue, String> colonnePlageFin;
+	@FXML
+	private JFXTreeTableColumn<LivraisonVue, String> colonneHeureArrivee;
+	@FXML
+	private JFXTreeTableColumn<LivraisonVue, String> colonneHeureDepart;
+	@FXML
+	private JFXTreeTableColumn<LivraisonVue, String> colonneTempsAttente;
+	@FXML
+	private Label treeTableViewCount;
+	@FXML
+	private JFXButton treeTableViewAdd;
+	@FXML
+	private JFXButton treeTableViewRemove;
+	@FXML
+	private JFXTextField searchField;
 
 	/* Code architecture elements */
 	private Fenetre fenetre;
@@ -39,54 +63,54 @@ public class ContentController {
 	 */
 	@FXML
 	private void initialize() {
-		JFXTreeTableColumn<LivraisonVue, String> colonneAdresse = new JFXTreeTableColumn<>("Adresse");
-		colonneAdresse.setPrefWidth(150);
-		colonneAdresse.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<LivraisonVue, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) {
-						return param.getValue().getValue().intersection;
-					}
-				});
+		colonneAdresse.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
+			if (colonneAdresse.validateValue(param))
+				return param.getValue().getValue().intersection;
+			else
+				return colonneAdresse.getComputedValue(param);
+		});
+		colonneDuree.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
+			if (colonneDuree.validateValue(param))
+				return param.getValue().getValue().duree;
+			else
+				return colonneDuree.getComputedValue(param);
+		});
+		colonnePlageDebut.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
+			if (colonnePlageDebut.validateValue(param))
+				return param.getValue().getValue().duree;
+			else
+				return colonnePlageDebut.getComputedValue(param);
+		});
 
-		JFXTreeTableColumn<LivraisonVue, String> colonneDuree = new JFXTreeTableColumn<>("Durée");
-		colonneDuree.setPrefWidth(50);
-		colonneDuree.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<LivraisonVue, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) {
-						return param.getValue().getValue().duree;
-					}
-				});
+		ObservableList<LivraisonVue> people = FXCollections.observableArrayList();
+		people.add(new LivraisonVue("42 rue Agile", "12", "8:00", "17:00"));
+		people.add(new LivraisonVue("24 rue Mars", "32", "9:00", "12:00"));
+		people.add(new LivraisonVue("18 rue Waso", "43", "-", "-"));
 
-		JFXTreeTableColumn<LivraisonVue, String> colonnePlageDebut = new JFXTreeTableColumn<>("Plage début");
-		colonnePlageDebut.setPrefWidth(80);
-		colonnePlageDebut.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<LivraisonVue, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) {
-						return param.getValue().getValue().debutPlage;
-					}
-				});
+		livraisonTreeTableView.setRoot(new RecursiveTreeItem<LivraisonVue>(people, RecursiveTreeObject::getChildren));
 
-		JFXTreeTableColumn<LivraisonVue, String> colonnePlageFin = new JFXTreeTableColumn<>("Plage fin");
-		colonnePlageFin.setPrefWidth(80);
-		colonnePlageFin.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<LivraisonVue, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) {
-						return param.getValue().getValue().finPlage;
-					}
-				});
-
-		ObservableList<LivraisonVue> livraisons = FXCollections.observableArrayList();
-		livraisons.add(new LivraisonVue("42 rue Agile", "15", "8:00", "17:00"));
-
-		final TreeItem<LivraisonVue> root = new RecursiveTreeItem<LivraisonVue>(livraisons,
-				RecursiveTreeObject::getChildren);
-		livraisonTableView.getColumns().setAll(colonneAdresse, colonneDuree, colonnePlageDebut, colonnePlageFin);
-		livraisonTableView.setRoot(root);
-		livraisonTableView.setShowRoot(false);
+		livraisonTreeTableView.setShowRoot(false);
+		treeTableViewCount.textProperty()
+				.bind(Bindings.createStringBinding(() -> "( " + livraisonTreeTableView.getCurrentItemsCount() + " )",
+						livraisonTreeTableView.currentItemsCountProperty()));
+		treeTableViewAdd.disableProperty()
+				.bind(Bindings.notEqual(-1, livraisonTreeTableView.getSelectionModel().selectedIndexProperty()));
+		treeTableViewRemove.disableProperty()
+				.bind(Bindings.equal(-1, livraisonTreeTableView.getSelectionModel().selectedIndexProperty()));
+		treeTableViewAdd.setOnMouseClicked((e) -> {
+			people.add(new LivraisonVue("42 rue Agile", "42", "8:00", "17:00"));
+			livraisonTreeTableView.currentItemsCountProperty()
+					.set(livraisonTreeTableView.currentItemsCountProperty().get() + 1);
+		});
+		treeTableViewRemove.setOnMouseClicked((e) -> {
+			people.remove(livraisonTreeTableView.getSelectionModel().selectedItemProperty().get().getValue());
+			livraisonTreeTableView.currentItemsCountProperty()
+					.set(livraisonTreeTableView.currentItemsCountProperty().get() - 1);
+		});
+		searchField.textProperty().addListener((o, oldVal, newVal) -> {
+			livraisonTreeTableView.setPredicate(person -> person.getValue().intersection.get().contains(newVal)
+					|| person.getValue().duree.get().contains(newVal));
+		});
 	}
 
 	/**
