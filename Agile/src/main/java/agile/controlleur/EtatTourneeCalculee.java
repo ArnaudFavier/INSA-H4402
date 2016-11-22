@@ -40,9 +40,9 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
 			// En-tête
 			out.println("\t\t\tTOURNEE");
-			formatDate = new SimpleDateFormat("dd MMMM yyyy '�' hh:mm:ss");
+			formatDate = new SimpleDateFormat("dd MMMM yyyy 'à' hh:mm:ss");
 			date = formatDate.format(new Date());
-			out.println("Edit�e le: " + date);
+			out.println("Editée le: " + date);
 			out.println();
 
 			// Contenu
@@ -142,7 +142,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 						out.print(" entre " + livraison.getDebutPlage().toString() + " et "
 								+ livraison.getFinPlage().toString());
 					}
-					out.println(". [Dur�e de la livraison: " + livraison.getDuree() + " minutes]");
+					out.println(". [Durée de la livraison: " + livraison.getDuree() + " minutes]");
 				}
 			}
 
