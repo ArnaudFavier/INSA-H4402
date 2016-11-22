@@ -52,26 +52,16 @@ public class FenetreEcouteur {
 	 */
 	@FXML
 	private void boutonOuvrirLivraison() {
-		if (controlleur.getPlan() == null) {
+		try {
+			controlleur.chargerDemandeLivraisons(this.controlleur);
+		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(fenetre.getStage());
-			alert.setTitle("Plan invalide");
-			alert.setHeaderText("Plan incorrect");
-			alert.setContentText("Merci de sélectionner un plan avant une demande de livraisons.");
+			alert.setTitle("Livraisons invalide");
+			alert.setHeaderText("Livraisons incorrectes");
+			alert.setContentText("Merci de sélectionner une demande de livraisons valide.");
 
 			alert.showAndWait();
-		} else {
-			try {
-				controlleur.chargerDemandeLivraisons(this.controlleur);
-			} catch (Exception e) {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.initOwner(fenetre.getStage());
-				alert.setTitle("Livraisons invalide");
-				alert.setHeaderText("Livraisons incorrectes");
-				alert.setContentText("Merci de sélectionner une demande de livraisons valide.");
-
-				alert.showAndWait();
-			}
 		}
 	}
 
