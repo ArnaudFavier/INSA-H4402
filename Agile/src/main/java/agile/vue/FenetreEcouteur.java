@@ -37,7 +37,7 @@ public class FenetreEcouteur {
 	 */
 	@FXML
 	private void initialize() {
-		JFXTreeTableColumn<LivraisonVue, String> colonneAdresse = new JFXTreeTableColumn<>("Adrese");
+		JFXTreeTableColumn<LivraisonVue, String> colonneAdresse = new JFXTreeTableColumn<>("Adresse");
 		colonneAdresse.setPrefWidth(150);
 		colonneAdresse.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<LivraisonVue, String>, ObservableValue<String>>() {
@@ -48,7 +48,7 @@ public class FenetreEcouteur {
 				});
 
 		JFXTreeTableColumn<LivraisonVue, String> colonneDuree = new JFXTreeTableColumn<>("Durée");
-		colonneDuree.setPrefWidth(150);
+		colonneDuree.setPrefWidth(50);
 		colonneDuree.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<LivraisonVue, String>, ObservableValue<String>>() {
 					@Override
@@ -58,7 +58,7 @@ public class FenetreEcouteur {
 				});
 
 		JFXTreeTableColumn<LivraisonVue, String> colonnePlageDebut = new JFXTreeTableColumn<>("Plage début");
-		colonnePlageDebut.setPrefWidth(150);
+		colonnePlageDebut.setPrefWidth(80);
 		colonnePlageDebut.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<LivraisonVue, String>, ObservableValue<String>>() {
 					@Override
@@ -68,7 +68,7 @@ public class FenetreEcouteur {
 				});
 
 		JFXTreeTableColumn<LivraisonVue, String> colonnePlageFin = new JFXTreeTableColumn<>("Plage fin");
-		colonnePlageFin.setPrefWidth(150);
+		colonnePlageFin.setPrefWidth(80);
 		colonnePlageFin.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<LivraisonVue, String>, ObservableValue<String>>() {
 					@Override
