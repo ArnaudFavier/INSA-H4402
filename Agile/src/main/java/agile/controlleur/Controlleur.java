@@ -1,5 +1,6 @@
 package agile.controlleur;
 
+import agile.modele.Chemin;
 import agile.modele.DemandeLivraisons;
 import agile.modele.Plan;
 
@@ -9,6 +10,7 @@ public class Controlleur {
 	private Historique historique;
 	private Plan plan;
 	private DemandeLivraisons demandeLivraisons;
+	private Chemin chemin;
 
 	// Instances associées à chaque état possible du controleur
 	protected final EtatInitial etatInitial = new EtatInitial();
@@ -40,17 +42,23 @@ public class Controlleur {
 
 	public void chargerDemandeLivraisons(Controlleur controlleur) throws Exception {
 		demandeLivraisons = etatCourant.chargerDemandeLivraisons(this);
+		System.out.println("Controlleur:: chargerDemandeLivraisons : " + demandeLivraisons);
+		System.out.println(etatCourant.toString());
 
 		if (demandeLivraisons == null) {
 			throw new Exception();
 		}
 
-		System.out.println("Controlleur:: chargerDemandeLivraisons : " + demandeLivraisons);
-		System.out.println(etatCourant.toString());
 	}
 
-	public void calculerTournee(Controlleur controlleur) {
-		etatCourant.calculerTournee(this);
+	public void calculerTournee(Controlleur controlleur) throws Exception {
+		chemin = etatCourant.calculerTournee(this);
+		System.out.println("Controlleur:: chargerDemandeLivraisons : " + demandeLivraisons);
+		System.out.println(etatCourant.toString());
+
+		if (chemin == null) {
+			throw new Exception();
+		}
 	}
 
 	public void genererFeuilleDeRoute(Controlleur controlleur) {
@@ -91,7 +99,14 @@ public class Controlleur {
 
 	public void setDemandeLivraisons(DemandeLivraisons demandeLivraisons) {
 		this.demandeLivraisons = demandeLivraisons;
+	}
 
+	public Chemin getChemin() {
+		return chemin;
+	}
+
+	public void setChemin(Chemin chemin) {
+		this.chemin = chemin;
 	}
 
 }

@@ -1,5 +1,6 @@
 package agile.controlleur;
 
+import agile.modele.Chemin;
 import agile.modele.DemandeLivraisons;
 import agile.modele.Plan;
 
@@ -8,7 +9,7 @@ public interface Etat {
 
 	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) throws Exception;
 
-	public void calculerTournee(Controlleur controlleur);
+	public Chemin calculerTournee(Controlleur controlleur);
 
 	public void genererFeuilleDeRoute(Controlleur controlleur);
 

@@ -131,7 +131,11 @@ public class FenetreEcouteur {
 	 */
 	@FXML
 	private void boutonCalculerTournee() {
-		controlleur.calculerTournee(this.controlleur);
+		try {
+			controlleur.calculerTournee(this.controlleur);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
