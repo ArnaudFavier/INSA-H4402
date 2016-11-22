@@ -117,7 +117,7 @@ public class Temps implements Comparable<Temps> {
 
 	@Override
 	public String toString() {
-		return heure + ":" + minute + ":" + seconde + ":";
+		return heure + ":" + minute + ":" + seconde;
 	}
 
 }
