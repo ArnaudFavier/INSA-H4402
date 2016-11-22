@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+	<VBox spacing="10">
+   <children>
+      <JFXTreeTableView fx:id="livraisonTableView" prefHeight="500.0" prefWidth="800.0" />
+         <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+            <JFXButton buttonType="RAISED" onAction="#boutonOuvrirPlan" style="-fx-background-color: #F5F5F5;" text="Ouvrir plan">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+                  <HBox.margin>
+                     <Insets left="10.0" right="10.0" />
+                  </HBox.margin>
+               </JFXButton>
+            <JFXButton buttonType="RAISED" onAction="#boutonOuvrirLivraison" style="-fx-background-color: #F5F5F5;" text="Ouvrir livraison">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+                  <HBox.margin>
+                     <Insets left="10.0" right="10.0" />
+                  </HBox.margin>
+               </JFXButton>
+            <JFXButton buttonType="RAISED" onAction="#boutonCalculerTournee" style="-fx-background-color: #F5F5F5;" text="Calculer tournée">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+                  <HBox.margin>
+                     <Insets left="10.0" right="10.0" />
+                  </HBox.margin>
+               </JFXButton>
+            <JFXButton buttonType="RAISED" onAction="#boutonExporterTournee" style="-fx-background-color: #F5F5F5;" text="Exporter tournée">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+                  <HBox.margin>
+                     <Insets left="10.0" right="10.0" />
+                  </HBox.margin>
+               </JFXButton>
+            </children>
+         </HBox>
+   </children>
+	</VBox>
+</StackPane>

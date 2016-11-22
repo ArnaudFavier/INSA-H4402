@@ -5,6 +5,7 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import agile.controlleur.Controlleur;
+import io.datafx.controller.FXMLController;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +16,8 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.util.Callback;
 
-public class FenetreEcouteur {
+@FXMLController(value = "Content.fxml")
+public class ContentController {
 
 	/* FXML view elements */
 	@FXML
@@ -23,12 +25,12 @@ public class FenetreEcouteur {
 
 	/* Code architecture elements */
 	private Fenetre fenetre;
-	private Controlleur controlleur;
+	public static Controlleur controlleur;
 
 	/**
 	 * Le constructeur est appelé avant la méthode initialize()
 	 */
-	public FenetreEcouteur() {
+	public ContentController() {
 	}
 
 	/**

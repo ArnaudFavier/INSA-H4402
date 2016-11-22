@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Livraison formatÃ©e pour l'affichage
+ * Livraison formatée pour l'affichage
  */
 public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
 

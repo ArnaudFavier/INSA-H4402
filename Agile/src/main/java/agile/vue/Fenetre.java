@@ -2,8 +2,14 @@ package agile.vue;
 
 import java.io.IOException;
 
+import com.jfoenix.controls.JFXDecorator;
+
 import agile.controlleur.Controlleur;
-import javafx.fxml.FXMLLoader;
+import io.datafx.controller.flow.Flow;
+import io.datafx.controller.flow.FlowException;
+import io.datafx.controller.flow.container.DefaultFlowContainer;
+import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.ViewFlowContext;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -11,6 +17,9 @@ import javafx.stage.Stage;
 public class Fenetre {
 
 	private Stage stage;
+
+	@FXMLViewFlowContext
+	private ViewFlowContext flowContext;
 
 	public Fenetre(Stage stage, Controlleur controlleur) {
 		this.stage = stage;
@@ -23,19 +32,30 @@ public class Fenetre {
 	}
 
 	private void initialisation(Controlleur controlleur) throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("fenetre.fxml"));
+		Flow flow = new Flow(FenetreController.class);
+		DefaultFlowContainer container = new DefaultFlowContainer();
+		flowContext = new ViewFlowContext();
+		flowContext.register("Stage", this.stage);
 
+		try {
+			flow.createHandler(flowContext).start(container);
+		} catch (FlowException e) {
+			e.printStackTrace();
+		}
+
+		JFXDecorator decorator = new JFXDecorator(this.stage, container.getView());
+		decorator.setCustomMaximize(true);
+		Scene scene = new Scene(decorator, 800, 600);
+		scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-design.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-main-demo.css").toExternalForm());
 		this.stage.setTitle("PLD Agile - H4402");
-		this.stage.setMinWidth(600);
-		this.stage.setMinHeight(400);
 		this.stage.getIcons().add(new Image("file:src/main/resources/icon.png"));
-		this.stage.setScene(new Scene(loader.load()));
+		this.stage.setMinWidth(800);
+		this.stage.setMinHeight(600);
+		this.stage.setScene(scene);
 		this.stage.show();
 
-		FenetreEcouteur fenetreEcouteur = loader.getController();
-		fenetreEcouteur.setFenetre(this);
-		fenetreEcouteur.setControlleur(controlleur);
+		ContentController.controlleur = controlleur;
 	}
 
 	public Stage getStage() {
