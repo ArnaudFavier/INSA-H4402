@@ -89,4 +89,9 @@ public class Controlleur {
 		return this.demandeLivraisons;
 	}
 
+	public void setDemandeLivraisons(DemandeLivraisons demandeLivraisons) {
+		this.demandeLivraisons = demandeLivraisons;
+
+	}
+
 }

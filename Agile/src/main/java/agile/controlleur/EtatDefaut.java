@@ -2,6 +2,7 @@ package agile.controlleur;
 
 import agile.modele.DemandeLivraisons;
 import agile.modele.Plan;
+import agile.xml.DeserialiseurDemandeLivraisonsXML;
 import agile.xml.DeserialiseurPlanXML;
 
 public abstract class EtatDefaut implements Etat {
@@ -20,6 +21,9 @@ public abstract class EtatDefaut implements Etat {
 		if (planACharger != null) {
 			plan = planACharger;
 			historique.reset();
+			if (controlleur.getDemandeLivraisons() != null) {
+				controlleur.setDemandeLivraisons(null);
+			}
 			controlleur.setEtatCourant(controlleur.etatPlanCharge);
 		}
 
@@ -28,8 +32,15 @@ public abstract class EtatDefaut implements Etat {
 
 	@Override
 	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) throws Exception {
-		System.out.println("Chargement livraisons...");
-		return controlleur.getDemandeLivraisons();
+		DemandeLivraisons demande = controlleur.getDemandeLivraisons();
+		DemandeLivraisons DemandeLivraisonsACharger = DeserialiseurDemandeLivraisonsXML.charger(controlleur.getPlan());
+
+		if (DemandeLivraisonsACharger != null) {
+			demande = DemandeLivraisonsACharger;
+			controlleur.setEtatCourant(controlleur.etatDemandeLivraisonChargee);
+		}
+
+		return demande;
 	}
 
 	@Override
