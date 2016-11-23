@@ -1,6 +1,10 @@
 package agile.controlleur;
 
+<<<<<<< Updated upstream
 import java.io.File;
+=======
+import java.io.BufferedWriter;
+>>>>>>> Stashed changes
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -124,4 +128,8 @@ public class EtatTourneeCalculee extends EtatDefaut {
 		}
 	}
 
+	@Override
+	public void supprimerLivraison(Controlleur controlleur, Livraison livraison) {
+		controlleur.getTournee().supprimerLivraison(livraison);
+	}
 }

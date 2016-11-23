@@ -1,7 +1,9 @@
 package agile.controlleur;
 
 import agile.modele.DemandeLivraisons;
+import agile.modele.Livraison;
 import agile.modele.Plan;
+import agile.modele.Temps;
 import agile.modele.Tournee;
 
 public class Controlleur {
@@ -65,12 +67,16 @@ public class Controlleur {
 		etatCourant.enregistrerFeuilleDeRoute(this);
 	}
 
-	public void ajouterLivraison(Controlleur controlleur) {
-		etatCourant.ajouterLivraison(this);
+	public void ajouterLivraison(Controlleur controlleur, Livraison livraison) {
+		etatCourant.ajouterLivraison(this, livraison);
 	}
 
-	public void modifierLivraison(Controlleur controlleur) {
-		etatCourant.modifierLivraison(this);
+	public void modifierLivraison(Controlleur controlleur, int idLivraison, Temps debutPlage, Temps finPlage) {
+		etatCourant.modifierLivraison(this, idLivraison, debutPlage, finPlage);
+	}
+
+	public void supprimerLivraison(Controlleur controlleur, Livraison livraison) {
+		etatCourant.supprimerLivraison(this, livraison);
 	}
 
 	public void undo(Historique historique) {
