@@ -1,6 +1,8 @@
 package agile.controlleur;
 
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,6 +13,7 @@ import agile.modele.Entrepot;
 import agile.modele.Livraison;
 import agile.modele.Tournee;
 import agile.modele.Troncon;
+import javafx.stage.FileChooser;
 
 public class EtatTourneeCalculee extends EtatDefaut {
 
@@ -23,12 +26,28 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
 	@Override
 	public void enregistrerFeuilleDeRoute(Controlleur controlleur) {
+
+		FileChooser fileChooserTXT = new FileChooser();
+		fileChooserTXT.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Fichier texte", "*.txt"));
+		// File fichier = fileChooserTXT.showOpenDialog(null);
+		File fichier = fileChooserTXT.showSaveDialog(null);
+
+		if (fichier != null) {
+			try {
+				fichier.createNewFile();
+			} catch (IOException e) {
+				System.err.println("Impossible de créer le fichier d'export " + fichier.toString());
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
 		Tournee tournee = controlleur.getTournee();
 
 		SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy_HH-mm");
 		String date = formatDate.format(new Date());
 		String nomFichier = NOM_FICHIER + date + EXTENSION_FICHIER;
-		String fichier = CHEMIN + nomFichier;
+		// String fichier = CHEMIN + nomFichier;
 
 		try {
 			// Création et ouverture du fichier texte
@@ -85,7 +104,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
 			// Fermeture du fichier
 			out.close();
-			System.out.println("La tournée a été exportée dans " + fichier + ".");
+			System.out.println("La tournée a été exportée dans " + fichier.toString() + ".");
 		} catch (Exception e) {
 			System.err.println("Erreur lors de l'export de la tournée");
 			System.err.println(e.getMessage());
