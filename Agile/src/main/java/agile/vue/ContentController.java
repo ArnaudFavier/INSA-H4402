@@ -127,10 +127,6 @@ public class ContentController {
 		// Des exemples
 		observableEntrepot.add(new EntrepotVue(new Entrepot(new Temps(5, 3, 4), new Intersection(6, 7, 8))));
 
-		observableListeLivraisons.add(new LivraisonVue("42 rue Agile", "12", "8:00", "17:00"));
-		observableListeLivraisons.add(new LivraisonVue("24 rue Mars", "32", "9:00", "12:00"));
-		observableListeLivraisons.add(new LivraisonVue("18 rue Waso", "43", "-", "-"));
-
 		// Binding des autres composants
 		entrepotTreeTableView
 				.setRoot(new RecursiveTreeItem<EntrepotVue>(observableEntrepot, RecursiveTreeObject::getChildren));
@@ -146,7 +142,7 @@ public class ContentController {
 		treeTableViewRemove.disableProperty()
 				.bind(Bindings.equal(-1, livraisonTreeTableView.getSelectionModel().selectedIndexProperty()));
 		treeTableViewAdd.setOnMouseClicked((e) -> {
-			observableListeLivraisons.add(new LivraisonVue("?", "?", "?", "?"));
+
 			livraisonTreeTableView.currentItemsCountProperty()
 					.set(livraisonTreeTableView.currentItemsCountProperty().get() + 1);
 		});
@@ -280,9 +276,8 @@ public class ContentController {
 				debutPlage = livraison.getDebutPlage().toString();
 			if (livraison.getFinPlage() != null)
 				finPlage = livraison.getFinPlage().toString();
-
-			observableListeLivraisons.add(new LivraisonVue(livraison.getIntersection().toString(),
-					String.valueOf(livraison.getDuree()), debutPlage, finPlage));
+			observableListeLivraisons.add(new LivraisonVue(livraison));
+			
 			livraisonTreeTableView.currentItemsCountProperty()
 					.set(livraisonTreeTableView.currentItemsCountProperty().get() + 1);
 		}
