@@ -11,9 +11,7 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import agile.controlleur.Controlleur;
 import agile.modele.Entrepot;
-import agile.modele.Intersection;
 import agile.modele.Livraison;
-import agile.modele.Temps;
 import io.datafx.controller.FXMLController;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -73,7 +71,7 @@ public class ContentController {
 	/* Code architecture elements */
 	private ObservableList<EntrepotVue> observableEntrepot = FXCollections.observableArrayList();
 	private ObservableList<LivraisonVue> observableListeLivraisons = FXCollections.observableArrayList();
-	private Fenetre fenetre;
+	public static Fenetre fenetre;
 	public static Controlleur controlleur;
 
 	/**
@@ -124,9 +122,6 @@ public class ContentController {
 						return colonnePlagePrevisionnelle.getComputedValue(param);
 				});
 
-		// Des exemples
-		observableEntrepot.add(new EntrepotVue(new Entrepot(new Temps(5, 3, 4), new Intersection(6, 7, 8))));
-
 		// Binding des autres composants
 		entrepotTreeTableView
 				.setRoot(new RecursiveTreeItem<EntrepotVue>(observableEntrepot, RecursiveTreeObject::getChildren));
@@ -142,15 +137,18 @@ public class ContentController {
 		treeTableViewRemove.disableProperty()
 				.bind(Bindings.equal(-1, livraisonTreeTableView.getSelectionModel().selectedIndexProperty()));
 		treeTableViewAdd.setOnMouseClicked((e) -> {
-
-			livraisonTreeTableView.currentItemsCountProperty()
-					.set(livraisonTreeTableView.currentItemsCountProperty().get() + 1);
+			/*
+			 * livraisonTreeTableView.currentItemsCountProperty()
+			 * .set(livraisonTreeTableView.currentItemsCountProperty().get() +
+			 * 1);
+			 */
 		});
 		treeTableViewRemove.setOnMouseClicked((e) -> {
 			observableListeLivraisons
 					.remove(livraisonTreeTableView.getSelectionModel().selectedItemProperty().get().getValue());
-			livraisonTreeTableView.currentItemsCountProperty()
-					.set(livraisonTreeTableView.currentItemsCountProperty().get() - 1);
+			if (livraisonTreeTableView.currentItemsCountProperty().get() > 0)
+				livraisonTreeTableView.currentItemsCountProperty()
+						.set(livraisonTreeTableView.currentItemsCountProperty().get() - 1);
 		});
 		searchField.textProperty().addListener((o, oldVal, newVal) -> {
 			livraisonTreeTableView.setPredicate(person -> person.getValue().intersection.get().contains(newVal)
@@ -165,6 +163,8 @@ public class ContentController {
 	private void boutonOuvrirPlan() {
 		try {
 			controlleur.chargerPlan(this.controlleur);
+			observableEntrepot.clear();
+			observableListeLivraisons.clear();
 
 			// Mise à jour des boutons
 			boutonOuvrirLivraison.setVisible(true);
@@ -197,6 +197,7 @@ public class ContentController {
 		} else {
 			try {
 				controlleur.chargerDemandeLivraisons(this.controlleur);
+				miseAJourEntrepot(controlleur.getDemandeLivraisons().getEntrepot());
 				miseAJourLivraison(controlleur.getDemandeLivraisons().getLivraisons());
 
 				// Mise à jour des boutons
@@ -216,6 +217,7 @@ public class ContentController {
 	private void boutonCalculerTournee() {
 		try {
 			controlleur.calculerTournee(this.controlleur);
+			miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 
 			// Mise à jour des boutons
 			boutonOuvrirLivraison.setVisible(true);
@@ -277,11 +279,18 @@ public class ContentController {
 			if (livraison.getFinPlage() != null)
 				finPlage = livraison.getFinPlage().toString();
 			observableListeLivraisons.add(new LivraisonVue(livraison));
-			
+
 			livraisonTreeTableView.currentItemsCountProperty()
 					.set(livraisonTreeTableView.currentItemsCountProperty().get() + 1);
 		}
+	}
 
+	/**
+	 * Met à jour la liste de l'entrepôt
+	 */
+	public void miseAJourEntrepot(Entrepot entrepot) {
+		observableEntrepot.clear();
+		observableEntrepot.add(new EntrepotVue(entrepot));
 	}
 
 }

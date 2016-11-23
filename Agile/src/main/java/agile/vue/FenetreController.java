@@ -23,7 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-@FXMLController(value = "fenetre.fxml")
+@FXMLController(value = "Fenetre.fxml")
 public class FenetreController {
 
 	@FXMLViewFlowContext

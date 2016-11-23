@@ -55,6 +55,7 @@ public class Fenetre {
 		this.stage.setScene(scene);
 		this.stage.show();
 
+		ContentController.fenetre = this;
 		ContentController.controlleur = controlleur;
 	}
 
