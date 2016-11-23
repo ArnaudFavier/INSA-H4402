@@ -29,17 +29,15 @@ public class ContentController {
 	@FXML
 	private JFXTreeTableColumn<LivraisonVue, String> colonneAdresse;
 	@FXML
-	private JFXTreeTableColumn<LivraisonVue, String> colonneDuree;
-	@FXML
-	private JFXTreeTableColumn<LivraisonVue, String> colonnePlageDebut;
-	@FXML
-	private JFXTreeTableColumn<LivraisonVue, String> colonnePlageFin;
-	@FXML
 	private JFXTreeTableColumn<LivraisonVue, String> colonneHeureArrivee;
+	@FXML
+	private JFXTreeTableColumn<LivraisonVue, String> colonneTempsAttente;
+	@FXML
+	private JFXTreeTableColumn<LivraisonVue, String> colonneDuree;
 	@FXML
 	private JFXTreeTableColumn<LivraisonVue, String> colonneHeureDepart;
 	@FXML
-	private JFXTreeTableColumn<LivraisonVue, String> colonneTempsAttente;
+	private JFXTreeTableColumn<LivraisonVue, String> colonnePlagePrevisionnelle;
 	@FXML
 	private Label treeTableViewCount;
 	@FXML
@@ -79,18 +77,13 @@ public class ContentController {
 			else
 				return colonneDuree.getComputedValue(param);
 		});
-		colonnePlageDebut.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
-			if (colonnePlageDebut.validateValue(param))
-				return param.getValue().getValue().plageDebut;
-			else
-				return colonnePlageDebut.getComputedValue(param);
-		});
-		colonnePlageFin.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
-			if (colonnePlageFin.validateValue(param))
-				return param.getValue().getValue().plageFin;
-			else
-				return colonnePlageFin.getComputedValue(param);
-		});
+		colonnePlagePrevisionnelle
+				.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
+					if (colonnePlagePrevisionnelle.validateValue(param))
+						return param.getValue().getValue().plageFin;
+					else
+						return colonnePlagePrevisionnelle.getComputedValue(param);
+				});
 
 		// Des exemples
 		listeLivraisons.add(new LivraisonVue("42 rue Agile", "12", "8:00", "17:00"));
@@ -104,10 +97,12 @@ public class ContentController {
 		livraisonTreeTableView.setShowRoot(false);
 		treeTableViewCount.textProperty()
 				.bind(Bindings.createStringBinding(
-						() -> "(total : " + livraisonTreeTableView.getCurrentItemsCount() + " )",
+						() -> "(total : " + livraisonTreeTableView.getCurrentItemsCount() + ")",
 						livraisonTreeTableView.currentItemsCountProperty()));
-		treeTableViewAdd.disableProperty()
-				.bind(Bindings.notEqual(-1, livraisonTreeTableView.getSelectionModel().selectedIndexProperty()));
+		/*
+		 * treeTableViewAdd.disableProperty() .bind(Bindings.notEqual(-1,
+		 * livraisonTreeTableView.getSelectionModel().selectedIndexProperty()));
+		 */
 		treeTableViewRemove.disableProperty()
 				.bind(Bindings.equal(-1, livraisonTreeTableView.getSelectionModel().selectedIndexProperty()));
 		treeTableViewAdd.setOnMouseClicked((e) -> {
