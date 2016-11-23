@@ -51,8 +51,10 @@ public class Tournee {
     /**
      * Calcule un cycle de hamilton et ordonnance la liste des livraisons en
      * fonction
+     * 
+     * @throws Exception
      */
-    public void calculerTSP() {
+    public void calculerTSP() throws Exception {
 	calculerMatrices();
 	int[] durees = new int[livraisons.size() + 1];
 	// Entrepot
@@ -63,6 +65,9 @@ public class Tournee {
 	}
 	TSP tsp = new TSP1();
 	tsp.chercheSolution(10000, durees.length, matriceCout, durees);
+	if (tsp.getTempsLimiteAtteint()) {
+	    throw new Exception("Temps limite tsp atteint");
+	}
 
 	livraisonsTSP = new ArrayList<>(livraisons.size());
 	cheminsTSP = new ArrayList<>(livraisons.size() + 1);

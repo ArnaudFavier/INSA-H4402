@@ -36,7 +36,7 @@ public class TourneeTest {
     }
 
     @Test(timeout = 10000)
-    public void testCalculTournee() {
+    public void testCalculTournee() throws Exception {
 	Tournee tournee = new Tournee(demandeLivraison);
 	tournee.calculerTSP();
 
@@ -73,7 +73,7 @@ public class TourneeTest {
     }
 
     @Test(timeout = 10000)
-    public void testClone() {
+    public void testClone() throws Exception {
 	Tournee tournee = new Tournee(demandeLivraison);
 	tournee.calculerTSP();
 	Tournee copy = tournee.clone();
@@ -93,7 +93,7 @@ public class TourneeTest {
     }
 
     @Test(timeout = 10000)
-    public void testSupprimerLivraison() {
+    public void testSupprimerLivraison() throws Exception {
 	Tournee tournee1 = new Tournee(demandeLivraison);
 	tournee1.calculerTSP();
 	Tournee tournee2 = tournee1.clone();
@@ -199,7 +199,7 @@ public class TourneeTest {
     }
 
     @Test(timeout = 10000)
-    public void testAjouterLivraison() {
+    public void testAjouterLivraison() throws Exception {
 	Tournee tournee1 = new Tournee(demandeLivraison);
 	tournee1.calculerTSP();
 

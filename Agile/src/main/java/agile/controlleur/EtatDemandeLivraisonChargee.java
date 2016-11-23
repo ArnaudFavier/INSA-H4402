@@ -4,20 +4,25 @@ import agile.modele.Tournee;
 
 public class EtatDemandeLivraisonChargee extends EtatDefaut {
 
-	public EtatDemandeLivraisonChargee() {
+    public EtatDemandeLivraisonChargee() {
+    }
+
+    @Override
+    public Tournee calculerTournee(Controlleur controlleur) {
+	Tournee tournee = new Tournee(controlleur.getDemandeLivraisons());
+	try {
+	    tournee.calculerTSP();
+	} catch (Exception e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
 
-	@Override
-	public Tournee calculerTournee(Controlleur controlleur) {
-		Tournee tournee = new Tournee(controlleur.getDemandeLivraisons());
-		tournee.calculerTSP();
-
-		if (tournee.getCheminsTSP() == null) {
-			return null;
-		} else {
-			controlleur.setEtatCourant(controlleur.etatTourneeCalculee);
-			return tournee;
-		}
+	if (tournee.getCheminsTSP() == null) {
+	    return null;
+	} else {
+	    controlleur.setEtatCourant(controlleur.etatTourneeCalculee);
+	    return tournee;
 	}
+    }
 
 }
