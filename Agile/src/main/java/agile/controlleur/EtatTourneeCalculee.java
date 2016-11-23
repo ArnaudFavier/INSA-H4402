@@ -1,10 +1,6 @@
 package agile.controlleur;
 
-<<<<<<< Updated upstream
 import java.io.File;
-=======
-import java.io.BufferedWriter;
->>>>>>> Stashed changes
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,8 +17,6 @@ import javafx.stage.FileChooser;
 
 public class EtatTourneeCalculee extends EtatDefaut {
 
-	// private static String NOM_FICHIER = "tournee";
-	// private static String EXTENSION_FICHIER = ".txt";
 	private static String CHEMIN_REPERTOIRE_INITIAL = "src/main/resources/";
 
 	public EtatTourneeCalculee() {
@@ -54,12 +48,6 @@ public class EtatTourneeCalculee extends EtatDefaut {
 			}
 
 			Tournee tournee = controlleur.getTournee();
-
-			// SimpleDateFormat formatDate = new
-			// SimpleDateFormat("dd-MM-yyyy_HH-mm");
-			// String date = formatDate.format(new Date());
-			// String nomFichier = NOM_FICHIER + date + EXTENSION_FICHIER;
-			// String fichier = CHEMIN + nomFichier;
 
 			try {
 				// Création et ouverture du fichier texte

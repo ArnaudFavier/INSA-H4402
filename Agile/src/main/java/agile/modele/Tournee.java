@@ -9,90 +9,10 @@ import agile.pathfinding.TSP;
 import agile.pathfinding.TSP1;
 
 /**
- * Une demande de livraisons après avoir été traitée par un algo resolvant le
- * TSP
+ * Une demande de livraisons après avoir été traitée par un algo resolvant
+ * le TSP
  */
 public class Tournee {
-<<<<<<< Updated upstream
-    /**
-     * La demande de livraisons à l'origine de ce résultat
-     */
-    private DemandeLivraisons demandeInitiale;
-
-    /**
-     * Toutes les livraisons non-ordonnées
-     */
-    private List<Livraison> livraisons;
-
-    /**
-     * La matrice de cout de déplacement d'un point de livraison à un autre
-     */
-    protected float[][] matriceCout;
-
-    /**
-     * La matrice des chemin allant d'un point de livraison à un autre
-     */
-    protected Chemin[][] matriceChemin;
-
-    /**
-     * La liste des chemins à suivre (ordonné) pour faire le TSP
-     */
-    private List<Chemin> cheminsTSP;
-
-    /**
-     * la liste des livraisons ordonnée pour le TSP
-     */
-    private List<Livraison> livraisonsTSP;
-
-    public Tournee(DemandeLivraisons demandeInitiale) {
-	this.demandeInitiale = demandeInitiale;
-	this.livraisons = new ArrayList<>(demandeInitiale.getLivraisons());
-    }
-
-    /**
-     * Calcule un cycle de hamilton et ordonnance la liste des livraisons en
-     * fonction
-     * 
-     * @throws Exception
-     */
-    public void calculerTSP() throws Exception {
-	calculerMatrices();
-	int[] durees = new int[livraisons.size() + 1];
-	// Entrepot
-	durees[0] = 0;
-	// Points de livraison
-	for (int livrId1 = 0; livrId1 < livraisons.size(); livrId1++) {
-	    durees[livrId1 + 1] = livraisons.get(livrId1).getDuree();
-	}
-	TSP tsp = new TSP1();
-	tsp.chercheSolution(10000, durees.length, matriceCout, durees);
-	if (tsp.getTempsLimiteAtteint()) {
-	    throw new Exception("Temps limite tsp atteint");
-	}
-
-	livraisonsTSP = new ArrayList<>(livraisons.size());
-	cheminsTSP = new ArrayList<>(livraisons.size() + 1);
-	int idPrecedenteIntersection = 0;
-	for (int i = 0; i < livraisons.size(); i++) {
-	    int idCurrIntersection = tsp.getMeilleureSolution(i + 1);
-	    Livraison livr = livraisons.get(idCurrIntersection - 1);
-	    livraisonsTSP.add(livr);
-	    cheminsTSP.add(matriceChemin[idPrecedenteIntersection][idCurrIntersection]);
-
-	    idPrecedenteIntersection = idCurrIntersection;
-	}
-	cheminsTSP.add(matriceChemin[idPrecedenteIntersection][0]);
-    }
-
-    /**
-     * @return La matrice de coup entre chaque point de livraison
-     */
-    private void calculerMatrices() {
-	ArrayList<Intersection> inters = new ArrayList<>(livraisons.size() + 1);
-	inters.add(demandeInitiale.getEntrepot().getIntersection());
-	for (Livraison livr : livraisons) {
-	    inters.add(livr.getIntersection());
-=======
 	/**
 	 * La demande de livraisons à l'origine de ce résultat
 	 */
@@ -126,7 +46,6 @@ public class Tournee {
 	public Tournee(DemandeLivraisons demandeInitiale) {
 		this.demandeInitiale = demandeInitiale;
 		this.livraisons = new ArrayList<>(demandeInitiale.getLivraisons());
->>>>>>> Stashed changes
 	}
 
 	/**
@@ -194,8 +113,8 @@ public class Tournee {
 	}
 
 	/**
-	 * @return Une vue non-modifiable de la liste des chemins à suivre (ordonné)
-	 *         pour faire le TSP
+	 * @return Une vue non-modifiable de la liste des chemins à suivre
+	 *         (ordonné) pour faire le TSP
 	 */
 	public List<Chemin> getCheminsTSP() {
 		return Collections.unmodifiableList(cheminsTSP);
@@ -210,8 +129,8 @@ public class Tournee {
 	}
 
 	/**
-	 * @return La liste ordonnée des intersections à parcourir pour effectuer le
-	 *         cycle complet
+	 * @return La liste ordonnée des intersections à parcourir pour effectuer
+	 *         le cycle complet
 	 */
 	public List<Intersection> getListeIntersectionsTSP() {
 		List<Intersection> intersectionsTSP = new ArrayList<>();
@@ -294,7 +213,8 @@ public class Tournee {
 		int idInters = livraisons.size() + 1;
 
 		// On regarde pour chaque id de livraison, le cout de la suppression du
-		// chemin déjà existant et de l'ajout de la nouvelle livraison entre les
+		// chemin déjà existant et de l'ajout de la nouvelle livraison entre
+		// les
 		// deux
 		for (int i = 0; i <= livraisonsTSP.size(); i++) {
 			// L'id (dans la matrice des chemins) de l'intersection de
