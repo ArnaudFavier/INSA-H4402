@@ -5,121 +5,137 @@ package agile.modele;
  */
 public class Livraison {
 
-	/**
-	 * Durée de la livraison
-	 */
-	private int duree;
+    /**
+     * Durée de la livraison
+     */
+    private int duree;
 
-	/**
-	 * L'intersection sur laquelle se situe la livraison
-	 */
-	private Intersection intersection;
+    /**
+     * L'intersection sur laquelle se situe la livraison
+     */
+    private Intersection intersection;
 
-	/**
-	 * Definit si la livraison a une contrainte de Temps (plage)
-	 */
-	private boolean contrainteTemps;
+    /**
+     * Definit si la livraison a une contrainte de Temps (plage)
+     */
+    private boolean contrainteTemps;
 
-	/**
-	 * Debut plage
-	 */
-	private Temps debutPlage;
+    /**
+     * Debut plage
+     */
+    private Temps debutPlage;
 
-	/**
-	 * Fin plage
-	 */
-	private Temps finPlage;
+    /**
+     * Fin plage
+     */
+    private Temps finPlage;
 
-	/**
-	 * Le constructeur
-	 * 
-	 * @param duree
-	 *            Durée de la livraison
-	 * @param intersection
-	 *            L'intersection sur laquelle se situe la livraison
-	 */
-	public Livraison(int duree, Intersection intersection) {
-		super();
-		this.duree = duree;
-		this.intersection = intersection;
-		this.contrainteTemps = false;
-	}
+    /**
+     * Temps d'attente en secondes
+     */
+    private float tempsAttente;
 
-	/**
-	 * Le constructeur avec plage horaire
-	 * 
-	 * @param duree
-	 *            Durée de la livraison
-	 * @param intersection
-	 *            L'intersection sur laquelle se situe la livraison
-	 */
-	public Livraison(int duree, Intersection intersection, Temps debutPlage, Temps finPlage) {
-		super();
-		this.duree = duree;
-		this.intersection = intersection;
-		this.debutPlage = debutPlage;
-		this.finPlage = finPlage;
-		this.contrainteTemps = true;
-	}
+    /**
+     * Le constructeur
+     * 
+     * @param duree
+     *            Durée de la livraison
+     * @param intersection
+     *            L'intersection sur laquelle se situe la livraison
+     */
+    public Livraison(int duree, Intersection intersection) {
+	super();
+	this.duree = duree;
+	this.intersection = intersection;
+	this.contrainteTemps = false;
+    }
 
-	/**
-	 * @return Durée de la livraison
-	 */
-	public int getDuree() {
-		return duree;
-	}
+    /**
+     * Le constructeur avec plage horaire
+     * 
+     * @param duree
+     *            Durée de la livraison
+     * @param intersection
+     *            L'intersection sur laquelle se situe la livraison
+     */
+    public Livraison(int duree, Intersection intersection, Temps debutPlage, Temps finPlage) {
+	super();
+	this.duree = duree;
+	this.intersection = intersection;
+	this.debutPlage = debutPlage;
+	this.finPlage = finPlage;
+	this.contrainteTemps = true;
+    }
 
-	/**
-	 * @return L'intersection sur laquelle se situe la livraison
-	 */
-	public Intersection getIntersection() {
-		return intersection;
-	}
+    /**
+     * @return Durée de la livraison
+     */
+    public int getDuree() {
+	return duree;
+    }
 
-	/**
-	 * @return Un booléen disant si on a une plage à respecter
-	 */
-	public boolean ContrainteDeTemps() {
-		return contrainteTemps;
-	}
+    /**
+     * @return L'intersection sur laquelle se situe la livraison
+     */
+    public Intersection getIntersection() {
+	return intersection;
+    }
 
-	/**
-	 * @return Le début de la plage si elle existe, null sinon
-	 */
-	public Temps getDebutPlage() {
-		return debutPlage;
-	}
+    /**
+     * @return Un booléen disant si on a une plage à respecter
+     */
+    public boolean ContrainteDeTemps() {
+	return contrainteTemps;
+    }
 
-	public void setDebutPlage(Temps debutPlage) {
-		this.debutPlage = debutPlage;
-	}
+    /**
+     * @return Le début de la plage si elle existe, null sinon
+     */
+    public Temps getDebutPlage() {
+	return debutPlage;
+    }
 
-	/**
-	 * @return La fin de la plage si elle existe, null sinon
-	 */
-	public Temps getFinPlage() {
-		return finPlage;
-	}
+    public void setDebutPlage(Temps debutPlage) {
+	this.debutPlage = debutPlage;
+    }
 
-	public void setFinPlage(Temps finPlage) {
-		this.finPlage = finPlage;
-	}
+    /**
+     * @return La fin de la plage si elle existe, null sinon
+     */
+    public Temps getFinPlage() {
+	return finPlage;
+    }
 
-	/**
-	 * Modifier la plage d'une livraison
-	 * 
-	 * @param debutPlage
-	 *            Le début de la plage
-	 * @param finPlage
-	 *            La fin de la plage
-	 */
-	public void modifier(Temps debutPlage, Temps finPlage) {
-		this.debutPlage = debutPlage;
-		this.finPlage = finPlage;
-	}
+    public void setFinPlage(Temps finPlage) {
+	this.finPlage = finPlage;
+    }
 
-	@Override
-	public String toString() {
-		return Integer.toString(intersection.getId());
-	}
+    /**
+     * Modifier la plage d'une livraison
+     * 
+     * @param debutPlage
+     *            Le début de la plage
+     * @param finPlage
+     *            La fin de la plage
+     */
+    public void modifier(Temps debutPlage, Temps finPlage) {
+	this.debutPlage = debutPlage;
+	this.finPlage = finPlage;
+    }
+
+    @Override
+    public String toString() {
+	return Integer.toString(intersection.getId());
+    }
+
+    /**
+     * @return Le temps d'attente, en secondes
+     */
+    public float getTempsAttente() {
+	return tempsAttente;
+    }
+
+    public void setTempsAttente(float tempsAttente) {
+	this.tempsAttente = tempsAttente;
+    }
 }

@@ -7,7 +7,6 @@ import java.util.Iterator;
 public abstract class TemplateTSP implements TSP {
 
     private Integer[] meilleureSolution;
-    private float[] tempsAttente;
     private float coutMeilleureSolution = 0;
     private Boolean tempsLimiteAtteint;
 

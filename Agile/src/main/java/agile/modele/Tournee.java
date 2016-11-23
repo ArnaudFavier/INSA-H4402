@@ -104,13 +104,22 @@ public class Tournee {
 
 	livraisonsTSP = new ArrayList<>(livraisons.size());
 	cheminsTSP = new ArrayList<>(livraisons.size() + 1);
+	float currTime = 0;
 	int idPrecedenteIntersection = 0;
 	for (int i = 0; i < livraisons.size(); i++) {
 	    int idCurrIntersection = tsp.getMeilleureSolution(i + 1);
 	    Livraison livr = livraisons.get(idCurrIntersection - 1);
 	    livraisonsTSP.add(livr);
-	    cheminsTSP.add(matriceChemin[idPrecedenteIntersection][idCurrIntersection]);
+	    Chemin chemin = matriceChemin[idPrecedenteIntersection][idCurrIntersection];
+	    cheminsTSP.add(chemin);
+	    currTime += chemin.getCout();
+	    if (livr.ContrainteDeTemps() && currTime < livr.getDebutPlage().getTotalSecondes()) {
+		livr.setTempsAttente(livr.getDebutPlage().getTotalSecondes() - currTime);
+	    } else {
+		livr.setTempsAttente(0);
+	    }
 
+	    currTime += livr.getDuree();
 	    idPrecedenteIntersection = idCurrIntersection;
 	}
 	cheminsTSP.add(matriceChemin[idPrecedenteIntersection][0]);
