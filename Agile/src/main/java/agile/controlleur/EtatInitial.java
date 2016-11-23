@@ -1,18 +1,15 @@
 package agile.controlleur;
 
+import agile.modele.DemandeLivraisons;
+
 public class EtatInitial extends EtatDefaut {
 
 	public EtatInitial() {
 	}
 
 	@Override
-	public void undo(Historique historique) {
-		historique.undo();
-	}
-
-	@Override
-	public void redo(Historique historique) {
-		historique.redo();
+	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) throws Exception {
+		return controlleur.getDemandeLivraisons();
 	}
 
 }

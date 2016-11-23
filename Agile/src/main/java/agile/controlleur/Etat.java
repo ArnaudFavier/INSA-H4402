@@ -1,7 +1,9 @@
 package agile.controlleur;
 
 import agile.modele.DemandeLivraisons;
+import agile.modele.Livraison;
 import agile.modele.Plan;
+import agile.modele.Temps;
 import agile.modele.Tournee;
 
 public interface Etat {
@@ -13,9 +15,11 @@ public interface Etat {
 
 	public void enregistrerFeuilleDeRoute(Controlleur controlleur);
 
-	public void ajouterLivraison(Controlleur controlleur);
+	public void ajouterLivraison(Controlleur controlleur, Livraison livraison);
 
-	public void modifierLivraison(Controlleur controlleur);
+	public void modifierLivraison(Controlleur controlleur, int idLivraison, Temps debutPlage, Temps finPlage);
+
+	public void supprimerLivraison(Controlleur controlleur, Livraison livraison);
 
 	public void undo(Historique historique);
 

@@ -1,7 +1,9 @@
 package agile.controlleur;
 
 import agile.modele.DemandeLivraisons;
+import agile.modele.Livraison;
 import agile.modele.Plan;
+import agile.modele.Temps;
 import agile.modele.Tournee;
 import agile.xml.DeserialiseurDemandeLivraisonsXML;
 import agile.xml.DeserialiseurPlanXML;
@@ -51,14 +53,20 @@ public abstract class EtatDefaut implements Etat {
 
 	@Override
 	public void enregistrerFeuilleDeRoute(Controlleur controlleur) {
+
 	}
 
 	@Override
-	public void ajouterLivraison(Controlleur controlleur) {
+	public void ajouterLivraison(Controlleur controlleur, Livraison livraison) {
 	}
 
 	@Override
-	public void modifierLivraison(Controlleur controlleur) {
+	public void modifierLivraison(Controlleur controlleur, int idLivraison, Temps debutPlage, Temps finPlage) {
+
+	}
+
+	@Override
+	public void supprimerLivraison(Controlleur controlleur, Livraison livraison) {
 	}
 
 	@Override
