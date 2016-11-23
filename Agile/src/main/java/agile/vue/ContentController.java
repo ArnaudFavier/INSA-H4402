@@ -117,10 +117,16 @@ public class ContentController {
 		colonnePlagePrevisionnelle
 				.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
 					if (colonnePlagePrevisionnelle.validateValue(param))
-						return param.getValue().getValue().plageFin;
+						return param.getValue().getValue().plagePrevisionnelle;
 					else
 						return colonnePlagePrevisionnelle.getComputedValue(param);
 				});
+		colonneTempsAttente.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
+			if (colonneTempsAttente.validateValue(param))
+				return param.getValue().getValue().tempsAttente;
+			else
+				return colonneTempsAttente.getComputedValue(param);
+		});
 
 		// Binding des autres composants
 		entrepotTreeTableView
@@ -218,6 +224,7 @@ public class ContentController {
 		try {
 			controlleur.calculerTournee(this.controlleur);
 			miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
+			System.out.println("tmps: " + controlleur.getTournee().getLivraisonsTSP().get(0).getTempsAttente());
 
 			// Mise à jour des boutons
 			boutonOuvrirLivraison.setVisible(true);
@@ -270,19 +277,9 @@ public class ContentController {
 	public void miseAJourLivraison(List<Livraison> livraisons) {
 		observableListeLivraisons.clear();
 		livraisonTreeTableView.currentItemsCountProperty().set(0);
-		for (Livraison livraison : livraisons) {
-			String debutPlage = "";
-			String finPlage = "";
-
-			if (livraison.getDebutPlage() != null)
-				debutPlage = livraison.getDebutPlage().toString();
-			if (livraison.getFinPlage() != null)
-				finPlage = livraison.getFinPlage().toString();
+		for (Livraison livraison : livraisons)
 			observableListeLivraisons.add(new LivraisonVue(livraison));
-
-			livraisonTreeTableView.currentItemsCountProperty()
-					.set(livraisonTreeTableView.currentItemsCountProperty().get() + 1);
-		}
+		livraisonTreeTableView.currentItemsCountProperty().set(observableListeLivraisons.size());
 	}
 
 	/**

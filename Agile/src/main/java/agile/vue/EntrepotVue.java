@@ -12,7 +12,8 @@ public class EntrepotVue extends RecursiveTreeObject<EntrepotVue> {
 	StringProperty heureDepart;
 
 	public EntrepotVue(Entrepot entrepot) {
-		this.intersection = new SimpleStringProperty(entrepot.getIntersection().toString());
+		this.intersection = new SimpleStringProperty(entrepot.getIntersection().getId() + " ("
+				+ entrepot.getIntersection().getX() + ", " + entrepot.getIntersection().getY() + ")");
 		this.heureDepart = new SimpleStringProperty(entrepot.getHeureDepart().toString());
 	}
 
