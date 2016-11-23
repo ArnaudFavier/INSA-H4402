@@ -61,7 +61,7 @@ public class Controlleur {
 		}
 	}
 
-	public void enregistrerFeuilleDeRoute(Controlleur controlleur) {
+	public void enregistrerFeuilleDeRoute(Controlleur controlleur) throws Exception {
 		etatCourant.enregistrerFeuilleDeRoute(this);
 	}
 

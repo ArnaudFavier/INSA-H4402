@@ -19,28 +19,33 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
 	// private static String NOM_FICHIER = "tournee";
 	// private static String EXTENSION_FICHIER = ".txt";
-	// private static String CHEMIN = "src/main/resources/";
+	private static String CHEMIN_REPERTOIRE_INITIAL = "src/main/resources/";
 
 	public EtatTourneeCalculee() {
 	}
 
 	@Override
-	public void enregistrerFeuilleDeRoute(Controlleur controlleur) {
+	public void enregistrerFeuilleDeRoute(Controlleur controlleur) throws Exception {
 
 		FileChooser fileChooserTXT = new FileChooser();
 		fileChooserTXT.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Fichier texte", "*.txt"));
+		fileChooserTXT.setInitialDirectory(new File(CHEMIN_REPERTOIRE_INITIAL));
 		File fichier = fileChooserTXT.showSaveDialog(null);
 
 		if (fichier.equals(null)) {
-			System.out.println("Erreur: Aucun fichier pour l'export n'a été séléctionné.");
+			String messageAnnulation = "Erreur: Aucun fichier pour l'export n'a été séléctionné.";
+			System.out.println(messageAnnulation);
+			throw new Exception(messageAnnulation);
 		} else {
 			if (fichier != null) {
 				try {
 					fichier.createNewFile();
 				} catch (IOException e) {
-					System.err.println("Impossible de créer le fichier d'export " + fichier.toString());
+					String messageErreur = "Impossible de créer le fichier d'export " + fichier.toString();
+					System.err.println(messageErreur);
 					System.err.println(e.getMessage());
 					e.printStackTrace();
+					throw new Exception(messageErreur);
 				}
 			}
 
@@ -109,12 +114,13 @@ public class EtatTourneeCalculee extends EtatDefaut {
 				out.close();
 				System.out.println("La tournée a été exportée dans " + fichier.toString() + ".");
 			} catch (Exception e) {
-				System.err.println("Erreur lors de l'export de la tournée");
+				String messageErreur = "Erreur lors de l'export de la tournée.";
+				System.err.println(messageErreur);
 				System.err.println(e.getMessage());
 				e.printStackTrace();
+				throw new Exception(messageErreur);
 			}
 
-			System.out.println("Enregistrement de la feuille de route");
 		}
 	}
 

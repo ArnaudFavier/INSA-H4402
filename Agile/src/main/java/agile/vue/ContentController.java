@@ -196,7 +196,17 @@ public class ContentController {
 	 */
 	@FXML
 	private void boutonExporterTournee() {
-		controlleur.enregistrerFeuilleDeRoute(this.controlleur);
+		try {
+			controlleur.enregistrerFeuilleDeRoute(this.controlleur);
+		} catch (Exception e) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(fenetre.getStage());
+			alert.setTitle("Plan invalide");
+			alert.setHeaderText("Plan incorrect");
+			alert.setContentText("Erreur lors de l'export de la feuille de route.");
+
+			alert.showAndWait();
+		}
 	}
 
 	/**

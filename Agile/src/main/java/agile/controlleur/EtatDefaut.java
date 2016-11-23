@@ -50,7 +50,7 @@ public abstract class EtatDefaut implements Etat {
 	}
 
 	@Override
-	public void enregistrerFeuilleDeRoute(Controlleur controlleur) {
+	public void enregistrerFeuilleDeRoute(Controlleur controlleur) throws Exception {
 	}
 
 	@Override
