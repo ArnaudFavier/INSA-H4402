@@ -119,7 +119,7 @@ public abstract class TemplateTSP implements TSP {
 	    Iterator<Integer> it = iterator(sommetCrt, nonVus, cout, duree);
 	    while (it.hasNext()) {
 		Integer prochainSommet = it.next();
-		float tempsArriveeProchainSommet = coutVus + cout[sommetCrt][prochainSommet] + duree[prochainSommet];
+		float tempsArriveeProchainSommet = coutVus + cout[sommetCrt][prochainSommet];
 		// Si on arrive avant le début de période, on attend
 		if (tempsArriveeProchainSommet < tempsMin[prochainSommet]) {
 		    tempsArriveeProchainSommet = tempsMin[prochainSommet];
@@ -131,8 +131,8 @@ public abstract class TemplateTSP implements TSP {
 
 		vus.add(prochainSommet);
 		nonVus.remove(prochainSommet);
-		branchAndBound(prochainSommet, nonVus, vus, tempsArriveeProchainSommet, cout, duree, tpsDebut,
-			tpsLimite, tempsMin, tempsMax);
+		branchAndBound(prochainSommet, nonVus, vus, tempsArriveeProchainSommet + duree[prochainSommet], cout,
+			duree, tpsDebut, tpsLimite, tempsMin, tempsMax);
 		vus.remove(prochainSommet);
 		nonVus.add(prochainSommet);
 	    }
