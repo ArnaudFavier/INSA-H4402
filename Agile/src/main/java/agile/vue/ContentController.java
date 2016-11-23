@@ -28,6 +28,7 @@ import javafx.scene.control.TreeTableColumn;
 public class ContentController {
 
 	/* FXML view elements */
+	// Entrepôt
 	@FXML
 	private JFXTreeTableView<EntrepotVue> entrepotTreeTableView;
 	@FXML
@@ -35,6 +36,7 @@ public class ContentController {
 	@FXML
 	private JFXTreeTableColumn<EntrepotVue, String> colonneEntrepotHeureDepart;
 
+	// Livraisons
 	@FXML
 	private JFXTreeTableView<LivraisonVue> livraisonTreeTableView;
 	@FXML
@@ -57,6 +59,16 @@ public class ContentController {
 	private JFXButton treeTableViewRemove;
 	@FXML
 	private JFXTextField searchField;
+
+	// Boutons
+	@FXML
+	private JFXButton boutonOuvrirPlan;
+	@FXML
+	private JFXButton boutonOuvrirLivraison;
+	@FXML
+	private JFXButton boutonCalculerTournee;
+	@FXML
+	private JFXButton boutonExporterTournee;
 
 	/* Code architecture elements */
 	private ObservableList<EntrepotVue> observableEntrepot = FXCollections.observableArrayList();
@@ -157,6 +169,11 @@ public class ContentController {
 	private void boutonOuvrirPlan() {
 		try {
 			controlleur.chargerPlan(this.controlleur);
+
+			// Mise à jour des boutons
+			boutonOuvrirLivraison.setVisible(true);
+			boutonCalculerTournee.setVisible(false);
+			boutonExporterTournee.setVisible(false);
 		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(fenetre.getStage());
@@ -185,6 +202,11 @@ public class ContentController {
 			try {
 				controlleur.chargerDemandeLivraisons(this.controlleur);
 				miseAJourLivraison(controlleur.getDemandeLivraisons().getLivraisons());
+
+				// Mise à jour des boutons
+				boutonOuvrirLivraison.setVisible(true);
+				boutonCalculerTournee.setVisible(true);
+				boutonExporterTournee.setVisible(false);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -198,6 +220,11 @@ public class ContentController {
 	private void boutonCalculerTournee() {
 		try {
 			controlleur.calculerTournee(this.controlleur);
+
+			// Mise à jour des boutons
+			boutonOuvrirLivraison.setVisible(true);
+			boutonCalculerTournee.setVisible(true);
+			boutonExporterTournee.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
