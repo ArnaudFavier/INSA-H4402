@@ -1,5 +1,7 @@
 package agile.vue;
 
+import java.util.List;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableColumn;
@@ -8,8 +10,10 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import agile.controlleur.Controlleur;
-import agile.modele.DemandeLivraisons;
+import agile.modele.Entrepot;
+import agile.modele.Intersection;
 import agile.modele.Livraison;
+import agile.modele.Temps;
 import io.datafx.controller.FXMLController;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -24,6 +28,13 @@ import javafx.scene.control.TreeTableColumn;
 public class ContentController {
 
 	/* FXML view elements */
+	@FXML
+	private JFXTreeTableView<EntrepotVue> entrepotTreeTableView;
+	@FXML
+	private JFXTreeTableColumn<EntrepotVue, String> colonneEntrepotAdresse;
+	@FXML
+	private JFXTreeTableColumn<EntrepotVue, String> colonneEntrepotHeureDepart;
+
 	@FXML
 	private JFXTreeTableView<LivraisonVue> livraisonTreeTableView;
 	@FXML
@@ -48,7 +59,8 @@ public class ContentController {
 	private JFXTextField searchField;
 
 	/* Code architecture elements */
-	private ObservableList<LivraisonVue> listeLivraisons = FXCollections.observableArrayList();
+	private ObservableList<EntrepotVue> observableEntrepot = FXCollections.observableArrayList();
+	private ObservableList<LivraisonVue> observableListeLivraisons = FXCollections.observableArrayList();
 	private Fenetre fenetre;
 	public static Controlleur controlleur;
 
@@ -64,7 +76,22 @@ public class ContentController {
 	 */
 	@FXML
 	private void initialize() {
-		// Colonnes de la LivraisonTreeTableViez
+		// Colonnes du entrepotTreeTableView
+		colonneEntrepotAdresse.setCellValueFactory((TreeTableColumn.CellDataFeatures<EntrepotVue, String> param) -> {
+			if (colonneEntrepotAdresse.validateValue(param))
+				return param.getValue().getValue().intersection;
+			else
+				return colonneEntrepotAdresse.getComputedValue(param);
+		});
+		colonneEntrepotHeureDepart
+				.setCellValueFactory((TreeTableColumn.CellDataFeatures<EntrepotVue, String> param) -> {
+					if (colonneEntrepotHeureDepart.validateValue(param))
+						return param.getValue().getValue().heureDepart;
+					else
+						return colonneEntrepotHeureDepart.getComputedValue(param);
+				});
+
+		// Colonnes de la livraisonTreeTableView
 		colonneAdresse.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
 			if (colonneAdresse.validateValue(param))
 				return param.getValue().getValue().intersection;
@@ -86,32 +113,34 @@ public class ContentController {
 				});
 
 		// Des exemples
-		listeLivraisons.add(new LivraisonVue("42 rue Agile", "12", "8:00", "17:00"));
-		listeLivraisons.add(new LivraisonVue("24 rue Mars", "32", "9:00", "12:00"));
-		listeLivraisons.add(new LivraisonVue("18 rue Waso", "43", "-", "-"));
+		observableEntrepot.add(new EntrepotVue(new Entrepot(new Temps(5, 3, 4), new Intersection(6, 7, 8))));
 
-		livraisonTreeTableView
-				.setRoot(new RecursiveTreeItem<LivraisonVue>(listeLivraisons, RecursiveTreeObject::getChildren));
+		observableListeLivraisons.add(new LivraisonVue("42 rue Agile", "12", "8:00", "17:00"));
+		observableListeLivraisons.add(new LivraisonVue("24 rue Mars", "32", "9:00", "12:00"));
+		observableListeLivraisons.add(new LivraisonVue("18 rue Waso", "43", "-", "-"));
 
 		// Binding des autres composants
+		entrepotTreeTableView
+				.setRoot(new RecursiveTreeItem<EntrepotVue>(observableEntrepot, RecursiveTreeObject::getChildren));
+		entrepotTreeTableView.setShowRoot(false);
+
+		livraisonTreeTableView.setRoot(
+				new RecursiveTreeItem<LivraisonVue>(observableListeLivraisons, RecursiveTreeObject::getChildren));
 		livraisonTreeTableView.setShowRoot(false);
 		treeTableViewCount.textProperty()
 				.bind(Bindings.createStringBinding(
 						() -> "(total : " + livraisonTreeTableView.getCurrentItemsCount() + ")",
 						livraisonTreeTableView.currentItemsCountProperty()));
-		/*
-		 * treeTableViewAdd.disableProperty() .bind(Bindings.notEqual(-1,
-		 * livraisonTreeTableView.getSelectionModel().selectedIndexProperty()));
-		 */
 		treeTableViewRemove.disableProperty()
 				.bind(Bindings.equal(-1, livraisonTreeTableView.getSelectionModel().selectedIndexProperty()));
 		treeTableViewAdd.setOnMouseClicked((e) -> {
-			listeLivraisons.add(new LivraisonVue("?", "?", "?", "?"));
+			observableListeLivraisons.add(new LivraisonVue("?", "?", "?", "?"));
 			livraisonTreeTableView.currentItemsCountProperty()
 					.set(livraisonTreeTableView.currentItemsCountProperty().get() + 1);
 		});
 		treeTableViewRemove.setOnMouseClicked((e) -> {
-			listeLivraisons.remove(livraisonTreeTableView.getSelectionModel().selectedItemProperty().get().getValue());
+			observableListeLivraisons
+					.remove(livraisonTreeTableView.getSelectionModel().selectedItemProperty().get().getValue());
 			livraisonTreeTableView.currentItemsCountProperty()
 					.set(livraisonTreeTableView.currentItemsCountProperty().get() - 1);
 		});
@@ -155,24 +184,7 @@ public class ContentController {
 		} else {
 			try {
 				controlleur.chargerDemandeLivraisons(this.controlleur);
-				DemandeLivraisons demandeLivraison = controlleur.getDemandeLivraisons();
-
-				listeLivraisons.clear();
-				livraisonTreeTableView.currentItemsCountProperty().set(0);
-				for (Livraison livraison : demandeLivraison.getLivraisons()) {
-					String debutPlage = "";
-					String finPlage = "";
-
-					if (livraison.getDebutPlage() != null)
-						debutPlage = livraison.getDebutPlage().toString();
-					if (livraison.getFinPlage() != null)
-						finPlage = livraison.getFinPlage().toString();
-
-					listeLivraisons.add(new LivraisonVue(livraison.getIntersection().toString(),
-							String.valueOf(livraison.getDuree()), debutPlage, finPlage));
-					livraisonTreeTableView.currentItemsCountProperty()
-							.set(livraisonTreeTableView.currentItemsCountProperty().get() + 1);
-				}
+				miseAJourLivraison(controlleur.getDemandeLivraisons().getLivraisons());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -225,6 +237,29 @@ public class ContentController {
 	 */
 	public void setControlleur(Controlleur controlleur) {
 		this.controlleur = controlleur;
+	}
+
+	/**
+	 * Met à jour la liste des livraisons
+	 */
+	public void miseAJourLivraison(List<Livraison> livraisons) {
+		observableListeLivraisons.clear();
+		livraisonTreeTableView.currentItemsCountProperty().set(0);
+		for (Livraison livraison : livraisons) {
+			String debutPlage = "";
+			String finPlage = "";
+
+			if (livraison.getDebutPlage() != null)
+				debutPlage = livraison.getDebutPlage().toString();
+			if (livraison.getFinPlage() != null)
+				finPlage = livraison.getFinPlage().toString();
+
+			observableListeLivraisons.add(new LivraisonVue(livraison.getIntersection().toString(),
+					String.valueOf(livraison.getDuree()), debutPlage, finPlage));
+			livraisonTreeTableView.currentItemsCountProperty()
+					.set(livraisonTreeTableView.currentItemsCountProperty().get() + 1);
+		}
+
 	}
 
 }

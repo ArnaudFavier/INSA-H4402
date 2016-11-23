@@ -15,6 +15,18 @@
 <StackPane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
 	<VBox spacing="10">
 		<children>
+         <HBox alignment="CENTER" layoutX="10.0" layoutY="275.0" prefWidth="800.0">
+            <children>
+               <Label minWidth="180.0" styleClass="title-label" text="Entrepôt" />
+               <StackPane prefWidth="556.0" HBox.hgrow="ALWAYS" />
+            </children>
+         </HBox>
+         <JFXTreeTableView fx:id="entrepotTreeTableView" prefHeight="160.0" prefWidth="800.0">
+            <columns>
+               <JFXTreeTableColumn fx:id="colonneEntrepotAdresse" editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" resizable="false" sortable="false" text="Adresse" />
+               <JFXTreeTableColumn fx:id="colonneEntrepotHeureDepart" editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" resizable="false" sortable="false" text="Heure départ" />
+            </columns>
+         </JFXTreeTableView>
 			<HBox alignment="CENTER" prefWidth="800.0">
 				<Label minWidth="180.0" styleClass="title-label" text="Liste des livraisons" />
 				<Label fx:id="treeTableViewCount" minWidth="150.0" styleClass="title-label" />
@@ -29,14 +41,14 @@
             </JFXButton>
 				<StackPane prefWidth="556.0" HBox.hgrow="ALWAYS"><StackPane maxWidth="200" StackPane.alignment="CENTER_RIGHT"><JFXTextField fx:id="searchField" promptText="Rechercher..." /></StackPane></StackPane>
 			</HBox>
-			<JFXTreeTableView fx:id="livraisonTreeTableView" prefWidth="800.0">
+			<JFXTreeTableView fx:id="livraisonTreeTableView" editable="true" prefHeight="220.0" prefWidth="800.0">
 				<columns>
 					<JFXTreeTableColumn fx:id="colonneAdresse" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="160.0" resizable="false" sortable="false" text="Adresse" />
                <JFXTreeTableColumn fx:id="colonneHeureArrivee" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="105.0" resizable="false" sortable="false" text="Heure arrivée" />
                <JFXTreeTableColumn fx:id="colonneTempsAttente" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="105.0" resizable="false" sortable="false" text="Temps attente" />
 					<JFXTreeTableColumn fx:id="colonneDuree" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="105.0" resizable="false" sortable="false" text="Durée" />
                <JFXTreeTableColumn fx:id="colonneHeureDepart" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="105.0" resizable="false" sortable="false" text="Heure départ" />
-					<JFXTreeTableColumn fx:id="colonnePlagePrevisionnelle" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="105.0" resizable="false" sortable="false" text="Plage prévisionnelle" />
+					<JFXTreeTableColumn fx:id="colonnePlagePrevisionnelle" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="105.0" resizable="false" sortable="false" text="Plage prévisionnelle" />
 				</columns>
 			</JFXTreeTableView>
 			<HBox alignment="BASELINE_CENTER" prefHeight="80.0" prefWidth="800.0">
