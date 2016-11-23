@@ -7,6 +7,7 @@ import java.util.Iterator;
 public abstract class TemplateTSP implements TSP {
 
     private Integer[] meilleureSolution;
+    private float[] tempsAttente;
     private float coutMeilleureSolution = 0;
     private Boolean tempsLimiteAtteint;
 
@@ -14,7 +15,8 @@ public abstract class TemplateTSP implements TSP {
 	return tempsLimiteAtteint;
     }
 
-    public void chercheSolution(int tpsLimite, int nbSommets, float[][] cout, int[] duree) {
+    public void chercheSolution(int tpsLimite, int nbSommets, float[][] cout, int[] duree, float[] tempsMin,
+	    float[] tempsMax) {
 	System.out.println("Cout");
 	System.out.println(Arrays.deepToString(cout));
 	System.out.println("Duree");
@@ -27,7 +29,7 @@ public abstract class TemplateTSP implements TSP {
 	    nonVus.add(i);
 	ArrayList<Integer> vus = new ArrayList<Integer>(nbSommets);
 	vus.add(0); // le premier sommet visite est 0
-	branchAndBound(0, nonVus, vus, 0, cout, duree, System.currentTimeMillis(), tpsLimite);
+	branchAndBound(0, nonVus, vus, 0, cout, duree, System.currentTimeMillis(), tpsLimite, tempsMin, tempsMax);
     }
 
     public Integer getMeilleureSolution(int i) {
@@ -100,7 +102,7 @@ public abstract class TemplateTSP implements TSP {
      *            : limite de temps pour la resolution
      */
     void branchAndBound(int sommetCrt, ArrayList<Integer> nonVus, ArrayList<Integer> vus, float coutVus, float[][] cout,
-	    int[] duree, long tpsDebut, int tpsLimite) {
+	    int[] duree, long tpsDebut, int tpsLimite, float[] tempsMin, float[] tempsMax) {
 	if (System.currentTimeMillis() - tpsDebut > tpsLimite) {
 	    tempsLimiteAtteint = true;
 	    return;
@@ -117,11 +119,20 @@ public abstract class TemplateTSP implements TSP {
 	    Iterator<Integer> it = iterator(sommetCrt, nonVus, cout, duree);
 	    while (it.hasNext()) {
 		Integer prochainSommet = it.next();
+		float tempsArriveeProchainSommet = coutVus + cout[sommetCrt][prochainSommet] + duree[prochainSommet];
+		// Si on arrive avant le début de période, on attend
+		if (tempsArriveeProchainSommet < tempsMin[prochainSommet]) {
+		    tempsArriveeProchainSommet = tempsMin[prochainSommet];
+		}
+		// Si on arrive après la fin de l'intervalle, continue
+		else if (tempsArriveeProchainSommet > tempsMax[prochainSommet]) {
+		    continue;
+		}
+
 		vus.add(prochainSommet);
 		nonVus.remove(prochainSommet);
-		branchAndBound(prochainSommet, nonVus, vus,
-			coutVus + cout[sommetCrt][prochainSommet] + duree[prochainSommet], cout, duree, tpsDebut,
-			tpsLimite);
+		branchAndBound(prochainSommet, nonVus, vus, tempsArriveeProchainSommet, cout, duree, tpsDebut,
+			tpsLimite, tempsMin, tempsMax);
 		vus.remove(prochainSommet);
 		nonVus.add(prochainSommet);
 	    }
