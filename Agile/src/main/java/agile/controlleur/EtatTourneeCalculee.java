@@ -63,7 +63,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 			Troncon tr4 = new Troncon(4, 40, "avenue Dussauge", it5, it2);
 			Troncon tr5 = new Troncon(4, 40, "champ Favier", it2, it6);
 			Troncon tr6 = new Troncon(4, 40, "rue Moll", it6, it3);
-			Troncon tr7 = new Troncon(4, 40, "Avenu Delay", it3, it0);
+			Troncon tr7 = new Troncon(4, 40, "avenue Delay", it3, it0);
 			// entrepot
 			Entrepot entrepot = new Entrepot(new Temps(8, 0, 0), it0);
 			// livraisons
@@ -146,7 +146,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 				}
 			}
 
-			out.println(etapeActuelle + "Arrivée à l'entrepôt[" + entrepot.getIntersection().getId() + "].");
+			out.println("\t====> Arrivée à l'entrepôt[" + entrepot.getIntersection().getId() + "].");
 			out.println();
 			out.println("Fin de la tournée.");
 
