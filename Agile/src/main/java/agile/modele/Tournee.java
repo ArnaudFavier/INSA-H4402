@@ -104,7 +104,7 @@ public class Tournee {
 
 	livraisonsTSP = new ArrayList<>(livraisons.size());
 	cheminsTSP = new ArrayList<>(livraisons.size() + 1);
-	float currTime = 0;
+	float currTime = demandeInitiale.getEntrepot().getHeureDepart().getTotalSecondes();
 	int idPrecedenteIntersection = 0;
 	for (int i = 0; i < livraisons.size(); i++) {
 	    int idCurrIntersection = tsp.getMeilleureSolution(i + 1);
@@ -115,6 +115,7 @@ public class Tournee {
 	    currTime += chemin.getCout();
 	    if (livr.ContrainteDeTemps() && currTime < livr.getDebutPlage().getTotalSecondes()) {
 		livr.setTempsAttente(livr.getDebutPlage().getTotalSecondes() - currTime);
+		currTime = livr.getDebutPlage().getTotalSecondes();
 	    } else {
 		livr.setTempsAttente(0);
 	    }
