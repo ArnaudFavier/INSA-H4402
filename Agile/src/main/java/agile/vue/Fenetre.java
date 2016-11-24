@@ -16,51 +16,51 @@ import javafx.stage.Stage;
 
 public class Fenetre {
 
-	private Stage stage;
+    private Stage stage;
 
-	@FXMLViewFlowContext
-	private ViewFlowContext flowContext;
+    @FXMLViewFlowContext
+    private ViewFlowContext flowContext;
 
-	public Fenetre(Stage stage, Controlleur controlleur) {
-		this.stage = stage;
+    public Fenetre(Stage stage, Controlleur controlleur) {
+	this.stage = stage;
 
-		try {
-			initialisation(controlleur);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+	try {
+	    initialisation(controlleur);
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+	}
+    }
+
+    private void initialisation(Controlleur controlleur) throws IOException {
+	Flow flow = new Flow(FenetreController.class);
+	DefaultFlowContainer container = new DefaultFlowContainer();
+	flowContext = new ViewFlowContext();
+	flowContext.register("Stage", this.stage);
+
+	try {
+	    flow.createHandler(flowContext).start(container);
+	} catch (FlowException e) {
+	    e.printStackTrace();
 	}
 
-	private void initialisation(Controlleur controlleur) throws IOException {
-		Flow flow = new Flow(FenetreController.class);
-		DefaultFlowContainer container = new DefaultFlowContainer();
-		flowContext = new ViewFlowContext();
-		flowContext.register("Stage", this.stage);
+	JFXDecorator decorator = new JFXDecorator(this.stage, container.getView());
+	decorator.setCustomMaximize(true);
+	Scene scene = new Scene(decorator, 800, 600);
+	scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-design.css").toExternalForm());
+	scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-main-demo.css").toExternalForm());
+	this.stage.setTitle("PLD Agile - H4402");
+	this.stage.getIcons().add(new Image("file:src/main/resources/icon.png"));
+	this.stage.setMinWidth(800);
+	this.stage.setMinHeight(600);
+	this.stage.setScene(scene);
+	this.stage.show();
 
-		try {
-			flow.createHandler(flowContext).start(container);
-		} catch (FlowException e) {
-			e.printStackTrace();
-		}
+	ContentController.fenetre = this;
+	ContentController.controlleur = controlleur;
+    }
 
-		JFXDecorator decorator = new JFXDecorator(this.stage, container.getView());
-		decorator.setCustomMaximize(true);
-		Scene scene = new Scene(decorator, 800, 600);
-		scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-design.css").toExternalForm());
-		scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-main-demo.css").toExternalForm());
-		this.stage.setTitle("PLD Agile - H4402");
-		this.stage.getIcons().add(new Image("file:src/main/resources/icon.png"));
-		this.stage.setMinWidth(800);
-		this.stage.setMinHeight(600);
-		this.stage.setScene(scene);
-		this.stage.show();
-
-		ContentController.fenetre = this;
-		ContentController.controlleur = controlleur;
-	}
-
-	public Stage getStage() {
-		return this.stage;
-	}
+    public Stage getStage() {
+	return this.stage;
+    }
 
 }
