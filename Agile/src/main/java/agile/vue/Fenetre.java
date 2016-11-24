@@ -12,6 +12,7 @@ import io.datafx.controller.flow.context.FXMLViewFlowContext;
 import io.datafx.controller.flow.context.ViewFlowContext;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Fenetre {
@@ -48,6 +49,10 @@ public class Fenetre {
 	Scene scene = new Scene(decorator, 800, 600);
 	scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-design.css").toExternalForm());
 	scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-main-demo.css").toExternalForm());
+	Font.loadFont(getClass().getResource("../../fonts/Roboto-Regular.ttf").toExternalForm(), 16);
+	Font.loadFont(getClass().getResource("../../fonts/Roboto-Medium.ttf").toExternalForm(), 16);
+	Font.loadFont(getClass().getResource("../../fonts/Roboto-Light.ttf").toExternalForm(), 16);
+
 	this.stage.setTitle("PLD Agile - H4402");
 	this.stage.getIcons().add(new Image("file:src/main/resources/icon.png"));
 	this.stage.setMinWidth(800);
