@@ -61,7 +61,7 @@
 
 	<JFXPopup fx:id="toolbarPopup" styleClass="tool-bar-popup">
 		<JFXListView styleClass="option-list-view">
-			<Label>
+			<Label fx:id="aPropos">
 				À propos
 			</Label>
 			<Label fx:id="exit">

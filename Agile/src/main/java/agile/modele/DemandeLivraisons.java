@@ -1,16 +1,7 @@
 package agile.modele;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-
-import agile.pathfinding.Djikstra;
-import agile.pathfinding.TSP;
-import agile.pathfinding.TSP1;
-import agile.pathfinding.TemplateTSP;
 
 /**
  * Repr�sente une demande de livraisons

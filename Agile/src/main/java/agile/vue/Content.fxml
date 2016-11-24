@@ -30,18 +30,18 @@
 			<HBox alignment="CENTER" minWidth="-Infinity" prefWidth="800.0">
 				<Label minWidth="180.0" styleClass="title-label" text="Liste des livraisons" />
 				<Label fx:id="treeTableViewCount" minWidth="150.0" styleClass="title-label" />
-				<JFXButton fx:id="treeTableViewAdd" buttonType="RAISED" minWidth="100.0" styleClass="red-A400" text="Ajouter">
+				<JFXButton fx:id="boutonAjouterLivraison" buttonType="RAISED" minWidth="100.0" styleClass="red-A400" text="Ajouter" visible="false">
                <HBox.margin>
                   <Insets left="5.0" right="5.0" />
                </HBox.margin></JFXButton>
-				<JFXButton fx:id="treeTableViewRemove" buttonType="RAISED" minWidth="100.0" styleClass="red-A400" text="Supprimer">
+				<JFXButton fx:id="boutonSupprimerLivraison" buttonType="RAISED" minWidth="100.0" styleClass="red-A400" text="Supprimer" visible="false">
                <HBox.margin>
                   <Insets left="5.0" right="5.0" />
                </HBox.margin>
             </JFXButton>
 				<StackPane prefWidth="556.0" HBox.hgrow="ALWAYS"><StackPane maxWidth="200" StackPane.alignment="CENTER_RIGHT"><JFXTextField fx:id="searchField" promptText="Rechercher..." /></StackPane></StackPane>
 			</HBox>
-			<JFXTreeTableView fx:id="livraisonTreeTableView" editable="true" minWidth="-Infinity" prefHeight="200.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
+			<JFXTreeTableView fx:id="livraisonTreeTableView" minWidth="-Infinity" prefHeight="200.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
 				<columns>
 					<JFXTreeTableColumn fx:id="colonneAdresse" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="160.0" resizable="false" sortable="false" text="Adresse" />
                <JFXTreeTableColumn fx:id="colonneHeureArrivee" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="105.0" resizable="false" sortable="false" text="Heure arrivée" />

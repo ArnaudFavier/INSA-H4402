@@ -26,57 +26,64 @@ import javafx.util.Duration;
 @FXMLController(value = "Fenetre.fxml")
 public class FenetreController {
 
-	@FXMLViewFlowContext
-	private ViewFlowContext context;
+    @FXMLViewFlowContext
+    private ViewFlowContext context;
 
-	@FXML
-	private StackPane root;
+    @FXML
+    private StackPane root;
 
-	@FXML
-	private StackPane titleBurgerContainer;
-	@FXML
-	private JFXHamburger titleBurger;
+    @FXML
+    private StackPane titleBurgerContainer;
+    @FXML
+    private JFXHamburger titleBurger;
 
-	@FXML
-	private StackPane optionsBurger;
-	@FXML
-	private JFXRippler optionsRippler;
+    @FXML
+    private StackPane optionsBurger;
+    @FXML
+    private JFXRippler optionsRippler;
 
-	@FXML
-	private JFXDrawer drawer;
-	@FXML
-	private JFXPopup toolbarPopup;
-	@FXML
-	private Label exit;
+    @FXML
+    private JFXDrawer drawer;
+    @FXML
+    private JFXPopup toolbarPopup;
+    @FXML
+    private Label exit;
+    @FXML
+    private Label aPropos;
 
-	private FlowHandler flowHandler;
+    private FlowHandler flowHandler;
 
-	@PostConstruct
-	public void init() throws FlowException, VetoException {
-		// Les options
-		toolbarPopup.setPopupContainer(root);
-		toolbarPopup.setSource(optionsRippler);
-		root.getChildren().remove(toolbarPopup);
+    @PostConstruct
+    public void init() throws FlowException, VetoException {
+	// Les options
+	toolbarPopup.setPopupContainer(root);
+	toolbarPopup.setSource(optionsRippler);
+	root.getChildren().remove(toolbarPopup);
 
-		optionsBurger.setOnMouseClicked((e) -> {
-			toolbarPopup.show(PopupVPosition.TOP, PopupHPosition.RIGHT, -12, 15);
-		});
+	optionsBurger.setOnMouseClicked((e) -> {
+	    toolbarPopup.show(PopupVPosition.TOP, PopupHPosition.RIGHT, -12, 15);
+	});
 
-		// Fermer l'application
-		exit.setOnMouseClicked((e) -> {
-			Platform.exit();
-		});
+	// Fermer l'application
+	exit.setOnMouseClicked((e) -> {
+	    Platform.exit();
+	});
 
-		// create the inner flow and content
-		context = new ViewFlowContext();
-		// set the default controller
-		Flow innerFlow = new Flow(ContentController.class);
+	aPropos.setOnMouseClicked((e) -> {
+	    toolbarPopup.close();
+	    DialogAbout.show(root);
+	});
 
-		flowHandler = innerFlow.createHandler(context);
-		context.register("ContentFlowHandler", flowHandler);
-		context.register("ContentFlow", innerFlow);
-		drawer.setContent(flowHandler.start(new io.datafx.controller.flow.container.AnimatedFlowContainer(
-				Duration.millis(320), ContainerAnimations.SWIPE_LEFT)));
-		context.register("ContentPane", drawer.getContent().get(0));
-	}
+	// create the inner flow and content
+	context = new ViewFlowContext();
+	// set the default controller
+	Flow innerFlow = new Flow(ContentController.class);
+
+	flowHandler = innerFlow.createHandler(context);
+	context.register("ContentFlowHandler", flowHandler);
+	context.register("ContentFlow", innerFlow);
+	drawer.setContent(flowHandler.start(new io.datafx.controller.flow.container.AnimatedFlowContainer(
+		Duration.millis(320), ContainerAnimations.SWIPE_LEFT)));
+	context.register("ContentPane", drawer.getContent().get(0));
+    }
 }

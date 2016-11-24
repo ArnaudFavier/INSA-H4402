@@ -12,6 +12,8 @@ import javafx.beans.property.StringProperty;
  */
 public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
 
+    Livraison livraison;
+
     StringProperty intersection;
     StringProperty duree;
     StringProperty plagePrevisionnelle;
@@ -20,6 +22,11 @@ public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
     StringProperty tempsAttente;
 
     public LivraisonVue(Livraison livraison) {
+	this.livraison = livraison;
+	update();
+    }
+
+    public void update() {
 	this.intersection = new SimpleStringProperty(livraison.getIntersection().getId() + " ("
 		+ livraison.getIntersection().getX() + ", " + livraison.getIntersection().getY() + ")");
 	this.duree = new SimpleStringProperty(String.valueOf(livraison.getDuree()));
@@ -39,5 +46,4 @@ public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
 
 	this.tempsAttente = new SimpleStringProperty(new Temps((int) (livraison.getTempsAttente())).getTimeString());
     }
-
 }
