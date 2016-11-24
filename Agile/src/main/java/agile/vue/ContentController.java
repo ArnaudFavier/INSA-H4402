@@ -251,8 +251,8 @@ public class ContentController {
 	} catch (Exception e) {
 	    Alert alert = new Alert(AlertType.WARNING);
 	    alert.initOwner(fenetre.getStage());
-	    alert.setTitle("Plan invalide");
-	    alert.setHeaderText("Plan incorrect");
+	    alert.setTitle("Aucun fichier sélectionné");
+	    alert.setHeaderText("Export annulé");
 	    alert.setContentText("Erreur lors de l'export de la feuille de route.");
 
 	    alert.showAndWait();
