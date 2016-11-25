@@ -3,19 +3,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.SVGPath?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.FlowPane?>
 <?import com.jfoenix.controls.JFXToolbar?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
@@ -23,13 +10,15 @@
 <?import com.jfoenix.controls.JFXRippler?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXPopup?>
-<?import javafx.scene.layout.BorderPane?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXButton?>
 
 <StackPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1"
 	xmlns="http://javafx.com/javafx/2.2">
-	<!-- Header -->
 	<BorderPane>
 
+		<!-- Header -->
 		<top>
 			<VBox spacing="20">
 				<JFXToolbar>
@@ -51,7 +40,8 @@
 
 		<!-- Content -->
 		<center>
-			<JFXDrawer fx:id="drawer" defaultDrawerSize="250" direction="LEFT">
+			<JFXDrawer fx:id="drawer" defaultDrawerSize="250"
+				direction="LEFT">
 				<styleClass>
 					<String fx:value="body" />
 				</styleClass>
@@ -59,6 +49,7 @@
 		</center>
 	</BorderPane>
 
+	<!-- Toolbar options -->
 	<JFXPopup fx:id="toolbarPopup" styleClass="tool-bar-popup">
 		<JFXListView styleClass="option-list-view">
 			<Label fx:id="aPropos">
@@ -69,5 +60,21 @@
 			</Label>
 		</JFXListView>
 	</JFXPopup>
+	<JFXDialog fx:id="dialogAPropos">
+		<JFXDialogLayout>
+			<heading>
+				<Label>A propos - Hexanôme H4402</Label>
+			</heading>
+			<body>
+				<Label>Anthony Delay, Aurélien Dussauge, Rim El Idrissi Mokdad,
+					Arnaud Favier, Valentin Huguet, José Serrano Martinez, Adrien Moll
+				</Label>
+			</body>
+			<actions>
+				<JFXButton fx:id="boutonRetourAPropos" styleClass="dialog-accept">Retour
+				</JFXButton>
+			</actions>
+		</JFXDialogLayout>
+	</JFXDialog>
 
 </StackPane>
