@@ -3,6 +3,8 @@ package agile.vue;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -17,8 +19,6 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.StackPane;
@@ -29,7 +29,7 @@ public class ContentController {
 	@FXML
 	private StackPane root;
 
-	/* FXML view elements */
+	/* FXML vue éléments */
 	// Entrepôt
 	@FXML
 	private JFXTreeTableView<EntrepotVue> entrepotTreeTableView;
@@ -71,6 +71,10 @@ public class ContentController {
 	private JFXButton boutonAjouterLivraison;
 	@FXML
 	private JFXButton boutonSupprimerLivraison;
+
+	// Snackbar
+	@FXML
+	private JFXSnackbar snackbar;
 
 	/* Code architecture elements */
 	private ObservableList<EntrepotVue> observableEntrepot = FXCollections.observableArrayList();
@@ -159,6 +163,8 @@ public class ContentController {
 			livraisonTreeTableView.setPredicate(person -> person.getValue().intersection.get().contains(newVal)
 					|| person.getValue().duree.get().contains(newVal));
 		});
+
+		snackbar.registerSnackbarContainer(root);
 	}
 
 	/**
@@ -177,15 +183,8 @@ public class ContentController {
 			boutonExporterTournee.setVisible(false);
 			boutonAjouterLivraison.setVisible(false);
 			boutonSupprimerLivraison.setVisible(false);
-
 		} catch (Exception e) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(fenetre.getStage());
-			alert.setTitle("Plan invalide");
-			alert.setHeaderText("Plan incorrect");
-			alert.setContentText("Merci de sélectionner un plan valide.");
-
-			alert.showAndWait();
+			snackbar.fireEvent(new SnackbarEvent("Plan invalide."));
 		}
 	}
 
@@ -195,13 +194,7 @@ public class ContentController {
 	@FXML
 	private void boutonOuvrirLivraison() {
 		if (controlleur.getPlan() == null) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(fenetre.getStage());
-			alert.setTitle("Plan invalide");
-			alert.setHeaderText("Plan incorrect");
-			alert.setContentText("Merci de sélectionner un plan avant une demande de livraisons.");
-
-			alert.showAndWait();
+			snackbar.fireEvent(new SnackbarEvent("Merci de sélectionner un plan avant une demande de livraisons."));
 		} else {
 			try {
 				controlleur.chargerDemandeLivraisons(this.controlleur);
@@ -215,7 +208,7 @@ public class ContentController {
 				boutonAjouterLivraison.setVisible(false);
 				boutonSupprimerLivraison.setVisible(false);
 			} catch (Exception e) {
-				e.printStackTrace();
+				snackbar.fireEvent(new SnackbarEvent("Demande de livraisons invalide."));
 			}
 		}
 	}
@@ -237,6 +230,7 @@ public class ContentController {
 			boutonAjouterLivraison.setVisible(true);
 			boutonSupprimerLivraison.setVisible(true);
 		} catch (Exception e) {
+			snackbar.fireEvent(new SnackbarEvent("Calcul de tournée impossible."));
 			e.printStackTrace();
 		}
 	}
@@ -249,13 +243,7 @@ public class ContentController {
 		try {
 			controlleur.enregistrerFeuilleDeRoute(this.controlleur);
 		} catch (Exception e) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(fenetre.getStage());
-			alert.setTitle("Aucun fichier sélectionné");
-			alert.setHeaderText("Export annulé");
-			alert.setContentText("Erreur lors de l'export de la feuille de route.");
-
-			alert.showAndWait();
+			snackbar.fireEvent(new SnackbarEvent("Export annulé."));
 		}
 	}
 

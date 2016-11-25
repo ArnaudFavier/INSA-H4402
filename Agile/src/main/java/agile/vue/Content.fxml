@@ -11,6 +11,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableColumn?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
+<?import com.jfoenix.controls.JFXSnackbar?>
 
 <StackPane fx:id="root" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
 	<VBox>
@@ -107,4 +108,5 @@
 			</HBox>
 		</children>
 	</VBox>
+	<JFXSnackbar fx:id="snackbar" prefWidth="300" />
 </StackPane>
