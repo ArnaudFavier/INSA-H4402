@@ -95,12 +95,13 @@ public class ContentController {
 	@FXML
 	private void initialize() {
 		// Colonnes du entrepotTreeTableView
-		colonneEntrepotAdresse.setCellValueFactory((TreeTableColumn.CellDataFeatures<EntrepotVue, String> param) -> {
-			if (colonneEntrepotAdresse.validateValue(param))
-				return param.getValue().getValue().intersection;
-			else
-				return colonneEntrepotAdresse.getComputedValue(param);
-		});
+		colonneEntrepotAdresse
+				.setCellValueFactory((TreeTableColumn.CellDataFeatures<EntrepotVue, String> param) -> {
+					if (colonneEntrepotAdresse.validateValue(param))
+						return param.getValue().getValue().intersection;
+					else
+						return colonneEntrepotAdresse.getComputedValue(param);
+				});
 		colonneEntrepotHeureDepart
 				.setCellValueFactory((TreeTableColumn.CellDataFeatures<EntrepotVue, String> param) -> {
 					if (colonneEntrepotHeureDepart.validateValue(param))
@@ -129,39 +130,41 @@ public class ContentController {
 					else
 						return colonnePlagePrevisionnelle.getComputedValue(param);
 				});
-		colonneTempsAttente.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
-			if (colonneTempsAttente.validateValue(param))
-				return param.getValue().getValue().tempsAttente;
-			else
-				return colonneTempsAttente.getComputedValue(param);
-		});
+		colonneTempsAttente
+				.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
+					if (colonneTempsAttente.validateValue(param))
+						return param.getValue().getValue().tempsAttente;
+					else
+						return colonneTempsAttente.getComputedValue(param);
+				});
 
 		// Binding des autres composants
-		entrepotTreeTableView
-				.setRoot(new RecursiveTreeItem<EntrepotVue>(observableEntrepot, RecursiveTreeObject::getChildren));
+		entrepotTreeTableView.setRoot(new RecursiveTreeItem<EntrepotVue>(observableEntrepot,
+				RecursiveTreeObject::getChildren));
 		entrepotTreeTableView.setShowRoot(false);
 
-		livraisonTreeTableView.setRoot(
-				new RecursiveTreeItem<LivraisonVue>(observableListeLivraisons, RecursiveTreeObject::getChildren));
+		livraisonTreeTableView.setRoot(new RecursiveTreeItem<LivraisonVue>(observableListeLivraisons,
+				RecursiveTreeObject::getChildren));
 		livraisonTreeTableView.setShowRoot(false);
 		treeTableViewCount.textProperty()
 				.bind(Bindings.createStringBinding(
 						() -> "(total : " + livraisonTreeTableView.getCurrentItemsCount() + ")",
 						livraisonTreeTableView.currentItemsCountProperty()));
-		boutonSupprimerLivraison.disableProperty()
-				.bind(Bindings.equal(-1, livraisonTreeTableView.getSelectionModel().selectedIndexProperty()));
+		boutonSupprimerLivraison.disableProperty().bind(
+				Bindings.equal(-1, livraisonTreeTableView.getSelectionModel().selectedIndexProperty()));
 		boutonAjouterLivraison.setOnMouseClicked((e) -> {
-			// DialogNouvelleLivraison.show(this, root);
+			DialogNouvelleLivraison.show(this, root);
 		});
 		boutonSupprimerLivraison.setOnMouseClicked((e) -> {
-			Livraison livraisonSupprimer = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
-					.getValue().livraison;
+			Livraison livraisonSupprimer = livraisonTreeTableView.getSelectionModel().selectedItemProperty()
+					.get().getValue().livraison;
 			controlleur.supprimerLivraison(livraisonSupprimer);
 			miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 		});
 		searchField.textProperty().addListener((o, oldVal, newVal) -> {
-			livraisonTreeTableView.setPredicate(person -> person.getValue().intersection.get().contains(newVal)
-					|| person.getValue().duree.get().contains(newVal));
+			livraisonTreeTableView
+					.setPredicate(person -> person.getValue().intersection.get().contains(newVal)
+							|| person.getValue().duree.get().contains(newVal));
 		});
 
 		snackbar.registerSnackbarContainer(root);
@@ -194,7 +197,8 @@ public class ContentController {
 	@FXML
 	private void boutonOuvrirLivraison() {
 		if (controlleur.getPlan() == null) {
-			snackbar.fireEvent(new SnackbarEvent("Merci de sélectionner un plan avant une demande de livraisons."));
+			snackbar.fireEvent(new SnackbarEvent(
+					"Merci de sélectionner un plan avant une demande de livraisons."));
 		} else {
 			try {
 				controlleur.chargerDemandeLivraisons();
@@ -221,7 +225,8 @@ public class ContentController {
 		try {
 			controlleur.calculerTournee();
 			miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
-			System.out.println("tmps: " + controlleur.getTournee().getLivraisonsTSP().get(0).getTempsAttente());
+			System.out.println("tmps: "
+					+ controlleur.getTournee().getLivraisonsTSP().get(0).getTempsAttente());
 
 			// Mise à jour des boutons
 			boutonOuvrirLivraison.setVisible(true);

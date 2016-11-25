@@ -79,7 +79,6 @@ public class FenetreController {
 		// Option "A propos" avec boite de dialogue
 		aPropos.setOnMouseClicked((e) -> {
 			toolbarPopup.close();
-			// DialogAbout.show(root);
 			dialogAPropos.setTransitionType(DialogTransition.TOP);
 			dialogAPropos.show((StackPane) context.getRegisteredObject("ContentPane"));
 		});
