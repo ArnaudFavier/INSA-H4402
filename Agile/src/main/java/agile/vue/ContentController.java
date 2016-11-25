@@ -156,7 +156,7 @@ public class ContentController {
 		boutonSupprimerLivraison.setOnMouseClicked((e) -> {
 			Livraison livraisonSupprimer = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
 					.getValue().livraison;
-			controlleur.supprimerLivraison(controlleur, livraisonSupprimer);
+			controlleur.supprimerLivraison(livraisonSupprimer);
 			miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 		});
 		searchField.textProperty().addListener((o, oldVal, newVal) -> {
@@ -173,7 +173,7 @@ public class ContentController {
 	@FXML
 	private void boutonOuvrirPlan() {
 		try {
-			controlleur.chargerPlan(this.controlleur);
+			controlleur.chargerPlan();
 			observableEntrepot.clear();
 			observableListeLivraisons.clear();
 
@@ -197,7 +197,7 @@ public class ContentController {
 			snackbar.fireEvent(new SnackbarEvent("Merci de sélectionner un plan avant une demande de livraisons."));
 		} else {
 			try {
-				controlleur.chargerDemandeLivraisons(this.controlleur);
+				controlleur.chargerDemandeLivraisons();
 				miseAJourEntrepot(controlleur.getDemandeLivraisons().getEntrepot());
 				miseAJourLivraison(controlleur.getDemandeLivraisons().getLivraisons());
 
@@ -219,7 +219,7 @@ public class ContentController {
 	@FXML
 	private void boutonCalculerTournee() {
 		try {
-			controlleur.calculerTournee(this.controlleur);
+			controlleur.calculerTournee();
 			miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 			System.out.println("tmps: " + controlleur.getTournee().getLivraisonsTSP().get(0).getTempsAttente());
 
@@ -241,28 +241,10 @@ public class ContentController {
 	@FXML
 	private void boutonExporterTournee() {
 		try {
-			controlleur.enregistrerFeuilleDeRoute(this.controlleur);
+			controlleur.enregistrerFeuilleDeRoute();
 		} catch (Exception e) {
 			snackbar.fireEvent(new SnackbarEvent("Export annulé."));
 		}
-	}
-
-	/**
-	 * Est appelé par le controlleur pour passer une référence vers celle-ci
-	 * 
-	 * @param controlleur
-	 */
-	public void setFenetre(Fenetre fenetre) {
-		this.fenetre = fenetre;
-	}
-
-	/**
-	 * Est appelé par le controlleur pour passer une référence vers celui-ci
-	 * 
-	 * @param controlleur
-	 */
-	public void setControlleur(Controlleur controlleur) {
-		this.controlleur = controlleur;
 	}
 
 	/**

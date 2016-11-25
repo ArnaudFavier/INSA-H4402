@@ -31,7 +31,7 @@ public class Controlleur {
 		etatCourant = etat;
 	}
 
-	public void chargerPlan(Controlleur controlleur) throws Exception {
+	public void chargerPlan() throws Exception {
 		plan = etatCourant.chargerPlan(this, historique);
 
 		if (plan == null) {
@@ -42,7 +42,7 @@ public class Controlleur {
 		System.out.println(etatCourant.toString());
 	}
 
-	public void chargerDemandeLivraisons(Controlleur controlleur) throws Exception {
+	public void chargerDemandeLivraisons() throws Exception {
 		demandeLivraisons = etatCourant.chargerDemandeLivraisons(this);
 		System.out.println("Controlleur:: chargerDemandeLivraisons : " + demandeLivraisons);
 		System.out.println(etatCourant.toString());
@@ -53,7 +53,7 @@ public class Controlleur {
 
 	}
 
-	public void calculerTournee(Controlleur controlleur) throws Exception {
+	public void calculerTournee() throws Exception {
 		tournee = etatCourant.calculerTournee(this);
 		System.out.println("Controlleur:: calculerTournee : " + tournee);
 		System.out.println(etatCourant.toString());
@@ -63,19 +63,19 @@ public class Controlleur {
 		}
 	}
 
-	public void enregistrerFeuilleDeRoute(Controlleur controlleur) throws Exception {
+	public void enregistrerFeuilleDeRoute() throws Exception {
 		etatCourant.enregistrerFeuilleDeRoute(this);
 	}
 
-	public void ajouterLivraison(Controlleur controlleur, Livraison livraison) {
+	public void ajouterLivraison(Livraison livraison) {
 		etatCourant.ajouterLivraison(this, livraison);
 	}
 
-	public void modifierLivraison(Controlleur controlleur, int idLivraison, Temps debutPlage, Temps finPlage) {
+	public void modifierLivraison(int idLivraison, Temps debutPlage, Temps finPlage) {
 		etatCourant.modifierLivraison(this, idLivraison, debutPlage, finPlage);
 	}
 
-	public void supprimerLivraison(Controlleur controlleur, Livraison livraison) {
+	public void supprimerLivraison(Livraison livraison) {
 		etatCourant.supprimerLivraison(this, livraison);
 	}
 
