@@ -115,7 +115,7 @@ public class Tournee {
 	    currTime += chemin.getCout();
 	    livr.setHeureArrivee((int) currTime);
 	    if (livr.ContrainteDeTemps() && currTime < livr.getDebutPlage().getTotalSecondes()) {
-		livr.setTempsAttente(livr.getDebutPlage().getTotalSecondes() - currTime);
+		livr.setTempsAttente(livr.getDebutPlage().getTotalSecondes() - currTime + 60);
 		currTime = livr.getDebutPlage().getTotalSecondes();
 	    } else {
 		livr.setTempsAttente(0);

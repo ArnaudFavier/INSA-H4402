@@ -159,4 +159,9 @@ public class Livraison {
     public void setHeureArrivee(int heureArrivee) {
 	this.heureArrivee = new Temps(heureArrivee);
     }
+
+    public Temps getHeureArrivee() {
+	return heureArrivee;
+    }
+
 }

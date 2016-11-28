@@ -201,6 +201,13 @@ public class ContentController {
 	    else
 		return colonneDuree.getComputedValue(param);
 	});
+
+	colonneHeureArrivee.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
+	    if (colonneDuree.validateValue(param))
+		return param.getValue().getValue().heureArrivee;
+	    else
+		return colonneDuree.getComputedValue(param);
+	});
 	colonnePlagePrevisionnelle
 		.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
 		    if (colonnePlagePrevisionnelle.validateValue(param))
