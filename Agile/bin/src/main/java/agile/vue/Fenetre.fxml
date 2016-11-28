@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition?>
+<?import com.jfoenix.controls.JFXRippler?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXPopup?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXButton?>
+
+<StackPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1"
+	xmlns="http://javafx.com/javafx/2.2">
+	<BorderPane>
+
+		<!-- Header -->
+		<top>
+			<VBox spacing="20">
+				<JFXToolbar>
+					<leftItems>
+						<Label>PLD Agile - H4402</Label>
+					</leftItems>
+					<rightItems>
+						<JFXRippler fx:id="optionsRippler" maskType="CIRCLE"
+							style="-fx-ripple-color:WHITE;">
+							<StackPane fx:id="optionsBurger">
+								<JFXHamburger styleClass="jfx-options-burger">
+								</JFXHamburger>
+							</StackPane>
+						</JFXRippler>
+					</rightItems>
+				</JFXToolbar>
+			</VBox>
+		</top>
+
+		<!-- Content -->
+		<center>
+			<JFXDrawer fx:id="drawer" defaultDrawerSize="250"
+				direction="LEFT">
+				<styleClass>
+					<String fx:value="body" />
+				</styleClass>
+			</JFXDrawer>
+		</center>
+	</BorderPane>
+
+	<!-- Toolbar options -->
+	<JFXPopup fx:id="toolbarPopup" styleClass="tool-bar-popup">
+		<JFXListView styleClass="option-list-view">
+			<Label fx:id="aPropos">
+				À propos
+			</Label>
+			<Label fx:id="exit">
+				Quitter
+			</Label>
+		</JFXListView>
+	</JFXPopup>
+	<JFXDialog fx:id="dialogAPropos">
+		<JFXDialogLayout>
+			<heading>
+				<Label>A propos - Hexanôme H4402</Label>
+			</heading>
+			<body>
+				<Label>Anthony Delay, Aurélien Dussauge, Rim El Idrissi Mokdad,
+					Arnaud Favier, Valentin Huguet, José Serrano Martinez, Adrien Moll
+				</Label>
+			</body>
+			<actions>
+				<JFXButton fx:id="boutonRetourAPropos" styleClass="dialog-accept">Retour
+				</JFXButton>
+			</actions>
+		</JFXDialogLayout>
+	</JFXDialog>
+
+</StackPane>

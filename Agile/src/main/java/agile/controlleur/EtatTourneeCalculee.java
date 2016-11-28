@@ -11,6 +11,7 @@ import java.util.Iterator;
 
 import agile.modele.Chemin;
 import agile.modele.Entrepot;
+import agile.modele.Intersection;
 import agile.modele.Livraison;
 import agile.modele.Temps;
 import agile.modele.Tournee;
@@ -68,6 +69,8 @@ public class EtatTourneeCalculee extends EtatDefaut {
 		Entrepot entrepot = tournee.getDemandeInitiale().getEntrepot();
 		int etapeActuelle = 1;
 		String derniereRue = null;
+		Intersection derniereDestination = null;
+		Intersection derniereOrigine = entrepot.getIntersection();
 
 		out.println("Départ de l'entrepôt[" + entrepot.getIntersection().getId() + "] à "
 			+ entrepot.getHeureDepart().toString() + ".");
@@ -77,14 +80,27 @@ public class EtatTourneeCalculee extends EtatDefaut {
 		for (Chemin chemin : tournee.getCheminsTSP()) {
 		    // Description du chemin
 		    for (Troncon troncon : chemin.getTroncons()) {
+			// Calcul de l'angle :
+			// troncon.getOrigine() = derniereDestination d'ou o2d1
+			Intersection o1 = derniereOrigine;
+			Intersection o2d1 = troncon.getOrigine();
+			Intersection d2 = troncon.getDestination();
+			int pscalaire = (o2d1.getX() - o1.getX()) * (d2.getX() - o2d1.getX())
+				+ (o2d1.getY() - o1.getY()) * (d2.getY() - o2d1.getY());
+			// Affichage
 			out.print(etapeActuelle + ". ");
 			if (troncon.getNomRue().equals(derniereRue)) {
 			    out.print("Continuer sur ");
-			} else {
-			    out.print("Prendre ");
+			} else if (pscalaire > 0) {
+
+			    out.print("Tourner à gauche sur ");
+			} else if (pscalaire <= 0) {
+			    out.print("Tourner à droite sur ");
 			}
 			out.println(troncon.getNomRue() + ".");
 			derniereRue = troncon.getNomRue();
+			derniereDestination = troncon.getDestination();
+			derniereOrigine = troncon.getOrigine();
 			etapeActuelle++;
 		    }
 
