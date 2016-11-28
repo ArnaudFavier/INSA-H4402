@@ -227,9 +227,7 @@ public class ContentController {
 			livraisonTreeTableView.currentItemsCountProperty()));
 	boutonSupprimerLivraison.disableProperty()
 		.bind(Bindings.equal(-1, livraisonTreeTableView.getSelectionModel().selectedIndexProperty()));
-	boutonAjouterLivraison.setOnMouseClicked((e) ->
-
-	{
+	boutonAjouterLivraison.setOnMouseClicked((e) -> {
 	    DialogNouvelleLivraison.show(this, root);
 	});
 	boutonSupprimerLivraison.setOnMouseClicked((e) -> {
@@ -256,6 +254,7 @@ public class ContentController {
 	    controlleur.chargerPlan();
 	    observableEntrepot.clear();
 	    observableListeLivraisons.clear();
+	    livraisonTreeTableView.currentItemsCountProperty().set(0);
 
 	    // Mise à jour des boutons
 	    boutonOuvrirLivraison.setVisible(true);
