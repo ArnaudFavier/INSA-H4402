@@ -113,6 +113,7 @@ public class Tournee {
 	    Chemin chemin = matriceChemin[idPrecedenteIntersection][idCurrIntersection];
 	    cheminsTSP.add(chemin);
 	    currTime += chemin.getCout();
+	    livr.setHeureArrivee((int) currTime);
 	    if (livr.ContrainteDeTemps() && currTime < livr.getDebutPlage().getTotalSecondes()) {
 		livr.setTempsAttente(livr.getDebutPlage().getTotalSecondes() - currTime);
 		currTime = livr.getDebutPlage().getTotalSecondes();

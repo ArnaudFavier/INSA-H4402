@@ -36,6 +36,11 @@ public class Livraison {
     private float tempsAttente;
 
     /**
+     * Heure départ
+     */
+    private Temps heureArrivee;
+
+    /**
      * Le constructeur
      * 
      * @param duree
@@ -135,7 +140,23 @@ public class Livraison {
 	return tempsAttente;
     }
 
+    /**
+     * Definir le temps d'attente
+     * 
+     * @param tempsAttente
+     *            Le temps d'attente en secondes
+     */
     public void setTempsAttente(float tempsAttente) {
 	this.tempsAttente = tempsAttente;
+    }
+
+    /**
+     * Definir l'heure d'arrivee sur le point de livraison
+     * 
+     * @param heureArrivee
+     *            Le temps d'arrivee en secondes
+     */
+    public void setHeureArrivee(int heureArrivee) {
+	this.heureArrivee = new Temps(heureArrivee);
     }
 }
