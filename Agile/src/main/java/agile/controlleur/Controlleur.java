@@ -73,14 +73,33 @@ public class Controlleur {
 
     public void ajouterLivraison(Livraison livraison) {
 	etatCourant.ajouterLivraison(this, livraison);
+
+	// Gestion de l'historique
+	CommandeAjouterLivraison cAjouterLivraison = new CommandeAjouterLivraison(tournee, livraison);
+	historique.ajoute(cAjouterLivraison);
     }
 
     public void modifierLivraison(int idLivraison, Temps debutPlage, Temps finPlage) {
 	etatCourant.modifierLivraison(this, idLivraison, debutPlage, finPlage);
+	Livraison l = null;
+	for (Livraison livraison : tournee.getLivraisonsTSP()) {
+	    if (livraison.getIntersection().getId() == idLivraison) {
+		l = livraison;
+		break;
+	    }
+	}
+
+	// Gestion de l'historique
+	CommandeModifierLivraison cModifierLivraison = new CommandeModifierLivraison(l, debutPlage, finPlage);
+	historique.ajoute(cModifierLivraison);
+
     }
 
     public void supprimerLivraison(Livraison livraison) {
 	etatCourant.supprimerLivraison(this, livraison);
+
+	CommandeSupprimerLivraison cSupprimerLivraison = new CommandeSupprimerLivraison(tournee, livraison);
+	historique.ajoute(cSupprimerLivraison);
     }
 
     public void undo(Historique historique) {
