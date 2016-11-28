@@ -16,9 +16,7 @@ public class Controlleur {
 
     // Instances associées à chaque état possible du controleur
     protected final EtatInitial etatInitial = new EtatInitial();
-    protected final EtatAjoutLivraison etatAjoutLivraison = new EtatAjoutLivraison();
     protected final EtatDemandeLivraisonChargee etatDemandeLivraisonChargee = new EtatDemandeLivraisonChargee();
-    protected final EtatModifierLivraison etatModifierLivraison = new EtatModifierLivraison();
     protected final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
     protected final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 
