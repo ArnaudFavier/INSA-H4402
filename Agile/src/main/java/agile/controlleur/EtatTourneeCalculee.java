@@ -12,6 +12,7 @@ import java.util.Iterator;
 import agile.modele.Chemin;
 import agile.modele.Entrepot;
 import agile.modele.Livraison;
+import agile.modele.Temps;
 import agile.modele.Tournee;
 import agile.modele.Troncon;
 import javafx.stage.FileChooser;
@@ -126,4 +127,22 @@ public class EtatTourneeCalculee extends EtatDefaut {
     public void supprimerLivraison(Controlleur controlleur, Livraison livraison) {
 	controlleur.getTournee().supprimerLivraison(livraison);
     }
+
+    @Override
+    public void modifierLivraison(Controlleur controlleur, int idLivraison, Temps debutPlage, Temps finPlage) {
+	// TODO modifier livraison
+    }
+
+    @Override
+    public void undo(Historique historique) {
+	// TODO Auto-generated method stub
+	super.undo(historique);
+    }
+
+    @Override
+    public void redo(Historique historique) {
+	// TODO Auto-generated method stub
+	super.redo(historique);
+    }
+
 }

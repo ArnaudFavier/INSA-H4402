@@ -242,6 +242,16 @@ public class Tournee {
 	cheminsTSP.add(idLivraisonTSP, nouveauChemin);
     }
 
+    public void modifierLivraison(Livraison livraison, Temps debutPlage, Temps finPlage) {
+	// L'id de la livraison dans la liste ordonnée pour le tsp
+	int idLivraisonTSP = livraisonsTSP.indexOf(livraison);
+	livraisonsTSP.get(idLivraisonTSP).setDebutPlage(debutPlage);
+	livraisonsTSP.get(idLivraisonTSP).setFinPlage(finPlage);
+
+	// TODO calculer la bonne tournee
+
+    }
+
     public void ajouterLivraison(Livraison livraison) {
 	float coutMin = Integer.MAX_VALUE;
 	Chemin cheminAjout1 = null;

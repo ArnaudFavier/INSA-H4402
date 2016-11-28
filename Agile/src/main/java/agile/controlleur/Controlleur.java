@@ -124,16 +124,11 @@ public class Controlleur {
      */
     public void modifierLivraison(int idLivraison, Temps debutPlage, Temps finPlage) {
 	etatCourant.modifierLivraison(this, idLivraison, debutPlage, finPlage);
-	Livraison l = null;
-	for (Livraison livraison : tournee.getLivraisonsTSP()) {
-	    if (livraison.getIntersection().getId() == idLivraison) {
-		l = livraison;
-		break;
-	    }
-	}
+	Livraison livraison = tournee.getLivraisonsTSP().get(idLivraison);
 
 	// Gestion de l'historique
-	CommandeModifierLivraison cModifierLivraison = new CommandeModifierLivraison(l, debutPlage, finPlage);
+	CommandeModifierLivraison cModifierLivraison = new CommandeModifierLivraison(tournee, livraison, debutPlage,
+		finPlage);
 	historique.ajoute(cModifierLivraison);
 
     }

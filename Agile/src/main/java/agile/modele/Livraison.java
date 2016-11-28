@@ -115,19 +115,6 @@ public class Livraison {
 	this.finPlage = finPlage;
     }
 
-    /**
-     * Modifier la plage d'une livraison
-     * 
-     * @param debutPlage
-     *            Le début de la plage
-     * @param finPlage
-     *            La fin de la plage
-     */
-    public void modifier(Temps debutPlage, Temps finPlage) {
-	this.debutPlage = debutPlage;
-	this.finPlage = finPlage;
-    }
-
     @Override
     public String toString() {
 	return Integer.toString(intersection.getId());

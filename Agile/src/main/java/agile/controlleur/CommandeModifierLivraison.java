@@ -2,10 +2,12 @@ package agile.controlleur;
 
 import agile.modele.Livraison;
 import agile.modele.Temps;
+import agile.modele.Tournee;
 
 public class CommandeModifierLivraison implements Commande {
 
     private Livraison livraison;
+    private Tournee tournee;
     private Temps debutPlage;
     private Temps finPlage;
     private Temps oldDebutPlage;
@@ -18,7 +20,8 @@ public class CommandeModifierLivraison implements Commande {
      * @param debutPlage
      * @param finPlage
      */
-    public CommandeModifierLivraison(Livraison livraison, Temps debutPlage, Temps finPlage) {
+    public CommandeModifierLivraison(Tournee tournee, Livraison livraison, Temps debutPlage, Temps finPlage) {
+	this.tournee = tournee;
 	this.livraison = livraison;
 	oldDebutPlage = this.livraison.getDebutPlage();
 	oldFinPlage = this.livraison.getFinPlage();
@@ -28,12 +31,12 @@ public class CommandeModifierLivraison implements Commande {
 
     @Override
     public void doCde() {
-	livraison.modifier(debutPlage, finPlage);
+	tournee.modifierLivraison(livraison, debutPlage, finPlage);
     }
 
     @Override
     public void undoCde() {
-	livraison.modifier(oldDebutPlage, oldFinPlage);
+	tournee.modifierLivraison(livraison, oldDebutPlage, oldFinPlage);
     }
 
 }
