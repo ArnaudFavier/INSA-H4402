@@ -256,9 +256,11 @@ public class ContentController {
 	// Binding des boutons undo/redo
 	boutonUndo.setOnMouseClicked((e) -> {
 	    controlleur.undo(controlleur.getHistorique());
+	    miseAJourLivraison(controlleur.getDemandeLivraisons().getLivraisons());
 	});
 	boutonRedo.setOnMouseClicked((e) -> {
 	    controlleur.redo(controlleur.getHistorique());
+	    miseAJourLivraison(controlleur.getDemandeLivraisons().getLivraisons());
 	});
 
 	// Affectation de la snackbar
