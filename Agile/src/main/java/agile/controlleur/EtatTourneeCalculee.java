@@ -129,20 +129,18 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
-    public void modifierLivraison(Controlleur controlleur, int idLivraison, Temps debutPlage, Temps finPlage) {
-	// TODO modifier livraison
+    public void modifierLivraison(Controlleur controlleur, Livraison livraison, Temps debutPlage, Temps finPlage) {
+	controlleur.getTournee().modifierLivraison(livraison, debutPlage, finPlage);
     }
 
     @Override
     public void undo(Historique historique) {
-	// TODO Auto-generated method stub
-	super.undo(historique);
+	historique.undo();
     }
 
     @Override
     public void redo(Historique historique) {
-	// TODO Auto-generated method stub
-	super.redo(historique);
+	historique.redo();
     }
 
 }

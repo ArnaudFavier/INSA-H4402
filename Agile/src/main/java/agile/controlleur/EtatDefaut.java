@@ -58,7 +58,7 @@ public abstract class EtatDefaut implements Etat {
     }
 
     @Override
-    public void modifierLivraison(Controlleur controlleur, int idLivraison, Temps debutPlage, Temps finPlage) {
+    public void modifierLivraison(Controlleur controlleur, Livraison livraison, Temps debutPlage, Temps finPlage) {
 
     }
 

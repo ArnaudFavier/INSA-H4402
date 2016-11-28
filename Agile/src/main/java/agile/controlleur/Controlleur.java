@@ -122,9 +122,9 @@ public class Controlleur {
      * @param debutPlage
      * @param finPlage
      */
-    public void modifierLivraison(int idLivraison, Temps debutPlage, Temps finPlage) {
-	etatCourant.modifierLivraison(this, idLivraison, debutPlage, finPlage);
-	Livraison livraison = tournee.getLivraisonsTSP().get(idLivraison);
+    public void modifierLivraison(Livraison livraison, Temps debutPlage, Temps finPlage) {
+
+	etatCourant.modifierLivraison(this, livraison, debutPlage, finPlage);
 
 	// Gestion de l'historique
 	CommandeModifierLivraison cModifierLivraison = new CommandeModifierLivraison(tournee, livraison, debutPlage,
