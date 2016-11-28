@@ -23,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public final class DialogNouvelleLivraison {
@@ -37,7 +38,6 @@ public final class DialogNouvelleLivraison {
 	JFXTextField textDuree = new JFXTextField();
 	JFXDatePicker datePickerPlageDebut = new JFXDatePicker();
 	JFXDatePicker datePickerPlageFin = new JFXDatePicker();
-
 	JFXCheckBox checkBoxHoraire = new JFXCheckBox("Plage horaire");
 
 	textAdresse.setPromptText("Entrez le numéro de l'intersection");
@@ -75,6 +75,11 @@ public final class DialogNouvelleLivraison {
 	// textPlageFin.getValidators().add(horaireValidator);
 	datePickerPlageDebut.setShowTime(true);
 	datePickerPlageFin.setShowTime(true);
+
+	datePickerPlageDebut.setDefaultColor(Color.web("#3f51b5"));
+	datePickerPlageFin.setDefaultColor(Color.web("#3f51b5"));
+
+	checkBoxHoraire.setCheckedColor(Color.web("#3f51b5"));
 
 	GridPane grid = new GridPane();
 	grid.add(labelAdresse, 1, 1);
