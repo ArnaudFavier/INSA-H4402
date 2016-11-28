@@ -225,6 +225,14 @@ public class Tournee {
 	} else {
 	    Livraison livr = livraisonsTSP.get(idLivraisonTSP + 1);
 	    idPostInters = livraisons.indexOf(livr) + 1;
+
+	    // Mettre à jour le temps d'attente de la livraison suivante
+	    float nouveauTemps = matriceChemin[idPreInters][idPostInters].getCout();
+	    float precedentTemps = cheminsTSP.get(idLivraisonTSP).getCout()
+		    + cheminsTSP.get(idLivraisonTSP + 1).getCout();
+	    float diffTemps = precedentTemps - nouveauTemps;
+	    livr.setHeureArrivee((int) (livr.getHeureArrivee().getTotalSecondes() - diffTemps));
+	    livr.setTempsAttente(livr.getTempsAttente() + diffTemps);
 	}
 
 	// Obtenir le nouveau chemin dans la matrice
