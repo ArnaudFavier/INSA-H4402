@@ -264,7 +264,11 @@ public class ContentController {
 	    boutonAjouterLivraison.setVisible(false);
 	    boutonSupprimerLivraison.setVisible(false);
 	} catch (Exception e) {
-	    snackbar.fireEvent(new SnackbarEvent("Plan invalide."));
+	    if (e.getMessage() != null) {
+		snackbar.fireEvent(new SnackbarEvent(e.getMessage()));
+	    } else {
+		snackbar.fireEvent(new SnackbarEvent("Plan invalide."));
+	    }
 	}
     }
 

@@ -32,10 +32,11 @@ public class Controlleur {
     }
 
     public Plan chargerPlan() throws Exception {
+	Plan previousPlan = this.plan;
 	plan = etatCourant.chargerPlan(this, historique);
 
-	if (plan == null) {
-	    throw new Exception();
+	if (plan == null || plan == previousPlan) {
+	    throw new Exception("Ouverture de plan annulée.");
 	}
 
 	System.out.println("Controlleur:: chargerPlan : " + plan);
@@ -45,12 +46,13 @@ public class Controlleur {
     }
 
     public void chargerDemandeLivraisons() throws Exception {
+	DemandeLivraisons previousDemandeLivraisons = this.demandeLivraisons;
 	demandeLivraisons = etatCourant.chargerDemandeLivraisons(this);
 	System.out.println("Controlleur:: chargerDemandeLivraisons : " + demandeLivraisons);
 	System.out.println(etatCourant.toString());
 
-	if (demandeLivraisons == null) {
-	    throw new Exception();
+	if (demandeLivraisons == null || demandeLivraisons == previousDemandeLivraisons) {
+	    throw new Exception("Ouverture de demande de livraisons annulée.");
 	}
 
     }

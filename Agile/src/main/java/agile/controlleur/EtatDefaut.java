@@ -18,7 +18,7 @@ public abstract class EtatDefaut implements Etat {
 
     @Override
     public Plan chargerPlan(Controlleur controlleur, Historique historique) throws Exception {
-	Plan plan = null;
+	Plan plan = controlleur.getPlan();
 	Plan planACharger = DeserialiseurPlanXML.charger();
 
 	if (planACharger != null) {
