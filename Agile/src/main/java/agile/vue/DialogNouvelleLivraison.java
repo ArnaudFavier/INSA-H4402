@@ -174,24 +174,18 @@ public final class DialogNouvelleLivraison {
 		    }
 
 		    ContentController.controlleur.ajouterLivraison(livraison);
-
 		    controlleur.miseAJourLivraison(ContentController.controlleur.getTournee().getLivraisonsTSP());
+		    int indexToSelect = ContentController.controlleur.getTournee().getLivraisonsTSP()
+			    .indexOf(livraison);
+		    controlleur.selectionnerLivraison(indexToSelect);
 
 		    dialog.close();
 		}
 	    }
 	});
 
-<<<<<<< Updated upstream
-					ContentController.controlleur.ajouterLivraison(livraison);
-					controlleur.miseAJourLivraison(ContentController.controlleur.getTournee().getLivraisonsTSP());
-					int indexToSelect = ContentController.controlleur.getTournee().getLivraisonsTSP()
-							.indexOf(livraison);
-					controlleur.selectionnerLivraison(indexToSelect);
-=======
 	dialog.show();
     }
->>>>>>> Stashed changes
 
     private static class AdresseValidator extends ValidatorBase {
 	private List<Intersection> intersections;
