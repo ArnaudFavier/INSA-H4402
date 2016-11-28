@@ -9,10 +9,8 @@ import agile.xml.DeserialiseurDemandeLivraisonsXML;
 import agile.xml.DeserialiseurPlanXML;
 
 public abstract class EtatDefaut implements Etat {
+    // Definition des comportements par defaut des methodes
 
-    /**
-     * Default constructor
-     */
     public EtatDefaut() {
     }
 

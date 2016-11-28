@@ -22,15 +22,30 @@ public class Controlleur {
     protected final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
     protected final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 
+    /**
+     * Cree le controlleur de l'application
+     */
     public Controlleur() {
 	historique = new Historique();
 	etatCourant = etatInitial;
     }
 
+    /**
+     * Change l'etat courant du controlleur
+     * 
+     * @param etat
+     *            le nouvel etat courant
+     */
     protected void setEtatCourant(Etat etat) {
 	etatCourant = etat;
     }
 
+    /**
+     * Methode appelee par la fenetre apres un clic sur le bouton "Ouvrir plan"
+     * 
+     * @return
+     * @throws Exception
+     */
     public Plan chargerPlan() throws Exception {
 	Plan previousPlan = this.plan;
 	plan = etatCourant.chargerPlan(this, historique);
@@ -45,6 +60,12 @@ public class Controlleur {
 	return plan;
     }
 
+    /**
+     * Methode appelee par la fenetre apres un clic sur le bouton "Ouvrir
+     * livraisons"
+     * 
+     * @throws Exception
+     */
     public void chargerDemandeLivraisons() throws Exception {
 	DemandeLivraisons previousDemandeLivraisons = this.demandeLivraisons;
 	demandeLivraisons = etatCourant.chargerDemandeLivraisons(this);
@@ -57,6 +78,12 @@ public class Controlleur {
 
     }
 
+    /**
+     * Methode appelee par la fenetre apres un clic sur le bouton "Calculer
+     * tournee"
+     * 
+     * @throws Exception
+     */
     public void calculerTournee() throws Exception {
 	tournee = etatCourant.calculerTournee(this);
 	System.out.println("Controlleur:: calculerTournee : " + tournee);
@@ -67,10 +94,21 @@ public class Controlleur {
 	}
     }
 
+    /**
+     * Methode appelee par la fenetre apres un clic sur le bouton "Exporter
+     * tournee"
+     * 
+     * @throws Exception
+     */
     public void enregistrerFeuilleDeRoute() throws Exception {
 	etatCourant.enregistrerFeuilleDeRoute(this);
     }
 
+    /**
+     * Methode appelee par la fenetre apres un clic sur le bouton "Ajouter"
+     * 
+     * @param livraison
+     */
     public void ajouterLivraison(Livraison livraison) {
 	etatCourant.ajouterLivraison(this, livraison);
 
@@ -79,6 +117,13 @@ public class Controlleur {
 	historique.ajoute(cAjouterLivraison);
     }
 
+    /**
+     * Methode appelee par la fenetre apres un clic sur le bouton "Modifier"
+     * 
+     * @param idLivraison
+     * @param debutPlage
+     * @param finPlage
+     */
     public void modifierLivraison(int idLivraison, Temps debutPlage, Temps finPlage) {
 	etatCourant.modifierLivraison(this, idLivraison, debutPlage, finPlage);
 	Livraison l = null;
@@ -95,6 +140,11 @@ public class Controlleur {
 
     }
 
+    /**
+     * Methode appelee par la fenetre apres un clic sur le bouton "Supprimer"
+     * 
+     * @param livraison
+     */
     public void supprimerLivraison(Livraison livraison) {
 	etatCourant.supprimerLivraison(this, livraison);
 
@@ -102,10 +152,20 @@ public class Controlleur {
 	historique.ajoute(cSupprimerLivraison);
     }
 
+    /**
+     * Methode appelee par la fenetre apres un clic sur le bouton "Undo"
+     * 
+     * @param historique
+     */
     public void undo(Historique historique) {
 	etatCourant.undo(historique);
     }
 
+    /**
+     * Methode appelee par la fenetre apres un clic sur le bouton "Redo"
+     * 
+     * @param historique
+     */
     public void redo(Historique historique) {
 	etatCourant.redo(historique);
     }
