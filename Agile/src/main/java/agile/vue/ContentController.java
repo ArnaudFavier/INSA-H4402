@@ -9,6 +9,8 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.cells.editors.TextFieldEditorBuilder;
+import com.jfoenix.controls.cells.editors.base.GenericEditableTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import agile.controlleur.Controlleur;
@@ -21,6 +23,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableColumn.CellEditEvent;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -222,6 +225,15 @@ public class ContentController {
 		return colonneTempsAttente.getComputedValue(param);
 	});
 
+	// Edition de la colonne
+	colonnePlagePrevisionnelle.setCellFactory(
+		(TreeTableColumn<LivraisonVue, String> param) -> new GenericEditableTreeTableCell<LivraisonVue, String>(
+			new TextFieldEditorBuilder()));
+	colonnePlagePrevisionnelle.setOnEditCommit((CellEditEvent<LivraisonVue, String> t) -> {
+	    ((LivraisonVue) t.getTreeTableView().getTreeItem(t.getTreeTablePosition().getRow())
+		    .getValue()).plagePrevisionnelle.set(t.getNewValue());
+	});
+
 	// Binding du tableau de l'entrepôt
 	entrepotTreeTableView
 		.setRoot(new RecursiveTreeItem<EntrepotVue>(observableEntrepot, RecursiveTreeObject::getChildren));
@@ -231,6 +243,7 @@ public class ContentController {
 	livraisonTreeTableView.setRoot(
 		new RecursiveTreeItem<LivraisonVue>(observableListeLivraisons, RecursiveTreeObject::getChildren));
 	livraisonTreeTableView.setShowRoot(false);
+	livraisonTreeTableView.setEditable(true);
 
 	// Binding des boutons et recherche de la liste des livraisons
 	treeTableViewCount.textProperty()
