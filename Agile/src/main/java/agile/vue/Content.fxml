@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSnackbar?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableColumn?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -7,54 +12,87 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXTreeTableColumn?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
-<?import com.jfoenix.controls.JFXSnackbar?>
 
-<StackPane fx:id="root" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="root" minWidth="-Infinity" prefHeight="600.0"
+	prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
 	<VBox>
 		<children>
-         <HBox alignment="CENTER" layoutX="10.0" layoutY="275.0" minWidth="-Infinity" prefWidth="800.0">
-            <children>
-               <Label minWidth="180.0" styleClass="title-label" text="Entrepôt" />
-               <StackPane prefWidth="556.0" HBox.hgrow="ALWAYS" />
-            </children>
-         </HBox>
-         <JFXTreeTableView fx:id="entrepotTreeTableView" minWidth="-Infinity" prefHeight="160.0" prefWidth="800.0" VBox.vgrow="NEVER">
-            <columns>
-               <JFXTreeTableColumn fx:id="colonneEntrepotAdresse" editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" resizable="false" sortable="false" text="Adresse" />
-               <JFXTreeTableColumn fx:id="colonneEntrepotHeureDepart" editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" resizable="false" sortable="false" text="Heure départ" />
-            </columns>
-         </JFXTreeTableView>
-			<HBox alignment="CENTER" minWidth="-Infinity" prefWidth="800.0">
-				<Label minWidth="180.0" styleClass="title-label" text="Liste des livraisons" />
-				<Label fx:id="treeTableViewCount" minWidth="150.0" styleClass="title-label" />
-				<JFXButton fx:id="boutonAjouterLivraison" buttonType="RAISED" minWidth="100.0" styleClass="red-A400" text="Ajouter" visible="false">
-               <HBox.margin>
-                  <Insets left="5.0" right="5.0" />
-               </HBox.margin></JFXButton>
-				<JFXButton fx:id="boutonSupprimerLivraison" buttonType="RAISED" minWidth="100.0" styleClass="red-A400" text="Supprimer" visible="false">
-               <HBox.margin>
-                  <Insets left="5.0" right="5.0" />
-               </HBox.margin>
-            </JFXButton>
-				<StackPane prefWidth="556.0" HBox.hgrow="ALWAYS"><StackPane maxWidth="200" StackPane.alignment="CENTER_RIGHT"><JFXTextField fx:id="searchField" promptText="Rechercher..." /></StackPane></StackPane>
+			<HBox alignment="CENTER" layoutX="10.0" layoutY="275.0"
+				minWidth="-Infinity" prefWidth="800.0">
+				<children>
+					<Label minWidth="180.0" styleClass="title-label" text="Entrepôt" />
+					<StackPane prefWidth="556.0" HBox.hgrow="ALWAYS" />
+				</children>
 			</HBox>
-			<JFXTreeTableView fx:id="livraisonTreeTableView" minWidth="-Infinity" prefHeight="200.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
+			<JFXTreeTableView fx:id="entrepotTreeTableView"
+				minWidth="-Infinity" prefHeight="103.0" prefWidth="800.0"
+				VBox.vgrow="NEVER">
 				<columns>
-					<JFXTreeTableColumn fx:id="colonneAdresse" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="160.0" resizable="false" sortable="false" text="Adresse" />
-               <JFXTreeTableColumn fx:id="colonneHeureArrivee" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="105.0" resizable="false" sortable="false" text="Heure arrivée" />
-               <JFXTreeTableColumn fx:id="colonneTempsAttente" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="105.0" resizable="false" sortable="false" text="Temps attente" />
-					<JFXTreeTableColumn fx:id="colonneDuree" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="105.0" resizable="false" sortable="false" text="Durée" />
-               <JFXTreeTableColumn fx:id="colonneHeureDepart" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="105.0" resizable="false" sortable="false" text="Heure départ" />
-					<JFXTreeTableColumn fx:id="colonnePlagePrevisionnelle" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="105.0" resizable="false" sortable="false" text="Plage prévisionnelle" />
+					<JFXTreeTableColumn fx:id="colonneEntrepotAdresse"
+						editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0"
+						prefWidth="200.0" resizable="false" sortable="false" text="Adresse" />
+					<JFXTreeTableColumn fx:id="colonneEntrepotHeureDepart"
+						editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0"
+						prefWidth="200.0" resizable="false" sortable="false" text="Heure départ" />
+				</columns>
+			</JFXTreeTableView>
+			<HBox alignment="CENTER" minWidth="-Infinity" prefWidth="800.0">
+				<Label minWidth="165.0" styleClass="title-label" text="Liste des livraisons" />
+				<Label fx:id="treeTableViewCount" minWidth="125.0" styleClass="title-label" />
+				<JFXButton fx:id="boutonAjouterLivraison" buttonType="RAISED"
+					minWidth="100.0" styleClass="red-A400" text="Ajouter" visible="false">
+					<HBox.margin>
+						<Insets left="2.0" right="2.0" />
+					</HBox.margin>
+				</JFXButton>
+				<JFXButton fx:id="boutonSupprimerLivraison" buttonType="RAISED"
+					minWidth="100.0" styleClass="red-A400" text="Supprimer" visible="false">
+					<HBox.margin>
+						<Insets left="2.0" right="2.0" />
+					</HBox.margin>
+				</JFXButton>
+				<JFXButton fx:id="boutonUndo" buttonType="RAISED"
+					styleClass="red-A400" text="Undo" visible="false" />
+				<HBox.margin>
+					<Insets left="2.0" right="2.0" />
+				</HBox.margin>
+				<JFXButton fx:id="boutonRedo" buttonType="RAISED"
+					styleClass="red-A400" text="Redo" visible="false" />
+				<HBox.margin>
+					<Insets left="2.0" right="2.0" />
+				</HBox.margin>
+				<StackPane prefWidth="150.0" HBox.hgrow="ALWAYS">
+					<StackPane maxWidth="150.0" StackPane.alignment="CENTER_RIGHT">
+						<JFXTextField fx:id="searchField" promptText="Rechercher..." />
+					</StackPane>
+				</StackPane>
+			</HBox>
+			<JFXTreeTableView fx:id="livraisonTreeTableView"
+				minWidth="-Infinity" prefHeight="200.0" prefWidth="800.0"
+				VBox.vgrow="ALWAYS">
+				<columns>
+					<JFXTreeTableColumn fx:id="colonneAdresse"
+						editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0"
+						prefWidth="160.0" resizable="false" sortable="false" text="Adresse" />
+					<JFXTreeTableColumn fx:id="colonneHeureArrivee"
+						editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0"
+						prefWidth="150.0" resizable="false" sortable="false" text="Heure arrivée" />
+					<JFXTreeTableColumn fx:id="colonneTempsAttente"
+						editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0"
+						prefWidth="150.0" resizable="false" sortable="false" text="Temps attente" />
+					<JFXTreeTableColumn fx:id="colonneDuree"
+						editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0"
+						prefWidth="150.0" resizable="false" sortable="false" text="Durée" />
+					<JFXTreeTableColumn fx:id="colonnePlagePrevisionnelle"
+						maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="150.0"
+						resizable="false" sortable="false" text="Plage prévisionnelle" />
 				</columns>
 			</JFXTreeTableView>
 			<HBox alignment="CENTER" minWidth="-Infinity" VBox.vgrow="NEVER">
 				<children>
-					<JFXButton fx:id="boutonOuvrirPlan" buttonType="RAISED" onAction="#boutonOuvrirPlan" prefHeight="40.0" prefWidth="150.0" style="-fx-font-size: 14px;" styleClass="red-A400" text="Ouvrir plan">
+					<JFXButton fx:id="boutonOuvrirPlan" buttonType="RAISED"
+						onAction="#boutonOuvrirPlan" prefHeight="40.0" prefWidth="150.0"
+						style="-fx-font-size: 14px;" styleClass="red-A400" text="Ouvrir plan">
 						<cursor>
 							<Cursor fx:constant="HAND" />
 						</cursor>
@@ -65,7 +103,10 @@
 							<Insets left="10.0" right="10.0" />
 						</HBox.margin>
 					</JFXButton>
-					<JFXButton fx:id="boutonOuvrirLivraison" buttonType="RAISED" onAction="#boutonOuvrirLivraison" prefHeight="40" prefWidth="150.0" style="-fx-font-size: 14px;" styleClass="red-A400" text="Ouvrir livraisons" visible="false">
+					<JFXButton fx:id="boutonOuvrirLivraison" buttonType="RAISED"
+						onAction="#boutonOuvrirLivraison" prefHeight="40" prefWidth="150.0"
+						style="-fx-font-size: 14px;" styleClass="red-A400" text="Ouvrir livraisons"
+						visible="false">
 						<cursor>
 							<Cursor fx:constant="HAND" />
 						</cursor>
@@ -76,7 +117,10 @@
 							<Insets left="10.0" right="10.0" />
 						</HBox.margin>
 					</JFXButton>
-					<JFXButton fx:id="boutonCalculerTournee" buttonType="RAISED" onAction="#boutonCalculerTournee" prefHeight="40" prefWidth="150.0" style="-fx-font-size: 14px;" styleClass="red-A400" text="Calculer tournée" visible="false">
+					<JFXButton fx:id="boutonCalculerTournee" buttonType="RAISED"
+						onAction="#boutonCalculerTournee" prefHeight="40" prefWidth="150.0"
+						style="-fx-font-size: 14px;" styleClass="red-A400" text="Calculer tournée"
+						visible="false">
 						<cursor>
 							<Cursor fx:constant="HAND" />
 						</cursor>
@@ -87,7 +131,10 @@
 							<Insets left="10.0" right="10.0" />
 						</HBox.margin>
 					</JFXButton>
-					<JFXButton fx:id="boutonExporterTournee" buttonType="RAISED" onAction="#boutonExporterTournee" prefHeight="40" prefWidth="150.0" style="-fx-font-size: 14px;" styleClass="red-A400" text="Exporter tournée" visible="false">
+					<JFXButton fx:id="boutonExporterTournee" buttonType="RAISED"
+						onAction="#boutonExporterTournee" prefHeight="40" prefWidth="150.0"
+						style="-fx-font-size: 14px;" styleClass="red-A400" text="Exporter tournée"
+						visible="false">
 						<cursor>
 							<Cursor fx:constant="HAND" />
 						</cursor>
@@ -99,12 +146,12 @@
 						</HBox.margin>
 					</JFXButton>
 				</children>
-            <padding>
-               <Insets bottom="10.0" />
-            </padding>
-            <VBox.margin>
-               <Insets top="7.0" />
-            </VBox.margin>
+				<padding>
+					<Insets bottom="10.0" />
+				</padding>
+				<VBox.margin>
+					<Insets top="7.0" />
+				</VBox.margin>
 			</HBox>
 		</children>
 	</VBox>
