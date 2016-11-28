@@ -10,70 +10,70 @@ import agile.xml.DeserialiseurPlanXML;
 
 public abstract class EtatDefaut implements Etat {
 
-	/**
-	 * Default constructor
-	 */
-	public EtatDefaut() {
+    /**
+     * Default constructor
+     */
+    public EtatDefaut() {
+    }
+
+    @Override
+    public Plan chargerPlan(Controlleur controlleur, Historique historique) throws Exception {
+	Plan plan = null;
+	Plan planACharger = DeserialiseurPlanXML.charger();
+
+	if (planACharger != null) {
+	    plan = planACharger;
+	    historique.reset();
+	    if (controlleur.getDemandeLivraisons() != null) {
+		controlleur.setDemandeLivraisons(null);
+	    }
+	    controlleur.setEtatCourant(controlleur.etatPlanCharge);
 	}
 
-	@Override
-	public Plan chargerPlan(Controlleur controlleur, Historique historique) throws Exception {
-		Plan plan = controlleur.getPlan();
-		Plan planACharger = DeserialiseurPlanXML.charger();
+	return plan;
+    }
 
-		if (planACharger != null) {
-			plan = planACharger;
-			historique.reset();
-			if (controlleur.getDemandeLivraisons() != null) {
-				controlleur.setDemandeLivraisons(null);
-			}
-			controlleur.setEtatCourant(controlleur.etatPlanCharge);
-		}
+    @Override
+    public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) throws Exception {
+	DemandeLivraisons demande = controlleur.getDemandeLivraisons();
+	DemandeLivraisons DemandeLivraisonsACharger = DeserialiseurDemandeLivraisonsXML.charger(controlleur.getPlan());
 
-		return plan;
+	if (DemandeLivraisonsACharger != null) {
+	    demande = DemandeLivraisonsACharger;
+	    controlleur.setEtatCourant(controlleur.etatDemandeLivraisonChargee);
 	}
 
-	@Override
-	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) throws Exception {
-		DemandeLivraisons demande = controlleur.getDemandeLivraisons();
-		DemandeLivraisons DemandeLivraisonsACharger = DeserialiseurDemandeLivraisonsXML.charger(controlleur.getPlan());
+	return demande;
+    }
 
-		if (DemandeLivraisonsACharger != null) {
-			demande = DemandeLivraisonsACharger;
-			controlleur.setEtatCourant(controlleur.etatDemandeLivraisonChargee);
-		}
+    @Override
+    public Tournee calculerTournee(Controlleur controlleur) {
+	return controlleur.getTournee();
+    }
 
-		return demande;
-	}
+    @Override
+    public void enregistrerFeuilleDeRoute(Controlleur controlleur) throws Exception {
+    }
 
-	@Override
-	public Tournee calculerTournee(Controlleur controlleur) {
-		return controlleur.getTournee();
-	}
+    @Override
+    public void ajouterLivraison(Controlleur controlleur, Livraison livraison) {
+    }
 
-	@Override
-	public void enregistrerFeuilleDeRoute(Controlleur controlleur) throws Exception {
-	}
+    @Override
+    public void modifierLivraison(Controlleur controlleur, int idLivraison, Temps debutPlage, Temps finPlage) {
 
-	@Override
-	public void ajouterLivraison(Controlleur controlleur, Livraison livraison) {
-	}
+    }
 
-	@Override
-	public void modifierLivraison(Controlleur controlleur, int idLivraison, Temps debutPlage, Temps finPlage) {
+    @Override
+    public void supprimerLivraison(Controlleur controlleur, Livraison livraison) {
+    }
 
-	}
+    @Override
+    public void undo(Historique historique) {
+    }
 
-	@Override
-	public void supprimerLivraison(Controlleur controlleur, Livraison livraison) {
-	}
-
-	@Override
-	public void undo(Historique historique) {
-	}
-
-	@Override
-	public void redo(Historique historique) {
-	}
+    @Override
+    public void redo(Historique historique) {
+    }
 
 }

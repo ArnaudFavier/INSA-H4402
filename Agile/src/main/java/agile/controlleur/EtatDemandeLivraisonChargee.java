@@ -13,7 +13,6 @@ public class EtatDemandeLivraisonChargee extends EtatDefaut {
 	try {
 	    tournee.calculerTSP();
 	} catch (Exception e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 
