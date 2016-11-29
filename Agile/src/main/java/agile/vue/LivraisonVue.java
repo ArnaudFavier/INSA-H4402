@@ -8,26 +8,44 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Livraison formatée pour l'affichage
+ * Container formattant les données d'une livraison pour les afficher dans un
+ * tableau (TreeTableView)
  */
 public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
 
+    /**
+     * Référence vers la livraison du modèle
+     */
     Livraison livraison;
 
+    // Informations à afficher
     StringProperty intersection;
     StringProperty duree;
     StringProperty plagePrevisionnelle;
     StringProperty heureArrivee;
     StringProperty tempsAttente;
 
+    /**
+     * Constructeur d'une vue de livraison recevant en paramètre la livraison à
+     * afficher. Se charge de garder une référence sur cette livraison puis
+     * appelle la méthode {@link update()}
+     * 
+     * @param livraison
+     *            Livraison à afficher
+     */
     public LivraisonVue(Livraison livraison) {
 	this.livraison = livraison;
 	update();
     }
 
+    /**
+     * Méthode permettant de lier les informations à afficher de l'attribut
+     * {@link livraison}
+     */
     public void update() {
 	this.intersection = new SimpleStringProperty(livraison.getIntersection().getId() + " ("
 		+ livraison.getIntersection().getX() + ", " + livraison.getIntersection().getY() + ")");
+
 	this.duree = new SimpleStringProperty(String.valueOf(livraison.getDuree()));
 
 	String plagePrevisionnelle = "";
@@ -42,6 +60,7 @@ public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
 	    plagePrevisionnelle = "? - " + livraison.getFinPlage().toString();
 	}
 	this.plagePrevisionnelle = new SimpleStringProperty(plagePrevisionnelle);
+
 	this.heureArrivee = livraison.getHeureArrivee() == null ? new SimpleStringProperty("")
 		: new SimpleStringProperty(livraison.getHeureArrivee().getTimeString());
 

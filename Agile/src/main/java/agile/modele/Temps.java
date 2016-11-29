@@ -138,9 +138,6 @@ public class Temps implements Comparable<Temps> {
     @Override
     public String toString() {
 	StringBuilder strBuilder = new StringBuilder();
-	if (heure < 10) {
-	    strBuilder.append('0');
-	}
 	strBuilder.append(heure);
 	strBuilder.append('h');
 
