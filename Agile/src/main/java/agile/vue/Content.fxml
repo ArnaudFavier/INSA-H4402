@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
 <?import com.jfoenix.controls.JFXSnackbar?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableColumn?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
-<?import com.jfoenix.controls.JFXDialog?>
-<?import com.jfoenix.controls.JFXDialogLayout?>
-<?import com.jfoenix.controls.JFXDatePicker?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -19,7 +19,7 @@
 <StackPane fx:id="root" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
 	<VBox>
 		<children>
-			<HBox alignment="CENTER" layoutX="10.0" layoutY="275.0" minWidth="-Infinity" prefWidth="800.0">
+			<HBox alignment="CENTER" layoutX="10.0" layoutY="275.0" minWidth="-Infinity" styleClass="hbox-entrepot">
 				<children>
 					<Label minWidth="162.0" prefHeight="27.0" prefWidth="115.0" styleClass="title-label-entrepot" text="Entrepôt">
                   <padding>
@@ -161,14 +161,14 @@
 						<Label prefWidth="100.0">Plage heure fin :</Label>
 					</HBox>
 					<HBox prefWidth="300.0">
-						<JFXDatePicker fx:id="datePicketLivraisonModifierPlageDebut" overLay="true" defaultColor="#3f51b5" prefWidth="100.0" showTime="true"></JFXDatePicker>
-						<JFXDatePicker fx:id="datePicketLivraisonModifierPlageFin" overLay="true" defaultColor="#3f51b5" prefWidth="100.0" showTime="true"></JFXDatePicker>
+						<JFXDatePicker fx:id="datePicketLivraisonModifierPlageDebut" defaultColor="#3f51b5" overLay="true" prefWidth="100.0" showTime="true" />
+						<JFXDatePicker fx:id="datePicketLivraisonModifierPlageFin" defaultColor="#3f51b5" overLay="true" prefWidth="100.0" showTime="true" />
 					</HBox>
 				</VBox>
 			</body>
 			<actions>
-				<JFXButton fx:id="boutonValiderLivraisonModifier" styleClass="red-A400" buttonType="RAISED">Valider</JFXButton>
-				<JFXButton fx:id="boutonAnnulerLivraisonModifier" styleClass="red-A400" buttonType="RAISED">Annuler</JFXButton>
+				<JFXButton fx:id="boutonValiderLivraisonModifier" buttonType="RAISED" styleClass="red-A400">Valider</JFXButton>
+				<JFXButton fx:id="boutonAnnulerLivraisonModifier" buttonType="RAISED" styleClass="red-A400">Annuler</JFXButton>
 			</actions>
 		</JFXDialogLayout>
 	</JFXDialog>
