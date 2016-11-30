@@ -187,6 +187,7 @@ public final class DialogNouvelleLivraison {
 		    }
 		    ContentController.controlleur.ajouterLivraison(livraison);
 		    controlleur.miseAJourLivraison(ContentController.controlleur.getTournee().getLivraisonsTSP());
+		    controlleur.miseAJourEntrepot(ContentController.controlleur.getDemandeLivraisons().getEntrepot());
 		    int indexToSelect = ContentController.controlleur.getTournee().getLivraisonsTSP()
 			    .indexOf(livraison);
 		    controlleur.selectionnerLivraison(indexToSelect);
