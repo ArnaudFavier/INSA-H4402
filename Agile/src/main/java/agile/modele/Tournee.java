@@ -7,7 +7,6 @@ import java.util.List;
 import agile.pathfinding.Djikstra;
 import agile.pathfinding.TSP;
 import agile.pathfinding.TSP1;
-import agile.pathfinding.TSP3;
 
 /**
  * Une demande de livraisons après avoir été traitée par un algo resolvant le
@@ -96,7 +95,7 @@ public class Tournee {
 	    }
 	}
 
-	TSP tsp = new TSP1(); //TSP tsp = new TSP1();
+	TSP tsp = new TSP1(); // TSP tsp = new TSP1();
 	tsp.chercheSolution(10000, durees.length, matriceCout, durees, tempsMin, tempsMax);
 
 	System.out.println(tsp.getCoutMeilleureSolution());
@@ -321,7 +320,7 @@ public class Tournee {
 	    }
 
 	    else if (i != livraisonsTSP.size() && currCout < coutMin
-		    && cheminApres.getCout() < livraisonsTSP.get(i).getTempsAttente()) {
+		    && cheminApres.getCout() + livraison.getDuree() < livraisonsTSP.get(i).getTempsAttente()) {
 		coutMin = currCout;
 		cheminAjout1 = cheminAvant;
 		cheminAjout2 = cheminApres;
@@ -335,7 +334,8 @@ public class Tournee {
 	    // suivant et son heure d'arrive
 	    if (posAjout != livraisonsTSP.size()) {
 		Livraison livrSuivante = livraisonsTSP.get(posAjout);
-		livrSuivante.setTempsAttente(livrSuivante.getTempsAttente() - cheminAjout2.getCout());
+		livrSuivante.setTempsAttente(
+			livrSuivante.getTempsAttente() - cheminAjout2.getCout() - livraison.getDuree());
 		livrSuivante.setHeureArrivee(
 			(int) (livrSuivante.getHeureArrivee().getTotalSecondes() + cheminAjout2.getCout()));
 	    }
@@ -343,7 +343,7 @@ public class Tournee {
 	    else {
 		demandeInitiale.getEntrepot().setHeureRetour(
 			new Temps((int) (demandeInitiale.getEntrepot().getHeureRetour().getTotalSecondes()
-				+ cheminAjout2.getCout())));
+				+ cheminAjout2.getCout() + livraison.getDuree())));
 	    }
 
 	    if (posAjout == 0) {
