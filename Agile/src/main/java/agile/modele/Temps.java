@@ -164,7 +164,7 @@ public class Temps implements Comparable<Temps> {
 	    strBuilder.append(minute);
 	    strBuilder.append('m');
 
-	    if (seconde < 10) {
+	    if (seconde < 10 && seconde != 0) {
 		strBuilder.append('0');
 		strBuilder.append(seconde);
 		strBuilder.append('s');
@@ -173,7 +173,7 @@ public class Temps implements Comparable<Temps> {
 	    strBuilder.append(minute);
 	    strBuilder.append('m');
 
-	    if (seconde < 10) {
+	    if (seconde < 10 && seconde != 0) {
 		strBuilder.append('0');
 		strBuilder.append(seconde);
 		strBuilder.append('s');

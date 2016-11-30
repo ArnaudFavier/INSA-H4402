@@ -46,7 +46,7 @@ public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
 	this.intersection = new SimpleStringProperty(livraison.getIntersection().getId() + " ("
 		+ livraison.getIntersection().getX() + ", " + livraison.getIntersection().getY() + ")");
 
-	this.duree = new SimpleStringProperty(String.valueOf(livraison.getDuree()));
+	this.duree = new SimpleStringProperty(new Temps(livraison.getDuree()).getTimeString());
 
 	String plagePrevisionnelle = "";
 	if (livraison.getDebutPlage() != null) {
@@ -62,7 +62,7 @@ public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
 	this.plagePrevisionnelle = new SimpleStringProperty(plagePrevisionnelle);
 
 	this.heureArrivee = livraison.getHeureArrivee() == null ? new SimpleStringProperty("")
-		: new SimpleStringProperty(livraison.getHeureArrivee().getTimeString());
+		: new SimpleStringProperty(livraison.getHeureArrivee().toString());
 
 	this.tempsAttente = new SimpleStringProperty(new Temps((int) (livraison.getTempsAttente())).getTimeString());
     }
