@@ -7,6 +7,7 @@ import java.util.List;
 import agile.pathfinding.Djikstra;
 import agile.pathfinding.TSP;
 import agile.pathfinding.TSP1;
+import agile.pathfinding.TSP3;
 
 /**
  * Une demande de livraisons après avoir été traitée par un algo resolvant le
@@ -95,8 +96,10 @@ public class Tournee {
 	    }
 	}
 
-	TSP tsp = new TSP1();
+	TSP tsp = new TSP1(); //TSP tsp = new TSP1();
 	tsp.chercheSolution(10000, durees.length, matriceCout, durees, tempsMin, tempsMax);
+
+	System.out.println(tsp.getCoutMeilleureSolution());
 
 	if (tsp.getTempsLimiteAtteint()) {
 	    throw new Exception("Temps limite tsp atteint");

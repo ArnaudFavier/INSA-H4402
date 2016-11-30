@@ -108,9 +108,7 @@ public abstract class TemplateTSP implements TSP {
 	}
 	if (nonVus.size() == 0) { // tous les sommets ont ete visites
 	    coutVus += cout[sommetCrt][0];
-	    if (coutVus < coutMeilleureSolution) { // on a trouve une solution
-						   // meilleure que
-						   // meilleureSolution
+	    if (coutVus < coutMeilleureSolution) { // on a trouve une solution meilleure que meilleureSolution
 		vus.toArray(meilleureSolution);
 		coutMeilleureSolution = coutVus;
 	    }
