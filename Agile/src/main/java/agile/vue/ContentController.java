@@ -41,20 +41,15 @@ public class ContentController {
     /* FXML vue éléments */
     // Entrepôt
     /**
-     * Tableau de l'entrepôt
+     * Adresse de l'entrepôt
      */
     @FXML
-    private JFXTreeTableView<EntrepotVue> entrepotTreeTableView;
+    private Label entrepotAdresse;
     /**
-     * Colonne adresse du tableau de l'entrepôt
+     * Heure de départ de l'entrepôt
      */
     @FXML
-    private JFXTreeTableColumn<EntrepotVue, String> colonneEntrepotAdresse;
-    /**
-     * Colonne heure de départ du tableau de l'entrepôt
-     */
-    @FXML
-    private JFXTreeTableColumn<EntrepotVue, String> colonneEntrepotHeureDepart;
+    private Label entrepotHeureDepart;
 
     // Livraisons
     /**
@@ -152,10 +147,6 @@ public class ContentController {
 
     /* Code des élements d'architecture */
     /**
-     * Liste de l'entrepôt à afficher, formaté en {@link EntrepotVue}
-     */
-    private ObservableList<EntrepotVue> observableEntrepot = FXCollections.observableArrayList();
-    /**
      * Liste des livraisons à afficher, formatées en {@link LivraisonVue}
      */
     private ObservableList<LivraisonVue> observableListeLivraisons = FXCollections.observableArrayList();
@@ -176,21 +167,6 @@ public class ContentController {
      */
     @FXML
     private void initialize() {
-	// Colonnes du entrepotTreeTableView
-	colonneEntrepotAdresse.setCellValueFactory((TreeTableColumn.CellDataFeatures<EntrepotVue, String> param) -> {
-	    if (colonneEntrepotAdresse.validateValue(param))
-		return param.getValue().getValue().intersection;
-	    else
-		return colonneEntrepotAdresse.getComputedValue(param);
-	});
-	colonneEntrepotHeureDepart
-		.setCellValueFactory((TreeTableColumn.CellDataFeatures<EntrepotVue, String> param) -> {
-		    if (colonneEntrepotHeureDepart.validateValue(param))
-			return param.getValue().getValue().heureDepart;
-		    else
-			return colonneEntrepotHeureDepart.getComputedValue(param);
-		});
-
 	// Colonnes de la livraisonTreeTableView
 	colonneAdresse.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
 	    if (colonneAdresse.validateValue(param))
@@ -233,11 +209,6 @@ public class ContentController {
 	    ((LivraisonVue) t.getTreeTableView().getTreeItem(t.getTreeTablePosition().getRow())
 		    .getValue()).plagePrevisionnelle.set(t.getNewValue());
 	});
-
-	// Binding du tableau de l'entrepôt
-	entrepotTreeTableView
-		.setRoot(new RecursiveTreeItem<EntrepotVue>(observableEntrepot, RecursiveTreeObject::getChildren));
-	entrepotTreeTableView.setShowRoot(false);
 
 	// Binding du tableau de la liste des livraisons
 	livraisonTreeTableView.setRoot(
@@ -287,7 +258,7 @@ public class ContentController {
     private void boutonOuvrirPlan() {
 	try {
 	    controlleur.chargerPlan();
-	    observableEntrepot.clear();
+	    this.effacerAffichageEntrepot();
 	    observableListeLivraisons.clear();
 	    livraisonTreeTableView.currentItemsCountProperty().set(0);
 
@@ -390,10 +361,24 @@ public class ContentController {
     }
 
     /**
-     * Met à jour le tableau de l'entrepôt
+     * Met à jour les données pour l'affichage de l'entrepôt
      */
     public void miseAJourEntrepot(Entrepot entrepot) {
-	observableEntrepot.clear();
-	observableEntrepot.add(new EntrepotVue(entrepot));
+	entrepotAdresse.setText(Integer.toString(entrepot.getIntersection().getId()) + " ("
+		+ entrepot.getIntersection().getX() + ", " + entrepot.getIntersection().getY() + ")");
+	entrepotHeureDepart.setText(entrepot.getHeureDepart().toString());
+	entrepotAdresse.setVisible(true);
+	entrepotHeureDepart.setVisible(true);
+    }
+
+    /**
+     * Efface l'affichage l'entrepôt
+     */
+    public void effacerAffichageEntrepot() {
+	entrepotAdresse.setVisible(false);
+	entrepotHeureDepart.setVisible(false);
+	entrepotAdresse.setText(null);
+	entrepotHeureDepart.setText(null);
+
     }
 }
