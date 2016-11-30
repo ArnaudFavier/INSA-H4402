@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
 
+import agile.modele.Livraison;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -22,7 +23,7 @@ public final class DialogModifierLivraison {
     private DialogModifierLivraison() {
     }
 
-    public static void show(ContentController controlleur, StackPane stackPane) {
+    public static void show(ContentController controlleur, StackPane stackPane, Livraison livraison) {
 	Label labelPlageDebut = new Label("Plade horaire début :");
 	Label labelPlageFin = new Label("Plade horaire fin :");
 	JFXDatePicker datePickerPlageDebut = new JFXDatePicker();

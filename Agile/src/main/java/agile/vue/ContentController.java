@@ -205,19 +205,11 @@ public class ContentController {
 		return colonneTempsAttente.getComputedValue(param);
 	});
 
-	// Edition de la colonne
-	/*
-	 * colonnePlagePrevisionnelle.setCellFactory(
-	 * (TreeTableColumn<LivraisonVue, String> param) -> new
-	 * GenericEditableTreeTableCell<LivraisonVue, String>( new
-	 * TextFieldEditorBuilder()));
-	 * colonnePlagePrevisionnelle.setOnEditCommit((CellEditEvent<
-	 * LivraisonVue, String> t) -> { ((LivraisonVue)
-	 * t.getTreeTableView().getTreeItem(t.getTreeTablePosition().getRow())
-	 * .getValue()).plagePrevisionnelle.set(t.getNewValue()); });
-	 */
+	// Modifier livraison
 	colonnePlagePrevisionnelle.setOnEditStart((e) -> {
-	    DialogModifierLivraison.show(this, root);
+	    Livraison livraisonModifiee = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
+		    .getValue().livraison;
+	    DialogModifierLivraison.show(this, root, livraisonModifiee);
 	});
 
 	// Binding du tableau de la liste des livraisons
