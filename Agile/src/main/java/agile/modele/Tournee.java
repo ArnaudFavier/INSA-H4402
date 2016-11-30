@@ -264,11 +264,20 @@ public class Tournee {
 
     }
 
-    public void ajouterLivraison(Livraison livraison) {
+    /**
+     * Ajoute une livraison à la tournee déjà calculée
+     * 
+     * @param livraison
+     *            La livraison à ajouter
+     * @return un boolean, vrai=succès de l'ajout, faux=erreur impossible ajout
+     *         pour cette période
+     */
+    public boolean ajouterLivraison(Livraison livraison) {
 	float coutMin = Integer.MAX_VALUE;
 	Chemin cheminAjout1 = null;
 	Chemin cheminAjout2 = null;
 	int posAjout = -1;
+	int tempsAttenteAdditionnel = 0;
 
 	// On ajoute la livraison à la fin dans une copie pour pouvoir
 	// recalculer nos matrices
@@ -312,19 +321,44 @@ public class Tournee {
 
 	    float currCout = cheminAvant.getCout() + cheminApres.getCout() - cheminSupp.getCout();
 
+	    int tempsAttenteAdd = 0;
+	    // Si il y a un intervalle on regarde qu'on au bon moment
+	    if (livraison.ContrainteDeTemps()) {
+		// Pour prendre le temps d'arrive, on ajoute cheminAvant a
+		// heureArrive du precedent ou heureDepart de l'entrepot
+		int tempsArrivee;
+		if (i == 0) {
+		    tempsArrivee = demandeInitiale.getEntrepot().getHeureDepart().getTotalSecondes();
+		} else {
+		    tempsArrivee = livraisonsTSP.get(i - 1).getHeureArrivee().getTotalSecondes()
+			    + livraisonsTSP.get(i - 1).getDuree();
+		}
+		tempsArrivee += cheminAvant.getCout();
+
+		// Si on arrive après, c'est pas bon
+		if (tempsArrivee > livraison.getFinPlage().getTotalSecondes()) {
+		    continue;
+		}
+		// Si on arrive avant, on attend
+		else if (tempsArrivee < livraison.getDebutPlage().getTotalSecondes()) {
+		    tempsAttenteAdd = livraison.getDebutPlage().getTotalSecondes() - tempsArrivee;
+		}
+	    }
 	    if (i == livraisonsTSP.size() && posAjout == -1) {
 		coutMin = currCout;
 		cheminAjout1 = cheminAvant;
 		cheminAjout2 = cheminApres;
 		posAjout = i;
+		tempsAttenteAdditionnel = tempsAttenteAdd;
 	    }
 
-	    else if (i != livraisonsTSP.size() && currCout < coutMin
-		    && cheminApres.getCout() + livraison.getDuree() < livraisonsTSP.get(i).getTempsAttente()) {
+	    else if (i != livraisonsTSP.size() && currCout < coutMin && cheminApres.getCout() + livraison.getDuree()
+		    + tempsAttenteAdd < livraisonsTSP.get(i).getTempsAttente()) {
 		coutMin = currCout;
 		cheminAjout1 = cheminAvant;
 		cheminAjout2 = cheminApres;
 		posAjout = i;
+		tempsAttenteAdditionnel = tempsAttenteAdd;
 	    }
 	}
 
@@ -334,17 +368,19 @@ public class Tournee {
 	    // suivant et son heure d'arrive
 	    if (posAjout != livraisonsTSP.size()) {
 		Livraison livrSuivante = livraisonsTSP.get(posAjout);
-		livrSuivante.setTempsAttente(
-			livrSuivante.getTempsAttente() - cheminAjout2.getCout() - livraison.getDuree());
-		livrSuivante.setHeureArrivee(
-			(int) (livrSuivante.getHeureArrivee().getTotalSecondes() + cheminAjout2.getCout()));
+		livrSuivante.setTempsAttente(livrSuivante.getTempsAttente() - cheminAjout2.getCout()
+			- livraison.getDuree() - tempsAttenteAdditionnel);
+		livrSuivante.setHeureArrivee((int) (livrSuivante.getHeureArrivee().getTotalSecondes()
+			+ cheminAjout2.getCout() + tempsAttenteAdditionnel));
 	    }
 	    // Si le suivant est l'entrepot on met à jour l'heure de retour
 	    else {
 		demandeInitiale.getEntrepot().setHeureRetour(
 			new Temps((int) (demandeInitiale.getEntrepot().getHeureRetour().getTotalSecondes()
-				+ cheminAjout2.getCout() + livraison.getDuree())));
+				+ cheminAjout2.getCout() + livraison.getDuree() + tempsAttenteAdditionnel)));
 	    }
+
+	    livraison.setTempsAttente(tempsAttenteAdditionnel);
 
 	    if (posAjout == 0) {
 		livraison.setHeureArrivee((int) (demandeInitiale.getEntrepot().getHeureDepart().getTotalSecondes()
@@ -365,6 +401,7 @@ public class Tournee {
 	    matriceCout = copy.matriceCout;
 
 	}
+	return posAjout != -1;
     }
 
     /**

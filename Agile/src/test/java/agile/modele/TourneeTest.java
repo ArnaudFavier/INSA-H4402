@@ -197,28 +197,4 @@ public class TourneeTest {
 	expectedIntersectionsId3.add(21);
 	assertEquals(expectedIntersectionsId3, intersectionsId3);
     }
-
-    @Test(timeout = 10000)
-    public void testAjouterLivraison() throws Exception {
-	Tournee tournee1 = new Tournee(demandeLivraison);
-	tournee1.calculerTSP();
-
-	Livraison nouvelleLivraison = new Livraison(10,
-		tournee1.getDemandeInitiale().getPlan().getIntersections().get(6));
-	tournee1.ajouterLivraison(nouvelleLivraison);
-
-	List<Integer> expectedLivraisonsIntersId = new ArrayList<>();
-	expectedLivraisonsIntersId.add(13);
-	expectedLivraisonsIntersId.add(9);
-	expectedLivraisonsIntersId.add(3);
-	expectedLivraisonsIntersId.add(6);
-	expectedLivraisonsIntersId.add(1);
-
-	List<Integer> livraisonsIntersId = new ArrayList<>();
-	for (Livraison livraison : tournee1.getLivraisonsTSP()) {
-	    livraisonsIntersId.add(livraison.getIntersection().getId());
-	}
-
-	assertEquals(expectedLivraisonsIntersId, livraisonsIntersId);
-    }
 }

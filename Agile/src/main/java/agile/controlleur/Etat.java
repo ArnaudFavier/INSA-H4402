@@ -15,7 +15,7 @@ public interface Etat {
 
     public void enregistrerFeuilleDeRoute(Controlleur controlleur) throws Exception;
 
-    public void ajouterLivraison(Controlleur controlleur, Livraison livraison);
+    public boolean ajouterLivraison(Controlleur controlleur, Livraison livraison, boolean historisation);
 
     public void modifierLivraison(Controlleur controlleur, Livraison livraison, Temps debutPlage, Temps finPlage);
 

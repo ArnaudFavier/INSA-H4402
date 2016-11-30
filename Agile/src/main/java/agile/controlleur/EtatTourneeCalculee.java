@@ -135,13 +135,21 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
-    public void ajouterLivraison(Controlleur controlleur, Livraison livraison) {
+
+    public boolean ajouterLivraison(Controlleur controlleur, Livraison livraison, boolean historisation) {
 	CommandeAjouterLivraison cAjouterLivraison = new CommandeAjouterLivraison(controlleur.getTournee(), livraison);
 	controlleur.getHistorique().ajoute(cAjouterLivraison);
+
+	if (!(cAjouterLivraison.isSuccess() && historisation)) {
+	    controlleur.getHistorique().undo(controlleur);
+	}
+
+	return cAjouterLivraison.isSuccess();
     }
 
     @Override
     public void supprimerLivraison(Controlleur controlleur, Livraison livraison) {
+
 	CommandeSupprimerLivraison cSupprimerLivraison = new CommandeSupprimerLivraison(controlleur.getTournee(),
 		livraison);
 	controlleur.getHistorique().ajoute(cSupprimerLivraison);
@@ -149,17 +157,20 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
     @Override
     public void modifierLivraison(Controlleur controlleur, Livraison livraison, Temps debutPlage, Temps finPlage) {
+
 	CommandeModifierLivraison cModifierLivraison = new CommandeModifierLivraison(controlleur.getTournee(),
 		livraison, debutPlage, finPlage);
 	controlleur.getHistorique().ajoute(cModifierLivraison);
     }
 
     @Override
+
     public void undo(Controlleur controlleur) {
 	controlleur.getHistorique().undo(controlleur);
     }
 
     @Override
+
     public void redo(Controlleur controlleur) {
 	controlleur.getHistorique().redo(controlleur);
     }

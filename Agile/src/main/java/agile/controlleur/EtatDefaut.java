@@ -54,7 +54,8 @@ public abstract class EtatDefaut implements Etat {
     }
 
     @Override
-    public void ajouterLivraison(Controlleur controlleur, Livraison livraison) {
+    public boolean ajouterLivraison(Controlleur controlleur, Livraison livraison, boolean historisation) {
+	return false;
     }
 
     @Override

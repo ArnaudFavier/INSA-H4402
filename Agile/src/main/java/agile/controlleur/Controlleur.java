@@ -107,9 +107,9 @@ public class Controlleur {
      * 
      * @param livraison
      */
-    public void ajouterLivraison(Livraison livraison) {
-	etatCourant.ajouterLivraison(this, livraison);
-
+    public boolean ajouterLivraison(Livraison livraison, boolean historisation) {
+	boolean ajoutSucces = etatCourant.ajouterLivraison(this, livraison, historisation);
+	return ajoutSucces;
     }
 
     /**
@@ -137,6 +137,7 @@ public class Controlleur {
      * 
      * @param historique
      */
+
     public void undo() {
 	etatCourant.undo(this);
     }
@@ -146,6 +147,7 @@ public class Controlleur {
      * 
      * @param historique
      */
+
     public void redo() {
 	etatCourant.redo(this);
     }

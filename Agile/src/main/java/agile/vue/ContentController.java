@@ -23,7 +23,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableColumn.CellEditEvent;
 import javafx.scene.control.TreeTableView.TreeTableViewSelectionModel;
 import javafx.scene.layout.StackPane;
 
@@ -384,11 +383,15 @@ public class ContentController {
 	livraisonTreeTableView.currentItemsCountProperty().set(observableListeLivraisons.size());
     }
 
+    public void selectionnerLivraison(int index) {
+	livraisonTreeTableView.getSelectionModel().select(index);
+	livraisonTreeTableView.getFocusModel().focus(index);
+	livraisonTreeTableView.scrollTo(index);
+    }
+
     public void selectionnerLivraison(List<Integer> indexes) {
 	for (int index : indexes) {
-	    livraisonTreeTableView.getSelectionModel().select(index);
-	    livraisonTreeTableView.getFocusModel().focus(index);
-	    livraisonTreeTableView.scrollTo(index);
+	    selectionnerLivraison(index);
 	}
     }
 

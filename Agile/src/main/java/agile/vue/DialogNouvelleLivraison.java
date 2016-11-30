@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 import com.jfoenix.validation.base.ValidatorBase;
@@ -15,10 +16,12 @@ import com.jfoenix.validation.base.ValidatorBase;
 import agile.modele.Intersection;
 import agile.modele.Livraison;
 import agile.modele.Temps;
+import agile.modele.Tournee;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
@@ -191,16 +194,80 @@ public final class DialogNouvelleLivraison {
 		    } else {
 			livraison = new Livraison(duree, inter);
 		    }
-		    ContentController.controlleur.ajouterLivraison(livraison);
-		    controlleur.miseAJourLivraison(ContentController.controlleur.getTournee().getLivraisonsTSP());
-		    controlleur.miseAJourEntrepot(ContentController.controlleur.getDemandeLivraisons().getEntrepot());
-		    List<Integer> list = new ArrayList<Integer>();
-		    int indexToSelect = ContentController.controlleur.getTournee().getLivraisonsTSP()
-			    .indexOf(livraison);
-		    list.add(indexToSelect);
-		    controlleur.selectionnerLivraison(list);
 
-		    dialog.close();
+		    boolean succesAjout = ContentController.controlleur.ajouterLivraison(livraison, true);
+		    if (succesAjout) {
+			controlleur.miseAJourLivraison(ContentController.controlleur.getTournee().getLivraisonsTSP());
+			controlleur
+				.miseAJourEntrepot(ContentController.controlleur.getDemandeLivraisons().getEntrepot());
+			List<Integer> list = new ArrayList<Integer>();
+			int indexToSelect = ContentController.controlleur.getTournee().getLivraisonsTSP()
+				.indexOf(livraison);
+			list.add(indexToSelect);
+			controlleur.selectionnerLivraison(list);
+
+			dialog.close();
+		    } else {
+			// Cloner la tournee pour tenter un ajout fictif qui
+			// nous donnera une heure d'ajout sans plage
+			Tournee tournee = ContentController.controlleur.getTournee();
+			Tournee cloneTournee = tournee.clone();
+			int heureRetourEntrepotSave = cloneTournee.getDemandeInitiale().getEntrepot().getHeureRetour()
+				.getTotalSecondes();
+			ContentController.controlleur.setTournee(cloneTournee);
+
+			Livraison livrSansPlage = new Livraison(duree, inter);
+			ContentController.controlleur.ajouterLivraison(livrSansPlage, false);
+
+			// Retablir la tournee
+			ContentController.controlleur.setTournee(tournee);
+			tournee.getDemandeInitiale().getEntrepot().setHeureRetour(new Temps(heureRetourEntrepotSave));
+
+			JFXDialogLayout popupLayout = new JFXDialogLayout();
+			popupLayout.setHeading(new Text("Impossible d'ajouter cette livraison"));
+			popupLayout.setBody(new Text("Impossible d'ajouter cette livraison dans le créneau horaire "
+				+ livraison.getDebutPlage().getTimeString() + " - "
+				+ livraison.getFinPlage().getTimeString() + "\n"
+				+ "Ajouter quand même cette livraison (sans respect des contraintes de créneau)\n"
+				+ "à " + livrSansPlage.getHeureArrivee() + " ?"));
+			JFXButton boutonValider = new JFXButton("Oui");
+			JFXButton boutonAnnuler = new JFXButton("Non");
+
+			JFXDialog popupConfirm = new JFXDialog(stackPane, popupLayout,
+				JFXDialog.DialogTransition.CENTER);
+			boutonValider.setOnAction(new EventHandler<ActionEvent>() {
+
+			    @Override
+			    public void handle(ActionEvent event) {
+				Livraison livrSansPlageAjout = new Livraison(duree, inter);
+				ContentController.controlleur.ajouterLivraison(livrSansPlageAjout, true);
+
+				controlleur.miseAJourLivraison(
+					ContentController.controlleur.getTournee().getLivraisonsTSP());
+				controlleur.miseAJourEntrepot(
+					ContentController.controlleur.getDemandeLivraisons().getEntrepot());
+				int indexToSelect = ContentController.controlleur.getTournee().getLivraisonsTSP()
+					.indexOf(livrSansPlageAjout);
+				controlleur.selectionnerLivraison(indexToSelect);
+
+				popupConfirm.close();
+				dialog.close();
+			    }
+			});
+			boutonAnnuler.setOnAction(new EventHandler<ActionEvent>() {
+
+			    @Override
+			    public void handle(ActionEvent event) {
+				popupConfirm.close();
+			    }
+			});
+
+			List<Node> buttons = new ArrayList<Node>();
+			buttons.add(boutonValider);
+			buttons.add(boutonAnnuler);
+			popupLayout.setActions(buttons);
+			popupConfirm.show();
+		    }
 		} else {
 		    System.err.println("Error found:");
 		    // TODO: trouver comment récupérer la valeur entrée au

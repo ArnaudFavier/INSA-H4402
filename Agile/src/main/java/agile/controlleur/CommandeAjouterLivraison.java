@@ -7,6 +7,7 @@ public class CommandeAjouterLivraison implements Commande {
 
     private Tournee tournee;
     private Livraison livraison;
+    private boolean success;
 
     /**
      * Cree la commande qui permet d'ajouter une livraison à la tournee
@@ -21,14 +22,22 @@ public class CommandeAjouterLivraison implements Commande {
 
     @Override
     public void doCde() {
-	tournee.ajouterLivraison(livraison);
-
+	success = tournee.ajouterLivraison(livraison);
     }
 
     @Override
     public void undoCde(Controlleur controlleur) {
-	tournee.supprimerLivraison(livraison);
+	if (isSuccess()) {
+	    tournee.supprimerLivraison(livraison);
+	}
+    }
 
+    /**
+     * @return vrai si l'ajout a fonctionné, faux sinon (contrainte de plage
+     *         horaire trop restrictive). A appeller après un doCde
+     */
+    public boolean isSuccess() {
+	return success;
     }
 
 }
