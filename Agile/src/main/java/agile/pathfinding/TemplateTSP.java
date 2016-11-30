@@ -57,7 +57,7 @@ public abstract class TemplateTSP implements TSP {
      *         sommetCourant, contenant chaque sommet de nonVus exactement une
      *         fois et terminant par le sommet 0
      */
-    protected abstract int bound(Integer sommetCourant, ArrayList<Integer> nonVus, float[][] cout, int[] duree);
+    protected abstract float bound(Integer sommetCourant, ArrayList<Integer> nonVus, float[][] cout, int[] duree);
 
     /**
      * Methode devant etre redefinie par les sous-classes de TemplateTSP

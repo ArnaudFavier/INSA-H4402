@@ -12,7 +12,7 @@ public class TSP1 extends TemplateTSP {
     }
 
     @Override
-    protected int bound(Integer sommetCourant, ArrayList<Integer> nonVus, float[][] cout, int[] duree) {
+    protected float bound(Integer sommetCourant, ArrayList<Integer> nonVus, float[][] cout, int[] duree) {
 
         return 0;
     }
