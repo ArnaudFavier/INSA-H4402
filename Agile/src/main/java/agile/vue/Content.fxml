@@ -5,6 +5,9 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableColumn?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -146,5 +149,28 @@
 			</HBox>
 		</children>
 	</VBox>
+	<JFXDialog fx:id="dialogLivraisonModifier">
+		<JFXDialogLayout>
+			<heading>
+				<Label>Modifier une livraison</Label>
+			</heading>
+			<body>
+				<VBox alignment="CENTER" minWidth="-Infinity" prefWidth="700.0">
+					<HBox prefWidth="300.0">
+						<Label prefWidth="100.0">Plage heure début :</Label>
+						<Label prefWidth="100.0">Plage heure fin :</Label>
+					</HBox>
+					<HBox prefWidth="300.0">
+						<JFXDatePicker fx:id="datePicketLivraisonModifierPlageDebut" overLay="true" defaultColor="#3f51b5" prefWidth="100.0" showTime="true"></JFXDatePicker>
+						<JFXDatePicker fx:id="datePicketLivraisonModifierPlageFin" overLay="true" defaultColor="#3f51b5" prefWidth="100.0" showTime="true"></JFXDatePicker>
+					</HBox>
+				</VBox>
+			</body>
+			<actions>
+				<JFXButton fx:id="boutonValiderLivraisonModifier" styleClass="red-A400" buttonType="RAISED">Valider</JFXButton>
+				<JFXButton fx:id="boutonAnnulerLivraisonModifier" styleClass="red-A400" buttonType="RAISED">Annuler</JFXButton>
+			</actions>
+		</JFXDialogLayout>
+	</JFXDialog>
 	<JFXSnackbar fx:id="snackbar" prefWidth="300" />
 </StackPane>
