@@ -309,7 +309,8 @@ public class Tournee {
 
 	    float currCout = cheminAvant.getCout() + cheminApres.getCout() - cheminSupp.getCout();
 
-	    if (currCout < coutMin) {
+	    if (currCout < coutMin
+		    && (i == livraisonsTSP.size() || currCout < livraisonsTSP.get(i).getTempsAttente())) {
 		coutMin = currCout;
 		cheminAjout1 = cheminAvant;
 		cheminAjout2 = cheminApres;
