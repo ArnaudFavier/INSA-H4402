@@ -18,16 +18,43 @@
 		<children>
 			<HBox alignment="CENTER" layoutX="10.0" layoutY="275.0" minWidth="-Infinity" prefWidth="800.0">
 				<children>
-					<Label minWidth="180.0" styleClass="title-label" text="Entrepôt" />
-					<StackPane prefWidth="556.0" HBox.hgrow="ALWAYS" />
+					<Label minWidth="162.0" prefHeight="27.0" prefWidth="115.0" styleClass="title-label-entrepot" text="Entrepôt">
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding></Label>
+               <Label layoutX="10.0" layoutY="10.0" minWidth="50.0" styleClass="title-label-entrepot" text="Adresse: ">
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </Label>
+               <Label fx:id="entrepotAdresse" layoutX="10.0" layoutY="10.0" minWidth="100.0" styleClass="title-value-entrepot">
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </Label>
+               <Label layoutX="190.0" layoutY="10.0" minWidth="78.0" styleClass="title-label-entrepot" text="Heure départ: ">
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </Label>
+               <Label fx:id="entrepotHeureDepart" layoutX="483.0" layoutY="10.0" minWidth="70.0" styleClass="title-value-entrepot">
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </Label>
+               <Label minWidth="77.0" styleClass="title-label-entrepot" text="Heure retour: ">
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </Label>
+				<Label fx:id="entrepotHeureRetour" layoutX="483.0" layoutY="10.0" minWidth="70.0" styleClass="title-value-entrepot">
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </Label>
+					<StackPane HBox.hgrow="ALWAYS" />
 				</children>
 			</HBox>
-			<JFXTreeTableView fx:id="entrepotTreeTableView" minWidth="-Infinity" prefHeight="103.0" prefWidth="800.0" VBox.vgrow="NEVER">
-				<columns>
-					<JFXTreeTableColumn fx:id="colonneEntrepotAdresse" editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" resizable="false" sortable="false" text="Adresse" />
-					<JFXTreeTableColumn fx:id="colonneEntrepotHeureDepart" editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" resizable="false" sortable="false" text="Heure départ" />
-				</columns>
-			</JFXTreeTableView>
 			<HBox alignment="CENTER" minWidth="-Infinity" prefWidth="800.0">
 				<Label minWidth="165.0" styleClass="title-label" text="Liste des livraisons" />
 				<Label fx:id="treeTableViewCount" minWidth="125.0" styleClass="title-label" />

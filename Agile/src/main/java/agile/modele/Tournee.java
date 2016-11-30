@@ -127,6 +127,8 @@ public class Tournee {
 	    currTime += livr.getDuree();
 	    idPrecedenteIntersection = idCurrIntersection;
 	}
+	demandeInitiale.getEntrepot()
+		.setHeureRetour(new Temps((int) (currTime + matriceChemin[idPrecedenteIntersection][0].getCout())));
 	cheminsTSP.add(matriceChemin[idPrecedenteIntersection][0]);
     }
 
@@ -310,7 +312,8 @@ public class Tournee {
 
 	    float currCout = cheminAvant.getCout() + cheminApres.getCout() - cheminSupp.getCout();
 
-	    if (currCout < coutMin) {
+	    if (currCout < coutMin
+		    && (i == livraisonsTSP.size() || currCout < livraisonsTSP.get(i).getTempsAttente())) {
 		coutMin = currCout;
 		cheminAjout1 = cheminAvant;
 		cheminAjout2 = cheminApres;
@@ -334,7 +337,7 @@ public class Tournee {
      * Permet de dupliquer la Tournee
      */
     @Override
-    protected Tournee clone() {
+    public Tournee clone() {
 	Tournee copy = new Tournee(demandeInitiale);
 
 	// Cloner matriceChemin[][]
