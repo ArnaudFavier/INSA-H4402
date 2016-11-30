@@ -13,41 +13,41 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="root" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="root" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
 	<VBox>
 		<children>
 			<HBox alignment="CENTER" layoutX="10.0" layoutY="275.0" minWidth="-Infinity" prefWidth="800.0">
 				<children>
-					<Label minWidth="162.0" prefHeight="27.0" prefWidth="115.0" styleClass="title-label" text="Entrepôt">
+					<Label minWidth="162.0" prefHeight="27.0" prefWidth="115.0" styleClass="title-label-entrepot" text="Entrepôt">
                   <padding>
                      <Insets bottom="5.0" top="5.0" />
                   </padding></Label>
-               <Label layoutX="10.0" layoutY="10.0" minWidth="55.0" styleClass="title-label" text="Adresse: ">
+               <Label layoutX="10.0" layoutY="10.0" minWidth="50.0" styleClass="title-label-entrepot" text="Adresse: ">
                   <padding>
                      <Insets bottom="5.0" top="5.0" />
                   </padding>
                </Label>
-               <Label fx:id="entrepotAdresse" layoutX="10.0" layoutY="10.0" minWidth="162.0" styleClass="title-label">
+               <Label fx:id="entrepotAdresse" layoutX="10.0" layoutY="10.0" minWidth="100.0" styleClass="title-value-entrepot">
                   <padding>
                      <Insets bottom="5.0" top="5.0" />
                   </padding>
                </Label>
-               <Label layoutX="190.0" layoutY="10.0" minWidth="82.0" styleClass="title-label" text="Heure départ: ">
+               <Label layoutX="190.0" layoutY="10.0" minWidth="78.0" styleClass="title-label-entrepot" text="Heure départ: ">
                   <padding>
                      <Insets bottom="5.0" top="5.0" />
                   </padding>
                </Label>
-               <Label fx:id="entrepotHeureDepart" layoutX="483.0" layoutY="10.0" minWidth="180.0" styleClass="title-label">
+               <Label fx:id="entrepotHeureDepart" layoutX="483.0" layoutY="10.0" minWidth="70.0" styleClass="title-value-entrepot">
                   <padding>
                      <Insets bottom="5.0" top="5.0" />
                   </padding>
                </Label>
-               <Label minWidth="82.0" styleClass="title-label" text="Heure retour: ">
+               <Label minWidth="77.0" styleClass="title-label-entrepot" text="Heure retour: ">
                   <padding>
                      <Insets bottom="5.0" top="5.0" />
                   </padding>
                </Label>
-				<Label fx:id="entrepotHeureRetour" layoutX="483.0" layoutY="10.0" minWidth="180.0" styleClass="title-label">
+				<Label fx:id="entrepotHeureRetour" layoutX="483.0" layoutY="10.0" minWidth="70.0" styleClass="title-value-entrepot">
                   <padding>
                      <Insets bottom="5.0" top="5.0" />
                   </padding>
