@@ -1,5 +1,6 @@
 package agile.vue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
@@ -20,7 +21,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableColumn.CellEditEvent;
+import javafx.scene.control.TreeTableView.TreeTableViewSelectionModel;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -235,8 +239,30 @@ public class ContentController {
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	});
 	searchField.textProperty().addListener((o, oldVal, newVal) -> {
-	    livraisonTreeTableView.setPredicate(person -> person.getValue().intersection.get().contains(newVal)
-		    || person.getValue().duree.get().contains(newVal));
+
+	    /*
+	     * ce qui marchait à la base :
+	     * livraisonTreeTableView.setPredicate(livraison ->
+	     * livraison.getValue().intersection.get().contains(newVal) ||
+	     * livraison.getValue().duree.get().contains(newVal));
+	     */
+
+	    TreeTableViewSelectionModel<LivraisonVue> ttvsm = livraisonTreeTableView.getSelectionModel();
+	    List<Integer> indices = new ArrayList<Integer>();
+
+	    // GENERALISER
+	    int i = 0;
+	    TreeItem<LivraisonVue> item = ttvsm.getModelItem(0);
+	    while (item != null) {
+		item = ttvsm.getModelItem(i);
+		if (item.getValue().intersection.get().contains(newVal)
+			|| ttvsm.getModelItem(i).getValue().duree.get().contains(newVal)) {
+		    indices.add(i); // 3 fois pour 600 et 2 fois pour 14
+		}
+		i++;
+		item = ttvsm.getModelItem(i);
+	    }
+	    selectionnerLivraison(indices);
 	});
 
 	// Binding des boutons undo/redo
@@ -358,10 +384,12 @@ public class ContentController {
 	livraisonTreeTableView.currentItemsCountProperty().set(observableListeLivraisons.size());
     }
 
-    public void selectionnerLivraison(int index) {
-	livraisonTreeTableView.getSelectionModel().select(index);
-	livraisonTreeTableView.getFocusModel().focus(index);
-	livraisonTreeTableView.scrollTo(index);
+    public void selectionnerLivraison(List<Integer> indexes) {
+	for (int index : indexes) {
+	    livraisonTreeTableView.getSelectionModel().select(index);
+	    livraisonTreeTableView.getFocusModel().focus(index);
+	    livraisonTreeTableView.scrollTo(index);
+	}
     }
 
     /**

@@ -1,6 +1,7 @@
 package agile.vue;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
@@ -193,9 +194,11 @@ public final class DialogNouvelleLivraison {
 		    ContentController.controlleur.ajouterLivraison(livraison);
 		    controlleur.miseAJourLivraison(ContentController.controlleur.getTournee().getLivraisonsTSP());
 		    controlleur.miseAJourEntrepot(ContentController.controlleur.getDemandeLivraisons().getEntrepot());
+		    List<Integer> list = new ArrayList<Integer>();
 		    int indexToSelect = ContentController.controlleur.getTournee().getLivraisonsTSP()
 			    .indexOf(livraison);
-		    controlleur.selectionnerLivraison(indexToSelect);
+		    list.add(indexToSelect);
+		    controlleur.selectionnerLivraison(list);
 
 		    dialog.close();
 		} else {
