@@ -110,9 +110,6 @@ public class Controlleur {
     public void ajouterLivraison(Livraison livraison) {
 	etatCourant.ajouterLivraison(this, livraison);
 
-	// Gestion de l'historique
-	CommandeAjouterLivraison cAjouterLivraison = new CommandeAjouterLivraison(tournee, livraison);
-	historique.ajoute(cAjouterLivraison);
     }
 
     /**
@@ -123,14 +120,7 @@ public class Controlleur {
      * @param finPlage
      */
     public void modifierLivraison(Livraison livraison, Temps debutPlage, Temps finPlage) {
-
 	etatCourant.modifierLivraison(this, livraison, debutPlage, finPlage);
-
-	// Gestion de l'historique
-	CommandeModifierLivraison cModifierLivraison = new CommandeModifierLivraison(tournee, livraison, debutPlage,
-		finPlage);
-	historique.ajoute(cModifierLivraison);
-
     }
 
     /**
@@ -140,9 +130,6 @@ public class Controlleur {
      */
     public void supprimerLivraison(Livraison livraison) {
 	etatCourant.supprimerLivraison(this, livraison);
-
-	CommandeSupprimerLivraison cSupprimerLivraison = new CommandeSupprimerLivraison(tournee, livraison);
-	historique.ajoute(cSupprimerLivraison);
     }
 
     /**
@@ -150,8 +137,8 @@ public class Controlleur {
      * 
      * @param historique
      */
-    public void undo(Historique historique) {
-	etatCourant.undo(historique);
+    public void undo() {
+	etatCourant.undo(this);
     }
 
     /**
@@ -159,8 +146,8 @@ public class Controlleur {
      * 
      * @param historique
      */
-    public void redo(Historique historique) {
-	etatCourant.redo(historique);
+    public void redo() {
+	etatCourant.redo(this);
     }
 
     public Plan getPlan() {

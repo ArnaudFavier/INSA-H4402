@@ -9,8 +9,6 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
-import com.jfoenix.controls.cells.editors.TextFieldEditorBuilder;
-import com.jfoenix.controls.cells.editors.base.GenericEditableTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import agile.controlleur.Controlleur;
@@ -23,7 +21,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableColumn.CellEditEvent;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -208,13 +205,11 @@ public class ContentController {
 		return colonneTempsAttente.getComputedValue(param);
 	});
 
-	// Edition de la colonne
-	colonnePlagePrevisionnelle.setCellFactory(
-		(TreeTableColumn<LivraisonVue, String> param) -> new GenericEditableTreeTableCell<LivraisonVue, String>(
-			new TextFieldEditorBuilder()));
-	colonnePlagePrevisionnelle.setOnEditCommit((CellEditEvent<LivraisonVue, String> t) -> {
-	    ((LivraisonVue) t.getTreeTableView().getTreeItem(t.getTreeTablePosition().getRow())
-		    .getValue()).plagePrevisionnelle.set(t.getNewValue());
+	// Modifier livraison
+	colonnePlagePrevisionnelle.setOnEditStart((e) -> {
+	    Livraison livraisonModifiee = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
+		    .getValue().livraison;
+	    DialogModifierLivraison.show(this, root, livraisonModifiee);
 	});
 
 	// Binding du tableau de la liste des livraisons
@@ -246,11 +241,11 @@ public class ContentController {
 
 	// Binding des boutons undo/redo
 	boutonUndo.setOnMouseClicked((e) -> {
-	    controlleur.undo(controlleur.getHistorique());
+	    controlleur.undo();
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	});
 	boutonRedo.setOnMouseClicked((e) -> {
-	    controlleur.redo(controlleur.getHistorique());
+	    controlleur.redo();
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	});
 
@@ -332,6 +327,7 @@ public class ContentController {
 	    boutonSupprimerLivraison.setVisible(true);
 	    boutonUndo.setVisible(true);
 	    boutonRedo.setVisible(true);
+	    snackbar.fireEvent(new SnackbarEvent("Tounée calculée."));
 	} catch (Exception e) {
 	    snackbar.fireEvent(new SnackbarEvent("Calcul de tournée impossible."));
 	    e.printStackTrace();

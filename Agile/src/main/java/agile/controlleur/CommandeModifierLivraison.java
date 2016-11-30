@@ -35,7 +35,7 @@ public class CommandeModifierLivraison implements Commande {
     }
 
     @Override
-    public void undoCde() {
+    public void undoCde(Controlleur controlleur) {
 	tournee.modifierLivraison(livraison, oldDebutPlage, oldFinPlage);
     }
 

@@ -21,7 +21,7 @@ public interface Etat {
 
     public void supprimerLivraison(Controlleur controlleur, Livraison livraison);
 
-    public void undo(Historique historique);
+    public void undo(Controlleur controlleur);
 
-    public void redo(Historique historique);
+    public void redo(Controlleur controlleur);
 }
