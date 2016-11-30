@@ -14,6 +14,7 @@ public class EntrepotVue extends RecursiveTreeObject<EntrepotVue> {
     // Informations à afficher
     public StringProperty intersection;
     public StringProperty heureDepart;
+    public StringProperty heureRetour;
 
     /**
      * Constructeur liant les informations à afficher de l'entrepôt passé en
@@ -27,5 +28,10 @@ public class EntrepotVue extends RecursiveTreeObject<EntrepotVue> {
 		+ entrepot.getIntersection().getX() + ", " + entrepot.getIntersection().getY() + ")");
 
 	this.heureDepart = new SimpleStringProperty(entrepot.getHeureDepart().toString());
+	if (entrepot.getHeureRetour() == null) {
+	    this.heureRetour = new SimpleStringProperty("");
+	} else {
+	    this.heureRetour = new SimpleStringProperty(entrepot.getHeureRetour().toString());
+	}
     }
 }

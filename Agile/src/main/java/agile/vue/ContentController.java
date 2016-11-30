@@ -51,6 +51,12 @@ public class ContentController {
     @FXML
     private Label entrepotHeureDepart;
 
+    /**
+     * Heure de retour du tableau de l'entrepôt
+     */
+    @FXML
+    private Label entrepotHeureRetour;
+
     // Livraisons
     /**
      * Tableau de la listes des livraisons
@@ -167,6 +173,7 @@ public class ContentController {
      */
     @FXML
     private void initialize() {
+
 	// Colonnes de la livraisonTreeTableView
 	colonneAdresse.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
 	    if (colonneAdresse.validateValue(param))
@@ -314,6 +321,7 @@ public class ContentController {
 	try {
 	    controlleur.calculerTournee();
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
+	    miseAJourEntrepot(controlleur.getTournee().getDemandeInitiale().getEntrepot());
 	    System.out.println("tmps: " + controlleur.getTournee().getLivraisonsTSP().get(0).getTempsAttente());
 
 	    // Mise à jour des boutons
@@ -361,14 +369,18 @@ public class ContentController {
     }
 
     /**
+     * 
      * Met à jour les données pour l'affichage de l'entrepôt
      */
     public void miseAJourEntrepot(Entrepot entrepot) {
+
 	entrepotAdresse.setText(Integer.toString(entrepot.getIntersection().getId()) + " ("
 		+ entrepot.getIntersection().getX() + ", " + entrepot.getIntersection().getY() + ")");
 	entrepotHeureDepart.setText(entrepot.getHeureDepart().toString());
+	entrepotHeureRetour.setText(entrepot.getHeureRetour() == null ? "" : entrepot.getHeureRetour().toString());
 	entrepotAdresse.setVisible(true);
 	entrepotHeureDepart.setVisible(true);
+	entrepotHeureRetour.setVisible(true);
     }
 
     /**
@@ -377,8 +389,9 @@ public class ContentController {
     public void effacerAffichageEntrepot() {
 	entrepotAdresse.setVisible(false);
 	entrepotHeureDepart.setVisible(false);
+	entrepotHeureRetour.setVisible(false);
 	entrepotAdresse.setText(null);
 	entrepotHeureDepart.setText(null);
-
+	entrepotHeureRetour.setText(null);
     }
 }

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="root" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="root" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
 	<VBox>
 		<children>
 			<HBox alignment="CENTER" layoutX="10.0" layoutY="275.0" minWidth="-Infinity" prefWidth="800.0">
@@ -38,6 +38,16 @@
                   </padding>
                </Label>
                <Label fx:id="entrepotHeureDepart" layoutX="483.0" layoutY="10.0" minWidth="180.0" styleClass="title-label">
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </Label>
+               <Label minWidth="82.0" styleClass="title-label" text="Heure retour: ">
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </Label>
+				<Label fx:id="entrepotHeureRetour" layoutX="483.0" layoutY="10.0" minWidth="180.0" styleClass="title-label">
                   <padding>
                      <Insets bottom="5.0" top="5.0" />
                   </padding>

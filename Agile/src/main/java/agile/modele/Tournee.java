@@ -124,6 +124,8 @@ public class Tournee {
 	    currTime += livr.getDuree();
 	    idPrecedenteIntersection = idCurrIntersection;
 	}
+	demandeInitiale.getEntrepot()
+		.setHeureRetour(new Temps((int) (currTime + matriceChemin[idPrecedenteIntersection][0].getCout())));
 	cheminsTSP.add(matriceChemin[idPrecedenteIntersection][0]);
     }
 

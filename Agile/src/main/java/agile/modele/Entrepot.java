@@ -1,24 +1,32 @@
 package agile.modele;
 
 /**
- * Représente un entrepot
+ * Reprï¿½sente un entrepot
  */
 public class Entrepot {
 
     /**
-     * Le temps de départ de l'entrepot
+     * Le temps de dÃ©part de l'entrepot
      */
     private Temps heureDepart;
-    
+
+    /**
+     * Le temps de retour Ã  l'entrepot
+     */
+    private Temps heureRetour;
+
     /**
      * L'intersection sur laquelle se situe l'entrepot
      */
     private Intersection intersection;
-    
+
     /**
      * Le constructeur
-     * @param heureDepart Le temps de départ de l'entrepot
-     * @param intersection L'intersection sur laquelle se situe l'entrepot
+     * 
+     * @param heureDepart
+     *            Le temps de dÃ©part de l'entrepot
+     * @param intersection
+     *            L'intersection sur laquelle se situe l'entrepot
      */
     public Entrepot(Temps heureDepart, Intersection intersection) {
 	super();
@@ -27,17 +35,28 @@ public class Entrepot {
     }
 
     /**
-     * @return Le temps de départ de l'entrepot
+     * @return Le temps de dÃ©part de l'entrepot
      */
     public Temps getHeureDepart() {
-        return heureDepart;
+	return heureDepart;
     }
 
     /**
      * @return L'intersection sur laquelle se situe l'entrepot
      */
     public Intersection getIntersection() {
-        return intersection;
+	return intersection;
     }
-    
+
+    /**
+     * @return Le temps de retour Ã  l'entrepot
+     */
+    public Temps getHeureRetour() {
+	return heureRetour;
+    }
+
+    public void setHeureRetour(Temps heureRetour) {
+	this.heureRetour = heureRetour;
+    }
+
 }
