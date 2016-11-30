@@ -26,7 +26,7 @@ public class CommandeAjouterLivraison implements Commande {
     }
 
     @Override
-    public void undoCde() {
+    public void undoCde(Controlleur controlleur) {
 	tournee.supprimerLivraison(livraison);
 
     }

@@ -17,7 +17,6 @@ public class CommandeSupprimerLivraison implements Commande {
      */
     public CommandeSupprimerLivraison(Tournee tournee, Livraison livraison) {
 	this.tournee = tournee;
-	this.prevTournee = tournee.clone();
 	this.livraison = livraison;
     }
 
@@ -25,13 +24,11 @@ public class CommandeSupprimerLivraison implements Commande {
     public void doCde() {
 	prevTournee = tournee.clone();
 	tournee.supprimerLivraison(livraison);
-
     }
 
     @Override
-    public void undoCde() {
-	tournee = prevTournee;
-
+    public void undoCde(Controlleur controlleur) {
+	controlleur.setTournee(prevTournee);
     }
 
 }

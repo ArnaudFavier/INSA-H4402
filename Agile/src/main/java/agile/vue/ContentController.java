@@ -285,11 +285,11 @@ public class ContentController {
 
 	// Binding des boutons undo/redo
 	boutonUndo.setOnMouseClicked((e) -> {
-	    controlleur.undo(controlleur.getHistorique());
+	    controlleur.undo();
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	});
 	boutonRedo.setOnMouseClicked((e) -> {
-	    controlleur.redo(controlleur.getHistorique());
+	    controlleur.redo();
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	});
 

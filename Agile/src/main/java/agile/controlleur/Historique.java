@@ -24,37 +24,25 @@ public class Historique {
 	}
 	indiceCrt++;
 	liste.add(indiceCrt, c);
+	c.doCde();
     }
 
     /**
      * Annule temporairement la derniere commande ajoutee (cette commande pourra
      * etre remise dans la liste avec redo)
      */
-    public void undo() {
+    public void undo(Controlleur controlleur) {
 	if (indiceCrt >= 0) {
 	    Commande cde = liste.get(indiceCrt);
 	    indiceCrt--;
-	    cde.undoCde();
-	}
-    }
-
-    /**
-     * Supprime definitivement la derniere commande ajoutee (cette commande ne
-     * pourra pas etre remise dans la liste avec redo)
-     */
-    public void annule() {
-	if (indiceCrt >= 0) {
-	    Commande cde = liste.get(indiceCrt);
-	    liste.remove(indiceCrt);
-	    indiceCrt--;
-	    cde.undoCde();
+	    cde.undoCde(controlleur);
 	}
     }
 
     /**
      * Remet dans la liste la derniere commande annulee avec undo
      */
-    public void redo() {
+    public void redo(Controlleur controlleur) {
 	if (indiceCrt < liste.size() - 1) {
 	    indiceCrt++;
 	    Commande cde = liste.get(indiceCrt);

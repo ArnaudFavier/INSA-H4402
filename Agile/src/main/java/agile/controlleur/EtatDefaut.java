@@ -67,11 +67,11 @@ public abstract class EtatDefaut implements Etat {
     }
 
     @Override
-    public void undo(Historique historique) {
+    public void undo(Controlleur controlleur) {
     }
 
     @Override
-    public void redo(Historique historique) {
+    public void redo(Controlleur controlleur) {
     }
 
 }

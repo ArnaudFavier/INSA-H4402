@@ -136,27 +136,32 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
     @Override
     public void ajouterLivraison(Controlleur controlleur, Livraison livraison) {
-	controlleur.getTournee().ajouterLivraison(livraison);
+	CommandeAjouterLivraison cAjouterLivraison = new CommandeAjouterLivraison(controlleur.getTournee(), livraison);
+	controlleur.getHistorique().ajoute(cAjouterLivraison);
     }
 
     @Override
     public void supprimerLivraison(Controlleur controlleur, Livraison livraison) {
-	controlleur.getTournee().supprimerLivraison(livraison);
+	CommandeSupprimerLivraison cSupprimerLivraison = new CommandeSupprimerLivraison(controlleur.getTournee(),
+		livraison);
+	controlleur.getHistorique().ajoute(cSupprimerLivraison);
     }
 
     @Override
     public void modifierLivraison(Controlleur controlleur, Livraison livraison, Temps debutPlage, Temps finPlage) {
-	controlleur.getTournee().modifierLivraison(livraison, debutPlage, finPlage);
+	CommandeModifierLivraison cModifierLivraison = new CommandeModifierLivraison(controlleur.getTournee(),
+		livraison, debutPlage, finPlage);
+	controlleur.getHistorique().ajoute(cModifierLivraison);
     }
 
     @Override
-    public void undo(Historique historique) {
-	historique.undo();
+    public void undo(Controlleur controlleur) {
+	controlleur.getHistorique().undo(controlleur);
     }
 
     @Override
-    public void redo(Historique historique) {
-	historique.redo();
+    public void redo(Controlleur controlleur) {
+	controlleur.getHistorique().redo(controlleur);
     }
 
 }
