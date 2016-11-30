@@ -149,28 +149,5 @@
 			</HBox>
 		</children>
 	</VBox>
-	<JFXDialog fx:id="dialogLivraisonModifier">
-		<JFXDialogLayout>
-			<heading>
-				<Label>Modifier une livraison</Label>
-			</heading>
-			<body>
-				<VBox alignment="CENTER" minWidth="-Infinity" prefWidth="700.0">
-					<HBox prefWidth="300.0">
-						<Label prefWidth="100.0">Plage heure début :</Label>
-						<Label prefWidth="100.0">Plage heure fin :</Label>
-					</HBox>
-					<HBox prefWidth="300.0">
-						<JFXDatePicker fx:id="datePicketLivraisonModifierPlageDebut" defaultColor="#3f51b5" overLay="true" prefWidth="100.0" showTime="true" />
-						<JFXDatePicker fx:id="datePicketLivraisonModifierPlageFin" defaultColor="#3f51b5" overLay="true" prefWidth="100.0" showTime="true" />
-					</HBox>
-				</VBox>
-			</body>
-			<actions>
-				<JFXButton fx:id="boutonValiderLivraisonModifier" buttonType="RAISED" styleClass="red-A400">Valider</JFXButton>
-				<JFXButton fx:id="boutonAnnulerLivraisonModifier" buttonType="RAISED" styleClass="red-A400">Annuler</JFXButton>
-			</actions>
-		</JFXDialogLayout>
-	</JFXDialog>
 	<JFXSnackbar fx:id="snackbar" prefWidth="300" />
 </StackPane>

@@ -3,8 +3,6 @@ package agile.vue;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextField;
@@ -20,11 +18,9 @@ import io.datafx.controller.FXMLController;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableColumn.CellEditEvent;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -143,33 +139,6 @@ public class ContentController {
      */
     @FXML
     private JFXButton boutonRedo;
-    /**
-     * Boite de dialogue pour modifier une livraison
-     */
-    @FXML
-    private JFXDialog dialogLivraisonModifier;
-    /**
-     * Bouton valider de la boite de dialogue modifier une livraison
-     */
-    @FXML
-    private JFXButton boutonValiderLivraisonModifier;
-    /**
-     * Bouton annuler de la boite de dialogue modifier une livraison
-     */
-    @FXML
-    private JFXButton boutonAnnulerLivraisonModifier;
-    /**
-     * DatePicker Time pour la plage de début de la boite de dialogue modifier
-     * une livraison
-     */
-    @FXML
-    private JFXDatePicker datePicketLivraisonModifierPlageDebut;
-    /**
-     * DatePicker Time pour la plage de fin de la boite de dialogue modifier une
-     * livraison
-     */
-    @FXML
-    private JFXDatePicker datePicketLivraisonModifierPlageFin;
 
     // Snackbar
     /**
@@ -247,14 +216,9 @@ public class ContentController {
 	 * t.getTreeTableView().getTreeItem(t.getTreeTablePosition().getRow())
 	 * .getValue()).plagePrevisionnelle.set(t.getNewValue()); });
 	 */
-	datePicketLivraisonModifierPlageDebut.setPromptText("Début de la plage");
-	colonnePlagePrevisionnelle
-		.setOnEditStart(new EventHandler<TreeTableColumn.CellEditEvent<LivraisonVue, String>>() {
-		    @Override
-		    public void handle(CellEditEvent<LivraisonVue, String> event) {
-			dialogLivraisonModifier.show(root);
-		    }
-		});
+	colonnePlagePrevisionnelle.setOnEditStart((e) -> {
+	    DialogModifierLivraison.show(this, root);
+	});
 
 	// Binding du tableau de la liste des livraisons
 	livraisonTreeTableView.setRoot(

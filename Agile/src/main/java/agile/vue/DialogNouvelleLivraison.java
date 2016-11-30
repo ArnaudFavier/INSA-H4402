@@ -1,5 +1,6 @@
 package agile.vue;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
@@ -17,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.GridPane;
@@ -24,6 +26,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public final class DialogNouvelleLivraison {
@@ -114,6 +118,7 @@ public final class DialogNouvelleLivraison {
 	VBox vbox = new VBox();
 	vbox.setPadding(new Insets(5, 10, 0, 10));
 	Text title = new Text("Ajouter une nouvelle livraison");
+	title.setFont(Font.font(null, FontWeight.BOLD, 16));
 	vbox.getChildren().add(title);
 	vbox.getChildren().add(grid);
 	vbox.getChildren().add(hbox);
@@ -195,15 +200,68 @@ public final class DialogNouvelleLivraison {
 		    dialog.close();
 		} else {
 		    System.err.println("Error found:");
-		    if (datePickerPlageDebut.getTime() == null) {
-			// TODO: trouver comment récupérer la valeur entrée au
-			// clavier par l'utilisateur
-			System.err.println("Date Picker Debut Null:");
-			System.err.println(datePickerPlageDebut.getValue());
-			System.err.println(datePickerPlageDebut.promptTextProperty());
-			System.err.println(datePickerPlageDebut.timeProperty());
-			System.err.println(datePickerPlageDebut.valueProperty());
+		    // TODO: trouver comment récupérer la valeur entrée au
+		    // clavier par l'utilisateur
+		    System.err.println("Date Picker Debut Null:");
+		    /*
+		     * System.err.println(datePickerPlageDebut.getValue());
+		     * System.err.println(datePickerPlageDebut.
+		     * promptTextProperty());
+		     * System.err.println(datePickerPlageDebut.timeProperty());
+		     * System.err.println(datePickerPlageDebut.valueProperty());
+		     * System.err.println(datePickerPlageDebut.
+		     * accessibleTextProperty());
+		     * System.err.println(datePickerPlageDebut.getSkin().getNode
+		     * ().getUserData().toString());
+		     * 
+		     * System.err.println(datePickerPlageDebut.snappedLeftInset(
+		     * ));
+		     * System.err.println(datePickerPlageDebut.getUserData());
+		     */
+
+		    // System.err.println(
+		    // datePickerPlageDebut.getParent().getParent().getParent().getParent().getParent().left);
+
+		    try {
+			System.out.println(datePickerPlageDebut.getClass());
+			System.out.println(datePickerPlageDebut.getParent().getClass());
+			System.out.println(datePickerPlageDebut.getParent().getParent().getClass());
+			System.out.println(datePickerPlageDebut.getParent().getParent().getParent().getClass());
+			System.out.println(
+				datePickerPlageDebut.getParent().getParent().getParent().getParent().getClass());
+			System.out.println(datePickerPlageDebut.getParent().getParent().getParent().getParent()
+				.getParent().getClass());
+			System.out.println(datePickerPlageDebut.getParent().getParent().getParent().getParent()
+				.getParent().getParent().getClass());
+			System.out.println(datePickerPlageDebut.getParent().getParent().getParent().getParent()
+				.getParent().getParent().getParent().getClass());
+			System.out.println(datePickerPlageDebut.getParent().getParent().getParent().getParent()
+				.getParent().getParent().getParent().getParent().getClass());
+			System.out.println(datePickerPlageDebut.getParent().getParent().getParent().getParent()
+				.getParent().getParent().getParent().getParent().getParent().getClass());
+			System.out.println(datePickerPlageDebut.getParent().getParent().getParent().getParent()
+				.getParent().getParent().getParent().getParent().getParent().getParent().getClass());
+			System.out.println(datePickerPlageDebut.getParent().getParent().getParent().getParent()
+				.getParent().getParent().getParent().getParent().getParent().getParent().getParent()
+				.getClass());
+
+			System.out.print((Parent) datePickerPlageDebut);
+
+			// Object o = (Parent) datePickerPlageDebut;
+			// System.out.println(o.toString());
+			// System.out.println(o.getClass());
+			Class<?> c = Class.forName("javafx.scene.Parent");
+			Field f = datePickerPlageDebut.getClass().getField("left");
+			String left = (String) f.get(datePickerPlageDebut);
+			System.out.println("Left:" + left);
+		    } catch (Exception e) {
+			e.printStackTrace();
 		    }
+
+		    /*
+		     * System.err.println(datePickerPlageDebut.
+		     * contextMenuProperty().get().);
+		     */
 		}
 	    }
 	});
