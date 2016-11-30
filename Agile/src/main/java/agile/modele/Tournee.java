@@ -334,7 +334,7 @@ public class Tournee {
      * Permet de dupliquer la Tournee
      */
     @Override
-    protected Tournee clone() {
+    public Tournee clone() {
 	Tournee copy = new Tournee(demandeInitiale);
 
 	// Cloner matriceChemin[][]
