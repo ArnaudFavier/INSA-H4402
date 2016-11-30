@@ -371,6 +371,7 @@ public class ContentController {
 	    boutonSupprimerLivraison.setVisible(true);
 	    boutonUndo.setVisible(true);
 	    boutonRedo.setVisible(true);
+	    snackbar.fireEvent(new SnackbarEvent("Tounée calculée."));
 	} catch (Exception e) {
 	    snackbar.fireEvent(new SnackbarEvent("Calcul de tournée impossible."));
 	    e.printStackTrace();
