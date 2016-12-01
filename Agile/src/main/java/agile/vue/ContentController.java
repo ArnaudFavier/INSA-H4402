@@ -213,6 +213,7 @@ public class ContentController {
 	    Livraison livraisonModifiee = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
 		    .getValue().livraison;
 	    DialogModifierLivraison.show(this, root, livraisonModifiee);
+	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	});
 
 	// Binding du tableau de la liste des livraisons
@@ -297,6 +298,7 @@ public class ContentController {
 	    boutonSupprimerLivraison.setVisible(false);
 	    boutonUndo.setVisible(false);
 	    boutonRedo.setVisible(false);
+	    colonnePlagePrevisionnelle.setEditable(false);
 	} catch (Exception e) {
 	    if (e.getMessage() != null) {
 		snackbar.fireEvent(new SnackbarEvent(e.getMessage()));
@@ -327,6 +329,7 @@ public class ContentController {
 		boutonSupprimerLivraison.setVisible(false);
 		boutonUndo.setVisible(false);
 		boutonRedo.setVisible(false);
+		colonnePlagePrevisionnelle.setEditable(false);
 	    } catch (Exception e) {
 		snackbar.fireEvent(new SnackbarEvent("Demande de livraisons invalide."));
 	    }
@@ -352,6 +355,7 @@ public class ContentController {
 	    boutonSupprimerLivraison.setVisible(true);
 	    boutonUndo.setVisible(true);
 	    boutonRedo.setVisible(true);
+	    colonnePlagePrevisionnelle.setEditable(true);
 	    snackbar.fireEvent(new SnackbarEvent("Tounée calculée."));
 	} catch (Exception e) {
 	    snackbar.fireEvent(new SnackbarEvent("Calcul de tournée impossible."));
@@ -400,7 +404,6 @@ public class ContentController {
      * Met à jour les données pour l'affichage de l'entrepôt
      */
     public void miseAJourEntrepot(Entrepot entrepot) {
-
 	entrepotAdresse.setText(Integer.toString(entrepot.getIntersection().getId()) + " ("
 		+ entrepot.getIntersection().getX() + ", " + entrepot.getIntersection().getY() + ")");
 	entrepotHeureDepart.setText(entrepot.getHeureDepart().toString());

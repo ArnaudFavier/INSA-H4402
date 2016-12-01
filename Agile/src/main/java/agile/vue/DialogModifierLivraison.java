@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
 
 import agile.modele.Livraison;
+import agile.modele.Temps;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -33,10 +34,10 @@ public final class DialogModifierLivraison {
 
 	datePickerPlageDebut.setPromptText("Début de la plage");
 	datePickerPlageFin.setPromptText("Fin de la plage");
-	datePickerPlageDebut.setShowTime(true);
-	datePickerPlageFin.setShowTime(true);
 	datePickerPlageDebut.setDefaultColor(Color.web("#3f51b5"));
 	datePickerPlageFin.setDefaultColor(Color.web("#3f51b5"));
+	datePickerPlageDebut.setShowTime(true);
+	datePickerPlageFin.setShowTime(true);
 
 	GridPane grid = new GridPane();
 	grid.add(labelPlageDebut, 1, 1);
@@ -80,7 +81,20 @@ public final class DialogModifierLivraison {
 	boutonValider.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override
 	    public void handle(ActionEvent event) {
-		// TODO
+		// TODO: à améliorer avec des vérifications
+		Temps tempsPlageDebut = new Temps(datePickerPlageDebut.getTime().getHour(),
+			datePickerPlageDebut.getTime().getMinute(), 0);
+		Temps tempsPlageFin = new Temps(datePickerPlageFin.getTime().getHour(),
+			datePickerPlageFin.getTime().getMinute(), 0);
+
+		// Le temps de fin avant le temps de début
+		if (tempsPlageDebut.compareTo(tempsPlageFin) > 0) {
+		    return;
+		}
+
+		livraison.setDebutPlage(tempsPlageDebut);
+		livraison.setFinPlage(tempsPlageFin);
+		controlleur.miseAJourLivraison(ContentController.controlleur.getTournee().getLivraisonsTSP());
 
 		dialog.close();
 	    }
