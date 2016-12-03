@@ -121,7 +121,7 @@ public final class DialogModifierLivraison {
 
 		// Le temps de fin avant le temps de début
 		if (tempsPlageDebut.compareTo(tempsPlageFin) > 0) {
-		    // TODO: afficher un message d'erreur
+		    controlleur.afficherMessage("L'heure d'arrivée est inférieure à l'heure de départ.");
 		    return;
 		}
 

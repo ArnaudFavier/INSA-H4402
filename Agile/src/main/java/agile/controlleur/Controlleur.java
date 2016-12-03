@@ -6,6 +6,11 @@ import agile.modele.Plan;
 import agile.modele.Temps;
 import agile.modele.Tournee;
 
+/**
+ * Controlleur principal de l'application, chargé de faire le lien entre les
+ * interactions de la vue et le modèle. Gère aussi l'ensemble des états de
+ * l'application
+ */
 public class Controlleur {
 
     private Etat etatCourant;
@@ -21,7 +26,7 @@ public class Controlleur {
     protected final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 
     /**
-     * Cree le controlleur de l'application
+     * Crée le controlleur de l'application
      */
     public Controlleur() {
 	historique = new Historique();
@@ -29,7 +34,7 @@ public class Controlleur {
     }
 
     /**
-     * Change l'etat courant du controlleur
+     * Change l'état courant du controlleur
      * 
      * @param etat
      *            le nouvel etat courant
@@ -52,9 +57,6 @@ public class Controlleur {
 	    throw new Exception("Ouverture de plan annulée.");
 	}
 
-	System.out.println("Controlleur:: chargerPlan : " + plan);
-	System.out.println(etatCourant.toString());
-
 	return plan;
     }
 
@@ -67,8 +69,6 @@ public class Controlleur {
     public void chargerDemandeLivraisons() throws Exception {
 	DemandeLivraisons previousDemandeLivraisons = this.demandeLivraisons;
 	demandeLivraisons = etatCourant.chargerDemandeLivraisons(this);
-	System.out.println("Controlleur:: chargerDemandeLivraisons : " + demandeLivraisons);
-	System.out.println(etatCourant.toString());
 
 	if (demandeLivraisons == null || demandeLivraisons == previousDemandeLivraisons) {
 	    throw new Exception("Ouverture de demande de livraisons annulée.");
@@ -84,8 +84,6 @@ public class Controlleur {
      */
     public void calculerTournee() throws Exception {
 	tournee = etatCourant.calculerTournee(this);
-	System.out.println("Controlleur:: calculerTournee : " + tournee);
-	System.out.println(etatCourant.toString());
 
 	if (tournee == null) {
 	    throw new Exception();
@@ -137,7 +135,6 @@ public class Controlleur {
      * 
      * @param historique
      */
-
     public void undo() {
 	etatCourant.undo(this);
     }
@@ -147,7 +144,6 @@ public class Controlleur {
      * 
      * @param historique
      */
-
     public void redo() {
 	etatCourant.redo(this);
     }

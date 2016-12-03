@@ -301,9 +301,9 @@ public class ContentController {
 	    colonnePlagePrevisionnelle.setEditable(false);
 	} catch (Exception e) {
 	    if (e.getMessage() != null) {
-		snackbar.fireEvent(new SnackbarEvent(e.getMessage()));
+		afficherMessage(e.getMessage());
 	    } else {
-		snackbar.fireEvent(new SnackbarEvent("Plan invalide."));
+		afficherMessage("Plan invalide.");
 	    }
 	}
     }
@@ -314,7 +314,7 @@ public class ContentController {
     @FXML
     private void boutonOuvrirLivraison() {
 	if (controlleur.getPlan() == null) {
-	    snackbar.fireEvent(new SnackbarEvent("Merci de sélectionner un plan avant une demande de livraisons."));
+	    afficherMessage("Merci de sélectionner un plan avant une demande de livraisons.");
 	} else {
 	    try {
 		controlleur.chargerDemandeLivraisons();
@@ -331,7 +331,7 @@ public class ContentController {
 		boutonRedo.setVisible(false);
 		colonnePlagePrevisionnelle.setEditable(false);
 	    } catch (Exception e) {
-		snackbar.fireEvent(new SnackbarEvent("Demande de livraisons invalide."));
+		afficherMessage("Demande de livraisons invalide.");
 	    }
 	}
     }
@@ -356,9 +356,9 @@ public class ContentController {
 	    boutonUndo.setVisible(true);
 	    boutonRedo.setVisible(true);
 	    colonnePlagePrevisionnelle.setEditable(true);
-	    snackbar.fireEvent(new SnackbarEvent("Tounée calculée."));
+	    afficherMessage("Tounée calculée.");
 	} catch (Exception e) {
-	    snackbar.fireEvent(new SnackbarEvent("Calcul de tournée impossible."));
+	    afficherMessage("Calcul de tournée impossible.");
 	    e.printStackTrace();
 	}
     }
@@ -371,7 +371,7 @@ public class ContentController {
 	try {
 	    controlleur.enregistrerFeuilleDeRoute();
 	} catch (Exception e) {
-	    snackbar.fireEvent(new SnackbarEvent("Export annulé."));
+	    afficherMessage("Export annulé.");
 	}
     }
 
@@ -423,5 +423,18 @@ public class ContentController {
 	entrepotAdresse.setText(null);
 	entrepotHeureDepart.setText(null);
 	entrepotHeureRetour.setText(null);
+    }
+
+    /**
+     * Affiche en bas de l'écran sous la forme d'une Snackbar le message passé
+     * en paramètre
+     * 
+     * @param message
+     *            Le message à afficher
+     */
+    public void afficherMessage(String message) {
+	if (message == null)
+	    return;
+	snackbar.fireEvent(new SnackbarEvent(message));
     }
 }
