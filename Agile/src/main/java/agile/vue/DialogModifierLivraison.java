@@ -113,7 +113,6 @@ public final class DialogModifierLivraison {
 	boutonValider.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override
 	    public void handle(ActionEvent event) {
-		// TODO: à améliorer avec des vérifications
 		Temps tempsPlageDebut = new Temps(datePickerPlageDebut.getTime().getHour(),
 			datePickerPlageDebut.getTime().getMinute(), 0);
 		Temps tempsPlageFin = new Temps(datePickerPlageFin.getTime().getHour(),
@@ -130,10 +129,12 @@ public final class DialogModifierLivraison {
 		livraison.setFinPlage(tempsPlageFin);
 		controlleur.miseAJourLivraison(ContentController.controlleur.getTournee().getLivraisonsTSP());
 
+		// Si tout est correct, fermeture de la boite de dialogue
 		dialog.close();
 	    }
 	});
 
+	// Afficher la boite de dialogue
 	dialog.show();
     }
 }

@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
 import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXPopup.PopupHPosition;
 import com.jfoenix.controls.JFXPopup.PopupVPosition;
@@ -26,76 +25,116 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+/**
+ * Controlleur de Fenetre.fxml en charge du contour de la fenêtre, ainsi que de
+ * la toolbar
+ */
 @FXMLController(value = "Fenetre.fxml")
 public class FenetreController {
 
-	@FXMLViewFlowContext
-	private ViewFlowContext context;
+    /**
+     * Le contexte courrant à afficher
+     */
+    @FXMLViewFlowContext
+    private ViewFlowContext context;
 
-	@FXML
-	private StackPane root;
+    /**
+     * Le stackpane principal de la fenêtre
+     */
+    @FXML
+    private StackPane root;
 
-	@FXML
-	private StackPane titleBurgerContainer;
-	@FXML
-	private JFXHamburger titleBurger;
+    /**
+     * Bouton d'options de la toolbar
+     */
+    @FXML
+    private StackPane optionsBurger;
+    /**
+     * Effets sur le bouton d'options
+     */
+    @FXML
+    private JFXRippler optionsRippler;
 
-	@FXML
-	private StackPane optionsBurger;
-	@FXML
-	private JFXRippler optionsRippler;
+    /**
+     * Contenu de la fenêtre, espace contenant le context
+     */
+    @FXML
+    private JFXDrawer drawer;
+    /**
+     * Liste des labels à afficher dans la toolbar
+     */
+    @FXML
+    private JFXPopup toolbarPopup;
+    /**
+     * Label quitter de la toolbar
+     */
+    @FXML
+    private Label quitter;
+    /**
+     * Label A propos de la toolbar
+     */
+    @FXML
+    private Label aPropos;
+    /**
+     * Boite de dialogue A propos, avec le nom des auteurs
+     */
+    @FXML
+    private JFXDialog dialogAPropos;
+    /**
+     * Bouton permetant de quitter la boite de dialogue A propos
+     */
+    @FXML
+    private JFXButton boutonRetourAPropos;
 
-	@FXML
-	private JFXDrawer drawer;
-	@FXML
-	private JFXPopup toolbarPopup;
-	@FXML
-	private Label exit;
-	@FXML
-	private Label aPropos;
-	@FXML
-	private JFXDialog dialogAPropos;
-	@FXML
-	private JFXButton boutonRetourAPropos;
+    /**
+     * Gestion du flow courant (animation si plusieurs flow, swipe à gauche...)
+     */
+    private FlowHandler flowHandler;
 
-	private FlowHandler flowHandler;
+    /**
+     * Méthode d'initialisiton du controlleur de la fenêtre. Appelé
+     * automatiquement. Se charge d'initialiser les actions des composants de la
+     * fenêtre
+     * 
+     * @throws FlowException
+     * @throws VetoException
+     */
+    @PostConstruct
+    public void init() throws FlowException, VetoException {
+	// Les options
+	toolbarPopup.setPopupContainer(root);
+	toolbarPopup.setSource(optionsRippler);
+	root.getChildren().remove(toolbarPopup);
 
-	@PostConstruct
-	public void init() throws FlowException, VetoException {
-		// Les options
-		toolbarPopup.setPopupContainer(root);
-		toolbarPopup.setSource(optionsRippler);
-		root.getChildren().remove(toolbarPopup);
+	optionsBurger.setOnMouseClicked((e) -> {
+	    toolbarPopup.show(PopupVPosition.TOP, PopupHPosition.RIGHT, -12, 15);
+	});
 
-		optionsBurger.setOnMouseClicked((e) -> {
-			toolbarPopup.show(PopupVPosition.TOP, PopupHPosition.RIGHT, -12, 15);
-		});
+	// Option "Quitter" fermant l'application
+	quitter.setOnMouseClicked((e) -> {
+	    Platform.exit();
+	});
 
-		// Option "Quitter" qui ferme l'application
-		exit.setOnMouseClicked((e) -> {
-			Platform.exit();
-		});
+	// Option "A propos" avec boite de dialogue
+	aPropos.setOnMouseClicked((e) -> {
+	    toolbarPopup.close();
+	    dialogAPropos.setTransitionType(DialogTransition.TOP);
+	    dialogAPropos.show((StackPane) context.getRegisteredObject("ContentPane"));
+	});
+	boutonRetourAPropos.setOnMouseClicked((e) -> {
+	    dialogAPropos.close();
+	});
 
-		// Option "A propos" avec boite de dialogue
-		aPropos.setOnMouseClicked((e) -> {
-			toolbarPopup.close();
-			dialogAPropos.setTransitionType(DialogTransition.TOP);
-			dialogAPropos.show((StackPane) context.getRegisteredObject("ContentPane"));
-		});
-		boutonRetourAPropos.setOnMouseClicked((e) -> {
-			dialogAPropos.close();
-		});
+	// Créé le flow et le contenu interne
+	context = new ViewFlowContext();
+	// Controlleur par défaut à afficher
+	Flow innerFlow = new Flow(ContentController.class);
 
-		// create the inner flow and content
-		context = new ViewFlowContext();
-		// set the default controller
-		Flow innerFlow = new Flow(ContentController.class);
-
-		flowHandler = innerFlow.createHandler(context);
-		context.register("ContentFlowHandler", flowHandler);
-		context.register("ContentFlow", innerFlow);
-		drawer.setContent(flowHandler.start(new io.datafx.controller.flow.container.AnimatedFlowContainer(
-				Duration.millis(320), ContainerAnimations.SWIPE_LEFT)));
-		context.register("ContentPane", drawer.getContent().get(0));
-	}
+	flowHandler = innerFlow.createHandler(context);
+	context.register("ContentFlowHandler", flowHandler);
+	context.register("ContentFlow", innerFlow);
+	drawer.setContent(flowHandler.start(new io.datafx.controller.flow.container.AnimatedFlowContainer(
+		Duration.millis(320), ContainerAnimations.SWIPE_LEFT)));
+	context.register("ContentPane", drawer.getContent().get(0));
+    }
 }

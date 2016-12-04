@@ -55,7 +55,7 @@
 			<Label fx:id="aPropos">
 				À propos
 			</Label>
-			<Label fx:id="exit">
+			<Label fx:id="quitter">
 				Quitter
 			</Label>
 		</JFXListView>

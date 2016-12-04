@@ -21,78 +21,78 @@ import javafx.stage.Stage;
  */
 public class Fenetre {
 
-	/**
-	 * Stage principale de la fenêtre
-	 */
-	private Stage stage;
+    /**
+     * Stage principale de la fenêtre
+     */
+    private Stage stage;
 
-	/**
-	 * ViewFlowContext permet de gérer facilement plusieurs vues grâce au
-	 * context
-	 */
-	@FXMLViewFlowContext
-	private ViewFlowContext flowContext;
+    /**
+     * ViewFlowContext permet de gérer facilement plusieurs vues grâce au
+     * context
+     */
+    @FXMLViewFlowContext
+    private ViewFlowContext flowContext;
 
-	/**
-	 * Contructeur recevant la primaryStage ainsi que le controlleur (issus du
-	 * Main)
-	 * 
-	 * @param stage
-	 *            primaryStage
-	 * @param controlleur
-	 *            Controlleur principal de l'application
-	 */
-	public Fenetre(Stage stage, Controlleur controlleur) {
-		this.stage = stage;
+    /**
+     * Contructeur recevant la primaryStage ainsi que le controlleur (issus du
+     * Main)
+     * 
+     * @param stage
+     *            primaryStage
+     * @param controlleur
+     *            Controlleur principal de l'application
+     */
+    public Fenetre(Stage stage, Controlleur controlleur) {
+	this.stage = stage;
 
-		try {
-			initialisation(controlleur);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	try {
+	    initialisation(controlleur);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+
+    /**
+     * Méthode d'initialisation séparée pour une meilleure organisation
+     * 
+     * @param controlleur
+     *            Controlleur principal de l'application
+     * @throws IOException
+     */
+    private void initialisation(Controlleur controlleur) throws IOException {
+	// Définition du Flow
+	Flow flow = new Flow(FenetreController.class);
+	DefaultFlowContainer container = new DefaultFlowContainer();
+	flowContext = new ViewFlowContext();
+	flowContext.register("Stage", this.stage);
+
+	try {
+	    flow.createHandler(flowContext).start(container);
+	} catch (FlowException e) {
+	    e.printStackTrace();
 	}
 
-	/**
-	 * Méthode d'initialisation séparée pour une meilleure organisation
-	 * 
-	 * @param controlleur
-	 *            Controlleur principal de l'applation
-	 * @throws IOException
-	 */
-	private void initialisation(Controlleur controlleur) throws IOException {
-		// Définition du Flow
-		Flow flow = new Flow(FenetreController.class);
-		DefaultFlowContainer container = new DefaultFlowContainer();
-		flowContext = new ViewFlowContext();
-		flowContext.register("Stage", this.stage);
+	// Contour de la fenêtre
+	JFXDecorator decorator = new JFXDecorator(this.stage, container.getView());
+	decorator.setCustomMaximize(true);
+	Scene scene = new Scene(decorator, 800, 600);
+	// Styles CSS
+	scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-design.css").toExternalForm());
+	scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-main-demo.css").toExternalForm());
+	// Police d'écriture
+	Font.loadFont(getClass().getResource("../../fonts/Roboto-Regular.ttf").toExternalForm(), 16);
+	Font.loadFont(getClass().getResource("../../fonts/Roboto-Medium.ttf").toExternalForm(), 16);
+	Font.loadFont(getClass().getResource("../../fonts/Roboto-Light.ttf").toExternalForm(), 16);
 
-		try {
-			flow.createHandler(flowContext).start(container);
-		} catch (FlowException e) {
-			e.printStackTrace();
-		}
+	// Options de la fenêtre
+	this.stage.setTitle("PLD Agile - H4402");
+	this.stage.getIcons().add(new Image("file:src/main/resources/icon.png"));
+	this.stage.setMinWidth(800);
+	this.stage.setMinHeight(600);
+	this.stage.setScene(scene);
+	this.stage.show();
 
-		// Contour de la fenêtre
-		JFXDecorator decorator = new JFXDecorator(this.stage, container.getView());
-		decorator.setCustomMaximize(true);
-		Scene scene = new Scene(decorator, 800, 600);
-		// Styles CSS
-		scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-design.css").toExternalForm());
-		scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-main-demo.css").toExternalForm());
-		// Police d'écriture
-		Font.loadFont(getClass().getResource("../../fonts/Roboto-Regular.ttf").toExternalForm(), 16);
-		Font.loadFont(getClass().getResource("../../fonts/Roboto-Medium.ttf").toExternalForm(), 16);
-		Font.loadFont(getClass().getResource("../../fonts/Roboto-Light.ttf").toExternalForm(), 16);
-
-		// Options de la fenêtre
-		this.stage.setTitle("PLD Agile - H4402");
-		this.stage.getIcons().add(new Image("file:src/main/resources/icon.png"));
-		this.stage.setMinWidth(800);
-		this.stage.setMinHeight(600);
-		this.stage.setScene(scene);
-		this.stage.show();
-
-		// Informations transmisses au contenu de la fenêtre
-		ContentController.controlleur = controlleur;
-	}
+	// Informations transmisses au contenu de la fenêtre
+	ContentController.controlleur = controlleur;
+    }
 }
