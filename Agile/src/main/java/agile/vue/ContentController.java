@@ -323,7 +323,7 @@ public class ContentController {
     @FXML
     private void boutonOuvrirLivraison() {
 	if (controlleur.getPlan() == null) {
-	    afficherMessage("Merci de sÃ©lectionner un plan avant une demande de livraisons.");
+	    afficherMessage("Merci de sélectionner un plan avant une demande de livraisons.");
 	} else {
 	    try {
 		controlleur.chargerDemandeLivraisons();
