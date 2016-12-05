@@ -125,12 +125,16 @@ public final class DialogModifierLivraison {
 		}
 
 		// Les plages horraires ne contiennent pas l'heure d'arrivée
-		if (tempsPlageDebut.compareTo(livraison.getHeureArrivee()) > 0) {
-		    controlleur.afficherMessage("La plage de début est supérieure à l'heure d'arrivée.");
+		if (tempsPlageDebut.compareTo(new Temps(
+			livraison.getHeureArrivee().getTotalSecondes() + (int) livraison.getTempsAttente())) > 0) {
+		    controlleur.afficherMessage(
+			    "La plage de début est supérieure à l'heure d'arrivée + le temps d'attente.");
 		    return;
 		}
-		if (tempsPlageFin.compareTo(livraison.getHeureArrivee()) < 0) {
-		    controlleur.afficherMessage("La plage de fin est inférieure à l'heure d'arrivée.");
+		if (tempsPlageFin.compareTo(new Temps(
+			livraison.getHeureArrivee().getTotalSecondes() + (int) livraison.getTempsAttente())) < 0) {
+		    controlleur.afficherMessage(
+			    "La plage de fin est inférieure à l'heure d'arrivée + le temps d'attente.");
 		    return;
 		}
 
