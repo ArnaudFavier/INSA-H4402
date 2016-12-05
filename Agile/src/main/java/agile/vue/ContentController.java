@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialog.DialogTransition;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextField;
@@ -150,6 +152,9 @@ public class ContentController {
      */
     @FXML
     private JFXSnackbar snackbar;
+
+    @FXML
+    JFXDialog dialogSpinner;
 
     /* Code des élements d'architecture */
     /**
@@ -344,7 +349,14 @@ public class ContentController {
     @FXML
     private void boutonCalculerTournee() {
 	try {
+	    // TODO: rendre le thread fonctionnel
+	    Thread threadSpinner = new ThreadSpinner();
+	    threadSpinner.start();
+
 	    controlleur.calculerTournee();
+
+	    threadSpinner.interrupt();
+
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	    miseAJourEntrepot(controlleur.getTournee().getDemandeInitiale().getEntrepot());
 	    System.out.println("tmps: " + controlleur.getTournee().getLivraisonsTSP().get(0).getTempsAttente());
@@ -439,5 +451,24 @@ public class ContentController {
 	if (message == null)
 	    return;
 	snackbar.fireEvent(new SnackbarEvent(message));
+    }
+
+    /**
+     * Thread affichant le spinner de chargement
+     */
+    private class ThreadSpinner extends Thread {
+	private ThreadSpinner() {
+	}
+
+	@Override
+	public synchronized void start() {
+	    dialogSpinner.setTransitionType(DialogTransition.CENTER);
+	    dialogSpinner.show(root);
+	}
+
+	@Override
+	public void interrupt() {
+	    dialogSpinner.close();
+	}
     }
 }
