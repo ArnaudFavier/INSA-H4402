@@ -38,21 +38,21 @@ public class TSP3 extends TemplateTSP {
 
         res += min;
 
-        PriorityQueue<Float> aretesCoutMinimum = new PriorityQueue<>(nonVus.size()*nonVus.size());
+        min = Float.MAX_VALUE;
 
         for ( Integer A : nonVus )
         {
             for ( Integer B : nonVus )
             {
-                if ( A.intValue() != B.intValue() )
-                    aretesCoutMinimum.add(cout[A][B]);
+                if ( A != B )
+                    if(cout[A][B] < min)
+                        min = cout[A][B];
             }
         }
 
-        for ( int i = 0; i < nonVus.size() - 1; i++ )
-        {
-            res += aretesCoutMinimum.remove();
-        }
+        res += min * (nonVus.size() - 1);
+
+        //System.out.println(res);
 
         return res;
     }
