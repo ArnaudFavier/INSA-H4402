@@ -50,7 +50,7 @@ public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
      */
     public void update() {
 	if (numOrdre == 0) {
-	    this.ordre = new SimpleStringProperty("-");
+	    this.ordre = new SimpleStringProperty("");
 	} else {
 	    this.ordre = new SimpleStringProperty(Integer.toString(numOrdre));
 	}
