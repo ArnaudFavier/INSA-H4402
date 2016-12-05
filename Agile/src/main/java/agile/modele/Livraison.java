@@ -6,6 +6,16 @@ package agile.modele;
 public class Livraison {
 
     /**
+     * Un identifiant de livraison, unique pour chaque livraison
+     */
+    private int id;
+
+    /**
+     * Le prochain id donné à une livraison
+     */
+    private static int NEXT_ID = 0;
+
+    /**
      * Durée de la livraison
      */
     private int duree;
@@ -50,6 +60,7 @@ public class Livraison {
      */
     public Livraison(int duree, Intersection intersection) {
 	super();
+	this.id = NEXT_ID++;
 	this.duree = duree;
 	this.intersection = intersection;
 	this.contrainteTemps = false;
@@ -65,6 +76,7 @@ public class Livraison {
      */
     public Livraison(int duree, Intersection intersection, Temps debutPlage, Temps finPlage) {
 	super();
+	this.id = NEXT_ID++;
 	this.duree = duree;
 	this.intersection = intersection;
 	this.debutPlage = debutPlage;
@@ -155,13 +167,29 @@ public class Livraison {
     public Livraison clone() {
 	Livraison copy = new Livraison(duree, intersection, debutPlage, finPlage);
 
+	copy.id = id;
 	copy.contrainteTemps = contrainteTemps;
-
 	copy.heureArrivee = heureArrivee;
-
 	copy.tempsAttente = tempsAttente;
 
 	return copy;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	Livraison other = (Livraison) obj;
+	if (intersection == null) {
+	    if (other.intersection != null)
+		return false;
+	} else if (id != other.id)
+	    return false;
+	return true;
     }
 
 }
