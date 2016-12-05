@@ -241,7 +241,7 @@ public class ContentController {
 	searchField.textProperty().addListener((o, oldVal, newVal) -> {
 
 	    /*
-	     * ce qui marchait à la base :
+	     * ce qui marchait Ã  la base :
 	     * livraisonTreeTableView.setPredicate(livraison ->
 	     * livraison.getValue().intersection.get().contains(newVal) ||
 	     * livraison.getValue().duree.get().contains(newVal));
@@ -290,9 +290,10 @@ public class ContentController {
 	    observableListeLivraisons.clear();
 	    livraisonTreeTableView.currentItemsCountProperty().set(0);
 
-	    // Mise à jour des boutons
+	    // Mise Ã  jour des boutons
 	    boutonOuvrirLivraison.setVisible(true);
 	    boutonCalculerTournee.setVisible(false);
+	    boutonCalculerTournee.setDisable(false);
 	    boutonExporterTournee.setVisible(false);
 	    boutonAjouterLivraison.setVisible(false);
 	    boutonSupprimerLivraison.setVisible(false);
@@ -314,16 +315,17 @@ public class ContentController {
     @FXML
     private void boutonOuvrirLivraison() {
 	if (controlleur.getPlan() == null) {
-	    afficherMessage("Merci de sélectionner un plan avant une demande de livraisons.");
+	    afficherMessage("Merci de sÃ©lectionner un plan avant une demande de livraisons.");
 	} else {
 	    try {
 		controlleur.chargerDemandeLivraisons();
 		miseAJourEntrepot(controlleur.getDemandeLivraisons().getEntrepot());
 		miseAJourLivraison(controlleur.getDemandeLivraisons().getLivraisons());
 
-		// Mise à jour des boutons
+		// Mise Ã  jour des boutons
 		boutonOuvrirLivraison.setVisible(true);
 		boutonCalculerTournee.setVisible(true);
+		boutonCalculerTournee.setDisable(false);
 		boutonExporterTournee.setVisible(false);
 		boutonAjouterLivraison.setVisible(false);
 		boutonSupprimerLivraison.setVisible(false);
@@ -347,9 +349,10 @@ public class ContentController {
 	    miseAJourEntrepot(controlleur.getTournee().getDemandeInitiale().getEntrepot());
 	    System.out.println("tmps: " + controlleur.getTournee().getLivraisonsTSP().get(0).getTempsAttente());
 
-	    // Mise à jour des boutons
+	    // Mise Ã  jour des boutons
 	    boutonOuvrirLivraison.setVisible(true);
 	    boutonCalculerTournee.setVisible(true);
+	    boutonCalculerTournee.setDisable(true);
 	    boutonExporterTournee.setVisible(true);
 	    boutonAjouterLivraison.setVisible(true);
 	    boutonSupprimerLivraison.setVisible(true);
