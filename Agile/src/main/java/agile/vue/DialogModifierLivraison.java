@@ -135,8 +135,7 @@ public final class DialogModifierLivraison {
 		}
 
 		// Enregistrement des modifications
-		livraison.setDebutPlage(tempsPlageDebut);
-		livraison.setFinPlage(tempsPlageFin);
+		ContentController.controlleur.modifierLivraison(livraison, tempsPlageDebut, tempsPlageFin);
 		controlleur.miseAJourLivraison(ContentController.controlleur.getTournee().getLivraisonsTSP());
 
 		// Si tout est correct, fermeture de la boite de dialogue
