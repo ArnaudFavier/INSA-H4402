@@ -4,8 +4,8 @@ import java.util.LinkedList;
 
 public class Historique {
 
-    private LinkedList<Commande> liste;
-    private int indiceCrt;
+    protected LinkedList<Commande> liste;
+    protected int indiceCrt;
 
     public Historique() {
 	indiceCrt = -1;
