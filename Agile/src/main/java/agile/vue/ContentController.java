@@ -1,6 +1,5 @@
 package agile.vue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
@@ -25,7 +24,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView.TreeTableViewSelectionModel;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -277,30 +275,32 @@ public class ContentController {
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	});
 	searchField.textProperty().addListener((o, oldVal, newVal) -> {
+	    livraisonTreeTableView.setPredicate(livraison -> livraison.getValue().intersection.get().contains(newVal)
+		    || livraison.getValue().duree.get().contains(newVal));
 
-	    /*
-	     * ce qui marchait Ã  la base :
-	     * livraisonTreeTableView.setPredicate(livraison ->
-	     * livraison.getValue().intersection.get().contains(newVal) ||
-	     * livraison.getValue().duree.get().contains(newVal));
-	     */
+	    JFXTreeTableView livraisonTreeTableViewCopy = livraisonTreeTableView;
 
-	    TreeTableViewSelectionModel<LivraisonVue> ttvsm = livraisonTreeTableView.getSelectionModel();
-	    List<Integer> indices = new ArrayList<Integer>();
+	    livraisonTreeTableView.setOnMouseClicked((e) -> {
+		LivraisonVue livraisonVue = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
+			.getValue();
 
-	    // GENERALISER
-	    int i = 0;
-	    TreeItem<LivraisonVue> item = ttvsm.getModelItem(0);
-	    while (item != null) {
-		item = ttvsm.getModelItem(i);
-		if (item.getValue().intersection.get().contains(newVal)
-			|| ttvsm.getModelItem(i).getValue().duree.get().contains(newVal)) {
-		    indices.add(i); // 3 fois pour 600 et 2 fois pour 14
+		int intersectionSearch = livraisonVue.getLivraison().getIntersection().getX();
+		int i = 0;
+		TreeItem<LivraisonVue> item = livraisonTreeTableView.getTreeItem(0);
+
+		livraisonTreeTableView.setPredicate(null);
+
+		while (item != null
+			&& (item.getValue().getLivraison().getIntersection().getX() != intersectionSearch)) {
+		    System.out.println(item.getValue().intersection.get().equals(intersectionSearch));
+		    i++;
+		    item = livraisonTreeTableView.getTreeItem(i);
 		}
-		i++;
-		item = ttvsm.getModelItem(i);
-	    }
-	    selectionnerLivraison(indices);
+
+		System.out.println(i);
+
+		selectionnerLivraison(i);
+	    });
 	});
 
 	// Binding des boutons undo/redo

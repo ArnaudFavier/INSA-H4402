@@ -44,6 +44,10 @@ public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
 	update();
     }
 
+    public Livraison getLivraison() {
+	return livraison;
+    }
+
     /**
      * Méthode permettant de lier les informations à afficher de l'attribut
      * {@link livraison}
