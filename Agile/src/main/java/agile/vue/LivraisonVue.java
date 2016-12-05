@@ -17,8 +17,13 @@ public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
      * Référence vers la livraison du modèle
      */
     Livraison livraison;
+    /**
+     * ordre de la livraison après le calcul de la tournée
+     */
+    int numOrdre;
 
     // Informations à afficher
+    StringProperty ordre;
     StringProperty intersection;
     StringProperty duree;
     StringProperty plagePrevisionnelle;
@@ -33,8 +38,9 @@ public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
      * @param livraison
      *            Livraison à afficher
      */
-    public LivraisonVue(Livraison livraison) {
+    public LivraisonVue(Livraison livraison, int ordre) {
 	this.livraison = livraison;
+	this.numOrdre = ordre;
 	update();
     }
 
@@ -43,6 +49,12 @@ public class LivraisonVue extends RecursiveTreeObject<LivraisonVue> {
      * {@link livraison}
      */
     public void update() {
+	if (numOrdre == 0) {
+	    this.ordre = new SimpleStringProperty("-");
+	} else {
+	    this.ordre = new SimpleStringProperty(Integer.toString(numOrdre));
+	}
+
 	this.intersection = new SimpleStringProperty(livraison.getIntersection().getId() + " ("
 		+ livraison.getIntersection().getX() + ", " + livraison.getIntersection().getY() + ")");
 
