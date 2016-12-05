@@ -1,11 +1,8 @@
 package agile.vue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialog.DialogTransition;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextField;
@@ -25,7 +22,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView.TreeTableViewSelectionModel;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -65,11 +61,6 @@ public class ContentController {
      */
     @FXML
     private JFXTreeTableView<LivraisonVue> livraisonTreeTableView;
-    /**
-     * Colonne numéro d'ordre du tableau des livraisons
-     */
-    @FXML
-    private JFXTreeTableColumn<LivraisonVue, String> colonneOrdre;
     /**
      * Colonne adresse du tableau des livraisons
      */
@@ -158,12 +149,6 @@ public class ContentController {
     @FXML
     private JFXSnackbar snackbar;
 
-    /**
-     * Boite de dialogue affichant une icône (spinner) de chargement
-     */
-    @FXML
-    JFXDialog dialogSpinner;
-
     /* Code des élements d'architecture */
     /**
      * Liste des livraisons à afficher, formatées en {@link LivraisonVue}
@@ -173,14 +158,6 @@ public class ContentController {
      * Controlleur principal de l'application
      */
     public static Controlleur controlleur;
-    /**
-     * La liste est ordonnée après le calcul de la tournée
-     */
-    private boolean listeOrdonnee = false;
-    /**
-     * Si la boite de dialogue modifier une livraison est déjà ouverte : true
-     */
-    private boolean dialogueModifierOuverte = false;
 
     /**
      * Le constructeur est appelé avant la méthode initialize()
@@ -195,13 +172,7 @@ public class ContentController {
     @FXML
     private void initialize() {
 
-	// Binding des colonnes de la livraisonTreeTableView
-	colonneOrdre.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
-	    if (colonneOrdre.validateValue(param))
-		return param.getValue().getValue().ordre;
-	    else
-		return colonneOrdre.getComputedValue(param);
-	});
+	// Colonnes de la livraisonTreeTableView
 	colonneAdresse.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
 	    if (colonneAdresse.validateValue(param))
 		return param.getValue().getValue().intersection;
@@ -214,6 +185,7 @@ public class ContentController {
 	    else
 		return colonneDuree.getComputedValue(param);
 	});
+
 	colonneHeureArrivee.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
 	    if (colonneDuree.validateValue(param))
 		return param.getValue().getValue().heureArrivee;
@@ -235,23 +207,11 @@ public class ContentController {
 	});
 
 	// Modifier livraison
-	colonneOrdre.setOnEditStart((e) -> {
-	    boiteDialogueModifierLivraison();
-	});
-	colonneAdresse.setOnEditStart((e) -> {
-	    boiteDialogueModifierLivraison();
-	});
-	colonneDuree.setOnEditStart((e) -> {
-	    boiteDialogueModifierLivraison();
-	});
-	colonneHeureArrivee.setOnEditStart((e) -> {
-	    boiteDialogueModifierLivraison();
-	});
 	colonnePlagePrevisionnelle.setOnEditStart((e) -> {
-	    boiteDialogueModifierLivraison();
-	});
-	colonneTempsAttente.setOnEditStart((e) -> {
-	    boiteDialogueModifierLivraison();
+	    Livraison livraisonModifiee = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
+		    .getValue().livraison;
+	    DialogModifierLivraison.show(this, root, livraisonModifiee);
+	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	});
 
 	// Binding du tableau de la liste des livraisons
@@ -278,29 +238,61 @@ public class ContentController {
 	});
 	searchField.textProperty().addListener((o, oldVal, newVal) -> {
 
+	    JFXTreeTableView livraisonTreeTableViewCopy = livraisonTreeTableView;
+	    livraisonTreeTableView.setPredicate(livraison -> livraison.getValue().intersection.get().contains(newVal)
+		    || livraison.getValue().duree.get().contains(newVal));
+
+	    livraisonTreeTableView.setOnMouseClicked((e) -> {
+		LivraisonVue livraisonVue = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
+			.getValue();
+
+		int intersectionSearch = livraisonVue.getLivraison().getIntersection().getX();
+		int i = 0;
+		TreeItem<LivraisonVue> item = livraisonTreeTableView.getTreeItem(0);
+
+		livraisonTreeTableView.setPredicate(null);
+
+		while (item != null
+			&& (item.getValue().getLivraison().getIntersection().getX() != intersectionSearch)) {
+		    System.out.println(item.getValue().intersection.get().equals(intersectionSearch));
+		    i++;
+		    item = livraisonTreeTableView.getTreeItem(i);
+		}
+
+		System.out.println(i);
+
+		selectionnerLivraison(i);
+
+		// livraisonTreeTableView.getSelectionModel()
+		// .select(livraisonTreeTableView.getSelectionModel().selectedItemProperty().get());
+
+	    });
+
 	    /*
-	     * ce qui marchait Ã  la base :
-	     * livraisonTreeTableView.setPredicate(livraison ->
-	     * livraison.getValue().intersection.get().contains(newVal) ||
-	     * livraison.getValue().duree.get().contains(newVal));
+	     * Afficher la bare en bas : non
+	     * TreeTableViewSelectionModel<LivraisonVue> ttvsm =
+	     * livraisonTreeTableView.getSelectionModel(); List<Integer> indices
+	     * = new ArrayList<Integer>(); if (newVal.endsWith(" ")) {
+	     * System.out.println("VALEUR recherchee : " + newVal.substring(0,
+	     * newVal.length() - 1)); int i = 0; TreeItem<LivraisonVue> item =
+	     * ttvsm.getModelItem(0); while (item != null) { item =
+	     * ttvsm.getModelItem(i); if
+	     * (item.getValue().intersection.get().contains(newVal.substring(0,
+	     * newVal.length() - 1)) ||
+	     * ttvsm.getModelItem(i).getValue().duree.get()
+	     * .contains(newVal.substring(0, newVal.length() - 1))) {
+	     * indices.add(i); // 3 fois pour 600 et 2 fois pour 14 } i++; item
+	     * = ttvsm.getModelItem(i); }
+	     * 
+	     * String result =
+	     * "Les r�sultats de la recherche sont les lignes : " +
+	     * indices.toString(); afficherMessage(result); }
 	     */
 
-	    TreeTableViewSelectionModel<LivraisonVue> ttvsm = livraisonTreeTableView.getSelectionModel();
-	    List<Integer> indices = new ArrayList<Integer>();
+	    // for (int j : indices) {
+	    // livraisonTreeTableView.getFocusModel().focus(j);
+	    // }
 
-	    // GENERALISER
-	    int i = 0;
-	    TreeItem<LivraisonVue> item = ttvsm.getModelItem(0);
-	    while (item != null) {
-		item = ttvsm.getModelItem(i);
-		if (item.getValue().intersection.get().contains(newVal)
-			|| ttvsm.getModelItem(i).getValue().duree.get().contains(newVal)) {
-		    indices.add(i); // 3 fois pour 600 et 2 fois pour 14
-		}
-		i++;
-		item = ttvsm.getModelItem(i);
-	    }
-	    selectionnerLivraison(indices);
 	});
 
 	// Binding des boutons undo/redo
@@ -324,25 +316,18 @@ public class ContentController {
     private void boutonOuvrirPlan() {
 	try {
 	    controlleur.chargerPlan();
-	    listeOrdonnee = false;
 	    this.effacerAffichageEntrepot();
 	    observableListeLivraisons.clear();
 	    livraisonTreeTableView.currentItemsCountProperty().set(0);
 
-	    // Mise Ã  jour des boutons
+	    // Mise à jour des boutons
 	    boutonOuvrirLivraison.setVisible(true);
 	    boutonCalculerTournee.setVisible(false);
-	    boutonCalculerTournee.setDisable(false);
 	    boutonExporterTournee.setVisible(false);
 	    boutonAjouterLivraison.setVisible(false);
 	    boutonSupprimerLivraison.setVisible(false);
 	    boutonUndo.setVisible(false);
 	    boutonRedo.setVisible(false);
-	    colonneOrdre.setEditable(false);
-	    colonneAdresse.setEditable(false);
-	    colonneDuree.setEditable(false);
-	    colonneHeureArrivee.setEditable(false);
-	    colonneTempsAttente.setEditable(false);
 	    colonnePlagePrevisionnelle.setEditable(false);
 	} catch (Exception e) {
 	    if (e.getMessage() != null) {
@@ -363,24 +348,17 @@ public class ContentController {
 	} else {
 	    try {
 		controlleur.chargerDemandeLivraisons();
-		listeOrdonnee = false;
 		miseAJourEntrepot(controlleur.getDemandeLivraisons().getEntrepot());
 		miseAJourLivraison(controlleur.getDemandeLivraisons().getLivraisons());
 
-		// Mise Ã  jour des boutons
+		// Mise à jour des boutons
 		boutonOuvrirLivraison.setVisible(true);
 		boutonCalculerTournee.setVisible(true);
-		boutonCalculerTournee.setDisable(false);
 		boutonExporterTournee.setVisible(false);
 		boutonAjouterLivraison.setVisible(false);
 		boutonSupprimerLivraison.setVisible(false);
 		boutonUndo.setVisible(false);
 		boutonRedo.setVisible(false);
-		colonneOrdre.setEditable(false);
-		colonneAdresse.setEditable(false);
-		colonneDuree.setEditable(false);
-		colonneHeureArrivee.setEditable(false);
-		colonneTempsAttente.setEditable(false);
 		colonnePlagePrevisionnelle.setEditable(false);
 	    } catch (Exception e) {
 		afficherMessage("Demande de livraisons invalide.");
@@ -394,33 +372,19 @@ public class ContentController {
     @FXML
     private void boutonCalculerTournee() {
 	try {
-	    // TODO: rendre le thread fonctionnel
-	    Thread threadSpinner = new ThreadSpinner();
-	    threadSpinner.start();
-
 	    controlleur.calculerTournee();
-	    listeOrdonnee = true;
-
-	    threadSpinner.interrupt();
-
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	    miseAJourEntrepot(controlleur.getTournee().getDemandeInitiale().getEntrepot());
 	    System.out.println("tmps: " + controlleur.getTournee().getLivraisonsTSP().get(0).getTempsAttente());
 
-	    // Mise Ã  jour des boutons
+	    // Mise à jour des boutons
 	    boutonOuvrirLivraison.setVisible(true);
 	    boutonCalculerTournee.setVisible(true);
-	    boutonCalculerTournee.setDisable(true);
 	    boutonExporterTournee.setVisible(true);
 	    boutonAjouterLivraison.setVisible(true);
 	    boutonSupprimerLivraison.setVisible(true);
 	    boutonUndo.setVisible(true);
 	    boutonRedo.setVisible(true);
-	    colonneOrdre.setEditable(true);
-	    colonneAdresse.setEditable(true);
-	    colonneDuree.setEditable(true);
-	    colonneHeureArrivee.setEditable(true);
-	    colonneTempsAttente.setEditable(true);
 	    colonnePlagePrevisionnelle.setEditable(true);
 	    afficherMessage("Tounée calculée.");
 	} catch (Exception e) {
@@ -447,13 +411,8 @@ public class ContentController {
     public void miseAJourLivraison(List<Livraison> livraisons) {
 	observableListeLivraisons.clear();
 	livraisonTreeTableView.currentItemsCountProperty().set(0);
-	int i = 1;
 	for (Livraison livraison : livraisons) {
-	    if (listeOrdonnee)
-		observableListeLivraisons.add(new LivraisonVue(livraison, i));
-	    else
-		observableListeLivraisons.add(new LivraisonVue(livraison, 0));
-	    i++;
+	    observableListeLivraisons.add(new LivraisonVue(livraison));
 	}
 	livraisonTreeTableView.currentItemsCountProperty().set(observableListeLivraisons.size());
     }
@@ -507,37 +466,5 @@ public class ContentController {
 	if (message == null)
 	    return;
 	snackbar.fireEvent(new SnackbarEvent(message));
-    }
-
-    /**
-     * Ouvre une boite de dialogue pour modifier une livraison
-     */
-    public void boiteDialogueModifierLivraison() {
-	if (!dialogueModifierOuverte) {
-	    dialogueModifierOuverte = true;
-	    Livraison livraisonModifiee = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
-		    .getValue().livraison;
-	    DialogModifierLivraison.show(this, root, livraisonModifiee);
-	    dialogueModifierOuverte = false;
-	}
-    }
-
-    /**
-     * Thread affichant le spinner de chargement
-     */
-    private class ThreadSpinner extends Thread {
-	private ThreadSpinner() {
-	}
-
-	@Override
-	public synchronized void start() {
-	    dialogSpinner.setTransitionType(DialogTransition.CENTER);
-	    dialogSpinner.show(root);
-	}
-
-	@Override
-	public void interrupt() {
-	    dialogSpinner.close();
-	}
     }
 }
