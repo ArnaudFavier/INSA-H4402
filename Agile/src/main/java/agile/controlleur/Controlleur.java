@@ -68,7 +68,7 @@ public class Controlleur {
      */
     public void chargerDemandeLivraisons() throws Exception {
 	DemandeLivraisons previousDemandeLivraisons = this.demandeLivraisons;
-	demandeLivraisons = etatCourant.chargerDemandeLivraisons(this);
+	demandeLivraisons = etatCourant.chargerDemandeLivraisons(this, historique);
 
 	if (demandeLivraisons == null || demandeLivraisons == previousDemandeLivraisons) {
 	    throw new Exception("Ouverture de demande de livraisons annulée.");

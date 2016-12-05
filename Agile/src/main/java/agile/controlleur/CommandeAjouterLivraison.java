@@ -6,6 +6,7 @@ import agile.modele.Tournee;
 public class CommandeAjouterLivraison implements Commande {
 
     private Tournee tournee;
+    private Tournee prevTournee;
     private Livraison livraison;
     private boolean success;
 
@@ -18,17 +19,20 @@ public class CommandeAjouterLivraison implements Commande {
     public CommandeAjouterLivraison(Tournee tournee, Livraison livraison) {
 	this.tournee = tournee;
 	this.livraison = livraison;
+	prevTournee = tournee.clone();
     }
 
     @Override
     public void doCde(Controlleur controlleur) {
 	success = tournee.ajouterLivraison(livraison);
+	controlleur.setTournee(tournee);
     }
 
     @Override
     public void undoCde(Controlleur controlleur) {
 	if (isSuccess()) {
 	    tournee.supprimerLivraison(livraison);
+	    controlleur.setTournee(prevTournee);
 	}
     }
 

@@ -5,18 +5,18 @@ import agile.xml.DeserialiseurDemandeLivraisonsXML;
 
 public class EtatPlanCharge extends EtatDefaut {
 
-	public EtatPlanCharge() {
+    public EtatPlanCharge() {
+    }
+
+    @Override
+    public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur, Historique historique) throws Exception {
+	DemandeLivraisons demandeLivraisons = null;
+	demandeLivraisons = DeserialiseurDemandeLivraisonsXML.charger(controlleur.getPlan());
+
+	if (demandeLivraisons != null) {
+	    controlleur.setEtatCourant(controlleur.etatDemandeLivraisonChargee);
 	}
 
-	@Override
-	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) throws Exception {
-		DemandeLivraisons demandeLivraisons = null;
-		demandeLivraisons = DeserialiseurDemandeLivraisonsXML.charger(controlleur.getPlan());
-
-		if (demandeLivraisons != null) {
-			controlleur.setEtatCourant(controlleur.etatDemandeLivraisonChargee);
-		}
-
-		return demandeLivraisons;
-	}
+	return demandeLivraisons;
+    }
 }

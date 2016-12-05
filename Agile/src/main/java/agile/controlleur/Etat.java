@@ -9,7 +9,7 @@ import agile.modele.Tournee;
 public interface Etat {
     public Plan chargerPlan(Controlleur controlleur, Historique historique) throws Exception;
 
-    public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) throws Exception;
+    public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur, Historique historique) throws Exception;
 
     public Tournee calculerTournee(Controlleur controlleur);
 
