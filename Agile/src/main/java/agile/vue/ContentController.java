@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialog.DialogTransition;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextField;
@@ -31,6 +33,11 @@ import javafx.scene.layout.StackPane;
  */
 @FXMLController(value = "Content.fxml")
 public class ContentController {
+
+    /**
+     * La liste est ordonnée après le calcul de la tournée
+     */
+    boolean listeOrdonnee = false;
 
     /**
      * StackPane principal du contenu de la fenêtre
@@ -63,6 +70,11 @@ public class ContentController {
      */
     @FXML
     private JFXTreeTableView<LivraisonVue> livraisonTreeTableView;
+    /**
+     * Colonne numéro d'ordre du tableau des livraisons
+     */
+    @FXML
+    private JFXTreeTableColumn<LivraisonVue, String> colonneOrdre;
     /**
      * Colonne adresse du tableau des livraisons
      */
@@ -151,6 +163,12 @@ public class ContentController {
     @FXML
     private JFXSnackbar snackbar;
 
+    /**
+     * Boite de dialogue affichant une icône (spinner) de chargement
+     */
+    @FXML
+    JFXDialog dialogSpinner;
+
     /* Code des élements d'architecture */
     /**
      * Liste des livraisons à afficher, formatées en {@link LivraisonVue}
@@ -174,7 +192,13 @@ public class ContentController {
     @FXML
     private void initialize() {
 
-	// Colonnes de la livraisonTreeTableView
+	// Binding des colonnes de la livraisonTreeTableView
+	colonneOrdre.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
+	    if (colonneOrdre.validateValue(param))
+		return param.getValue().getValue().ordre;
+	    else
+		return colonneOrdre.getComputedValue(param);
+	});
 	colonneAdresse.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
 	    if (colonneAdresse.validateValue(param))
 		return param.getValue().getValue().intersection;
@@ -187,7 +211,6 @@ public class ContentController {
 	    else
 		return colonneDuree.getComputedValue(param);
 	});
-
 	colonneHeureArrivee.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
 	    if (colonneDuree.validateValue(param))
 		return param.getValue().getValue().heureArrivee;
@@ -241,7 +264,7 @@ public class ContentController {
 	searchField.textProperty().addListener((o, oldVal, newVal) -> {
 
 	    /*
-	     * ce qui marchait à la base :
+	     * ce qui marchait Ã  la base :
 	     * livraisonTreeTableView.setPredicate(livraison ->
 	     * livraison.getValue().intersection.get().contains(newVal) ||
 	     * livraison.getValue().duree.get().contains(newVal));
@@ -286,13 +309,15 @@ public class ContentController {
     private void boutonOuvrirPlan() {
 	try {
 	    controlleur.chargerPlan();
+	    listeOrdonnee = false;
 	    this.effacerAffichageEntrepot();
 	    observableListeLivraisons.clear();
 	    livraisonTreeTableView.currentItemsCountProperty().set(0);
 
-	    // Mise à jour des boutons
+	    // Mise Ã  jour des boutons
 	    boutonOuvrirLivraison.setVisible(true);
 	    boutonCalculerTournee.setVisible(false);
+	    boutonCalculerTournee.setDisable(false);
 	    boutonExporterTournee.setVisible(false);
 	    boutonAjouterLivraison.setVisible(false);
 	    boutonSupprimerLivraison.setVisible(false);
@@ -318,12 +343,14 @@ public class ContentController {
 	} else {
 	    try {
 		controlleur.chargerDemandeLivraisons();
+		listeOrdonnee = false;
 		miseAJourEntrepot(controlleur.getDemandeLivraisons().getEntrepot());
 		miseAJourLivraison(controlleur.getDemandeLivraisons().getLivraisons());
 
-		// Mise à jour des boutons
+		// Mise Ã  jour des boutons
 		boutonOuvrirLivraison.setVisible(true);
 		boutonCalculerTournee.setVisible(true);
+		boutonCalculerTournee.setDisable(false);
 		boutonExporterTournee.setVisible(false);
 		boutonAjouterLivraison.setVisible(false);
 		boutonSupprimerLivraison.setVisible(false);
@@ -342,14 +369,23 @@ public class ContentController {
     @FXML
     private void boutonCalculerTournee() {
 	try {
+	    // TODO: rendre le thread fonctionnel
+	    Thread threadSpinner = new ThreadSpinner();
+	    threadSpinner.start();
+
 	    controlleur.calculerTournee();
+	    listeOrdonnee = true;
+
+	    threadSpinner.interrupt();
+
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	    miseAJourEntrepot(controlleur.getTournee().getDemandeInitiale().getEntrepot());
 	    System.out.println("tmps: " + controlleur.getTournee().getLivraisonsTSP().get(0).getTempsAttente());
 
-	    // Mise à jour des boutons
+	    // Mise Ã  jour des boutons
 	    boutonOuvrirLivraison.setVisible(true);
 	    boutonCalculerTournee.setVisible(true);
+	    boutonCalculerTournee.setDisable(true);
 	    boutonExporterTournee.setVisible(true);
 	    boutonAjouterLivraison.setVisible(true);
 	    boutonSupprimerLivraison.setVisible(true);
@@ -381,8 +417,13 @@ public class ContentController {
     public void miseAJourLivraison(List<Livraison> livraisons) {
 	observableListeLivraisons.clear();
 	livraisonTreeTableView.currentItemsCountProperty().set(0);
+	int i = 1;
 	for (Livraison livraison : livraisons) {
-	    observableListeLivraisons.add(new LivraisonVue(livraison));
+	    if (listeOrdonnee)
+		observableListeLivraisons.add(new LivraisonVue(livraison, i));
+	    else
+		observableListeLivraisons.add(new LivraisonVue(livraison, 0));
+	    i++;
 	}
 	livraisonTreeTableView.currentItemsCountProperty().set(observableListeLivraisons.size());
     }
@@ -436,5 +477,24 @@ public class ContentController {
 	if (message == null)
 	    return;
 	snackbar.fireEvent(new SnackbarEvent(message));
+    }
+
+    /**
+     * Thread affichant le spinner de chargement
+     */
+    private class ThreadSpinner extends Thread {
+	private ThreadSpinner() {
+	}
+
+	@Override
+	public synchronized void start() {
+	    dialogSpinner.setTransitionType(DialogTransition.CENTER);
+	    dialogSpinner.show(root);
+	}
+
+	@Override
+	public void interrupt() {
+	    dialogSpinner.close();
+	}
     }
 }

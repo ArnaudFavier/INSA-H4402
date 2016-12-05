@@ -6,8 +6,9 @@ import agile.modele.Tournee;
 public class CommandeAjouterLivraison implements Commande {
 
     private Tournee tournee;
+    private Tournee prevTournee;
     private Livraison livraison;
-    private boolean success;
+    private boolean success, alreadyAdd;
 
     /**
      * Cree la commande qui permet d'ajouter une livraison à la tournee
@@ -18,17 +19,26 @@ public class CommandeAjouterLivraison implements Commande {
     public CommandeAjouterLivraison(Tournee tournee, Livraison livraison) {
 	this.tournee = tournee;
 	this.livraison = livraison;
+	prevTournee = tournee.clone();
+	success = alreadyAdd = false;
+
     }
 
     @Override
     public void doCde(Controlleur controlleur) {
-	success = tournee.ajouterLivraison(livraison);
+	if (!alreadyAdd) {
+	    success = tournee.ajouterLivraison(livraison);
+	    if (isSuccess()) {
+		alreadyAdd = true;
+	    }
+	}
+	controlleur.setTournee(tournee);
     }
 
     @Override
     public void undoCde(Controlleur controlleur) {
 	if (isSuccess()) {
-	    tournee.supprimerLivraison(livraison);
+	    controlleur.setTournee(prevTournee);
 	}
     }
 

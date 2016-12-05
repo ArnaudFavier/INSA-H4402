@@ -32,12 +32,13 @@ public abstract class EtatDefaut implements Etat {
     }
 
     @Override
-    public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) throws Exception {
+    public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur, Historique historique) throws Exception {
 	DemandeLivraisons demande = controlleur.getDemandeLivraisons();
 	DemandeLivraisons DemandeLivraisonsACharger = DeserialiseurDemandeLivraisonsXML.charger(controlleur.getPlan());
 
 	if (DemandeLivraisonsACharger != null) {
 	    demande = DemandeLivraisonsACharger;
+	    historique.reset();
 	    controlleur.setEtatCourant(controlleur.etatDemandeLivraisonChargee);
 	}
 

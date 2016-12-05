@@ -8,6 +8,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableColumn?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -86,6 +87,7 @@
 			</HBox>
 			<JFXTreeTableView fx:id="livraisonTreeTableView" minWidth="-Infinity" prefHeight="200.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
 				<columns>
+					<JFXTreeTableColumn fx:id="colonneOrdre" editable="false" maxWidth="1.7976931348623157E308" minWidth="30.0" prefWidth="35.0" resizable="false" sortable="false" text="N°" />
 					<JFXTreeTableColumn fx:id="colonneAdresse" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="160.0" resizable="false" sortable="false" text="Adresse" />
 					<JFXTreeTableColumn fx:id="colonneHeureArrivee" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="150.0" resizable="false" sortable="false" text="Heure arrivée" />
 					<JFXTreeTableColumn fx:id="colonneTempsAttente" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="150.0" resizable="false" sortable="false" text="Temps attente" />
@@ -150,4 +152,19 @@
 		</children>
 	</VBox>
 	<JFXSnackbar fx:id="snackbar" prefWidth="300" />
+	
+	<JFXDialog fx:id="dialogSpinner">
+		<JFXDialogLayout>
+			<StackPane>
+				<JFXSpinner styleClass="materialDesign-purple, first-spinner" startingAngle="-40" />
+				<JFXSpinner styleClass="materialDesign-blue, second-spinner" startingAngle="-90" />
+				<JFXSpinner styleClass="materialDesign-cyan, third-spinner" startingAngle="-120" />
+				<JFXSpinner styleClass="materialDesign-green, fourth-spinner" startingAngle="-150" />
+				<JFXSpinner styleClass="materialDesign-yellow, fifth-spinner" startingAngle="-180" />
+				<JFXSpinner styleClass="materialDesign-orange, sixth-spinner" startingAngle="-210" />
+				<JFXSpinner styleClass="materialDesign-red, seventh-spinner" startingAngle="-240" />
+			</StackPane>
+		</JFXDialogLayout>
+	</JFXDialog>
+
 </StackPane>

@@ -4,12 +4,12 @@ import agile.modele.DemandeLivraisons;
 
 public class EtatInitial extends EtatDefaut {
 
-	public EtatInitial() {
-	}
+    public EtatInitial() {
+    }
 
-	@Override
-	public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur) throws Exception {
-		return controlleur.getDemandeLivraisons();
-	}
+    @Override
+    public DemandeLivraisons chargerDemandeLivraisons(Controlleur controlleur, Historique historique) throws Exception {
+	return controlleur.getDemandeLivraisons();
+    }
 
 }

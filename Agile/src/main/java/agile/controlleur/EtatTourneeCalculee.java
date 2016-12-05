@@ -25,6 +25,12 @@ public class EtatTourneeCalculee extends EtatDefaut {
     public EtatTourneeCalculee() {
     }
 
+    /**
+     * Génère la feuille de route au format txt pour le livreur. Demande à
+     * l'utilisateur le fichier à utiliser pour l'export
+     * 
+     * @param controlleur Controlleur
+     */
     @Override
     public void enregistrerFeuilleDeRoute(Controlleur controlleur) throws Exception {
 
@@ -138,10 +144,12 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
     public boolean ajouterLivraison(Controlleur controlleur, Livraison livraison, boolean historisation) {
 	CommandeAjouterLivraison cAjouterLivraison = new CommandeAjouterLivraison(controlleur.getTournee(), livraison);
-	controlleur.getHistorique().ajoute(cAjouterLivraison, controlleur);
+	cAjouterLivraison.doCde(controlleur);
 
 	if (!(cAjouterLivraison.isSuccess() && historisation)) {
 	    controlleur.getHistorique().undo(controlleur);
+	} else {
+	    controlleur.getHistorique().ajoute(cAjouterLivraison, controlleur);
 	}
 
 	return cAjouterLivraison.isSuccess();
