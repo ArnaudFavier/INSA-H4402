@@ -31,7 +31,7 @@ public class CheminTest {
 
 	Chemin chemin = new Chemin(listeTroncons, listeIntersections, 5);
 
-	Assert.assertEquals(chemin.getCout(), 5f, 0f);
+	Assert.assertEquals(chemin.getCout(), 5f, 0.01f);
 
 	assertEquals(chemin.getIntersections().size(), 4);
 	assertEquals(chemin.getIntersections().get(0), it0);

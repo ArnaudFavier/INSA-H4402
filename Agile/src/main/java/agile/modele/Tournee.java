@@ -96,7 +96,7 @@ public class Tournee {
 	    }
 	}
 
-	TSP tsp = new TSP1(); // TSP tsp = new TSP1();
+	TSP tsp = new TSP3();
 	tsp.chercheSolution(20000, durees.length, matriceCout, durees, tempsMin, tempsMax);
 
 	System.out.println(tsp.getCoutMeilleureSolution());

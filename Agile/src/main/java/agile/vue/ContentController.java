@@ -35,6 +35,11 @@ import javafx.scene.layout.StackPane;
 public class ContentController {
 
     /**
+     * La liste est ordonnée après le calcul de la tournée
+     */
+    boolean listeOrdonnee = false;
+
+    /**
      * StackPane principal du contenu de la fenêtre
      */
     @FXML
@@ -65,6 +70,11 @@ public class ContentController {
      */
     @FXML
     private JFXTreeTableView<LivraisonVue> livraisonTreeTableView;
+    /**
+     * Colonne numéro d'ordre du tableau des livraisons
+     */
+    @FXML
+    private JFXTreeTableColumn<LivraisonVue, String> colonneOrdre;
     /**
      * Colonne adresse du tableau des livraisons
      */
@@ -182,7 +192,13 @@ public class ContentController {
     @FXML
     private void initialize() {
 
-	// Colonnes de la livraisonTreeTableView
+	// Binding des colonnes de la livraisonTreeTableView
+	colonneOrdre.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
+	    if (colonneOrdre.validateValue(param))
+		return param.getValue().getValue().ordre;
+	    else
+		return colonneOrdre.getComputedValue(param);
+	});
 	colonneAdresse.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
 	    if (colonneAdresse.validateValue(param))
 		return param.getValue().getValue().intersection;
@@ -195,7 +211,6 @@ public class ContentController {
 	    else
 		return colonneDuree.getComputedValue(param);
 	});
-
 	colonneHeureArrivee.setCellValueFactory((TreeTableColumn.CellDataFeatures<LivraisonVue, String> param) -> {
 	    if (colonneDuree.validateValue(param))
 		return param.getValue().getValue().heureArrivee;
@@ -294,6 +309,7 @@ public class ContentController {
     private void boutonOuvrirPlan() {
 	try {
 	    controlleur.chargerPlan();
+	    listeOrdonnee = false;
 	    this.effacerAffichageEntrepot();
 	    observableListeLivraisons.clear();
 	    livraisonTreeTableView.currentItemsCountProperty().set(0);
@@ -327,6 +343,7 @@ public class ContentController {
 	} else {
 	    try {
 		controlleur.chargerDemandeLivraisons();
+		listeOrdonnee = false;
 		miseAJourEntrepot(controlleur.getDemandeLivraisons().getEntrepot());
 		miseAJourLivraison(controlleur.getDemandeLivraisons().getLivraisons());
 
@@ -357,6 +374,7 @@ public class ContentController {
 	    threadSpinner.start();
 
 	    controlleur.calculerTournee();
+	    listeOrdonnee = true;
 
 	    threadSpinner.interrupt();
 
@@ -399,8 +417,13 @@ public class ContentController {
     public void miseAJourLivraison(List<Livraison> livraisons) {
 	observableListeLivraisons.clear();
 	livraisonTreeTableView.currentItemsCountProperty().set(0);
+	int i = 1;
 	for (Livraison livraison : livraisons) {
-	    observableListeLivraisons.add(new LivraisonVue(livraison));
+	    if (listeOrdonnee)
+		observableListeLivraisons.add(new LivraisonVue(livraison, i));
+	    else
+		observableListeLivraisons.add(new LivraisonVue(livraison, 0));
+	    i++;
 	}
 	livraisonTreeTableView.currentItemsCountProperty().set(observableListeLivraisons.size());
     }

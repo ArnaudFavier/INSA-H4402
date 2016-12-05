@@ -16,14 +16,14 @@ public class IteratorCroissant implements Iterator<Integer> {
      * @param nonVus
      * @param sommetCrt
      */
-    public IteratorCroissant(Collection<Integer> nonVus, int sommetCrt, float[][] cout) {
+    public IteratorCroissant(Collection<Integer> nonVus, int sommetCrt, float[][] cout, int[] duree) {
 
         this.candidats = new Integer[nonVus.size()];
         nbCandidats = nonVus.size();
 
         nonVus.toArray(this.candidats);
 
-        Arrays.sort(this.candidats, (a, b) -> Float.compare(cout[sommetCrt][b],cout[sommetCrt][a]));
+        Arrays.sort(this.candidats, (a, b) -> Float.compare(cout[sommetCrt][b] + duree[b],cout[sommetCrt][a] + duree[a]));
     }
 
     @Override
