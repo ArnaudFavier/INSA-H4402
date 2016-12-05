@@ -423,13 +423,24 @@ public class Tournee {
 	    copy.matriceCout[i] = matriceCout[i].clone();
 
 	// Cloner cheminsTSP
-	copy.cheminsTSP = new ArrayList<>(cheminsTSP);
+	copy.cheminsTSP = new ArrayList<>(cheminsTSP.size());
 
+	for (int i = 0; i < cheminsTSP.size(); i++) {
+	    copy.cheminsTSP.add(cheminsTSP.get(i).clone());
+	}
 	// Cloner cheminsTSP
-	copy.livraisonsTSP = new ArrayList<>(livraisonsTSP);
+	copy.livraisonsTSP = new ArrayList<>(livraisonsTSP.size());
+
+	for (int i = 0; i < livraisonsTSP.size(); i++) {
+	    copy.livraisonsTSP.add(livraisonsTSP.get(i).clone());
+	}
 
 	// Cloner livraisons
-	copy.livraisons = new ArrayList<>(livraisons);
+	copy.livraisons = new ArrayList<>(livraisons.size());
+
+	for (int i = 0; i < livraisons.size(); i++) {
+	    copy.livraisons.add(livraisons.get(i).clone());
+	}
 
 	return copy;
     }

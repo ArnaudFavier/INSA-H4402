@@ -21,7 +21,7 @@ public class CommandeAjouterLivraison implements Commande {
     }
 
     @Override
-    public void doCde() {
+    public void doCde(Controlleur controlleur) {
 	success = tournee.ajouterLivraison(livraison);
     }
 

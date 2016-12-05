@@ -5,7 +5,7 @@ public interface Commande {
     /**
      * Execute la commande this
      */
-    void doCde();
+    void doCde(Controlleur controlleur);
 
     /**
      * Execute la commande inverse a this

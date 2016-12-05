@@ -17,14 +17,14 @@ public class Historique {
      * 
      * @param c
      */
-    public void ajoute(Commande c) {
+    public void ajoute(Commande c, Controlleur controlleur) {
 	int i = indiceCrt + 1;
 	while (i < liste.size()) {
 	    liste.remove(i);
 	}
 	indiceCrt++;
 	liste.add(indiceCrt, c);
-	c.doCde();
+	c.doCde(controlleur);
     }
 
     /**
@@ -46,7 +46,7 @@ public class Historique {
 	if (indiceCrt < liste.size() - 1) {
 	    indiceCrt++;
 	    Commande cde = liste.get(indiceCrt);
-	    cde.doCde();
+	    cde.doCde(controlleur);
 	}
     }
 
@@ -57,4 +57,5 @@ public class Historique {
 	indiceCrt = -1;
 	liste.clear();
     }
+
 }
