@@ -35,11 +35,6 @@ import javafx.scene.layout.StackPane;
 public class ContentController {
 
     /**
-     * La liste est ordonnée après le calcul de la tournée
-     */
-    boolean listeOrdonnee = false;
-
-    /**
      * StackPane principal du contenu de la fenêtre
      */
     @FXML
@@ -178,6 +173,14 @@ public class ContentController {
      * Controlleur principal de l'application
      */
     public static Controlleur controlleur;
+    /**
+     * La liste est ordonnée après le calcul de la tournée
+     */
+    private boolean listeOrdonnee = false;
+    /**
+     * Si la boite de dialogue modifier une livraison est déjà ouverte : true
+     */
+    private boolean dialogueModifierOuverte = false;
 
     /**
      * Le constructeur est appelé avant la méthode initialize()
@@ -232,11 +235,23 @@ public class ContentController {
 	});
 
 	// Modifier livraison
+	colonneOrdre.setOnEditStart((e) -> {
+	    boiteDialogueModifierLivraison();
+	});
+	colonneAdresse.setOnEditStart((e) -> {
+	    boiteDialogueModifierLivraison();
+	});
+	colonneDuree.setOnEditStart((e) -> {
+	    boiteDialogueModifierLivraison();
+	});
+	colonneHeureArrivee.setOnEditStart((e) -> {
+	    boiteDialogueModifierLivraison();
+	});
 	colonnePlagePrevisionnelle.setOnEditStart((e) -> {
-	    Livraison livraisonModifiee = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
-		    .getValue().livraison;
-	    DialogModifierLivraison.show(this, root, livraisonModifiee);
-	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
+	    boiteDialogueModifierLivraison();
+	});
+	colonneTempsAttente.setOnEditStart((e) -> {
+	    boiteDialogueModifierLivraison();
 	});
 
 	// Binding du tableau de la liste des livraisons
@@ -323,6 +338,11 @@ public class ContentController {
 	    boutonSupprimerLivraison.setVisible(false);
 	    boutonUndo.setVisible(false);
 	    boutonRedo.setVisible(false);
+	    colonneOrdre.setEditable(false);
+	    colonneAdresse.setEditable(false);
+	    colonneDuree.setEditable(false);
+	    colonneHeureArrivee.setEditable(false);
+	    colonneTempsAttente.setEditable(false);
 	    colonnePlagePrevisionnelle.setEditable(false);
 	} catch (Exception e) {
 	    if (e.getMessage() != null) {
@@ -356,6 +376,11 @@ public class ContentController {
 		boutonSupprimerLivraison.setVisible(false);
 		boutonUndo.setVisible(false);
 		boutonRedo.setVisible(false);
+		colonneOrdre.setEditable(false);
+		colonneAdresse.setEditable(false);
+		colonneDuree.setEditable(false);
+		colonneHeureArrivee.setEditable(false);
+		colonneTempsAttente.setEditable(false);
 		colonnePlagePrevisionnelle.setEditable(false);
 	    } catch (Exception e) {
 		afficherMessage("Demande de livraisons invalide.");
@@ -391,6 +416,11 @@ public class ContentController {
 	    boutonSupprimerLivraison.setVisible(true);
 	    boutonUndo.setVisible(true);
 	    boutonRedo.setVisible(true);
+	    colonneOrdre.setEditable(true);
+	    colonneAdresse.setEditable(true);
+	    colonneDuree.setEditable(true);
+	    colonneHeureArrivee.setEditable(true);
+	    colonneTempsAttente.setEditable(true);
 	    colonnePlagePrevisionnelle.setEditable(true);
 	    afficherMessage("Tounée calculée.");
 	} catch (Exception e) {
@@ -477,6 +507,19 @@ public class ContentController {
 	if (message == null)
 	    return;
 	snackbar.fireEvent(new SnackbarEvent(message));
+    }
+
+    /**
+     * Ouvre une boite de dialogue pour modifier une livraison
+     */
+    public void boiteDialogueModifierLivraison() {
+	if (!dialogueModifierOuverte) {
+	    dialogueModifierOuverte = true;
+	    Livraison livraisonModifiee = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
+		    .getValue().livraison;
+	    DialogModifierLivraison.show(this, root, livraisonModifiee);
+	    dialogueModifierOuverte = false;
+	}
     }
 
     /**

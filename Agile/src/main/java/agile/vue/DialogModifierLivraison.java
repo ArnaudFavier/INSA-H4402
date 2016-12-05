@@ -113,6 +113,16 @@ public final class DialogModifierLivraison {
 	boutonValider.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override
 	    public void handle(ActionEvent event) {
+		// Champs non vides
+		if (datePickerPlageDebut.getTime() == null) {
+		    controlleur.afficherMessage("La plage de début est vide.");
+		    return;
+		}
+		if (datePickerPlageFin.getTime() == null) {
+		    controlleur.afficherMessage("La plage de fin est vide.");
+		    return;
+		}
+
 		Temps tempsPlageDebut = new Temps(datePickerPlageDebut.getTime().getHour(),
 			datePickerPlageDebut.getTime().getMinute(), 0);
 		Temps tempsPlageFin = new Temps(datePickerPlageFin.getTime().getHour(),

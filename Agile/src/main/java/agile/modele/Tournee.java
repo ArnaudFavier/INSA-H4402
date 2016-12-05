@@ -6,7 +6,7 @@ import java.util.List;
 
 import agile.pathfinding.Djikstra;
 import agile.pathfinding.TSP;
-import agile.pathfinding.TSP1;
+import agile.pathfinding.TSP3;
 
 /**
  * Une demande de livraisons après avoir été traitée par un algo resolvant le

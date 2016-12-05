@@ -87,11 +87,11 @@
 			</HBox>
 			<JFXTreeTableView fx:id="livraisonTreeTableView" minWidth="-Infinity" prefHeight="200.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
 				<columns>
-					<JFXTreeTableColumn fx:id="colonneOrdre" editable="false" maxWidth="1.7976931348623157E308" minWidth="30.0" prefWidth="35.0" resizable="false" sortable="false" text="N°" />
-					<JFXTreeTableColumn fx:id="colonneAdresse" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="160.0" resizable="false" sortable="false" text="Adresse" />
-					<JFXTreeTableColumn fx:id="colonneHeureArrivee" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="150.0" resizable="false" sortable="false" text="Heure arrivée" />
-					<JFXTreeTableColumn fx:id="colonneTempsAttente" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="150.0" resizable="false" sortable="false" text="Temps attente" />
-					<JFXTreeTableColumn fx:id="colonneDuree" editable="false" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="150.0" resizable="false" sortable="false" text="Durée" />
+					<JFXTreeTableColumn fx:id="colonneOrdre" maxWidth="1.7976931348623157E308" minWidth="30.0" prefWidth="35.0" resizable="false" sortable="false" text="N°" />
+					<JFXTreeTableColumn fx:id="colonneAdresse" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="160.0" resizable="false" sortable="false" text="Adresse" />
+					<JFXTreeTableColumn fx:id="colonneHeureArrivee" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="150.0" resizable="false" sortable="false" text="Heure arrivée" />
+					<JFXTreeTableColumn fx:id="colonneTempsAttente" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="150.0" resizable="false" sortable="false" text="Temps attente" />
+					<JFXTreeTableColumn fx:id="colonneDuree" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="150.0" resizable="false" sortable="false" text="Durée" />
 					<JFXTreeTableColumn fx:id="colonnePlagePrevisionnelle" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="150.0" resizable="false" sortable="false" text="Plage prévisionnelle" />
 				</columns>
 			</JFXTreeTableView>
