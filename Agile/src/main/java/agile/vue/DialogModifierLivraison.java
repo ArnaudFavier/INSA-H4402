@@ -43,8 +43,8 @@ public final class DialogModifierLivraison {
      */
     public static void show(ContentController controlleur, StackPane stackPane, Livraison livraison) {
 	// Liste des composants à afficher
-	Label labelPlageDebut = new Label("Plade horaire début :");
-	Label labelPlageFin = new Label("Plade horaire fin :");
+	Label labelPlageDebut = new Label("Plage horaire début :");
+	Label labelPlageFin = new Label("Plage horaire fin :");
 	JFXDatePicker datePickerPlageDebut = new JFXDatePicker();
 	JFXDatePicker datePickerPlageFin = new JFXDatePicker();
 	JFXButton boutonValider = new JFXButton("Valider");
@@ -120,7 +120,17 @@ public final class DialogModifierLivraison {
 
 		// Le temps de fin avant le temps de début
 		if (tempsPlageDebut.compareTo(tempsPlageFin) > 0) {
-		    controlleur.afficherMessage("L'heure d'arrivée est inférieure à l'heure de départ.");
+		    controlleur.afficherMessage("La plage de fin est inférieure à la plage de départ.");
+		    return;
+		}
+
+		// Les plages horraires ne contiennent pas l'heure d'arrivée
+		if (tempsPlageDebut.compareTo(livraison.getHeureArrivee()) > 0) {
+		    controlleur.afficherMessage("La plage de début est supérieure à l'heure d'arrivée.");
+		    return;
+		}
+		if (tempsPlageFin.compareTo(livraison.getHeureArrivee()) < 0) {
+		    controlleur.afficherMessage("La plage de fin est inférieure à l'heure d'arrivée.");
 		    return;
 		}
 

@@ -153,6 +153,9 @@ public class ContentController {
     @FXML
     private JFXSnackbar snackbar;
 
+    /**
+     * Boite de dialogue affichant une icône (spinner) de chargement
+     */
     @FXML
     JFXDialog dialogSpinner;
 
