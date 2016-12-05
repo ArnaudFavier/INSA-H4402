@@ -138,10 +138,12 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
     public boolean ajouterLivraison(Controlleur controlleur, Livraison livraison, boolean historisation) {
 	CommandeAjouterLivraison cAjouterLivraison = new CommandeAjouterLivraison(controlleur.getTournee(), livraison);
-	controlleur.getHistorique().ajoute(cAjouterLivraison, controlleur);
+	cAjouterLivraison.doCde(controlleur);
 
 	if (!(cAjouterLivraison.isSuccess() && historisation)) {
 	    controlleur.getHistorique().undo(controlleur);
+	} else {
+	    controlleur.getHistorique().ajoute(cAjouterLivraison, controlleur);
 	}
 
 	return cAjouterLivraison.isSuccess();
