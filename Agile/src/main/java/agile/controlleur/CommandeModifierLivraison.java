@@ -30,7 +30,7 @@ public class CommandeModifierLivraison implements Commande {
     }
 
     @Override
-    public void doCde() {
+    public void doCde(Controlleur controlleur) {
 	tournee.modifierLivraison(livraison, debutPlage, finPlage);
     }
 

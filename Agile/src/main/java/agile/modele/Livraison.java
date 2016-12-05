@@ -151,4 +151,17 @@ public class Livraison {
 	return heureArrivee;
     }
 
+    @Override
+    public Livraison clone() {
+	Livraison copy = new Livraison(duree, intersection, debutPlage, finPlage);
+
+	copy.contrainteTemps = contrainteTemps;
+
+	copy.heureArrivee = heureArrivee;
+
+	copy.tempsAttente = tempsAttente;
+
+	return copy;
+    }
+
 }
