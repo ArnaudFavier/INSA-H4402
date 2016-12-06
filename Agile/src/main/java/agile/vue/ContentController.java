@@ -518,6 +518,7 @@ public class ContentController {
 	    Livraison livraisonModifiee = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
 		    .getValue().livraison;
 	    DialogModifierLivraison.show(this, root, livraisonModifiee);
+	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	    dialogueModifierOuverte = false;
 	}
     }
