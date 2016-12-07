@@ -1,6 +1,7 @@
 package agile.modele;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,13 @@ public class CheminTest {
 
     @Test
     public void testConstructeurGet() {
+	assertNotNull(chemin);
+	assertNotNull(chemin.getIntersections());
+	assertNotNull(chemin.getTroncons());
+
+	assertNotNull(cheminVide);
+	assertNotNull(cheminVide.getIntersections());
+	assertNotNull(cheminVide.getTroncons());
 
 	assertEquals(cheminVide.getCout(), 0f, 0.01f);
 	assertEquals(chemin.getCout(), 5f, 0.01f);
@@ -71,10 +79,13 @@ public class CheminTest {
 
     @Test
     public void testMethods() {
-	Chemin cheminClone = this.chemin.clone();
-	assertEquals(cheminClone.getCout(), chemin.getCout(), 0.01f);
-	assertEquals(cheminClone.getIntersections(), chemin.getIntersections());
-	assertEquals(cheminClone.getTroncons(), chemin.getTroncons());
+	Chemin copy = this.chemin.clone();
+	assertNotNull(copy);
+	assertEquals(copy.getCout(), chemin.getCout(), 0.01f);
+	assertNotNull(copy.getIntersections());
+	assertEquals(copy.getIntersections(), chemin.getIntersections());
+	assertNotNull(copy.getTroncons());
+	assertEquals(copy.getTroncons(), chemin.getTroncons());
     }
 
 }
