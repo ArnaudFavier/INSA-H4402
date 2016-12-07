@@ -1,6 +1,7 @@
 package agile.controlleur;
 
 import agile.modele.Livraison;
+import agile.modele.Temps;
 import agile.modele.Tournee;
 
 public class CommandeAjouterLivraison implements Commande {
@@ -9,6 +10,7 @@ public class CommandeAjouterLivraison implements Commande {
     protected Tournee prevTournee;
     protected Livraison livraison;
     protected boolean success, alreadyAdd;
+    protected int prevHeureRetourEntrepot, heureRetourEntrepot;
 
     /**
      * Cree la commande qui permet d'ajouter une livraison à la tournee
@@ -20,6 +22,7 @@ public class CommandeAjouterLivraison implements Commande {
 	this.tournee = tournee;
 	this.livraison = livraison;
 	prevTournee = tournee.clone();
+	prevHeureRetourEntrepot = tournee.getDemandeInitiale().getEntrepot().getHeureRetour().getTotalSecondes();
 	success = alreadyAdd = false;
 
     }
@@ -30,7 +33,15 @@ public class CommandeAjouterLivraison implements Commande {
 	    success = tournee.ajouterLivraison(livraison);
 	    if (isSuccess()) {
 		alreadyAdd = true;
+		controlleur.setTournee(tournee);
+		heureRetourEntrepot = controlleur.getTournee().getDemandeInitiale().getEntrepot().getHeureRetour()
+			.getTotalSecondes();
 	    }
+	} else {
+	    Temps heure = new Temps(heureRetourEntrepot);
+
+	    System.err.println(heure.getTimeString());
+	    tournee.getDemandeInitiale().getEntrepot().setHeureRetour(heure);
 	}
 	controlleur.setTournee(tournee);
     }
@@ -38,6 +49,8 @@ public class CommandeAjouterLivraison implements Commande {
     @Override
     public void undoCde(Controlleur controlleur) {
 	if (isSuccess()) {
+	    Temps heure = new Temps(prevHeureRetourEntrepot);
+	    prevTournee.getDemandeInitiale().getEntrepot().setHeureRetour(heure);
 	    controlleur.setTournee(prevTournee);
 	}
     }

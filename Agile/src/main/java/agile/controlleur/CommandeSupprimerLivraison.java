@@ -6,11 +6,11 @@ import agile.modele.Tournee;
 
 public class CommandeSupprimerLivraison implements Commande {
 
-    private Tournee tournee;
-    private Livraison livraison;
-    private Tournee prevTournee;
-    private int prevHeureRetourEntrepot, heureRetourEntrepot;
-    private boolean alreadyChangeHour;
+    protected Tournee tournee;
+    protected Livraison livraison;
+    protected Tournee prevTournee;
+    protected int prevHeureRetourEntrepot, heureRetourEntrepot;
+    protected boolean alreadyChangeHour;
 
     /**
      * Cree la commande qui permet de supprimer une livraison de la tournee
