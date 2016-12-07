@@ -80,7 +80,17 @@ public class TourneeTest {
 
 	assertNotNull(copy);
 	assertNotNull(copy.getCheminsTSP());
-	assertEquals(tournee.getCheminsTSP(), copy.getCheminsTSP());
+
+	int indexChemin = 0;
+	for (Chemin c : tournee.getCheminsTSP()) {
+	    int indexIntersection = 0;
+	    for (Intersection i : c.getIntersections())
+		assertEquals(i, copy.getCheminsTSP().get(indexChemin).getIntersections().get(indexIntersection++));
+	    int indexTroncon = 0;
+	    for (Troncon t : c.getTroncons())
+		assertEquals(t, copy.getCheminsTSP().get(indexChemin).getTroncons().get(indexTroncon++));
+	    ++indexChemin;
+	}
 
 	assertNotNull(copy.getLivraisonsTSP());
 	assertEquals(tournee.getLivraisonsTSP(), copy.getLivraisonsTSP());
