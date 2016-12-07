@@ -308,10 +308,12 @@ public class ContentController {
 	boutonUndo.setOnMouseClicked((e) -> {
 	    controlleur.undo();
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
+	    miseAJourEntrepot(controlleur.getDemandeLivraisons().getEntrepot());
 	});
 	boutonRedo.setOnMouseClicked((e) -> {
 	    controlleur.redo();
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
+	    miseAJourEntrepot(controlleur.getDemandeLivraisons().getEntrepot());
 	});
 
 	// Affectation de la snackbar
