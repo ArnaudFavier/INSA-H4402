@@ -377,13 +377,13 @@ public class ContentController {
     private void boutonCalculerTournee() {
 	try {
 	    // TODO: rendre le thread fonctionnel
-	    Thread threadSpinner = new ThreadSpinner();
-	    threadSpinner.start();
+	    /*
+	     * Thread threadSpinner = new ThreadSpinner();
+	     * threadSpinner.start();
+	     */
 
 	    controlleur.calculerTournee();
 	    listeOrdonnee = true;
-
-	    threadSpinner.interrupt();
 
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	    miseAJourEntrepot(controlleur.getTournee().getDemandeInitiale().getEntrepot());
