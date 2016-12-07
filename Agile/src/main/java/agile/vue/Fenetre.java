@@ -75,7 +75,7 @@ public class Fenetre {
 	// Contour de la fenêtre
 	JFXDecorator decorator = new JFXDecorator(this.stage, container.getView());
 	decorator.setCustomMaximize(true);
-	Scene scene = new Scene(decorator, 800, 600);
+	Scene scene = new Scene(decorator, 818, 600);
 	// Styles CSS
 	scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-design.css").toExternalForm());
 	scene.getStylesheets().add(getClass().getResource("../../css/jfoenix-main-demo.css").toExternalForm());
