@@ -1,7 +1,6 @@
 package agile.pathfinding;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 
 public abstract class TemplateTSP implements TSP {
@@ -16,10 +15,12 @@ public abstract class TemplateTSP implements TSP {
 
     public void chercheSolution(int tpsLimite, int nbSommets, float[][] cout, int[] duree, float[] tempsMin,
 	    float[] tempsMax) {
-	System.out.println("Cout");
-	System.out.println(Arrays.deepToString(cout));
-	System.out.println("Duree");
-	System.out.println(Arrays.toString(duree));
+	/*
+	 * System.out.println("Cout");
+	 * System.out.println(Arrays.deepToString(cout));
+	 * System.out.println("Duree");
+	 * System.out.println(Arrays.toString(duree));
+	 */
 	tempsLimiteAtteint = false;
 	coutMeilleureSolution = Integer.MAX_VALUE;
 	meilleureSolution = new Integer[nbSommets];
@@ -108,7 +109,9 @@ public abstract class TemplateTSP implements TSP {
 	}
 	if (nonVus.size() == 0) { // tous les sommets ont ete visites
 	    coutVus += cout[sommetCrt][0];
-	    if (coutVus < coutMeilleureSolution) { // on a trouve une solution meilleure que meilleureSolution
+	    if (coutVus < coutMeilleureSolution) { // on a trouve une solution
+						   // meilleure que
+						   // meilleureSolution
 		vus.toArray(meilleureSolution);
 		coutMeilleureSolution = coutVus;
 	    }

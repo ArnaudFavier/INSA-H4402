@@ -408,7 +408,8 @@ public class ContentController {
 
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
 	    miseAJourEntrepot(controlleur.getTournee().getDemandeInitiale().getEntrepot());
-	    System.out.println("tmps: " + controlleur.getTournee().getLivraisonsTSP().get(0).getTempsAttente());
+	    // System.out.println("tmps: " +
+	    // controlleur.getTournee().getLivraisonsTSP().get(0).getTempsAttente());
 
 	    // Mise Ã  jour des boutons
 	    boutonOuvrirLivraison.setVisible(true);
