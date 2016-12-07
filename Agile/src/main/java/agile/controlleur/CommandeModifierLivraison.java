@@ -6,12 +6,12 @@ import agile.modele.Tournee;
 
 public class CommandeModifierLivraison implements Commande {
 
-    private Livraison livraison;
-    private Tournee tournee;
-    private Temps debutPlage;
-    private Temps finPlage;
-    private Temps oldDebutPlage;
-    private Temps oldFinPlage;
+    protected Livraison livraison;
+    protected Tournee tournee;
+    protected Temps debutPlage;
+    protected Temps finPlage;
+    protected Temps oldDebutPlage;
+    protected Temps oldFinPlage;
 
     /**
      * Cree la commande qui permet de modifier une livraison de la tournee
