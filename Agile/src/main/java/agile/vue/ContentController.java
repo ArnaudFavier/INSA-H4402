@@ -22,7 +22,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.StackPane;
 
@@ -279,28 +278,8 @@ public class ContentController {
 	    livraisonTreeTableView.setPredicate(livraison -> livraison.getValue().intersection.get().contains(newVal)
 		    || livraison.getValue().duree.get().contains(newVal));
 
-	    JFXTreeTableView livraisonTreeTableViewCopy = livraisonTreeTableView;
-
 	    livraisonTreeTableView.setOnMouseClicked((e) -> {
-		LivraisonVue livraisonVue = livraisonTreeTableView.getSelectionModel().selectedItemProperty().get()
-			.getValue();
-
-		int intersectionSearch = livraisonVue.getLivraison().getIntersection().getX();
-		int i = 0;
-		TreeItem<LivraisonVue> item = livraisonTreeTableView.getTreeItem(0);
-
-		livraisonTreeTableView.setPredicate(null);
-
-		while (item != null
-			&& (item.getValue().getLivraison().getIntersection().getX() != intersectionSearch)) {
-		    System.out.println(item.getValue().intersection.get().equals(intersectionSearch));
-		    i++;
-		    item = livraisonTreeTableView.getTreeItem(i);
-		}
-
-		System.out.println(i);
-
-		selectionnerLivraison(i);
+		searchField.clear();
 	    });
 	});
 
