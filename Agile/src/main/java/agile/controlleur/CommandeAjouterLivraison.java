@@ -5,10 +5,10 @@ import agile.modele.Tournee;
 
 public class CommandeAjouterLivraison implements Commande {
 
-    private Tournee tournee;
-    private Tournee prevTournee;
-    private Livraison livraison;
-    private boolean success, alreadyAdd;
+    protected Tournee tournee;
+    protected Tournee prevTournee;
+    protected Livraison livraison;
+    protected boolean success, alreadyAdd;
 
     /**
      * Cree la commande qui permet d'ajouter une livraison à la tournee
