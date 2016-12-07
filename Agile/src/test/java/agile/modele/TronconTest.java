@@ -38,6 +38,8 @@ public class TronconTest {
 	Troncon troncon = new Troncon(1, 2, "rueTest", intersection1, intersection2);
 	String result = "Troncon{longueur=1, vitesse=2, nomRue='rueTest', intersections=[" + intersection1.toString()
 		+ ", " + intersection2.toString() + "]}";
+
+	assertNotNull(troncon.toString());
 	assertEquals(troncon.toString(), result);
     }
 
