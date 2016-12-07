@@ -273,6 +273,7 @@ public class ContentController {
 		    .getValue().livraison;
 	    controlleur.supprimerLivraison(livraisonSupprimer);
 	    miseAJourLivraison(controlleur.getTournee().getLivraisonsTSP());
+	    miseAJourEntrepot(controlleur.getDemandeLivraisons().getEntrepot());
 	});
 	searchField.textProperty().addListener((o, oldVal, newVal) -> {
 	    livraisonTreeTableView.setPredicate(livraison -> livraison.getValue().intersection.get().contains(newVal)

@@ -227,6 +227,8 @@ public class Tournee {
 	// Si c'est un entrepot
 	if (idLivraisonTSP == livraisonsTSP.size() - 1) {
 	    idPostInters = 0;
+	    int nouveauTemps = heurePrecedent + (int) matriceChemin[idPreInters][idPostInters].getCout();
+	    demandeInitiale.getEntrepot().setHeureRetour(new Temps(nouveauTemps));
 	} else {
 	    Livraison livr = livraisonsTSP.get(idLivraisonTSP + 1);
 	    idPostInters = livraisons.indexOf(livr) + 1;
