@@ -1,4 +1,4 @@
-package hexanome.agenda.events;
+package hexanome.agenda.model;
 
 import org.joda.time.DateTime;
 

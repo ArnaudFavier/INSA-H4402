@@ -6,10 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.support.v7.util.SortedList;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.SparseArray;
 import android.view.View;
 
 import org.joda.time.DateTime;
@@ -18,8 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import hexanome.agenda.R;
-import hexanome.agenda.events.Event;
+import hexanome.agenda.model.Event;
 import hexanome.agenda.util.MaterialColors;
 import hexanome.agenda.util.Measures;
 
