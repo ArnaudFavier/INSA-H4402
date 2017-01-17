@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_day"
     android:layout_width="match_parent"
@@ -15,15 +16,26 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/day_scroll_view">
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/md_blue_500"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:clickable="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="4dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -36,7 +48,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:layout_width="wrap_content"
-                        android:layout_margin="3dp">
+                        android:layout_margin="3dp"
+                        android:nestedScrollingEnabled="false"
+                        android:measureWithLargestChild="false"
+                        android:longClickable="false">
 
                         <TextView
                             android:text="8h00"
@@ -89,7 +104,7 @@
                             android:textSize="12sp" />
 
                         <TextView
-                            android:text="Description"
+                            android:text="Présentation orale"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/dayEventTextDescription"
@@ -111,7 +126,197 @@
 
             </android.support.v7.widget.CardView>
 
-        </RelativeLayout>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/md_light_green_500"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:clickable="true"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="4dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="3dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:layout_margin="3dp"
+                        android:layout_width="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:measureWithLargestChild="false"
+                        android:longClickable="false">
+
+                        <TextView
+                            android:text="14h00"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dayEventHourStart"
+                            android:layout_weight="1"
+                            android:gravity="top|right" />
+
+                        <TextView
+                            android:text="16h00"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dayEventHourEnd"
+                            android:layout_weight="1"
+                            android:gravity="bottom|right" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="2dp"
+                        android:background="#ABB2B9" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:layout_width="wrap_content"
+                        android:layout_margin="3dp">
+
+                        <TextView
+                            android:text="LV1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dayEventTextTitle"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:textStyle="normal|bold"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dayEventTextDescription"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:textStyle="normal|italic"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dayEventTextLieu"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:text="Humanité" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/md_amber_500"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:clickable="true"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="4dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="3dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_margin="3dp"
+                        android:nestedScrollingEnabled="false"
+                        android:measureWithLargestChild="false"
+                        android:longClickable="false">
+
+                        <TextView
+                            android:text="16h00"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dayEventHourStart"
+                            android:layout_weight="1"
+                            android:gravity="top|right" />
+
+                        <TextView
+                            android:text="18h00"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dayEventHourEnd"
+                            android:layout_weight="1"
+                            android:gravity="bottom|right" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="2dp"
+                        android:background="#ABB2B9" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:layout_width="wrap_content"
+                        android:layout_margin="3dp">
+
+                        <TextView
+                            android:text="PLD Mars"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dayEventTextTitle"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:textStyle="normal|bold"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:text="S. Servigne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dayEventTextProf"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:text="Amener poly"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dayEventTextDescription"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:textStyle="normal|italic"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:text="503:Gaston Berger"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dayEventTextLieu"
+                            android:layout_weight="1"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
     </ScrollView>
 
 </RelativeLayout>

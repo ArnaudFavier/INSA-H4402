@@ -58,7 +58,8 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
             }
         });
 
-        setTitle(new DateTime().monthOfYear().getAsText());
+        setTitle(new DateTime().monthOfYear().getAsText() + " " + new DateTime().year().get());
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
