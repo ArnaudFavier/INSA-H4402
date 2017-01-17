@@ -1,6 +1,7 @@
 package hexanome.agenda.activities;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,21 +18,30 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+
+import com.thehayro.view.InfinitePagerAdapter;
 
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import hexanome.agenda.R;
+import hexanome.agenda.customui.CalendarMonthView;
 
 public class MonthActivity extends ActionBarActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ArrayList<Integer> positions = new ArrayList<Integer>();
     private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
+    private MyInfinitePagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +73,12 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
         positions.add(1);
 
         mPager = (ViewPager)findViewById(R.id.month_pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+       // mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new MyInfinitePagerAdapter(0);
         mPager.setAdapter(mPagerAdapter);
+
         mPager.setCurrentItem(1);
-        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -73,20 +86,9 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
 
             @Override
             public void onPageSelected(int pageSelected ) {
-
-                if(pageSelected == 0) {
-                    positions.remove(2);
-                    positions.add(0, positions.get(0) - 1);
-                } else if(pageSelected == 2) {
-                    positions.remove(0);
-                    positions.add((positions.get(1) + 1));
-                }
-
                 DateTime currentMonth = new DateTime();
-                DateTime chosenMonth = currentMonth.plusMonths(positions.get(1));
+                DateTime chosenMonth = currentMonth.plusMonths(mPagerAdapter.getIndicator());
                 setTitle(chosenMonth.monthOfYear().getAsText()+" "+chosenMonth.year().get());
-                mPagerAdapter.notifyDataSetChanged();
-                mPager.setCurrentItem(1);
             }
 
             @Override
@@ -94,6 +96,7 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
 
             }
         });
+
     }
 
     @Override
@@ -153,40 +156,82 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
         return true;
     }
 
+    private class MyInfinitePagerAdapter extends InfinitePagerAdapter<Integer> {
+
+        public MyInfinitePagerAdapter(Integer initValue) {
+            super(initValue);
+        }
+
+        public Integer getIndicator(){
+            return getCurrentIndicator();
+        }
+
+        public Integer getNextIndicator() {
+            return getCurrentIndicator() + 1;
+        }
+
+        public Integer getPreviousIndicator() {
+            return getCurrentIndicator() - 1;
+        }
+
+        @Override
+        public ViewGroup instantiateItem(Integer indicator) {
+            final FrameLayout layout = (FrameLayout) ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE))
+                    .inflate(R.layout.fragment_month, null);
+            layout.setTag(indicator);
+            DateTime selectedMonth = new DateTime().plusMonths(indicator);
+            ((CalendarMonthView)layout.findViewById(R.id.calendar_month_view)).setMonth(selectedMonth);
+            return layout;
+        }
+
+        @Override
+        public String getStringRepresentation(final Integer currentIndicator) {
+            return String.valueOf(currentIndicator);
+        }
+
+        @Override
+        public Integer convertToIndicator(final String representation) {
+            return Integer.valueOf(representation);
+        }
+    }
+
     /**
      * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
      * sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+
+        private FragmentTransaction mCurTransaction = null;
+
+        private long[] mItemIds = new long[] {};
+        private ArrayList<Fragment.SavedState> mSavedState = new ArrayList<Fragment.SavedState>();
+        private ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
+        private Fragment mCurrentPrimaryItem = null;
+
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
-        @Override
-        public Fragment getItem(int position) {
-            DateTime currentMonth = new DateTime();
-            int relativePos = positions.get(position);
-            return MonthFragment.newInstance(currentMonth.plusMonths(relativePos), position);
-        }
 
         @Override
         public int getCount() {
             return 3;
         }
 
-        // Returns the page title for the top indicator
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return "Page " + position;
+        /**
+         * Return the Fragment associated with a specified position.
+         */
+        public Fragment getItem(int position){
+            DateTime currentMonth = new DateTime();
+            int relativePos = positions.get(position);
+            return MonthFragment.newInstance(currentMonth.plusMonths(relativePos), relativePos);
         }
 
-        @Override
-        public int getItemPosition(Object object) {
-            MonthFragment fragment = (MonthFragment)object;
-            if (fragment == null) {
-                return POSITION_NONE;
-            }
-            return POSITION_NONE;
+        /**
+         * Return a unique identifier for the item at the given position.
+         */
+        public int getItemId(int position) {
+            return positions.get(position);
         }
     }
 }

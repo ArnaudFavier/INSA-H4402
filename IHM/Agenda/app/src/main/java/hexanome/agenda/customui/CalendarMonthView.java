@@ -129,6 +129,9 @@ public class CalendarMonthView extends View {
 
         // Last month
         int firstDayOfMonth = getFirstWeekDayOfMonth() - 1;
+        if(firstDayOfMonth == 0){
+            firstDayOfMonth = 7;
+        }
         int dayNumber;
         for (int day = 0; day < firstDayOfMonth; day++) {
             dayNumber = getLastDayOfPrevMonth() - (firstDayOfMonth - 1 - day);

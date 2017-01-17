@@ -10,7 +10,7 @@
     tools:context="hexanome.agenda.activities.MonthActivity"
     tools:showIn="@layout/app_bar_month">
 
-    <android.support.v4.view.ViewPager
+    <com.thehayro.view.InfiniteViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/month_pager"
         android:layout_width="match_parent"
