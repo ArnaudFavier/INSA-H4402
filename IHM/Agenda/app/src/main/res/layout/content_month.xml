@@ -6,12 +6,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/activity_horizontal_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="hexanome.agenda.activities.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:context="hexanome.agenda.activities.MonthActivity"
+    tools:showIn="@layout/app_bar_month">
 
-    <hexanome.agenda.customui.CalendarMonthView
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/month_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </RelativeLayout>

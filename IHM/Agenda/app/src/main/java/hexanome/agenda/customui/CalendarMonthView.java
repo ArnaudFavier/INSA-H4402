@@ -6,15 +6,20 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.support.v7.util.SortedList;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import hexanome.agenda.model.Event;
 import hexanome.agenda.util.MaterialColors;
@@ -23,6 +28,7 @@ import hexanome.agenda.util.Measures;
 public class CalendarMonthView extends View {
 
     private List<Event> events = new ArrayList<>();
+    private HashMap<MonthDate, DatePosition> datePositions;
     private DateTime mCurrentMonth;
     private DateTime prevMonth;
     private DateTime nextMonth;
@@ -45,6 +51,12 @@ public class CalendarMonthView extends View {
     public CalendarMonthView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
+    }
+
+    public void setMonth(DateTime dateTime) {
+        mCurrentMonth = dateTime;
+        prevMonth = new DateTime(mCurrentMonth).minusMonths(1);
+        nextMonth = new DateTime(mCurrentMonth).plusMonths(1);
     }
 
     private void init() {
@@ -95,7 +107,7 @@ public class CalendarMonthView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        HashMap<MonthDate, DatePosition> datePositions = new HashMap<>();
+        datePositions = new HashMap<>();
 
         if (mParentHeight == 0 || mParentWidth == 0) {
             return;
@@ -110,7 +122,7 @@ public class CalendarMonthView extends View {
         float textPadding = Measures.dpToPixels(mResources, 5);
 
         // Draw day names
-        String[] dayNames = new String[]{"L","M","M","J","V","S","D"};
+        String[] dayNames = new String[]{"L", "M", "M", "J", "V", "S", "D"};
         for (int day = 0; day < 7; day++) {
             canvas.drawText(dayNames[day], day * widthUnit + textPadding, mPixelDayNumberSize + textPadding, mTextDayName);
         }
@@ -129,8 +141,9 @@ public class CalendarMonthView extends View {
         final int lastDayOfMonth = getLastDayOfMonth();
         int x = firstDayOfMonth;
         dayNumber = 1;
+        int y = 0;
         currentMonthNumberLoop:
-        for (int y = 0; y < 6; y++) {
+        for (; y < 6; y++) {
             float drawHeight = y * heightUnit + mPixelDayNumberSize + dayNameHeight;
             for (; x < 7; x++) {
 
@@ -142,15 +155,22 @@ public class CalendarMonthView extends View {
                 dayNumber++;
             }
             // Draw horizontal separator
-            canvas.drawLine(0, dayNameHeight+(y + 1) * heightUnit, mParentWidth, dayNameHeight+(y + 1) * heightUnit, mSeparatorPaint);
+            canvas.drawLine(0, dayNameHeight + (y + 1) * heightUnit, mParentWidth, dayNameHeight + (y + 1) * heightUnit, mSeparatorPaint);
             x = 0;
         }
 
         dayNumber = 1;
-        for (int day = getLastWeekDayOfMonth(); day < 7; day++) {
-            canvas.drawText(Integer.toString(dayNumber), day * widthUnit + textPadding, 5 * heightUnit + mPixelDayNumberSize + textPadding + dayNameHeight, mTextDayGreyNumberPaint);
-            datePositions.put(new MonthDate(nextMonth.getMonthOfYear(), dayNumber), new DatePosition(day, 5));
-            dayNumber++;
+        x = getLastWeekDayOfMonth();
+        for (; y < 6; y++) {
+            float drawHeight = y * heightUnit + mPixelDayNumberSize + dayNameHeight;
+            for (; x < 7; x++) {
+                canvas.drawText(Integer.toString(dayNumber), x * widthUnit + textPadding, drawHeight + textPadding, mTextDayGreyNumberPaint);
+                datePositions.put(new MonthDate(nextMonth.getMonthOfYear(), dayNumber), new DatePosition(x, 5));
+                dayNumber++;
+            }
+            // Draw horizontal separator
+            canvas.drawLine(0, dayNameHeight + y * heightUnit, mParentWidth, dayNameHeight + y * heightUnit, mSeparatorPaint);
+            x = 0;
         }
 
         // Draw events
@@ -234,6 +254,47 @@ public class CalendarMonthView extends View {
             availableEventPos.add(1);
             availableEventPos.add(2);
             availableEventPos.add(3);
+        }
+    }
+
+    private static final int MAX_CLICK_DURATION = 200;
+    private long startClickTime;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                startClickTime = System.currentTimeMillis();
+                break;
+            }
+            case MotionEvent.ACTION_UP: {
+                long clickDuration = System.currentTimeMillis() - startClickTime;
+                if (clickDuration < MAX_CLICK_DURATION) {
+                    triggerClick(x, y);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private void triggerClick(float x, float y) {
+        final float dayNameHeight = Measures.dpToPixels(mResources, 20);
+        float widthUnit = mParentWidth / 7f;
+        float heightUnit = (mParentHeight - dayNameHeight) / 6f;
+
+        int dayX = (int)(x / widthUnit);
+        int dayY = (int)((y - dayNameHeight) / heightUnit);
+
+        for (Map.Entry<MonthDate, DatePosition> entry : datePositions.entrySet()) {
+            DatePosition datePos = entry.getValue();
+            if(datePos.x == dayX && datePos.y == dayY){
+                MonthDate monthDate = entry.getKey();
+                Toast.makeText(getContext(), monthDate.day+"/"+monthDate.month, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
