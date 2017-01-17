@@ -35,15 +35,18 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import hexanome.agenda.R;
 import hexanome.agenda.customui.CalendarMonthView;
+import hexanome.agenda.model.ListEvent;
 
 public class MonthActivity extends ActionBarActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    ArrayList<Integer> positions = new ArrayList<Integer>();
     private ViewPager mPager;
     private MyInfinitePagerAdapter mPagerAdapter;
+
+    private static final int ADD_EVENT_INTENT_CODE = 120;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +59,13 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MonthActivity.this, AddEventActivity.class));
+                startActivityForResult(new Intent(MonthActivity.this, AddEventActivity.class), ADD_EVENT_INTENT_CODE);
             }
         });
 
-        setTitle(new DateTime().monthOfYear().getAsText() + " " + new DateTime().year().get());
+        String month = new DateTime().monthOfYear().getAsText();
+        month = month.substring(0, 1).toUpperCase() + month.substring(1);
+        setTitle(month + " " + new DateTime().year().get());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -70,10 +75,6 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        positions.add(-1);
-        positions.add(0);
-        positions.add(1);
 
         mPager = (ViewPager)findViewById(R.id.month_pager);
        // mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -91,7 +92,9 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
             public void onPageSelected(int pageSelected ) {
                 DateTime currentMonth = new DateTime();
                 DateTime chosenMonth = currentMonth.plusMonths(mPagerAdapter.getIndicator());
-                setTitle(chosenMonth.monthOfYear().getAsText()+" "+chosenMonth.year().get());
+                String month = chosenMonth.monthOfYear().getAsText();
+                month = month.substring(0, 1).toUpperCase() + month.substring(1);
+                setTitle(month+" "+chosenMonth.year().get());
             }
 
             @Override
@@ -145,17 +148,34 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
 
         if (id == R.id.menu_day) {
             startActivity(new Intent(this, DayActivity.class));
-        } else if (id == R.id.menu_week) {
+            finish();
+        }
+        else if (id == R.id.menu_week) {
             startActivity(new Intent(this, WeekActivity.class));
-        } else if (id == R.id.menu_month) {
-            startActivity(new Intent(this, MonthActivity.class));
-        } else if (id == R.id.nav_share) {
+            finish();
+        }
+        else if (id == R.id.menu_month) {
+
+        }
+        else if (id == R.id.nav_share) {
             startActivity(new Intent(this, OptionActivity.class));
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == ADD_EVENT_INTENT_CODE) {
+            List<ViewGroup> pages = mPagerAdapter.getViewGroups();
+            for(ViewGroup viewGroup : pages){
+                CalendarMonthView calendarMonthView = (CalendarMonthView)viewGroup.findViewById(R.id.calendar_month_view);
+                calendarMonthView.setEvents(ListEvent.events);
+            }
+        }
     }
 
     private class MyInfinitePagerAdapter extends InfinitePagerAdapter<Integer> {
@@ -182,7 +202,10 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
                     .inflate(R.layout.fragment_month, null);
             layout.setTag(indicator);
             DateTime selectedMonth = new DateTime().plusMonths(indicator);
-            ((CalendarMonthView)layout.findViewById(R.id.calendar_month_view)).setMonth(selectedMonth);
+            CalendarMonthView calendarMonthView = (CalendarMonthView)layout.findViewById(R.id.calendar_month_view);
+            calendarMonthView.setMonth(selectedMonth);
+            calendarMonthView.setEvents(ListEvent.events);
+
             return layout;
         }
 
@@ -196,44 +219,4 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
             return Integer.valueOf(representation);
         }
     }
-
-    /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
-     */
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-
-        private FragmentTransaction mCurTransaction = null;
-
-        private long[] mItemIds = new long[] {};
-        private ArrayList<Fragment.SavedState> mSavedState = new ArrayList<Fragment.SavedState>();
-        private ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
-        private Fragment mCurrentPrimaryItem = null;
-
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
         }
-
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-        /**
-         * Return the Fragment associated with a specified position.
-         */
-        public Fragment getItem(int position){
-            DateTime currentMonth = new DateTime();
-            int relativePos = positions.get(position);
-            return MonthFragment.newInstance(currentMonth.plusMonths(relativePos), relativePos);
-        }
-
-        /**
-         * Return a unique identifier for the item at the given position.
-         */
-        public int getItemId(int position) {
-            return positions.get(position);
-        }
-    }
-}

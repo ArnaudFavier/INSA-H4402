@@ -80,7 +80,7 @@ public class CalendarMonthView extends View {
         mTextDayGreyNumberPaint.setTextSize(mPixelDayNumberSize);
 
         mTextEventName = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        mTextEventName.setColor(MaterialColors.grey_300);
+        mTextEventName.setColor(MaterialColors.white);
         mTextEventName.setTextSize(Measures.dpToPixels(mResources, 10));
         mTextEventName.setTypeface(Typeface.DEFAULT_BOLD);
 
@@ -91,7 +91,7 @@ public class CalendarMonthView extends View {
         mRectEventPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         mSeparatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mSeparatorPaint.setColor(Color.GRAY);
+        mSeparatorPaint.setColor(MaterialColors.grey_300);
         mSeparatorPaint.setStrokeWidth(Measures.dpToPixels(mResources, 1));
 
         // REMOVE THIS
@@ -133,7 +133,7 @@ public class CalendarMonthView extends View {
 
         // Last month
         int firstDayOfMonth = getFirstWeekDayOfMonth() - 1;
-        if(firstDayOfMonth == 0){
+        if (firstDayOfMonth == 0) {
             firstDayOfMonth = 7;
         }
         int dayNumber;
@@ -187,15 +187,17 @@ public class CalendarMonthView extends View {
 
             if (pos != null) {
                 mRectEventPaint.setColor(event.color);
-                int eventHeight = pos.availableEventPos.get(0);
-                pos.availableEventPos.remove(0);
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    canvas.drawRoundRect(pos.x * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * eventHeight, (pos.x + 1) * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * (eventHeight + 1), rounding, rounding, mRectEventPaint);
+                if (!pos.availableEventPos.isEmpty()) {
+                    int eventHeight = pos.availableEventPos.get(0);
+                    pos.availableEventPos.remove(0);
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        canvas.drawRoundRect(pos.x * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * eventHeight, (pos.x + 1) * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * (eventHeight + 1), rounding, rounding, mRectEventPaint);
+                    }
+                    else {
+                        canvas.drawRect(pos.x * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * eventHeight, (pos.x + 1) * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * (eventHeight + 1), mRectEventPaint);
+                    }
+                    canvas.drawText(event.title, pos.x * widthUnit + Measures.dpToPixels(mResources, 3), dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * (eventHeight + 1) - Measures.dpToPixels(mResources, 2.5f), mTextEventName);
                 }
-                else {
-                    canvas.drawRect(pos.x * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * eventHeight, (pos.x + 1) * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * (eventHeight + 1), mRectEventPaint);
-                }
-                canvas.drawText(event.title, pos.x * widthUnit + Measures.dpToPixels(mResources, 3), dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * (eventHeight + 1) - Measures.dpToPixels(mResources, 2.5f), mTextEventName);
             }
         }
     }
@@ -218,6 +220,18 @@ public class CalendarMonthView extends View {
 
     public void addEvent(Event event) {
         events.add(event);
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = new ArrayList<>(events.size());
+        for (Event event : events) {
+            if ((event.startTime.getYear() == mCurrentMonth.getYear() ||
+                    event.endTime.getYear() == mCurrentMonth.getYear()) &&
+                    (Math.abs(event.startTime.getMonthOfYear() - mCurrentMonth.getMonthOfYear()) <= 1 ||
+                            Math.abs(event.endTime.getMonthOfYear() - mCurrentMonth.getMonthOfYear()) <= 1)) {
+                this.events.add(event);
+            }
+        }
     }
 
     private class MonthDate {
@@ -293,14 +307,14 @@ public class CalendarMonthView extends View {
         float widthUnit = mParentWidth / 7f;
         float heightUnit = (mParentHeight - dayNameHeight) / 6f;
 
-        int dayX = (int)(x / widthUnit);
-        int dayY = (int)((y - dayNameHeight) / heightUnit);
+        int dayX = (int) (x / widthUnit);
+        int dayY = (int) ((y - dayNameHeight) / heightUnit);
 
         for (Map.Entry<MonthDate, DatePosition> entry : datePositions.entrySet()) {
             DatePosition datePos = entry.getValue();
-            if(datePos.x == dayX && datePos.y == dayY){
+            if (datePos.x == dayX && datePos.y == dayY) {
                 MonthDate monthDate = entry.getKey();
-                Toast.makeText(getContext(), monthDate.day+"/"+monthDate.month, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), monthDate.day + "/" + monthDate.month, Toast.LENGTH_LONG).show();
             }
         }
     }

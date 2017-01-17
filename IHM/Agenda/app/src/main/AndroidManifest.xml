@@ -18,10 +18,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.DayActivity"></activity>
-        <activity android:name=".activities.AddEventActivity"></activity>
-        <activity android:name=".activities.WeekActivity"></activity>
-        <activity android:name=".activities.OptionActivity"></activity>
+    <activity android:name=".activities.DayActivity">
+    </activity>
+    <activity android:name=".activities.AddEventActivity">
+    </activity>
+    <activity android:name=".activities.WeekActivity"
+              android:theme="@style/AppTheme.NoActionBar">
+    </activity>
+	<activity android:name=".activities.OptionActivity">
+	</activity>
     </application>
 
 </manifest>

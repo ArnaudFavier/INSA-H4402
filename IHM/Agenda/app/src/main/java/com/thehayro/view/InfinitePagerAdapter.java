@@ -25,6 +25,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Base class providing the adapter to populate inside of a {@link InfiniteViewPager}.
  * The indication for each page is up the implementation. Meaning that it is up to the implementation what the next
@@ -251,5 +254,12 @@ public abstract class InfinitePagerAdapter<T> extends PagerAdapter {
         Log.d("InfiniteViewPager", builder);
     }
 
+    public List<ViewGroup> getViewGroups(){
+        ArrayList<ViewGroup> viewGroups = new ArrayList<>(mPageModels.length);
+        for(PageModel<T> pageModel : mPageModels){
+            viewGroups.add(pageModel.getParentView());
+        }
+        return viewGroups;
+    }
 
 }

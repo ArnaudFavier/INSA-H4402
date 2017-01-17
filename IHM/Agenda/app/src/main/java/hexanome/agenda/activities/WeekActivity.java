@@ -1,9 +1,18 @@
 package hexanome.agenda.activities;
 
+import android.content.Intent;
 import android.graphics.RectF;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
@@ -13,8 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hexanome.agenda.R;
+import hexanome.agenda.customui.CalendarMonthView;
+import hexanome.agenda.model.Event;
+import hexanome.agenda.model.ListEvent;
 
-public class WeekActivity extends AppCompatActivity {
+public class WeekActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final int ADD_EVENT_INTENT_CODE = 120;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +36,23 @@ public class WeekActivity extends AppCompatActivity {
         setContentView(R.layout.activity_week);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(WeekActivity.this, AddEventActivity.class), ADD_EVENT_INTENT_CODE);
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         // Get a reference for the week view in the layout.
         WeekView mWeekView = (WeekView) findViewById(R.id.weekView);
@@ -39,7 +70,13 @@ public class WeekActivity extends AppCompatActivity {
         mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
             @Override
             public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-                List<WeekViewEvent> events = new ArrayList<>(0);//getEvents(newYear, newMonth);
+                List<WeekViewEvent> events = new ArrayList<>(ListEvent.events.size());
+                for (Event event : ListEvent.events) {
+                    if ((event.startTime.getYear() == newYear || event.endTime.getYear() == newYear) &&
+                            (event.startTime.getMonthOfYear() == newMonth || event.endTime.getMonthOfYear() == newMonth)) {
+                        events.add(event.parseToWeekEvent());
+                    }
+                }
                 return events;
             }
         });
@@ -51,5 +88,39 @@ public class WeekActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == ADD_EVENT_INTENT_CODE) {
+            WeekView mWeekView = (WeekView) findViewById(R.id.weekView);
+            mWeekView.notifyDatasetChanged();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.menu_day) {
+            startActivity(new Intent(this, DayActivity.class));
+            finish();
+        }
+        else if (id == R.id.menu_week) {
+
+        }
+        else if (id == R.id.menu_month) {
+            startActivity(new Intent(this, MonthActivity.class));
+            finish();
+        }
+        else if (id == R.id.nav_share) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
