@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.DayActivity"></activity>
+        <activity android:name=".activities.AddEventActivity"></activity>
     </application>
 
 </manifest>

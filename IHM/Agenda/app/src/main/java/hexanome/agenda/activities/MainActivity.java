@@ -36,23 +36,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setContentView(R.layout.add_event);
-
-                final Button buttonColor = (Button)findViewById(R.id.button_color);
-                buttonColor.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ColorChooserDialog dialog = new ColorChooserDialog(MainActivity.this);
-                        dialog.setColorListener(new ColorListener() {
-                            @Override
-                            public void OnColorClick(View v, int color) {
-                                // Anthony ToDo
-                            }
-                        });
-                        //customize the dialog however you want
-                        dialog.show();
-                    }
-                });
+                startActivity(new Intent(MainActivity.this, AddEventActivity.class));
             }
         });
 
