@@ -1,6 +1,7 @@
 package hexanome.agenda.customui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -21,6 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hexanome.agenda.activities.AddEventActivity;
+import hexanome.agenda.activities.DayActivity;
+import hexanome.agenda.activities.MonthActivity;
 import hexanome.agenda.model.Event;
 import hexanome.agenda.util.MaterialColors;
 import hexanome.agenda.util.Measures;

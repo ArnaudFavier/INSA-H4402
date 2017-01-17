@@ -14,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.thehayro.view.InfinitePagerAdapter;
 
@@ -97,7 +99,6 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
 
             }
         });
-
     }
 
     @Override
@@ -133,7 +134,6 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -141,15 +141,12 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
 
         if (id == R.id.menu_day) {
             startActivity(new Intent(this, DayActivity.class));
-        }
-        else if (id == R.id.menu_week) {
-
-        }
-        else if (id == R.id.menu_month) {
-
-        }
-        else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.menu_week) {
+            startActivity(new Intent(this, WeekActivity.class));
+        } else if (id == R.id.menu_month) {
+            startActivity(new Intent(this, MonthActivity.class));
+        } else if (id == R.id.nav_share) {
+            startActivity(new Intent(this, OptionActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
