@@ -23,11 +23,20 @@ public class DayActivity extends AppCompatActivity {
     private DateTime day;
 
     /**
-     * Constructor with the day to show events
+     * Constructor with the current day to show events
+     */
+    public DayActivity() {
+        this(null);
+    }
+
+    /**
+     * Constructor which save the day to show events
      * @param day The day to show events
      */
     public DayActivity(DateTime day) {
-        initialize(day);
+        if (day == null)
+            day = new DateTime();
+        this.day = day;
     }
 
     @Override
@@ -35,22 +44,10 @@ public class DayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day);
 
-        initialize(null);
-
         getSupportActionBar().setTitle(day.toString("EEEE d MMMM"));
 
         List<Event> events = getListEventToday();
         // ToDo : Put into the view
-    }
-
-    /**
-     * Save the day to show events
-     * @param day The day to show events
-     */
-    private void initialize(DateTime day) {
-        if (day == null)
-            day = new DateTime();
-        this.day = day;
     }
 
     /**

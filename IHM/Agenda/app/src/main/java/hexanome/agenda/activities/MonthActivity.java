@@ -116,6 +116,10 @@ public class MonthActivity extends ActionBarActivity implements NavigationView.O
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        TextView dateToday = (TextView) findViewById(R.id.expanded_menu_date);
+        dateToday.setText(new DateTime().toString("EEEE d MMMM"));
+
         return true;
     }
 
