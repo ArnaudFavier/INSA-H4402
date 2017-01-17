@@ -13,8 +13,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
+
+import com.turkialkhateeb.materialcolorpicker.ColorChooserDialog;
+import com.turkialkhateeb.materialcolorpicker.ColorListener;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 
 import org.joda.time.DateTime;
+
+import java.util.Calendar;
 
 import hexanome.agenda.R;
 
@@ -33,16 +42,25 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Ajouter un évenement", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                setContentView(R.layout.add_event);
+
+                final Button buttonColor = (Button)findViewById(R.id.button_color);
+                buttonColor.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ColorChooserDialog dialog = new ColorChooserDialog(MainActivity.this);
+                        dialog.setColorListener(new ColorListener() {
+                            @Override
+                            public void OnColorClick(View v, int color) {
+
+                            }
+                        });
+                        //customize the dialog however you want
+                        dialog.show();
+                    }
+                });
             }
         });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
