@@ -11,6 +11,8 @@ public class Event {
     public DateTime startTime;
     public DateTime endTime;
     public String title;
+    public String lieu;
+    public String description;
 
     public Event(int color, DateTime startTime, DateTime endTime, String title) {
         this.color = color;
@@ -18,6 +20,16 @@ public class Event {
         this.endTime = endTime;
         this.title = title;
         this.id = NEXT_ID_TO_GIVE++;
+    }
+
+    public Event(int color, DateTime startTime, DateTime endTime, String title, String lieu) {
+        this(color,startTime,endTime,title);
+        this.lieu = lieu;
+    }
+
+    public Event(int color, DateTime startTime, DateTime endTime, String title, String lieu, String description) {
+        this(color,startTime,endTime,title, lieu);
+        this.description = description;
     }
 
     public WeekViewEvent parseToWeekEvent() {

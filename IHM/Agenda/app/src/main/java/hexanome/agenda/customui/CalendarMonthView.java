@@ -22,6 +22,7 @@ import java.util.Map;
 
 import hexanome.agenda.R;
 import hexanome.agenda.activities.DayFragment;
+import hexanome.agenda.activities.MainActivity;
 import hexanome.agenda.model.Event;
 import hexanome.agenda.util.MaterialColors;
 import hexanome.agenda.util.Measures;
@@ -316,12 +317,13 @@ public class CalendarMonthView extends View {
             DatePosition datePos = entry.getValue();
             if (datePos.x == dayX && datePos.y == dayY) {
                 MonthDate monthDate = entry.getKey();
-                Toast.makeText(getContext(), monthDate.day + "/" + monthDate.month, Toast.LENGTH_LONG).show();
 
                 // Change view to the day
-                DayFragment dayFragment = new DayFragment();
+                DayFragment dayFragment = ((MainActivity)getContext()).mDayFragment;
+                ((MainActivity)getContext()).setNavigationViewSelectedItem(0);
                 dayFragment.setDay(new DateTime(new DateTime().getYear(), monthDate.month, monthDate.day, 0, 0));
                 mFragmentManager.beginTransaction().replace(R.id.content_frame, dayFragment).commit();
+                return;
             }
         }
     }

@@ -22,7 +22,7 @@ import hexanome.agenda.model.ListEvent;
 
 public class MonthFragment extends Fragment {
     private ViewPager mPager;
-    private MyInfinitePagerAdapter mPagerAdapter;
+    private MonthInfinitePagerAdapter mPagerAdapter;
     private FragmentManager mFragmentManager;
 
     @Override
@@ -33,7 +33,7 @@ public class MonthFragment extends Fragment {
 
         mPager = (ViewPager) createdView.findViewById(R.id.month_pager);
         // mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPagerAdapter = new MyInfinitePagerAdapter(0);
+        mPagerAdapter = new MonthInfinitePagerAdapter(0);
         mPager.setAdapter(mPagerAdapter);
 
         mPager.setCurrentItem(1);
@@ -65,9 +65,9 @@ public class MonthFragment extends Fragment {
         this.mFragmentManager = fragmentManager;
     }
 
-    private class MyInfinitePagerAdapter extends InfinitePagerAdapter<Integer> {
+    private class MonthInfinitePagerAdapter extends InfinitePagerAdapter<Integer> {
 
-        public MyInfinitePagerAdapter(Integer initValue) {
+        public MonthInfinitePagerAdapter(Integer initValue) {
             super(initValue);
         }
 

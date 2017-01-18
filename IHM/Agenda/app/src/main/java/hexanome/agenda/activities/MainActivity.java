@@ -1,6 +1,7 @@
 package hexanome.agenda.activities;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -22,10 +23,11 @@ import hexanome.agenda.R;
 
 public class MainActivity extends ActionBarActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private MonthFragment mMonthFragment;
-    private WeekFragment mWeekFragment;
-    private DayFragment mDayFragment;
-    private FragmentManager mFragmentManager;
+    public MonthFragment mMonthFragment;
+    public WeekFragment mWeekFragment;
+    public DayFragment mDayFragment;
+    private NavigationView navigationView;
+    FragmentManager mFragmentManager;
 
     private static final int ADD_EVENT_INTENT_CODE = 120;
 
@@ -54,7 +56,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         // Insert the fragment by replacing any existing fragment
@@ -65,6 +67,10 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
         mWeekFragment = new WeekFragment();
         mDayFragment = new DayFragment();
+    }
+
+    public void setNavigationViewSelectedItem(int item){
+        navigationView.getMenu().getItem(item).setChecked(true);
     }
 
     @Override
@@ -135,6 +141,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         if (requestCode == ADD_EVENT_INTENT_CODE) {
             mWeekFragment.refresh();
             mMonthFragment.refresh();
+            mDayFragment.refresh();
         }
     }
 

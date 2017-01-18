@@ -19,9 +19,9 @@ public class ListEvent {
 
     /* Instantiation of content */
     static {
-        events.add(new Event(MaterialColors.blue, new DateTime().withTime(8,0,0,0), new DateTime().withTime(12,0,0,0), "IHM"));
+        events.add(new Event(MaterialColors.blue, new DateTime().withTime(8,0,0,0), new DateTime().withTime(12,0,0,0), "IHM", "501:213", "J. Rouzaud-cornabas\nL. Laporte"));
         events.add(new Event(MaterialColors.green, new DateTime().withTime(14,0,0,0), new DateTime().withTime(16,0,0,0), "LV1"));
-        events.add(new Event(MaterialColors.amber, new DateTime().withTime(16,0,0,0), new DateTime().withTime(18,0,0,0), "PLD Mars"));
+        events.add(new Event(MaterialColors.amber, new DateTime().withTime(16,0,0,0), new DateTime().withTime(18,0,0,0), "PLD Mars", "501:213", "F. Biennier"));
     }
 
     /**
