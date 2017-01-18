@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentManager;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -181,6 +182,7 @@ public class CalendarMonthView extends View {
 
         // Draw events
         float textNumberOffset = 2 * textPadding + mPixelDayNumberSize;
+        float titlePadding = Measures.dpToPixels(mResources, 3);
         for (Event event : events) {
             DatePosition pos = datePositions.get(new MonthDate(event.startTime.getMonthOfYear(), event.startTime.dayOfMonth().get()));
 
@@ -195,7 +197,8 @@ public class CalendarMonthView extends View {
                     else {
                         canvas.drawRect(pos.x * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * eventHeight, (pos.x + 1) * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * (eventHeight + 1), mRectEventPaint);
                     }
-                    canvas.drawText(event.title, pos.x * widthUnit + Measures.dpToPixels(mResources, 3), dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * (eventHeight + 1) - Measures.dpToPixels(mResources, 2.5f), mTextEventName);
+                    CharSequence txt = TextUtils.ellipsize(event.title, mTextEventName, widthUnit-2*titlePadding, TextUtils.TruncateAt.END);
+                    canvas.drawText(txt, 0, txt.length(), pos.x * widthUnit + titlePadding, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * (eventHeight + 1) - Measures.dpToPixels(mResources, 2.5f), mTextEventName);
                 }
             }
         }

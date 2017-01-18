@@ -56,6 +56,7 @@ public class DayFragment extends Fragment {
         View createdView = inflater.inflate(R.layout.fragment_day, container, false);
         super.onCreate(savedInstanceState);
 
+        refresh();
         String month = day.monthOfYear().getAsText();
         String dayString = day.dayOfWeek().getAsText();
         int dayInt = day.getDayOfMonth();
