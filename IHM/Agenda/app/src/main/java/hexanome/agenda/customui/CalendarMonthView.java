@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.support.v4.app.FragmentManager;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -19,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hexanome.agenda.R;
+import hexanome.agenda.activities.DayFragment;
 import hexanome.agenda.model.Event;
 import hexanome.agenda.util.MaterialColors;
 import hexanome.agenda.util.Measures;
@@ -40,6 +43,7 @@ public class CalendarMonthView extends View {
     private Resources mResources;
     private int mParentWidth = 0;
     private int mParentHeight = 0;
+    private FragmentManager mFragmentManager;
 
     public CalendarMonthView(Context context) {
         super(context);
@@ -228,6 +232,10 @@ public class CalendarMonthView extends View {
         }
     }
 
+    public void setFragManager(FragmentManager fragManager) {
+        this.mFragmentManager = fragManager;
+    }
+
     private class MonthDate {
         int month;
         int day;
@@ -309,6 +317,11 @@ public class CalendarMonthView extends View {
             if (datePos.x == dayX && datePos.y == dayY) {
                 MonthDate monthDate = entry.getKey();
                 Toast.makeText(getContext(), monthDate.day + "/" + monthDate.month, Toast.LENGTH_LONG).show();
+
+                // Change view to the day
+                DayFragment dayFragment = new DayFragment();
+                dayFragment.setDay(new DateTime(new DateTime().getYear(), monthDate.month, monthDate.day, 0, 0));
+                mFragmentManager.beginTransaction().replace(R.id.content_frame, dayFragment).commit();
             }
         }
     }

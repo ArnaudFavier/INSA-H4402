@@ -43,6 +43,16 @@ public class DayFragment extends Fragment {
     }
 
     /**
+     * Save the day to show events
+     * @param day The day to show events
+     */
+    public void setDay(DateTime day) {
+        if (day == null)
+            day = new DateTime();
+        this.day = day;
+    }
+
+    /**
      * Get the list of events during the day
      * @return A list of events during the day
      */

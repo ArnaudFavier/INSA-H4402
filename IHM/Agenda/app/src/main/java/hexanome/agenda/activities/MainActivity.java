@@ -60,6 +60,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         // Insert the fragment by replacing any existing fragment
         mFragmentManager = getSupportFragmentManager();
         mMonthFragment = new MonthFragment();
+        mMonthFragment.setFragmentManager(mFragmentManager);
         changeContentFragment(mMonthFragment);
 
         mWeekFragment = new WeekFragment();

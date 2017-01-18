@@ -3,6 +3,7 @@ package hexanome.agenda.activities;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import hexanome.agenda.model.ListEvent;
 public class MonthFragment extends Fragment {
     private ViewPager mPager;
     private MyInfinitePagerAdapter mPagerAdapter;
+    private FragmentManager mFragmentManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +61,10 @@ public class MonthFragment extends Fragment {
         return createdView;
     }
 
+    public void setFragmentManager(FragmentManager fragmentManager) {
+        this.mFragmentManager = fragmentManager;
+    }
+
     private class MyInfinitePagerAdapter extends InfinitePagerAdapter<Integer> {
 
         public MyInfinitePagerAdapter(Integer initValue) {
@@ -86,6 +92,7 @@ public class MonthFragment extends Fragment {
             CalendarMonthView calendarMonthView = (CalendarMonthView) layout.findViewById(R.id.calendar_month_view);
             calendarMonthView.setMonth(selectedMonth);
             calendarMonthView.setEvents(ListEvent.events);
+            calendarMonthView.setFragManager(mFragmentManager);
 
             return layout;
         }
