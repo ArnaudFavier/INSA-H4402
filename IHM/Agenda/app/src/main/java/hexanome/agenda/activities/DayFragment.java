@@ -1,7 +1,10 @@
 package hexanome.agenda.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import org.joda.time.DateTime;
 
@@ -15,39 +18,28 @@ import hexanome.agenda.model.ListEvent;
 /**
  * Activity showing events of a particular day
  */
-public class DayActivity extends AppCompatActivity {
+public class DayFragment extends Fragment {
 
     /**
      * The day to show events
      */
-    private DateTime day;
+    private DateTime day = new DateTime();
 
-    /**
-     * Constructor with the current day to show events
-     */
-    public DayActivity() {
-        this(null);
-    }
-
-    /**
-     * Constructor which save the day to show events
-     * @param day The day to show events
-     */
-    public DayActivity(DateTime day) {
-        if (day == null)
-            day = new DateTime();
-        this.day = day;
+    public DayFragment() {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_day);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        getSupportActionBar().setTitle(day.toString("EEEE d MMMM"));
+        View createdView = inflater.inflate(R.layout.fragment_day, container, false);
+        super.onCreate(savedInstanceState);
+
+        getActivity().setTitle(day.toString("EEEE d MMMM"));
 
         List<Event> events = getListEventToday();
-        // ToDo : Put into the view
+
+        return createdView;
     }
 
     /**

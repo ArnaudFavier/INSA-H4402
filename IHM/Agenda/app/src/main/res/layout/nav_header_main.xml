@@ -47,9 +47,6 @@
             android:id="@+id/expanded_menu_weather_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/expanded_menu_date"
-            android:layout_toEndOf="@+id/expanded_menu_weather_icon"
-            android:layout_toRightOf="@+id/expanded_menu_weather_icon"
             android:text="Orageux - 12°C"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
@@ -57,9 +54,6 @@
             android:id="@+id/expanded_menu_weather_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/expanded_menu_weather_description"
-            android:layout_toEndOf="@+id/expanded_menu_weather_icon"
-            android:layout_toRightOf="@+id/expanded_menu_weather_icon"
             android:text="INSA - Villeubanne"/>
 
     </LinearLayout>
