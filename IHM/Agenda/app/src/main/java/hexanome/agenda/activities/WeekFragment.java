@@ -66,6 +66,8 @@ public class WeekFragment extends Fragment {
     }
 
     public void refresh() {
-        mWeekView.notifyDatasetChanged();
+        if(mWeekView != null) {
+            mWeekView.notifyDatasetChanged();
+        }
     }
 }
