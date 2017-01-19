@@ -12,13 +12,13 @@ public final class ListRemind {
     public static List<String> reminds = new ArrayList<String>();
 
     static {
-        reminds.add("5 minutes before");
-        reminds.add("10 minutes before");
-        reminds.add("15 minutes before");
-        reminds.add("30 minutes before");
-        reminds.add("1 hour before");
-        reminds.add("2 hours before");
-        reminds.add("1 day before");
+        reminds.add("5 minutes avant");
+        reminds.add("10 minutes avant");
+        reminds.add("15 minutes avant");
+        reminds.add("30 minutes avant");
+        reminds.add("1 heure avant");
+        reminds.add("2 heure avant");
+        reminds.add("1 jour avant");
     }
 
     /**
