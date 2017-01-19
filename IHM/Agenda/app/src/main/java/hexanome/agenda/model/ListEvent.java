@@ -40,6 +40,23 @@ public final class ListEvent {
         events.add(new Event(MaterialColors.deepOrange, new DateTime(2017, 1, 18, 14, 0), new DateTime(2017, 1, 18, 16, 0), "Anglais").setGroup(Event.EventGroup.IF4));
         events.add(new Event(MaterialColors.deepOrange, new DateTime(2017, 1, 19, 9, 0), new DateTime(2017, 1, 19, 12, 0), "Matinée thématique AEDI").setGroup(Event.EventGroup.IF4));
         events.add(new Event(MaterialColors.deepOrange, new DateTime(2017, 1, 20, 8, 0), new DateTime(2017, 1, 20, 12, 0), "IHM", "501:213", "L. Laporte\nJ. Rouzaud-Cornabas").setGroup(Event.EventGroup.IF4));
+
+        events.add(new Event(MaterialColors.green, new DateTime(2017, 1, 16, 12, 0), new DateTime(2017, 1, 16, 13, 0), "Réunion Rotonde").setGroup(Event.EventGroup.Rotonde));
+        events.add(new Event(MaterialColors.green, new DateTime(2017, 1, 18, 20, 0), new DateTime(2017, 1, 18, 23, 0), "Réunion Ragda").setGroup(Event.EventGroup.Ragda));
+        events.add(new Event(MaterialColors.green, new DateTime(2017, 1, 18, 20, 30), new DateTime(2017, 1, 18, 22, 0), "Réunion BDE").setGroup(Event.EventGroup.BDE));
+        events.add(new Event(MaterialColors.green, new DateTime(2017, 1, 19, 20, 0), new DateTime(2017, 1, 19, 23, 0), "Réunion K-Fete").setGroup(Event.EventGroup.KFete));
+        events.add(new Event(MaterialColors.green, new DateTime(2017, 1, 20, 19, 0), new DateTime(2017, 1, 20, 21, 0), "Réunion URL").setGroup(Event.EventGroup.URL));
+
+    }
+
+    public static void removeEvent(long eventId){
+        for (int i = 0; i < events.size(); i++) {
+            Event event = events.get(i);
+            if (event.getId() == eventId) {
+                events.remove(i);
+                i--;
+            }
+        }
     }
 
     public static List<Event> getEventsForSuscribedGroups() {

@@ -1,7 +1,9 @@
 package hexanome.agenda.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -19,8 +21,6 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-
-import java.util.Calendar;
 
 import hexanome.agenda.R;
 import hexanome.agenda.customui.ColorChooserEditedDialog;
@@ -52,6 +52,7 @@ public class AddEventActivity extends AppCompatActivity {
     private Button buttonColor;
     private Spinner spinnerRemind;
     private Button validationButton;
+    private Button removeButton;
 
     private Event currentEvent;
 
@@ -68,6 +69,7 @@ public class AddEventActivity extends AppCompatActivity {
         spinnerRemind = (Spinner) findViewById(R.id.spinner_remind);
         buttonColor = (Button) findViewById(R.id.button_color);
         validationButton = (Button) findViewById(R.id.button_add_event);
+        removeButton = (Button) findViewById(R.id.button_remove_event);
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -91,7 +93,7 @@ public class AddEventActivity extends AppCompatActivity {
 
             if (currentEvent != null) {
                 DateTimeFormatter formatterDay = DateTimeFormat.forPattern("dd/MM/yyyy");
-                DateTimeFormatter formatterHour = DateTimeFormat.forPattern("hh:mm");
+                DateTimeFormatter formatterHour = DateTimeFormat.forPattern("HH:mm");
                 editTextTitle.setText(currentEvent.title);
                 editTextPlace.setText(currentEvent.lieu);
                 editTextDescription.setText(currentEvent.description);
@@ -111,6 +113,7 @@ public class AddEventActivity extends AppCompatActivity {
                 eventEdit = currentEvent;
 
                 validationButton.setText("Modifier");
+                removeButton.setVisibility(View.VISIBLE);
             }
         }
 
@@ -137,7 +140,7 @@ public class AddEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Calendar now = Calendar.getInstance();
+                DateTime now = new DateTime();
                 DatePickerDialog dpd = DatePickerDialog.newInstance(
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
@@ -154,9 +157,9 @@ public class AddEventActivity extends AppCompatActivity {
                                 }
                             }
                         },
-                        now.get(Calendar.YEAR),
-                        now.get(Calendar.MONTH),
-                        now.get(Calendar.DAY_OF_MONTH)
+                        now.getYear(),
+                        now.getMonthOfYear(),
+                        now.getDayOfMonth()
                 );
                 dpd.show(getFragmentManager(), "Datepickerdialog");
 
@@ -167,7 +170,7 @@ public class AddEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Calendar now = Calendar.getInstance();
+                DateTime now = new DateTime();
                 DatePickerDialog dpd = DatePickerDialog.newInstance(
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
@@ -179,9 +182,9 @@ public class AddEventActivity extends AppCompatActivity {
                                 endDateSelected = true;
                             }
                         },
-                        now.get(Calendar.YEAR),
-                        now.get(Calendar.MONTH),
-                        now.get(Calendar.DAY_OF_MONTH)
+                        now.getYear(),
+                        now.getMonthOfYear(),
+                        now.getDayOfMonth()
                 );
                 dpd.show(getFragmentManager(), "Datepickerdialog");
             }
@@ -190,7 +193,7 @@ public class AddEventActivity extends AppCompatActivity {
         buttonTimeStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar now = Calendar.getInstance();
+                DateTime now = new DateTime();
                 TimePickerDialog dpd = TimePickerDialog.newInstance(
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
@@ -208,8 +211,8 @@ public class AddEventActivity extends AppCompatActivity {
                                 }
                             }
                         },
-                        now.get(Calendar.HOUR_OF_DAY),
-                        now.get(Calendar.MINUTE),
+                        now.getHourOfDay(),
+                        now.getMinuteOfDay(),
                         true
                 );
                 dpd.show(getFragmentManager(), "Timepickerdialog");
@@ -219,7 +222,7 @@ public class AddEventActivity extends AppCompatActivity {
         buttonTimeEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar now = Calendar.getInstance();
+                DateTime now = new DateTime();
                 TimePickerDialog dpd = TimePickerDialog.newInstance(
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
@@ -230,11 +233,30 @@ public class AddEventActivity extends AppCompatActivity {
                                 endTimeSelected = true;
                             }
                         },
-                        now.get(Calendar.HOUR_OF_DAY),
-                        now.get(Calendar.MINUTE),
+                        now.getHourOfDay(),
+                        now.getMinuteOfHour(),
                         true
                 );
                 dpd.show(getFragmentManager(), "Timepickerdialog");
+            }
+        });
+
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog dialog = new AlertDialog.Builder(AddEventActivity.this)
+                        .setTitle("Êtes-vous certain de vouloir supprimer cet évènement ?")
+                        .setNegativeButton("Non", null)
+                        .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ListEvent.removeEvent(eventEdit.getId());
+                                Toast.makeText(AddEventActivity.this, "Evenement supprimé avec succès", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        })
+                        .create();
+                dialog.show();
             }
         });
 
@@ -245,13 +267,22 @@ public class AddEventActivity extends AppCompatActivity {
 
                 boolean error = false;
                 String errorMsg = "";
-                if (eventName.trim().length() == 0) {
+
+                if(endDate.isBefore(startDate.plusMinutes(5))){
                     error = true;
-                    errorMsg = "Le nom d'évènement doit être complété";
+                    errorMsg = "L'événement doit durer au moins 5 minutes";
+                }
+                if(endDate.isBefore(startDate)){
+                    error = true;
+                    errorMsg = "La date de fin ne peut pas être antérieure à la date de début";
                 }
                 if (!startDateSelected || !endDateSelected || !startTimeSelected || !endTimeSelected) {
                     error = true;
                     errorMsg = "Les dates de l'évènement doivent être complétées";
+                }
+                if (eventName.trim().length() == 0) {
+                    error = true;
+                    errorMsg = "Le nom d'évènement doit être complété";
                 }
 
                 if (error) {

@@ -13,11 +13,23 @@
         android:focusableInTouchMode="true" />
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/button_add_event"
+        android:id="@+id/button_remove_event"
+        android:layout_marginTop="7dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@drawable/button_red_background"
+        android:text="Supprimer cet evenement"
+        android:visibility="gone"
+        android:textColor="@color/md_white_1000" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button_add_event"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/button_accent_background"
+        android:layout_above="@id/button_remove_event"
+        android:layout_alignWithParentIfMissing="true"
         android:text="Ajouter"
         android:textColor="@color/md_white_1000" />
 
