@@ -42,10 +42,9 @@
                     android:id="@+id/edit_text_new_event_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
                     android:layout_weight="1"
-                    android:textColorLink="@android:color/holo_red_dark"
-                    android:maxLines="1"
-                    android:inputType="textPersonName"/>
+                    android:textColorLink="@android:color/holo_red_dark"/>
             </TableRow>
 
             <TableRow>
@@ -60,15 +59,28 @@
                     android:id="@+id/edit_text_new_event_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textPostalAddress"
                     android:layout_weight="1"
-                    android:textColorLink="@android:color/holo_red_dark"
-                    android:maxLines="1"
-                    android:inputType="textPostalAddress"/>
+                    android:textColorLink="@android:color/holo_red_dark"/>
             </TableRow>
 
-            <TableRow
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp">
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Description"
+                    android:textColor="@color/md_black_1000"/>
+
+                <EditText
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1">
+                </EditText>
+            </TableRow>
+
+            <TableRow>
 
                 <TextView
                     android:id="@+id/date_start"
@@ -78,26 +90,24 @@
                     android:textColor="@color/md_black_1000"/>
 
                 <Button
-                    android:id="@+id/txtview_date_start"
+                    android:id="@+id/button_date_start"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:text="Jour"
                     android:textAlignment="center"
                     />
 
                 <Button
-                    android:id="@+id/txtview_time_start"
+                    android:id="@+id/button_time_start"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Heure"
                     android:textAlignment="center"/>
             </TableRow>
 
-            <TableRow
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp">
+            <TableRow>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -107,16 +117,16 @@
 
 
                 <Button
-                    android:id="@+id/txtview_date_end"
+                    android:id="@+id/button_date_end"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:text="Jour"
                     android:textAlignment="center"
                     />
 
                 <Button
-                    android:id="@+id/txtview_time_end"
+                    android:id="@+id/button_time_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -162,23 +172,7 @@
                 </RelativeLayout>
             </TableRow>
 
-            <TableRow>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Description"
-                    android:textColor="@color/md_black_1000"/>
-
-                <EditText
-                    android:id="@+id/edit_text_new_event_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColorLink="@android:color/holo_red_dark"
-                    android:inputType="text"/>
-            </TableRow>
 
         </TableLayout>
 

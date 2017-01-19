@@ -68,8 +68,8 @@ public class AddEventActivity extends AppCompatActivity {
             color_bt.setBackgroundColor(intent.getIntExtra("color", -11751600)); // -11751600=>md_green_500
         }
         if(intent.hasExtra("startDateTime") && editionMode){
-            start_date_tv = (TextView) findViewById(R.id.txtview_date_start);
-            start_time_tv = (TextView) findViewById(R.id.txtview_time_start);
+            start_date_tv = (Button) findViewById(R.id.button_date_start);
+            start_time_tv = (Button) findViewById(R.id.button_time_start);
             long startDateTimeMillis = intent.getLongExtra("startDateTime", 0);
             startDate = new DateTime(startDateTimeMillis);
             DateTimeFormatter formatterDay = DateTimeFormat.forPattern("dd/MM/yyyy");
@@ -80,8 +80,8 @@ public class AddEventActivity extends AppCompatActivity {
             startTimeSelected = true;
         }
         if(intent.hasExtra("endDateTime") && editionMode){
-            end_date_tv = (TextView) findViewById(R.id.txtview_date_end);
-            end_time_tv = (TextView) findViewById(R.id.txtview_time_end);
+            end_date_tv = (Button) findViewById(R.id.button_date_end);
+            end_time_tv = (Button) findViewById(R.id.button_time_end);
             long endDateTimeMillis = intent.getLongExtra("endDateTime", 0);
             endDate = new DateTime(endDateTimeMillis);
             DateTimeFormatter formatterDay = DateTimeFormat.forPattern("dd/MM/yyyy");
@@ -122,7 +122,7 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
-        final TextView textViewDateStart = (TextView) findViewById(R.id.txtview_date_start);
+        final TextView textViewDateStart = (TextView) findViewById(R.id.button_date_start);
         textViewDateStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,12 +134,12 @@ public class AddEventActivity extends AppCompatActivity {
                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
                                 startDate = new DateTime(year, monthOfYear + 1, dayOfMonth, startDate.getHourOfDay(), startDate.getMinuteOfHour());
                                 DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd/MM/yyyy");
-                                ((TextView) AddEventActivity.this.findViewById(R.id.txtview_date_start)).setText(dtfOut.print(startDate));
+                                ((TextView) AddEventActivity.this.findViewById(R.id.button_date_start)).setText(dtfOut.print(startDate));
                                 startDateSelected = true;
 
                                 if(!endDateSelected){
                                     endDate = new DateTime(year, monthOfYear + 1, dayOfMonth, endDate.getHourOfDay(), endDate.getMinuteOfHour());
-                                    ((TextView) AddEventActivity.this.findViewById(R.id.txtview_date_end)).setText(dtfOut.print(endDate));
+                                    ((Button) AddEventActivity.this.findViewById(R.id.button_date_end)).setText(dtfOut.print(endDate));
                                     endDateSelected = true;
                                 }
                             }
@@ -153,8 +153,8 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
-        final TextView textViewDateEnd = (TextView) findViewById(R.id.txtview_date_end);
-        textViewDateEnd.setOnClickListener(new View.OnClickListener() {
+        final Button buttonDateEnd = (Button) findViewById(R.id.button_date_end);
+        buttonDateEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -166,7 +166,7 @@ public class AddEventActivity extends AppCompatActivity {
                                 endDate = new DateTime(year, monthOfYear + 1, dayOfMonth, endDate.getHourOfDay(), endDate.getMinuteOfHour());
                                 ;
                                 DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd/MM/yyyy");
-                                ((TextView) AddEventActivity.this.findViewById(R.id.txtview_date_end)).setText(dtfOut.print(endDate));
+                                ((Button) AddEventActivity.this.findViewById(R.id.button_date_end)).setText(dtfOut.print(endDate));
                                 endDateSelected = true;
                             }
                         },
@@ -178,7 +178,7 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
-        final TextView textViewTimeStart = (TextView) findViewById(R.id.txtview_time_start);
+        final TextView textViewTimeStart = (TextView) findViewById(R.id.button_time_start);
         textViewTimeStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,13 +189,13 @@ public class AddEventActivity extends AppCompatActivity {
                             public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
                                 startDate = new DateTime(startDate.getYear(), startDate.getMonthOfYear(), startDate.getDayOfMonth(), hourOfDay, minute);
                                 DateTimeFormatter dtf = DateTimeFormat.forPattern("HH:mm");
-                                ((TextView) AddEventActivity.this.findViewById(R.id.txtview_time_start)).setText(dtf.print(startDate));
+                                ((TextView) AddEventActivity.this.findViewById(R.id.button_time_start)).setText(dtf.print(startDate));
                                 startTimeSelected = true;
 
                                 if(!endTimeSelected){
                                     endDate = new DateTime(endDate.getYear(), endDate.getMonthOfYear(), endDate.getDayOfMonth(), hourOfDay, minute);
                                     endDate = endDate.plusHours(1);
-                                    ((TextView) AddEventActivity.this.findViewById(R.id.txtview_time_end)).setText(dtf.print(endDate));
+                                    ((TextView) AddEventActivity.this.findViewById(R.id.button_time_end)).setText(dtf.print(endDate));
                                     endTimeSelected = true;
                                 }
                             }
@@ -208,7 +208,7 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
-        final TextView textViewTimeEnd = (TextView) findViewById(R.id.txtview_time_end);
+        final TextView textViewTimeEnd = (TextView) findViewById(R.id.button_time_end);
         textViewTimeEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,7 +219,7 @@ public class AddEventActivity extends AppCompatActivity {
                             public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
                                 endDate = new DateTime(endDate.getYear(), endDate.getMonthOfYear(), endDate.getDayOfMonth(), hourOfDay, minute);
                                 DateTimeFormatter dtf = DateTimeFormat.forPattern("HH:mm");
-                                ((TextView) AddEventActivity.this.findViewById(R.id.txtview_time_end)).setText(dtf.print(endDate));
+                                ((TextView) AddEventActivity.this.findViewById(R.id.button_time_end)).setText(dtf.print(endDate));
                                 endTimeSelected = true;
                             }
                         },
