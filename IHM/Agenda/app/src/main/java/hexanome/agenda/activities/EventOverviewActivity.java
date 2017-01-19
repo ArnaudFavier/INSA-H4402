@@ -33,7 +33,7 @@ public class EventOverviewActivity extends AppCompatActivity {
     private DateTime startTime;
     private DateTime endTime;
 
-    private Event currentEvent;
+    private Event currentEvent=null;
 
     private static final int UPDATE_EVENT_INTENT_CODE = 81;
 
@@ -52,42 +52,53 @@ public class EventOverviewActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         remind_SP.setAdapter(adapter);
 
-        currentEvent = ListEvent.events.get(0);
-        //title + color TODO
-        startTime = currentEvent.startTime;
-        endTime = currentEvent.endTime;
+        Intent intent = getIntent();
+        if(intent.hasExtra("idEvent")) {
+            long idEvent = intent.getLongExtra("idEvent",0);
+            for (Event event : ListEvent.events) {
+                if(event.getId() == idEvent){
+                    currentEvent = event;
+                    break;
+                }
+            }
 
-        DateTimeFormatter formatterDay = DateTimeFormat.forPattern("dd/MM/yy");
-        if(startTime.getYear()==endTime.getYear() && startTime.getMonthOfYear() == endTime.getMonthOfYear()
-                && startTime.getDayOfMonth()==endTime.getDayOfMonth()) {
-            hours = formatterDay.print(startTime) + "\nde " +startTime.getHourOfDay() + "h";
-            hours += startTime.getMinuteOfHour() == 0 ? "" : startTime.getMinuteOfHour();
-            hours += " à " + endTime.getHourOfDay() + "h";
-            hours += endTime.getMinuteOfHour() == 0 ? "" : endTime.getMinuteOfHour();
-        }else{
-            hours = "de " +formatterDay.print(startTime) + ", " +startTime.getHourOfDay() + "h";
-            hours += startTime.getMinuteOfHour() == 0 ? "" : startTime.getMinuteOfHour();
-            hours += "\nà " + formatterDay.print(endTime) + ", " + endTime.getHourOfDay() + "h";
-            hours += endTime.getMinuteOfHour() == 0 ? "" : endTime.getMinuteOfHour();
+            if(currentEvent!=null) {
+                //title + color TODO
+                startTime = currentEvent.startTime;
+                endTime = currentEvent.endTime;
+
+                DateTimeFormatter formatterDay = DateTimeFormat.forPattern("dd/MM/yy");
+                if (startTime.getYear() == endTime.getYear() && startTime.getMonthOfYear() == endTime.getMonthOfYear()
+                        && startTime.getDayOfMonth() == endTime.getDayOfMonth()) {
+                    hours = formatterDay.print(startTime) + "\nde " + startTime.getHourOfDay() + "h";
+                    hours += startTime.getMinuteOfHour() == 0 ? "" : startTime.getMinuteOfHour();
+                    hours += " à " + endTime.getHourOfDay() + "h";
+                    hours += endTime.getMinuteOfHour() == 0 ? "" : endTime.getMinuteOfHour();
+                } else {
+                    hours = "de " + formatterDay.print(startTime) + ", " + startTime.getHourOfDay() + "h";
+                    hours += startTime.getMinuteOfHour() == 0 ? "" : startTime.getMinuteOfHour();
+                    hours += "\nà " + formatterDay.print(endTime) + ", " + endTime.getHourOfDay() + "h";
+                    hours += endTime.getMinuteOfHour() == 0 ? "" : endTime.getMinuteOfHour();
+                }
+
+                hours_TV.setText(hours);
+                place_TV.setText(currentEvent.lieu);
+                profesors_TV.setText(currentEvent.profesors);
+                description_TV.setText(currentEvent.description);
+            }
+
+            remind_SP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    currentEvent.remind = position;
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
         }
-
-        hours_TV.setText(hours);
-        place_TV.setText(currentEvent.lieu);
-        profesors_TV.setText(currentEvent.profesors);
-        description_TV.setText( currentEvent.description);
-
-        remind_SP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                currentEvent.remind = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
     }
 
     public void goToEditableMode(View view){
