@@ -2,15 +2,7 @@ package hexanome.agenda.util;
 
 import android.graphics.Color;
 
-/**
- * Created by Aurelien on 16/01/2017.
- */
-
 public final class MaterialColors {
-    private MaterialColors(){
-
-    }
-
     public static int red = Color.parseColor("#F44336");
     public static int pink = Color.parseColor("#E91E63");
     public static int purple = Color.parseColor("#9C27B0");
@@ -41,4 +33,6 @@ public final class MaterialColors {
     public static int black = Color.parseColor("#000000");
     public static int white = Color.parseColor("#ffffff");
     public static int blueGrey = Color.parseColor("#607D8B");
+    private MaterialColors() {
+    }
 }

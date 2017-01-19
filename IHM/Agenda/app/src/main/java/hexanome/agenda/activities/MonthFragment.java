@@ -65,6 +65,14 @@ public class MonthFragment extends Fragment {
         this.mFragmentManager = fragmentManager;
     }
 
+    public void refresh() {
+        List<ViewGroup> pages = mPagerAdapter.getViewGroups();
+        for (ViewGroup viewGroup : pages) {
+            CalendarMonthView calendarMonthView = (CalendarMonthView) viewGroup.findViewById(R.id.calendar_month_view);
+            calendarMonthView.setEvents(ListEvent.events);
+        }
+    }
+
     private class MonthInfinitePagerAdapter extends InfinitePagerAdapter<Integer> {
 
         public MonthInfinitePagerAdapter(Integer initValue) {
@@ -105,14 +113,6 @@ public class MonthFragment extends Fragment {
         @Override
         public Integer convertToIndicator(final String representation) {
             return Integer.valueOf(representation);
-        }
-    }
-
-    public void refresh() {
-        List<ViewGroup> pages = mPagerAdapter.getViewGroups();
-        for (ViewGroup viewGroup : pages) {
-            CalendarMonthView calendarMonthView = (CalendarMonthView) viewGroup.findViewById(R.id.calendar_month_view);
-            calendarMonthView.setEvents(ListEvent.events);
         }
     }
 }

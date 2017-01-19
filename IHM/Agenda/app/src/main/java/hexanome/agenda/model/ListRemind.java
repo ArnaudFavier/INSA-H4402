@@ -3,10 +3,6 @@ package hexanome.agenda.model;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by hugue on 19/01/2017.
- */
-
 public final class ListRemind {
 
     public static List<String> reminds = new ArrayList<String>();

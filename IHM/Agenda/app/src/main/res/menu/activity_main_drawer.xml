@@ -5,16 +5,16 @@
         <item
             android:id="@+id/menu_day"
             android:icon="@drawable/empty_star"
-            android:title="Jour"/>
+            android:title="Jour" />
         <item
             android:id="@+id/menu_week"
             android:icon="@drawable/empty_star"
-            android:title="Semaine"/>
+            android:title="Semaine" />
         <item
             android:id="@+id/menu_month"
-            android:icon="@drawable/empty_star"
             android:checked="true"
-            android:title="Mois"/>
+            android:icon="@drawable/empty_star"
+            android:title="Mois" />
     </group>
 
     <item android:title="Paramètres">
@@ -22,7 +22,7 @@
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="Options"/>
+                android:title="Options" />
         </menu>
     </item>
 

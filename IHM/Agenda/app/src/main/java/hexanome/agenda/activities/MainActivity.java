@@ -1,7 +1,6 @@
 package hexanome.agenda.activities;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -20,19 +19,17 @@ import android.widget.TextView;
 import org.joda.time.DateTime;
 
 import hexanome.agenda.R;
-import hexanome.agenda.model.Event;
 
 public class MainActivity extends ActionBarActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    static final int CONSULT_EVENT_ACTIVITY = 122;
+    private static final int ADD_EVENT_INTENT_CODE = 120;
+    private static final int OPTIONS_INTENT_CODE = 121;
     public MonthFragment mMonthFragment;
     public WeekFragment mWeekFragment;
     public DayFragment mDayFragment;
-    private NavigationView navigationView;
     FragmentManager mFragmentManager;
-
-    private static final int ADD_EVENT_INTENT_CODE = 120;
-    private static final int OPTIONS_INTENT_CODE = 121;
-    static final int CONSULT_EVENT_ACTIVITY = 122;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +76,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -100,15 +96,12 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
         if (id == R.id.menu_day) {
             changeContentFragment(mDayFragment);
-        }
-        else if (id == R.id.menu_week) {
+        } else if (id == R.id.menu_week) {
             changeContentFragment(mWeekFragment);
-        }
-        else if (id == R.id.menu_month) {
+        } else if (id == R.id.menu_month) {
             changeContentFragment(mMonthFragment);
             updateTitle();
-        }
-        else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share) {
             Intent intent = new Intent(this, OptionActivity.class);
             startActivityForResult(intent, OPTIONS_INTENT_CODE);
             overridePendingTransition(R.anim.left_to_right_anim, R.anim.right_to_left_anim);

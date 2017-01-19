@@ -22,10 +22,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ColorChooserEditedDialog extends Dialog {
-    public ColorChooserEditedDialog(Context context) {
-        super(context);
-    }
-
+    //CONSTANTS
+    public final int red = 0xffF44336;
+    public final int pink = 0xffE91E63;
+    public final int Purple = 0xff9C27B0;
+    public final int DeepPurple = 0xff673AB7;
+    public final int Indigo = 0xff3F51B5;
+    public final int Blue = 0xff2196F3;
+    public final int LightBlue = 0xff03A9F4;
+    public final int Cyan = 0xff00BCD4;
+    public final int Teal = 0xff009688;
+    public final int Green = 0xff4CAF50;
+    public final int LightGreen = 0xff8BC34A;
+    public final int Lime = 0xffCDDC39;
+    public final int Yellow = 0xffFFEB3B;
+    public final int Amber = 0xffFFC107;
+    public final int Orange = 0xffFF9800;
+    public final int DeepOrange = 0xffFF5722;
+    public final int Brown = 0xff795548;
+    public final int Grey = 0xff9E9E9E;
+    public final int BlueGray = 0xff607D8B;
+    public final int Black = 0xff000000;
     private ImageButton one;
     private ImageButton two;
     private ImageButton three;
@@ -47,38 +64,47 @@ public class ColorChooserEditedDialog extends Dialog {
     private ImageButton nineteen;
     private ImageButton twenty;
     private Button twentyOne;
-
     private List<Integer> colors;
     private List<ImageButton> buttons;
-
     private ColorListener myColorListener;
+    private View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (myColorListener != null)
+                myColorListener.OnColorClick(v, (int) v.getTag());
+            dismiss();
+        }
+    };
+    public ColorChooserEditedDialog(Context context) {
+        super(context);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.turkialkhateeb.materialcolorpicker.R.layout.color_picker_dialog);
 
-        one =      (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b1);
-        two =      (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b2);
-        three =    (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b3);
-        four =     (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b4);
-        five =     (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b5);
-        six =      (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b6);
-        seven =    (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b7);
-        eight =    (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b8);
-        nine =     (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b9);
-        ten =      (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b10);
-        eleven =   (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b11);
-        twelve =   (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b12);
-        thirteen = (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b13);
-        fourteen = (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b14);
-        fifteen =  (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b15);
-        sixteen =  (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b16);
-        seventeen =(ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b17);
-        eighteen = (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b18);
-        nineteen = (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b19);
-        twenty =   (ImageButton)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b20);
-        twentyOne =(Button)findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b21);
+        one = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b1);
+        two = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b2);
+        three = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b3);
+        four = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b4);
+        five = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b5);
+        six = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b6);
+        seven = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b7);
+        eight = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b8);
+        nine = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b9);
+        ten = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b10);
+        eleven = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b11);
+        twelve = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b12);
+        thirteen = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b13);
+        fourteen = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b14);
+        fifteen = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b15);
+        sixteen = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b16);
+        seventeen = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b17);
+        eighteen = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b18);
+        nineteen = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b19);
+        twenty = (ImageButton) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b20);
+        twentyOne = (Button) findViewById(com.turkialkhateeb.materialcolorpicker.R.id.b21);
 
         colors = new ArrayList<>();
         colors.add(red);
@@ -126,7 +152,7 @@ public class ColorChooserEditedDialog extends Dialog {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             Colorize();
-        }else{
+        } else {
             ColorizeOld();
         }
 
@@ -134,15 +160,6 @@ public class ColorChooserEditedDialog extends Dialog {
 
         setListeners();
     }
-
-    private View.OnClickListener listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(myColorListener != null)
-                myColorListener.OnColorClick(v, (int)v.getTag());
-            dismiss();
-        }
-    };
 
     private void setListeners() {
         for (int i = 0; i < buttons.size(); i++) {
@@ -182,13 +199,12 @@ public class ColorChooserEditedDialog extends Dialog {
         animate();
     }
 
-
-    private void animate(){
-        Log.e("animate","true");
+    private void animate() {
+        Log.e("animate", "true");
         Runnable r1 = new Runnable() {
             @Override
             public void run() {
-                Log.e("animator 1","r");
+                Log.e("animator 1", "r");
                 animator(one);
             }
         };
@@ -256,18 +272,17 @@ public class ColorChooserEditedDialog extends Dialog {
 
         android.os.Handler handler = new android.os.Handler();
         int counter = 85;
-        handler.postDelayed(r1,counter);
-        handler.postDelayed(r2,counter * 2);
-        handler.postDelayed(r3,counter * 3);
-        handler.postDelayed(r4,counter * 4);
-        handler.postDelayed(r5,counter * 5);
-        handler.postDelayed(r6,counter * 6);
-        handler.postDelayed(r7,counter * 7);
-        handler.postDelayed(r8,counter * 8);
+        handler.postDelayed(r1, counter);
+        handler.postDelayed(r2, counter * 2);
+        handler.postDelayed(r3, counter * 3);
+        handler.postDelayed(r4, counter * 4);
+        handler.postDelayed(r5, counter * 5);
+        handler.postDelayed(r6, counter * 6);
+        handler.postDelayed(r7, counter * 7);
+        handler.postDelayed(r8, counter * 8);
     }
 
-
-    private void animator(final ImageButton imageButton){
+    private void animator(final ImageButton imageButton) {
         Animation animation = AnimationUtils.loadAnimation(getContext(), com.turkialkhateeb.materialcolorpicker.R.anim.color_item);
         animation.setInterpolator(new AccelerateInterpolator());
         imageButton.setAnimation(animation);
@@ -275,32 +290,8 @@ public class ColorChooserEditedDialog extends Dialog {
         animation.start();
     }
 
-    //CONSTANTS
-    public final int red =        0xffF44336;
-    public final int pink =       0xffE91E63;
-    public final int Purple =     0xff9C27B0;
-    public final int DeepPurple = 0xff673AB7;
-    public final int Indigo =     0xff3F51B5;
-    public final int Blue =       0xff2196F3;
-    public final int LightBlue =  0xff03A9F4;
-    public final int Cyan =       0xff00BCD4;
-    public final int Teal =       0xff009688;
-    public final int Green =      0xff4CAF50;
-    public final int LightGreen = 0xff8BC34A;
-    public final int Lime =       0xffCDDC39;
-    public final int Yellow =     0xffFFEB3B;
-    public final int Amber =      0xffFFC107;
-    public final int Orange =     0xffFF9800;
-    public final int DeepOrange = 0xffFF5722;
-    public final int Brown =      0xff795548;
-    public final int Grey =       0xff9E9E9E;
-    public final int BlueGray =   0xff607D8B;
-    public final int Black =      0xff000000;
-
-    public void setColorListener(ColorListener listener){
+    public void setColorListener(ColorListener listener) {
         this.myColorListener = listener;
     }
-
-
 }
 

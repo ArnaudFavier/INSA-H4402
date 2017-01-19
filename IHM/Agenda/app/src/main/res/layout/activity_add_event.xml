@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/add_event"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/activity_horizontal_margin">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_event"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_horizontal_margin">
 
     <!-- View inutile qui sert à bloquer l'autofocus sur les edittext -->
     <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:layout_width="0px"
-        android:layout_height="0px"/>
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/button_add_event"
@@ -19,18 +19,18 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/button_accent_background"
         android:text="Ajouter"
-        android:textColor="@color/md_white_1000"/>
+        android:textColor="@color/md_white_1000" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="false"
         android:layout_above="@id/button_add_event"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="14dp"
         android:layout_marginRight="14dp"
-        android:layout_marginEnd="14dp">
+        android:fillViewport="false">
 
         <TableLayout
             android:layout_width="match_parent"
@@ -43,16 +43,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nom"
-                    android:textColor="@color/md_black_1000"/>
+                    android:textColor="@color/md_black_1000" />
 
                 <EditText
                     android:id="@+id/edit_text_new_event_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
                     android:layout_span="2"
                     android:layout_weight="1"
-                    android:textColorLink="@android:color/holo_red_dark"/>
+                    android:inputType="textPersonName"
+                    android:textColorLink="@android:color/holo_red_dark" />
             </TableRow>
 
             <TableRow>
@@ -61,16 +61,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Lieu"
-                    android:textColor="@color/md_black_1000"/>
+                    android:textColor="@color/md_black_1000" />
 
                 <EditText
                     android:id="@+id/edit_text_new_event_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPostalAddress"
-                    android:layout_weight="1"
                     android:layout_span="2"
-                    android:textColorLink="@android:color/holo_red_dark"/>
+                    android:layout_weight="1"
+                    android:inputType="textPostalAddress"
+                    android:textColorLink="@android:color/holo_red_dark" />
             </TableRow>
 
             <TableRow>
@@ -80,14 +80,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="Description"
-                    android:textColor="@color/md_black_1000"/>
+                    android:textColor="@color/md_black_1000" />
 
                 <EditText
                     android:id="@+id/edit_text_description"
                     android:layout_width="match_parent"
                     android:layout_span="2"
-                    android:layout_weight="1">
-                </EditText>
+                    android:layout_weight="1"></EditText>
             </TableRow>
 
             <TableRow>
@@ -97,34 +96,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Début"
-                    android:textColor="@color/md_black_1000"/>
+                    android:textColor="@color/md_black_1000" />
 
                 <Button
                     android:id="@+id/button_date_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
+                    android:background="@drawable/button_accent_background"
                     android:text="Jour"
                     android:textAlignment="center"
-                    android:background="@drawable/button_accent_background"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"
                     android:textColor="@android:color/white" />
 
                 <Button
                     android:id="@+id/button_time_start"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
+                    android:background="@drawable/button_accent_background"
                     android:text="Heure"
                     android:textAlignment="center"
-                    android:background="@drawable/button_accent_background"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"
                     android:textColor="@android:color/white" />
             </TableRow>
 
@@ -134,35 +133,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fin"
-                    android:textColor="@color/md_black_1000"/>
+                    android:textColor="@color/md_black_1000" />
 
 
                 <Button
                     android:id="@+id/button_date_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
+                    android:background="@drawable/button_accent_background"
                     android:text="Jour"
                     android:textAlignment="center"
-                    android:background="@drawable/button_accent_background"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"
                     android:textColor="@android:color/white" />
 
                 <Button
                     android:id="@+id/button_time_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
+                    android:background="@drawable/button_accent_background"
                     android:text="Heure"
                     android:textAlignment="center"
-                    android:background="@drawable/button_accent_background"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"
                     android:textColor="@android:color/white" />
 
             </TableRow>
@@ -174,14 +173,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="Rappel"
-                    android:textColor="@color/md_black_1000"/>
+                    android:textColor="@color/md_black_1000" />
 
                 <Spinner
                     android:id="@+id/spinner_remind"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_weight="1">
-                </Spinner>
+                    android:layout_weight="1"></Spinner>
             </TableRow>
 
             <TableRow>
@@ -191,20 +189,20 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="Couleur"
-                    android:textColor="@color/md_black_1000"/>
+                    android:textColor="@color/md_black_1000" />
 
                 <RelativeLayout android:layout_weight="1">
+
                     <Button
                         android:id="@+id/button_color"
-                        android:clickable="true"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_alignParentRight="true"
                         android:layout_gravity="right"
-                        android:background="@color/md_green_500" />
+                        android:background="@color/md_green_500"
+                        android:clickable="true" />
                 </RelativeLayout>
             </TableRow>
-
 
 
         </TableLayout>

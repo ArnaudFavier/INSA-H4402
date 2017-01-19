@@ -21,7 +21,7 @@ import hexanome.agenda.model.ListEvent;
 
 public class WeekFragment extends Fragment {
 
-    private  WeekView mWeekView;
+    private WeekView mWeekView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,7 +69,7 @@ public class WeekFragment extends Fragment {
     }
 
     public void refresh() {
-        if(mWeekView != null) {
+        if (mWeekView != null) {
             mWeekView.notifyDatasetChanged();
         }
     }

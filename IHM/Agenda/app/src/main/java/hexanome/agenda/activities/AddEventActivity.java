@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.turkialkhateeb.materialcolorpicker.ColorChooserDialog;
 import com.turkialkhateeb.materialcolorpicker.ColorListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -257,14 +256,12 @@ public class AddEventActivity extends AppCompatActivity {
 
                 if (error) {
                     Toast.makeText(AddEventActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
-                }
-                else if (editionMode) {
+                } else if (editionMode) {
                     //if the event doesn't exist
                     if (eventEdit == null) {
                         setResult(RESULT_CANCELED);
                         finish();
-                    }
-                    else {
+                    } else {
                         //else we update its datas
                         eventEdit.title = editTextTitle.getText().toString();
                         eventEdit.color = pickedColor;
@@ -280,8 +277,7 @@ public class AddEventActivity extends AppCompatActivity {
                         setResult(RESULT_OK, i);
                         finish();
                     }
-                }
-                else {
+                } else {
                     ListEvent.events.add(new Event(pickedColor, startDate, endDate, eventName));
                     Toast.makeText(AddEventActivity.this, "Evenement ajouté avec succès", Toast.LENGTH_SHORT).show();
                     finish();

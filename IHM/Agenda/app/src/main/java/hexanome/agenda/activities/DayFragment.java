@@ -12,10 +12,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.thehayro.view.InfinitePagerAdapter;
@@ -30,7 +27,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import hexanome.agenda.R;
-import hexanome.agenda.customui.CalendarMonthView;
 import hexanome.agenda.model.Event;
 import hexanome.agenda.model.ListEvent;
 import hexanome.agenda.model.Options;
@@ -162,9 +158,9 @@ public class DayFragment extends Fragment {
 
     private class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
-        ArrayList<Event> eventList;
         private final DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
         private final int offset;
+        ArrayList<Event> eventList;
 
         public EventAdapter(int offset) {
             this.offset = offset;
@@ -209,8 +205,7 @@ public class DayFragment extends Fragment {
             if (text != null && !text.isEmpty()) {
                 textView.setText(text);
                 textView.setVisibility(View.VISIBLE);
-            }
-            else {
+            } else {
                 textView.setVisibility(View.GONE);
             }
         }

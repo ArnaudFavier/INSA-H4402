@@ -2,7 +2,6 @@ package hexanome.agenda.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class OptionActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         overridePendingTransition(R.anim.left_to_right_anim, R.anim.right_to_left_anim);
         return true;

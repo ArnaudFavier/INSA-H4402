@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/content_month"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_month"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="hexanome.agenda.activities.MainActivity"
     tools:showIn="@layout/app_bar_month">
 
-    <com.thehayro.view.InfiniteViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.thehayro.view.InfiniteViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/month_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -12,7 +12,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import org.joda.time.DateTime;
 
@@ -30,6 +29,7 @@ import hexanome.agenda.util.Measures;
 
 public class CalendarMonthView extends View {
 
+    private static final int MAX_CLICK_DURATION = 200;
     private List<Event> events = new ArrayList<>();
     private HashMap<MonthDate, DatePosition> datePositions;
     private DateTime mCurrentMonth;
@@ -46,6 +46,7 @@ public class CalendarMonthView extends View {
     private int mParentWidth = 0;
     private int mParentHeight = 0;
     private FragmentManager mFragmentManager;
+    private long startClickTime;
 
     public CalendarMonthView(Context context) {
         super(context);
@@ -193,11 +194,10 @@ public class CalendarMonthView extends View {
                     pos.availableEventPos.remove(0);
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                         canvas.drawRoundRect(pos.x * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * eventHeight, (pos.x + 1) * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * (eventHeight + 1), rounding, rounding, mRectEventPaint);
-                    }
-                    else {
+                    } else {
                         canvas.drawRect(pos.x * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * eventHeight, (pos.x + 1) * widthUnit, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * (eventHeight + 1), mRectEventPaint);
                     }
-                    CharSequence txt = TextUtils.ellipsize(event.title, mTextEventName, widthUnit-2*titlePadding, TextUtils.TruncateAt.END);
+                    CharSequence txt = TextUtils.ellipsize(event.title, mTextEventName, widthUnit - 2 * titlePadding, TextUtils.TruncateAt.END);
                     canvas.drawText(txt, 0, txt.length(), pos.x * widthUnit + titlePadding, dayNameHeight + pos.y * heightUnit + textNumberOffset + eventRectHeight * (eventHeight + 1) - Measures.dpToPixels(mResources, 2.5f), mTextEventName);
                 }
             }
@@ -238,6 +238,50 @@ public class CalendarMonthView extends View {
 
     public void setFragManager(FragmentManager fragManager) {
         this.mFragmentManager = fragManager;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                startClickTime = System.currentTimeMillis();
+                break;
+            }
+            case MotionEvent.ACTION_UP: {
+                long clickDuration = System.currentTimeMillis() - startClickTime;
+                if (clickDuration < MAX_CLICK_DURATION) {
+                    triggerClick(x, y);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private void triggerClick(float x, float y) {
+        final float dayNameHeight = Measures.dpToPixels(mResources, 20);
+        float widthUnit = mParentWidth / 7f;
+        float heightUnit = (mParentHeight - dayNameHeight) / 6f;
+
+        int dayX = (int) (x / widthUnit);
+        int dayY = (int) ((y - dayNameHeight) / heightUnit);
+
+        for (Map.Entry<MonthDate, DatePosition> entry : datePositions.entrySet()) {
+            DatePosition datePos = entry.getValue();
+            if (datePos.x == dayX && datePos.y == dayY) {
+                MonthDate monthDate = entry.getKey();
+
+                // Change view to the day
+                DayFragment dayFragment = ((MainActivity) getContext()).mDayFragment;
+                ((MainActivity) getContext()).setNavigationViewSelectedItem(0);
+                dayFragment.setDay(new DateTime(new DateTime().getYear(), monthDate.month, monthDate.day, 0, 0));
+                mFragmentManager.beginTransaction().replace(R.id.content_frame, dayFragment).commit();
+                return;
+            }
+        }
     }
 
     private class MonthDate {
@@ -281,53 +325,6 @@ public class CalendarMonthView extends View {
             availableEventPos.add(1);
             availableEventPos.add(2);
             availableEventPos.add(3);
-        }
-    }
-
-    private static final int MAX_CLICK_DURATION = 200;
-    private long startClickTime;
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
-                startClickTime = System.currentTimeMillis();
-                break;
-            }
-            case MotionEvent.ACTION_UP: {
-                long clickDuration = System.currentTimeMillis() - startClickTime;
-                if (clickDuration < MAX_CLICK_DURATION) {
-                    triggerClick(x, y);
-                }
-            }
-        }
-
-        return true;
-    }
-
-    private void triggerClick(float x, float y) {
-        final float dayNameHeight = Measures.dpToPixels(mResources, 20);
-        float widthUnit = mParentWidth / 7f;
-        float heightUnit = (mParentHeight - dayNameHeight) / 6f;
-
-        int dayX = (int) (x / widthUnit);
-        int dayY = (int) ((y - dayNameHeight) / heightUnit);
-
-        for (Map.Entry<MonthDate, DatePosition> entry : datePositions.entrySet()) {
-            DatePosition datePos = entry.getValue();
-            if (datePos.x == dayX && datePos.y == dayY) {
-                MonthDate monthDate = entry.getKey();
-
-                // Change view to the day
-                DayFragment dayFragment = ((MainActivity)getContext()).mDayFragment;
-                ((MainActivity)getContext()).setNavigationViewSelectedItem(0);
-                dayFragment.setDay(new DateTime(new DateTime().getYear(), monthDate.month, monthDate.day, 0, 0));
-                mFragmentManager.beginTransaction().replace(R.id.content_frame, dayFragment).commit();
-                return;
-            }
         }
     }
 }
