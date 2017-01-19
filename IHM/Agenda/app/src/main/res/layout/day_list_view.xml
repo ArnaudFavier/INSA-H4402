@@ -1,47 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:id="@+id/activity_day"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
         android:id="@+id/alert_tcl_velov"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Alerte TCL Tramway"
-            android:textColor="@color/colorPrimary"/>
-        <TextView
+            android:background="@color/md_amber_500"
+            android:layout_marginBottom="1dp"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:id="@+id/icon_tram"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="5dp"
+                android:src="@drawable/icon_tram"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/icon_tram"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:text="Alerte TCL Tramway"
+                android:textStyle="bold"
+                android:textColor="@color/md_white_1000"/>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Alerte TCL Bus"
-            android:textColor="@color/colorPrimary"/>
-        <TextView
+            android:background="@color/md_amber_500"
+            android:layout_marginBottom="1dp"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:id="@+id/icon_bus"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="5dp"
+                android:src="@drawable/icon_bus"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/icon_bus"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:text="Alerte TCL Bus"
+                android:textStyle="bold"
+                android:textColor="@color/md_white_1000"/>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Alerte TCL Metro"
-            android:textColor="@color/colorPrimary"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Alerte Vélov"
-            android:textColor="@color/colorPrimary"/>
+            android:background="@color/md_amber_500"
+            android:layout_marginBottom="1dp"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:id="@+id/icon_metro"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="5dp"
+                android:src="@drawable/icon_metro"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/icon_metro"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:text="Alerte TCL Metro"
+                android:textStyle="bold"
+                android:textColor="@color/md_white_1000"/>
+        </RelativeLayout>
 
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_day_events"
-        tools:listitem="@layout/day_list_view_item"
-        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        tools:listitem="@layout/day_list_view_item">
 
     </android.support.v7.widget.RecyclerView>
 

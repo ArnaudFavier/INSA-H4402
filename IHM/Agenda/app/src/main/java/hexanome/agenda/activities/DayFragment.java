@@ -225,7 +225,7 @@ public class DayFragment extends Fragment {
 
         @Override
         public ViewGroup instantiateItem(Integer indicator) {
-            final RelativeLayout layout = (RelativeLayout) ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+            final LinearLayout layout = (LinearLayout) ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                     .inflate(R.layout.day_list_view, null);
             layout.setTag(indicator);
             DateTime selectedMonth = new DateTime().plusMonths(indicator);
