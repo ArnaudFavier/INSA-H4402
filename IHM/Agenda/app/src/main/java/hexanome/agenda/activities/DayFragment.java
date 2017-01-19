@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import hexanome.agenda.R;
 import hexanome.agenda.customui.CalendarMonthView;
 import hexanome.agenda.model.Event;
 import hexanome.agenda.model.ListEvent;
+import hexanome.agenda.model.Options;
 
 /**
  * Activity showing events of a particular day
@@ -115,9 +117,11 @@ public class DayFragment extends Fragment {
     }
 
     public void refresh() {
-        if(mPagerAdapter != null) {
-            List<ViewGroup> pages = mPagerAdapter.getViewGroups();
-            for (ViewGroup viewGroup : pages) {
+        if (mPagerAdapter != null) {
+            List<Pair<ViewGroup, Integer>> pages = mPagerAdapter.getViewGroupsAndIndicators();
+            for (Pair<ViewGroup, Integer> pair : pages) {
+                ViewGroup viewGroup = pair.first;
+                Integer indicator = pair.second;
                 if (viewGroup != null) {
                     RecyclerView recyclerViewDayEvents = (RecyclerView) viewGroup.findViewById(R.id.recycler_view_day_events);
                     EventAdapter adapter = (EventAdapter) recyclerViewDayEvents.getAdapter();
@@ -125,8 +129,30 @@ public class DayFragment extends Fragment {
                         adapter.refresh();
                     }
                 }
+
+                displayTclAlerts(viewGroup, indicator);
             }
         }
+    }
+
+    private void displayTclAlerts(View viewGroup, Integer indicator){
+        View layoutTramway = viewGroup.findViewById(R.id.layout_tramway);
+        View layoutBus = viewGroup.findViewById(R.id.layout_bus);
+        View layoutMetro = viewGroup.findViewById(R.id.layout_metro);
+        if (Options.hasAlertTCLBus && (indicator % 6 == 0 || indicator%6 == 3 || indicator % 6 == 5))
+            layoutBus.setVisibility(View.VISIBLE);
+        else
+            layoutBus.setVisibility(View.GONE);
+
+        if (Options.hasAlertTCLMetro && (indicator % 6 == 1 || indicator%6 == 3 || indicator % 6 == 4))
+            layoutMetro.setVisibility(View.VISIBLE);
+        else
+            layoutMetro.setVisibility(View.GONE);
+
+        if (Options.hasAlertTCLTramway && (indicator % 6 == 1))
+            layoutTramway.setVisibility(View.VISIBLE);
+        else
+            layoutTramway.setVisibility(View.GONE);
     }
 
     public void setDay(DateTime day) {
@@ -144,8 +170,8 @@ public class DayFragment extends Fragment {
             eventList = getListEventsDay(offset);
         }
 
-        public void refresh(){
-            eventList =  getListEventsDay(offset);
+        public void refresh() {
+            eventList = getListEventsDay(offset);
             notifyDataSetChanged();
         }
 
@@ -231,6 +257,8 @@ public class DayFragment extends Fragment {
             DateTime selectedMonth = new DateTime().plusMonths(indicator);
 
             RecyclerView recyclerViewDayEvents = (RecyclerView) layout.findViewById(R.id.recycler_view_day_events);
+
+            displayTclAlerts(layout, indicator);
 
             EventAdapter adapter = new EventAdapter(indicator);
             recyclerViewDayEvents.setAdapter(adapter);

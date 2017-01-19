@@ -12,11 +12,11 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/checkBox"
+            android:id="@+id/checkbox_option"
             android:buttonTint="@android:color/holo_red_light" />
 
         <TextView
-            android:id="@+id/textViewOptionContent"
+            android:id="@+id/textview_option"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="17dip"

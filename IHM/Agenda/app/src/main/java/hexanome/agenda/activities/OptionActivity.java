@@ -2,6 +2,7 @@ package hexanome.agenda.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -75,7 +76,6 @@ public class OptionActivity extends AppCompatActivity {
         listNotification.add("Alertes TCL Tramway");
         listNotification.add("Alertes TCL Métro");
         listNotification.add("Alertes TCL Bus");
-        listNotification.add("Alertes Vélov");
 
         // Linking
         optionsContent.put(optionsHeader.get(0), listAgendasScolaire);

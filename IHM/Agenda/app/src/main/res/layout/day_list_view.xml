@@ -14,10 +14,11 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/layout_tramway"
             android:layout_width="match_parent"
-            android:background="@color/md_amber_500"
+            android:layout_height="50dp"
             android:layout_marginBottom="1dp"
-            android:layout_height="50dp">
+            android:background="@color/md_amber_500">
 
             <ImageView
                 android:id="@+id/icon_tram"
@@ -31,18 +32,19 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_toRightOf="@+id/icon_tram"
-                android:textSize="14sp"
                 android:gravity="center"
                 android:text="Alerte TCL Tramway"
-                android:textStyle="bold"
-                android:textColor="@color/md_white_1000"/>
+                android:textColor="@color/md_white_1000"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/layout_bus"
             android:layout_width="match_parent"
-            android:background="@color/md_amber_500"
+            android:layout_height="50dp"
             android:layout_marginBottom="1dp"
-            android:layout_height="50dp">
+            android:background="@color/md_amber_500">
 
             <ImageView
                 android:id="@+id/icon_bus"
@@ -56,18 +58,19 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_toRightOf="@+id/icon_bus"
-                android:textSize="14sp"
                 android:gravity="center"
                 android:text="Alerte TCL Bus"
-                android:textStyle="bold"
-                android:textColor="@color/md_white_1000"/>
+                android:textColor="@color/md_white_1000"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/layout_metro"
             android:layout_width="match_parent"
-            android:background="@color/md_amber_500"
+            android:layout_height="50dp"
             android:layout_marginBottom="1dp"
-            android:layout_height="50dp">
+            android:background="@color/md_amber_500">
 
             <ImageView
                 android:id="@+id/icon_metro"
@@ -81,11 +84,11 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_toRightOf="@+id/icon_metro"
-                android:textSize="14sp"
                 android:gravity="center"
                 android:text="Alerte TCL Metro"
-                android:textStyle="bold"
-                android:textColor="@color/md_white_1000"/>
+                android:textColor="@color/md_white_1000"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
         </RelativeLayout>
 
     </LinearLayout>

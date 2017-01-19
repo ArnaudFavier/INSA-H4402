@@ -30,6 +30,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     FragmentManager mFragmentManager;
 
     private static final int ADD_EVENT_INTENT_CODE = 120;
+    private static final int OPTIONS_INTENT_CODE = 121;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         mDayFragment = new DayFragment();
     }
 
-    public void setNavigationViewSelectedItem(int item){
+    public void setNavigationViewSelectedItem(int item) {
         navigationView.getMenu().getItem(item).setChecked(true);
     }
 
@@ -105,7 +106,8 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }else if(id == R.id.consultEvent){
+        }
+        else if (id == R.id.consultEvent) {
             Intent intent = new Intent(MainActivity.this, EventOverviewActivity.class);
             startActivity(intent);
             return true;
@@ -129,9 +131,8 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
             changeContentFragment(mMonthFragment);
         }
         else if (id == R.id.nav_share) {
-            startActivity(new Intent(this, OptionActivity.class));
+            startActivityForResult(new Intent(this, OptionActivity.class), OPTIONS_INTENT_CODE);
             overridePendingTransition(R.anim.left_to_right_anim, R.anim.right_to_left_anim);
-            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -142,14 +143,14 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ADD_EVENT_INTENT_CODE) {
+        if (requestCode == ADD_EVENT_INTENT_CODE || requestCode == OPTIONS_INTENT_CODE) {
             mWeekFragment.refresh();
             mMonthFragment.refresh();
             mDayFragment.refresh();
         }
     }
 
-    private void changeContentFragment(Fragment newFragment){
+    private void changeContentFragment(Fragment newFragment) {
         mFragmentManager.beginTransaction()
                 .replace(R.id.content_frame, newFragment)
                 .commit();

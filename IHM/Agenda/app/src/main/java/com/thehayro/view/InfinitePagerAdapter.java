@@ -22,10 +22,12 @@ import com.thehayro.internal.PageModel;
 
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -260,6 +262,15 @@ public abstract class InfinitePagerAdapter<T> extends PagerAdapter {
             viewGroups.add(pageModel.getParentView());
         }
         return viewGroups;
+    }
+
+    public ArrayList<Pair<ViewGroup, T>> getViewGroupsAndIndicators(){
+        ArrayList<Pair<ViewGroup, T>>  viewGroupsAndIndicators = new ArrayList<>(mPageModels.length);
+        for(PageModel<T> pageModel : mPageModels){
+            Pair<ViewGroup, T> pair = new Pair<>(pageModel.getParentView(), pageModel.getIndicator());
+            viewGroupsAndIndicators.add(pair);
+        }
+        return viewGroupsAndIndicators;
     }
 
 }

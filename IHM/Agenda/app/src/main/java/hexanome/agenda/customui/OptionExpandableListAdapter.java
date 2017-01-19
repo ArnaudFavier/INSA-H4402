@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
 
 import hexanome.agenda.R;
+import hexanome.agenda.model.Options;
 
 public class OptionExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -37,16 +40,67 @@ public class OptionExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final String childText = (String) getChild(groupPosition, childPosition);
+        final String optionName = (String) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.option_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView.findViewById(R.id.textViewOptionContent);
+        TextView txtListChild = (TextView) convertView.findViewById(R.id.textview_option);
+        CheckBox checkboxOption = (CheckBox) convertView.findViewById(R.id.checkbox_option);
 
-        txtListChild.setText(childText);
+        checkboxOption.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                switch(optionName){
+                    case "3 IF" :
+                        Options.has3IF = b;
+                        break;
+                    case "4 IF" :
+                        Options.has4IF = b;
+                        break;
+                    case "5 IF" :
+                        Options.has5IF = b;
+                        break;
+                    case "3 GI" :
+                        Options.has3GI = b;
+                        break;
+                    case "4 GI" :
+                        Options.has4GI = b;
+                        break;
+                    case "5 GI" :
+                        Options.has5GI = b;
+                        break;
+                    case "Rotonde" :
+                        Options.hasRotonde = b;
+                        break;
+                    case "Ragda" :
+                        Options.hasRagda = b;
+                        break;
+                    case "BDE" :
+                        Options.hasBDE = b;
+                        break;
+                    case "K-Fête" :
+                        Options.hasKFete = b;
+                        break;
+                    case "URL" :
+                        Options.hasURL = b;
+                        break;
+                    case "Alertes TCL Tramway" :
+                        Options.hasAlertTCLTramway = b;
+                        break;
+                    case "Alertes TCL Métro" :
+                        Options.hasAlertTCLMetro = b;
+                        break;
+                    case "Alertes TCL Bus" :
+                        Options.hasAlertTCLBus = b;
+                        break;
+                }
+            }
+        });
+
+        txtListChild.setText(optionName);
         return convertView;
     }
 

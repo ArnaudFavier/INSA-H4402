@@ -10,7 +10,7 @@ import hexanome.agenda.util.MaterialColors;
 /**
  * List of events for the whole application
  */
-public class ListEvent {
+public final class ListEvent {
 
     /**
      * Direct access of the list of events
