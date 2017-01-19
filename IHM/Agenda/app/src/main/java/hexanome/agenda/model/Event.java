@@ -62,4 +62,8 @@ public class Event {
         weekViewEvent.setColor(color);
         return weekViewEvent;
     }
+
+    public long getId(){
+        return id;
+    }
 }

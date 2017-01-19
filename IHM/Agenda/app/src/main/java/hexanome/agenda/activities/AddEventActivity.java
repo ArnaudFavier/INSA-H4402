@@ -46,6 +46,8 @@ public class AddEventActivity extends AppCompatActivity {
     private String profesors = "";
     private EditText title_et;
     private EditText place_et;
+    private EditText description_et;
+    private EditText profesor_et;
     private TextView start_date_tv;
     private TextView start_time_tv;
     private TextView end_date_tv;
@@ -53,65 +55,59 @@ public class AddEventActivity extends AppCompatActivity {
     private Button color_bt;
     private Spinner remind_SP;
 
+    private Event currentEvent;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+        title_et = (EditText) findViewById(R.id.edit_text_new_event_name);
+        place_et = (EditText) findViewById(R.id.edit_text_new_event_place);
+        profesor_et = (EditText) findViewById(R.id.AE_profesors_ET);
+        description_et = (EditText) findViewById(R.id.AE_description_ET);
+        start_date_tv = (Button) findViewById(R.id.button_date_start);
+        start_time_tv = (Button) findViewById(R.id.button_time_start);
+        end_date_tv = (Button) findViewById(R.id.button_date_end);
+        end_time_tv = (Button) findViewById(R.id.button_time_end);
         remind_SP = (Spinner) findViewById(R.id.AE_RemindSpinner);
+        color_bt = (Button) findViewById(R.id.button_color);
 
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, ListRemind.reminds);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, ListRemind.reminds);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         remind_SP.setAdapter(adapter);
 
         // If it's a modification, then when we take the intent data
         Intent intent = getIntent();
-        if(intent.hasExtra("title")) {
-            title_et = (EditText) findViewById(R.id.edit_text_new_event_name);
-            oldTitle = intent.getStringExtra("title");
-            title_et.setText(oldTitle);
+        if(intent.hasExtra("idEvent")) {
             editionMode = true;
-        }
-        if(intent.hasExtra("place") && editionMode){
-            place_et = (EditText) findViewById(R.id.edit_text_new_event_place);
-            place_et.setText(intent.getStringExtra("place"));
-        }
-        if(intent.hasExtra("color") && editionMode){
-            color_bt = (Button) findViewById(R.id.button_color);
-            color_bt.setBackgroundColor(intent.getIntExtra("color", -11751600)); // -11751600=>md_green_500
-        }
-        if(intent.hasExtra("startDateTime") && editionMode){
-            start_date_tv = (Button) findViewById(R.id.button_date_start);
-            start_time_tv = (Button) findViewById(R.id.button_time_start);
-            long startDateTimeMillis = intent.getLongExtra("startDateTime", 0);
-            startDate = new DateTime(startDateTimeMillis);
-            DateTimeFormatter formatterDay = DateTimeFormat.forPattern("dd/MM/yyyy");
-            DateTimeFormatter formatterHour = DateTimeFormat.forPattern("hh:mm");
-            start_date_tv.setText(formatterDay.print(startDate));
-            start_time_tv.setText(formatterHour.print(startDate));
-            startDateSelected = true;
-            startTimeSelected = true;
-        }
-        if(intent.hasExtra("endDateTime") && editionMode){
-            end_date_tv = (Button) findViewById(R.id.button_date_end);
-            end_time_tv = (Button) findViewById(R.id.button_time_end);
-            long endDateTimeMillis = intent.getLongExtra("endDateTime", 0);
-            endDate = new DateTime(endDateTimeMillis);
-            DateTimeFormatter formatterDay = DateTimeFormat.forPattern("dd/MM/yyyy");
-            DateTimeFormatter formatterHour = DateTimeFormat.forPattern("hh:mm");
-            end_date_tv.setText(formatterDay.print(endDate));
-            end_time_tv.setText(formatterHour.print(endDate));
-            endDateSelected = true;
-            endTimeSelected = true;
-        }
-        if(intent.hasExtra("description") && editionMode){
-            description = intent.getStringExtra("description");
-            //TODO: Add a textview for the description and set it.
-        }
-        if(intent.hasExtra("profesors") && editionMode){
-            profesors = intent.getStringExtra("profesors");
-            //TODO: Add a textview for profesors and set it.
-        }
-        if(intent.hasExtra("remind") && editionMode) {
-            remind_SP.setSelection(intent.getIntExtra("remind", 0));
+            currentEvent = null; //TODO  peut etre a suppr
+            long idEvent = intent.getLongExtra("idEvent", 0);
+            for (Event event : ListEvent.events) {
+                if (event.getId() == idEvent) {
+                    currentEvent = event;
+                    break;
+                }
+            }
+
+            if(currentEvent!=null){
+                DateTimeFormatter formatterDay = DateTimeFormat.forPattern("dd/MM/yyyy");
+                DateTimeFormatter formatterHour = DateTimeFormat.forPattern("hh:mm");
+                title_et.setText(currentEvent.title);
+                place_et.setText(currentEvent.lieu);
+                profesor_et.setText(currentEvent.profesors);
+                description_et.setText(currentEvent.description);
+                remind_SP.setSelection(currentEvent);
+                startDate = currentEvent.startTime;
+                start_date_tv.setText(formatterDay.print(startDate));
+                start_time_tv.setText(formatterHour.print(startDate));
+                endDate = currentEvent.endTime;
+                end_date_tv.setText(formatterDay.print(endDate));
+                end_time_tv.setText(formatterHour.print(endDate));
+                color_bt.setBackgroundColor(currentEvent.color); // -11751600=>md_green_500
+                startDateSelected = true;
+                startTimeSelected = true;
+                endDateSelected = true;
+                endTimeSelected = true;
+            }
         }
 
         final Button buttonColor = (Button) findViewById(R.id.button_color);
@@ -288,13 +284,7 @@ public class AddEventActivity extends AppCompatActivity {
                     currentEvent.remind = remind_SP.getSelectedItemPosition();
 
                     Intent i = new Intent();
-                    i.putExtra("title", title_et.getText().toString());
-                    i.putExtra("place", place_et.getText().toString());
-                    i.putExtra("startDateTime", startDate.getMillis());
-                    i.putExtra("endDateTime", endDate.getMillis());
-                    i.putExtra("color", pickedColor);
-                    i.putExtra("profesors", profesors);
-                    i.putExtra("description", description);
+                    i.putExtra("idEvent", currentEvent.getId());
                     setResult(RESULT_OK, i);
                     finish();
                 }

@@ -70,11 +70,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:text="Professeur"
+                    android:textColor="@color/md_black_1000"/>
+
+                <EditText
+                    android:id="@+id/AE_profesors_ET"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1">
+                </EditText>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="Description"
                     android:textColor="@color/md_black_1000"/>
 
                 <EditText
-                    android:id="@+id/spinner"
+                    android:id="@+id/AE_description_ET"
                     android:layout_width="match_parent"
                     android:layout_weight="1">
                 </EditText>
