@@ -3,6 +3,7 @@ package hexanome.agenda.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,12 +15,10 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import hexanome.agenda.R;
 import hexanome.agenda.model.Event;
 import hexanome.agenda.model.ListEvent;
+import hexanome.agenda.model.ListRemind;
 
 public class EventOverviewActivity extends AppCompatActivity {
 
@@ -51,16 +50,7 @@ public class EventOverviewActivity extends AppCompatActivity {
         description_TV = (TextView) findViewById(R.id.EOV_Description);
         remind_SP = (Spinner) findViewById(R.id.EOV_RemindSpinner);
 
-        List remindChoicesList = new ArrayList<String>();
-        remindChoicesList.add("5 minutes before");
-        remindChoicesList.add("10 minutes before");
-        remindChoicesList.add("15 minutes before");
-        remindChoicesList.add("30 minutes before");
-        remindChoicesList.add("1 hour before");
-        remindChoicesList.add("2 hours before");
-        remindChoicesList.add("1 day before");
-
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, remindChoicesList);
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, ListRemind.reminds);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         remind_SP.setAdapter(adapter);
 
@@ -102,6 +92,7 @@ public class EventOverviewActivity extends AppCompatActivity {
         i.putExtra("endDateTime", endTime.getMillis());
         i.putExtra("color", color);
         i.putExtra("remind", remind_SP.getSelectedItemPosition());
+        Log.i("bob", String.valueOf(remind_SP.getSelectedItemPosition()));
         i.putExtra("profesors", profesors);
         i.putExtra("description", description);
         startActivityForResult(i, UPDATE_EVENT_INTENT_CODE);
@@ -145,10 +136,10 @@ public class EventOverviewActivity extends AppCompatActivity {
                 profesors = data.getStringExtra("profesors");
                 profesors_TV.setText(profesors);
             }
-            /*if(data.hasExtra("remind")){
-                //TODO: get the index of selected choice and set the spinner with it...
+            if(data.hasExtra("remind")){
+                remind_SP.setSelection(data.getIntExtra("remind", 0));
             }
-             */
+
         }
     }
 }

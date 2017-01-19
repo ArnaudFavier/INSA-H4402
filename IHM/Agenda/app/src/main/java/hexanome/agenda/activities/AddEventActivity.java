@@ -27,6 +27,7 @@ import java.util.List;
 import hexanome.agenda.R;
 import hexanome.agenda.model.Event;
 import hexanome.agenda.model.ListEvent;
+import hexanome.agenda.model.ListRemind;
 
 public class AddEventActivity extends AppCompatActivity {
 
@@ -57,7 +58,7 @@ public class AddEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_event);
         remind_SP = (Spinner) findViewById(R.id.AE_RemindSpinner);
 
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, remindChoicesList);
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, ListRemind.reminds);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         remind_SP.setAdapter(adapter);
 
@@ -109,11 +110,9 @@ public class AddEventActivity extends AppCompatActivity {
             profesors = intent.getStringExtra("profesors");
             //TODO: Add a textview for profesors and set it.
         }
-        /*if(intent.hasExtra("remind") && editionMode){
-            //TODO: get the index of selected choice and set the spinner with it...
+        if(intent.hasExtra("remind") && editionMode) {
+            remind_SP.setSelection(intent.getIntExtra("remind", 0));
         }
-         */
-        //
 
         final Button buttonColor = (Button) findViewById(R.id.button_color);
         buttonColor.setOnClickListener(new View.OnClickListener() {
@@ -241,6 +240,8 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
+
+
         Button validationButton = (Button) findViewById(R.id.button_add_event);
         validationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,6 +284,8 @@ public class AddEventActivity extends AppCompatActivity {
                     currentEvent.endTime = endDate;
                     currentEvent.lieu = place_et.getText().toString();
                     currentEvent.description = description;
+                    currentEvent.profesors = profesors;
+                    currentEvent.remind = remind_SP.getSelectedItemPosition();
 
                     Intent i = new Intent();
                     i.putExtra("title", title_et.getText().toString());
