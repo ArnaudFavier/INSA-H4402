@@ -7,4 +7,10 @@
         android:title="Ajouter un évenement"
         app:showAsAction="never"
         android:icon="@android:drawable/ic_menu_add" />
+    <item
+        android:id="@+id/consultEvent"
+        android:orderInCategory="101"
+        android:title="Consulter un évenement"
+        app:showAsAction="never"
+        android:icon="@android:drawable/ic_menu_add" />
 </menu>

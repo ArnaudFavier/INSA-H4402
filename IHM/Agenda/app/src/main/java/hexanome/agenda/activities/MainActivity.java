@@ -105,6 +105,10 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id == R.id.consultEvent){
+            Intent intent = new Intent(MainActivity.this, EventOverviewActivity.class);
+            startActivity(intent);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -25,6 +25,9 @@
 	<activity android:name=".activities.OptionActivity"
               android:screenOrientation="portrait">
 	</activity>
+    <activity android:name=".activities.EventOverviewActivity"
+        android:screenOrientation="portrait">
+    </activity>
     </application>
 
 </manifest>
