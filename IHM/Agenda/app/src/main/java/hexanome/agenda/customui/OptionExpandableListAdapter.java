@@ -43,57 +43,102 @@ public class OptionExpandableListAdapter extends BaseExpandableListAdapter {
         final String optionName = (String) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.option_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView.findViewById(R.id.textview_option);
         CheckBox checkboxOption = (CheckBox) convertView.findViewById(R.id.checkbox_option);
+        switch (optionName) {
+            case "3 IF":
+                checkboxOption.setChecked(Options.has3IF);
+                break;
+            case "4 IF":
+                checkboxOption.setChecked(Options.has4IF);
+                break;
+            case "5 IF":
+                checkboxOption.setChecked(Options.has5IF);
+                break;
+            case "3 GI":
+                checkboxOption.setChecked(Options.has3GI);
+                break;
+            case "4 GI":
+                checkboxOption.setChecked(Options.has4GI);
+                break;
+            case "5 GI":
+                checkboxOption.setChecked(Options.has5GI);
+                break;
+            case "Rotonde":
+                checkboxOption.setChecked(Options.hasRotonde);
+                break;
+            case "Ragda":
+                checkboxOption.setChecked(Options.hasRagda);
+                break;
+            case "BDE":
+                checkboxOption.setChecked(Options.hasBDE);
+                break;
+            case "K-Fête":
+                checkboxOption.setChecked(Options.hasKFete);
+                break;
+            case "URL":
+                checkboxOption.setChecked(Options.hasURL);
+                break;
+            case "Alertes TCL Tramway":
+                checkboxOption.setChecked(Options.hasAlertTCLTramway);
+                break;
+            case "Alertes TCL Métro":
+                checkboxOption.setChecked(Options.hasAlertTCLMetro);
+                break;
+            case "Alertes TCL Bus":
+                checkboxOption.setChecked(Options.hasAlertTCLBus);
+                break;
+        }
+
+        TextView txtListChild = (TextView) convertView.findViewById(R.id.textview_option);
 
         checkboxOption.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                switch(optionName){
-                    case "3 IF" :
+                switch (optionName) {
+                    case "3 IF":
                         Options.has3IF = b;
                         break;
-                    case "4 IF" :
+                    case "4 IF":
                         Options.has4IF = b;
                         break;
-                    case "5 IF" :
+                    case "5 IF":
                         Options.has5IF = b;
                         break;
-                    case "3 GI" :
+                    case "3 GI":
                         Options.has3GI = b;
                         break;
-                    case "4 GI" :
+                    case "4 GI":
                         Options.has4GI = b;
                         break;
-                    case "5 GI" :
+                    case "5 GI":
                         Options.has5GI = b;
                         break;
-                    case "Rotonde" :
+                    case "Rotonde":
                         Options.hasRotonde = b;
                         break;
-                    case "Ragda" :
+                    case "Ragda":
                         Options.hasRagda = b;
                         break;
-                    case "BDE" :
+                    case "BDE":
                         Options.hasBDE = b;
                         break;
-                    case "K-Fête" :
+                    case "K-Fête":
                         Options.hasKFete = b;
                         break;
-                    case "URL" :
+                    case "URL":
                         Options.hasURL = b;
                         break;
-                    case "Alertes TCL Tramway" :
+                    case "Alertes TCL Tramway":
                         Options.hasAlertTCLTramway = b;
                         break;
-                    case "Alertes TCL Métro" :
+                    case "Alertes TCL Métro":
                         Options.hasAlertTCLMetro = b;
                         break;
-                    case "Alertes TCL Bus" :
+                    case "Alertes TCL Bus":
                         Options.hasAlertTCLBus = b;
                         break;
                 }
