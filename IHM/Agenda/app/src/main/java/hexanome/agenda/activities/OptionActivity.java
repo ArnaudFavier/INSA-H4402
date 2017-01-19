@@ -36,6 +36,8 @@ public class OptionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option);
 
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Options");
 
         // Create different options data
@@ -45,6 +47,13 @@ public class OptionActivity extends AppCompatActivity {
         OptionExpandableListAdapter listAdapter = new OptionExpandableListAdapter(this, optionsHeader, optionsContent);
         ExpandableListView expandable = (ExpandableListView) findViewById(R.id.expandable_view);
         expandable.setAdapter(listAdapter);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        overridePendingTransition(R.anim.left_to_right_anim, R.anim.right_to_left_anim);
+        return true;
     }
 
     /*

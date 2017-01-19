@@ -198,15 +198,15 @@ public class DayFragment extends Fragment {
             holder.colorView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), EventOverviewActivity.class);
+                    Intent intent = new Intent(getActivity(), AddEventActivity.class);
                     intent.putExtra("idEvent", event.getId());
-                    startActivityForResult(intent, MainActivity.CONSULT_EVENT_ACTIVITY);
+                    getActivity().startActivityForResult(intent, MainActivity.CONSULT_EVENT_ACTIVITY);
                 }
             });
         }
 
         private void fillFieldOrHideIfNull(TextView textView, String text) {
-            if (text != null) {
+            if (text != null && !text.isEmpty()) {
                 textView.setText(text);
                 textView.setVisibility(View.VISIBLE);
             }

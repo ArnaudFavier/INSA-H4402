@@ -35,9 +35,9 @@ public class WeekFragment extends Fragment {
         mWeekView.setOnEventClickListener(new WeekView.EventClickListener() {
             @Override
             public void onEventClick(WeekViewEvent event, RectF eventRect) {
-                Intent intent = new Intent(getActivity(), EventOverviewActivity.class);
+                Intent intent = new Intent(getActivity(), AddEventActivity.class);
                 intent.putExtra("idEvent", event.getId());
-                startActivityForResult(intent, MainActivity.CONSULT_EVENT_ACTIVITY);
+                getActivity().startActivityForResult(intent, MainActivity.CONSULT_EVENT_ACTIVITY);
             }
         });
 

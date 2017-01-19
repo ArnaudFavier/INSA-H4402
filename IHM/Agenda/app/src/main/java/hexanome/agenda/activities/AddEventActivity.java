@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,11 +21,10 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import hexanome.agenda.R;
+import hexanome.agenda.customui.ColorChooserEditedDialog;
 import hexanome.agenda.model.Event;
 import hexanome.agenda.model.ListEvent;
 import hexanome.agenda.model.ListRemind;
@@ -41,43 +41,45 @@ public class AddEventActivity extends AppCompatActivity {
     boolean endTimeSelected = false;
 
     boolean editionMode = false;
-    private String oldTitle = "";
+    private Event eventEdit = null;
     private String description = "";
-    private String profesors = "";
-    private EditText title_et;
-    private EditText place_et;
-    private EditText description_et;
-    private EditText profesor_et;
-    private TextView start_date_tv;
-    private TextView start_time_tv;
-    private TextView end_date_tv;
-    private TextView end_time_tv;
-    private Button color_bt;
-    private Spinner remind_SP;
+    private EditText editTextTitle;
+    private EditText editTextPlace;
+    private EditText editTextDescription;
+    private TextView buttonDateStart;
+    private TextView buttonTimeStart;
+    private TextView buttonDateEnd;
+    private TextView buttonTimeEnd;
+    private Button buttonColor;
+    private Spinner spinnerRemind;
+    private Button validationButton;
 
     private Event currentEvent;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
-        title_et = (EditText) findViewById(R.id.edit_text_new_event_name);
-        place_et = (EditText) findViewById(R.id.edit_text_new_event_place);
-        profesor_et = (EditText) findViewById(R.id.AE_profesors_ET);
-        description_et = (EditText) findViewById(R.id.AE_description_ET);
-        start_date_tv = (Button) findViewById(R.id.button_date_start);
-        start_time_tv = (Button) findViewById(R.id.button_time_start);
-        end_date_tv = (Button) findViewById(R.id.button_date_end);
-        end_time_tv = (Button) findViewById(R.id.button_time_end);
-        remind_SP = (Spinner) findViewById(R.id.AE_RemindSpinner);
-        color_bt = (Button) findViewById(R.id.button_color);
+        editTextTitle = (EditText) findViewById(R.id.edit_text_new_event_name);
+        editTextPlace = (EditText) findViewById(R.id.edit_text_new_event_place);
+        editTextDescription = (EditText) findViewById(R.id.edit_text_description);
+        buttonDateStart = (Button) findViewById(R.id.button_date_start);
+        buttonTimeStart = (Button) findViewById(R.id.button_time_start);
+        buttonDateEnd = (Button) findViewById(R.id.button_date_end);
+        buttonTimeEnd = (Button) findViewById(R.id.button_time_end);
+        spinnerRemind = (Spinner) findViewById(R.id.spinner_remind);
+        buttonColor = (Button) findViewById(R.id.button_color);
+        validationButton = (Button) findViewById(R.id.button_add_event);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, ListRemind.reminds);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ListRemind.reminds);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        remind_SP.setAdapter(adapter);
+        spinnerRemind.setAdapter(adapter);
 
         // If it's a modification, then when we take the intent data
         Intent intent = getIntent();
-        if(intent.hasExtra("idEvent")) {
+        if (intent.hasExtra("idEvent")) {
             editionMode = true;
             currentEvent = null; //TODO  peut etre a suppr
             long idEvent = intent.getLongExtra("idEvent", 0);
@@ -88,25 +90,28 @@ public class AddEventActivity extends AppCompatActivity {
                 }
             }
 
-            if(currentEvent!=null){
+            if (currentEvent != null) {
                 DateTimeFormatter formatterDay = DateTimeFormat.forPattern("dd/MM/yyyy");
                 DateTimeFormatter formatterHour = DateTimeFormat.forPattern("hh:mm");
-                title_et.setText(currentEvent.title);
-                place_et.setText(currentEvent.lieu);
-                profesor_et.setText(currentEvent.profesors);
-                description_et.setText(currentEvent.description);
-                remind_SP.setSelection(currentEvent.remind);
+                editTextTitle.setText(currentEvent.title);
+                editTextPlace.setText(currentEvent.lieu);
+                editTextDescription.setText(currentEvent.description);
+                spinnerRemind.setSelection(currentEvent.remind);
                 startDate = currentEvent.startTime;
-                start_date_tv.setText(formatterDay.print(startDate));
-                start_time_tv.setText(formatterHour.print(startDate));
+                buttonDateStart.setText(formatterDay.print(startDate));
+                buttonTimeStart.setText(formatterHour.print(startDate));
                 endDate = currentEvent.endTime;
-                end_date_tv.setText(formatterDay.print(endDate));
-                end_time_tv.setText(formatterHour.print(endDate));
-                color_bt.setBackgroundColor(currentEvent.color); // -11751600=>md_green_500
+                buttonDateEnd.setText(formatterDay.print(endDate));
+                buttonTimeEnd.setText(formatterHour.print(endDate));
+                buttonColor.setBackgroundColor(currentEvent.color); // -11751600=>md_green_500
+                pickedColor = currentEvent.color;
                 startDateSelected = true;
                 startTimeSelected = true;
                 endDateSelected = true;
                 endTimeSelected = true;
+                eventEdit = currentEvent;
+
+                validationButton.setText("Modifier");
             }
         }
 
@@ -114,7 +119,8 @@ public class AddEventActivity extends AppCompatActivity {
         buttonColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ColorChooserDialog dialog = new ColorChooserDialog(AddEventActivity.this);
+                ColorChooserEditedDialog dialog = new ColorChooserEditedDialog(AddEventActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setColorListener(new ColorListener() {
                     @Override
                     public void OnColorClick(View v, int color) {
@@ -122,13 +128,13 @@ public class AddEventActivity extends AppCompatActivity {
                         pickedColor = color;
                     }
                 });
-                //customize the dialog however you want
+
                 dialog.show();
+
             }
         });
 
-        final TextView textViewDateStart = (TextView) findViewById(R.id.button_date_start);
-        textViewDateStart.setOnClickListener(new View.OnClickListener() {
+        buttonDateStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -142,7 +148,7 @@ public class AddEventActivity extends AppCompatActivity {
                                 ((TextView) AddEventActivity.this.findViewById(R.id.button_date_start)).setText(dtfOut.print(startDate));
                                 startDateSelected = true;
 
-                                if(!endDateSelected){
+                                if (!endDateSelected) {
                                     endDate = new DateTime(year, monthOfYear + 1, dayOfMonth, endDate.getHourOfDay(), endDate.getMinuteOfHour());
                                     ((Button) AddEventActivity.this.findViewById(R.id.button_date_end)).setText(dtfOut.print(endDate));
                                     endDateSelected = true;
@@ -158,7 +164,6 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
-        final Button buttonDateEnd = (Button) findViewById(R.id.button_date_end);
         buttonDateEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,8 +188,7 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
-        final TextView textViewTimeStart = (TextView) findViewById(R.id.button_time_start);
-        textViewTimeStart.setOnClickListener(new View.OnClickListener() {
+        buttonTimeStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
@@ -197,7 +201,7 @@ public class AddEventActivity extends AppCompatActivity {
                                 ((TextView) AddEventActivity.this.findViewById(R.id.button_time_start)).setText(dtf.print(startDate));
                                 startTimeSelected = true;
 
-                                if(!endTimeSelected){
+                                if (!endTimeSelected) {
                                     endDate = new DateTime(endDate.getYear(), endDate.getMonthOfYear(), endDate.getDayOfMonth(), hourOfDay, minute);
                                     endDate = endDate.plusHours(1);
                                     ((TextView) AddEventActivity.this.findViewById(R.id.button_time_end)).setText(dtf.print(endDate));
@@ -213,8 +217,7 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
-        final TextView textViewTimeEnd = (TextView) findViewById(R.id.button_time_end);
-        textViewTimeEnd.setOnClickListener(new View.OnClickListener() {
+        buttonTimeEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
@@ -236,9 +239,6 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
-
-
-        Button validationButton = (Button) findViewById(R.id.button_add_event);
         validationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -258,35 +258,28 @@ public class AddEventActivity extends AppCompatActivity {
                 if (error) {
                     Toast.makeText(AddEventActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
                 }
-                else if(editionMode){
-                    Event currentEvent = null;
-                    for (Event e: ListEvent.events){
-                        if(e.title.equals(oldTitle)){
-                            currentEvent = e;
-                            break;
-                        }
-                    }
-
+                else if (editionMode) {
                     //if the event doesn't exist
-                    if(currentEvent.equals(null)){
+                    if (eventEdit == null) {
                         setResult(RESULT_CANCELED);
                         finish();
                     }
+                    else {
+                        //else we update its datas
+                        eventEdit.title = editTextTitle.getText().toString();
+                        eventEdit.color = pickedColor;
+                        eventEdit.startTime = startDate;
+                        eventEdit.endTime = endDate;
+                        eventEdit.lieu = editTextPlace.getText().toString();
+                        eventEdit.description = description;
+                        eventEdit.remind = spinnerRemind.getSelectedItemPosition();
 
-                    //else we update its datas
-                    currentEvent.title = title_et.getText().toString();
-                    currentEvent.color = pickedColor;
-                    currentEvent.startTime = startDate;
-                    currentEvent.endTime = endDate;
-                    currentEvent.lieu = place_et.getText().toString();
-                    currentEvent.description = description;
-                    currentEvent.profesors = profesors;
-                    currentEvent.remind = remind_SP.getSelectedItemPosition();
-
-                    Intent i = new Intent();
-                    i.putExtra("idEvent", currentEvent.getId());
-                    setResult(RESULT_OK, i);
-                    finish();
+                        Intent i = new Intent();
+                        Toast.makeText(AddEventActivity.this, "Evenement modifié avec succès", Toast.LENGTH_SHORT).show();
+                        i.putExtra("idEvent", eventEdit.getId());
+                        setResult(RESULT_OK, i);
+                        finish();
+                    }
                 }
                 else {
                     ListEvent.events.add(new Event(pickedColor, startDate, endDate, eventName));
@@ -295,6 +288,13 @@ public class AddEventActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        overridePendingTransition(R.anim.left_to_right_anim, R.anim.right_to_left_anim);
+        return true;
     }
 
     @Override

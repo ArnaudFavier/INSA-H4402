@@ -5,6 +5,13 @@
                 android:layout_height="match_parent"
                 android:padding="@dimen/activity_horizontal_margin">
 
+    <!-- View inutile qui sert à bloquer l'autofocus sur les edittext -->
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px"/>
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/button_add_event"
         android:layout_width="match_parent"
@@ -43,6 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
+                    android:layout_span="2"
                     android:layout_weight="1"
                     android:textColorLink="@android:color/holo_red_dark"/>
             </TableRow>
@@ -61,23 +69,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPostalAddress"
                     android:layout_weight="1"
+                    android:layout_span="2"
                     android:textColorLink="@android:color/holo_red_dark"/>
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Professeur"
-                    android:textColor="@color/md_black_1000"/>
-
-                <EditText
-                    android:id="@+id/AE_profesors_ET"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1">
-                </EditText>
             </TableRow>
 
             <TableRow>
@@ -90,8 +83,9 @@
                     android:textColor="@color/md_black_1000"/>
 
                 <EditText
-                    android:id="@+id/AE_description_ET"
+                    android:id="@+id/edit_text_description"
                     android:layout_width="match_parent"
+                    android:layout_span="2"
                     android:layout_weight="1">
                 </EditText>
             </TableRow>
@@ -161,7 +155,7 @@
                     android:textColor="@color/md_black_1000"/>
 
                 <Spinner
-                    android:id="@+id/AE_RemindSpinner"
+                    android:id="@+id/spinner_remind"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1">

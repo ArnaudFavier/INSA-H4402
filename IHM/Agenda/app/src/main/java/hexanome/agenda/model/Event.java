@@ -13,7 +13,6 @@ public class Event {
     public String title;
     public String lieu;
     public String description;
-    public String profesors;
     public int remind;
 
     public Event(int color, DateTime startTime, DateTime endTime, String title) {
@@ -34,13 +33,8 @@ public class Event {
         this.description = description;
     }
 
-    public Event(int color, DateTime startTime, DateTime endTime, String title, String lieu, String description, String profesors) {
+    public Event(int color, DateTime startTime, DateTime endTime, String title, String lieu, String description, int remind) {
         this(color,startTime,endTime,title, lieu,description);
-        this.profesors = profesors;
-    }
-
-    public Event(int color, DateTime startTime, DateTime endTime, String title, String lieu, String description, String profesors, int remind) {
-        this(color,startTime,endTime,title, lieu,description,profesors);
         this.remind = remind;
     }
 

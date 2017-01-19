@@ -83,7 +83,6 @@ public class EventOverviewActivity extends AppCompatActivity {
 
                 hours_TV.setText(hours);
                 place_TV.setText(currentEvent.lieu);
-                profesors_TV.setText(currentEvent.profesors);
                 description_TV.setText(currentEvent.description);
             }
 
@@ -137,7 +136,6 @@ public class EventOverviewActivity extends AppCompatActivity {
                     hours_TV.setText(hours);
                     //color TODO
                     description_TV.setText(currentEvent.description);
-                    profesors_TV.setText(currentEvent.profesors);
                     remind_SP.setSelection(currentEvent.remind);
                 }
             }

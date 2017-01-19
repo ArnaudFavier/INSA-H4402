@@ -20,6 +20,7 @@ import android.widget.TextView;
 import org.joda.time.DateTime;
 
 import hexanome.agenda.R;
+import hexanome.agenda.model.Event;
 
 public class MainActivity extends ActionBarActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -132,7 +133,8 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
             changeContentFragment(mMonthFragment);
         }
         else if (id == R.id.nav_share) {
-            startActivityForResult(new Intent(this, OptionActivity.class), OPTIONS_INTENT_CODE);
+            Intent intent = new Intent(this, OptionActivity.class);
+            startActivityForResult(intent, OPTIONS_INTENT_CODE);
             overridePendingTransition(R.anim.left_to_right_anim, R.anim.right_to_left_anim);
         }
 
