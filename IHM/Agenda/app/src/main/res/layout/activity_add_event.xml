@@ -5,10 +5,25 @@
                 android:layout_height="match_parent"
                 android:padding="@dimen/activity_horizontal_margin">
 
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button_add_event"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_accent_background"
+        android:text="Ajouter"
+        android:textColor="@color/md_white_1000"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="false">
+        android:fillViewport="false"
+        android:layout_above="@id/button_add_event"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="14dp"
+        android:layout_marginEnd="14dp">
 
         <TableLayout
             android:layout_width="match_parent"
@@ -163,14 +178,5 @@
         </TableLayout>
 
     </ScrollView>
-
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/button_add_event"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/button_accent_background"
-        android:text="Ajouter"
-        android:textColor="@color/md_white_1000"/>
 
 </RelativeLayout>
