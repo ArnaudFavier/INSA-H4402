@@ -49,9 +49,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
             }
         });
 
-        String month = new DateTime().monthOfYear().getAsText();
-        month = month.substring(0, 1).toUpperCase() + month.substring(1);
-        setTitle(month + " " + new DateTime().year().get());
+        updateTitle();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -89,33 +87,10 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-
         TextView dateToday = (TextView) findViewById(R.id.expanded_menu_date);
         dateToday.setText(new DateTime().toString("EEEE d MMMM"));
 
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        else if (id == R.id.consultEvent) {
-            Intent intent = new Intent(MainActivity.this, EventOverviewActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -131,6 +106,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         }
         else if (id == R.id.menu_month) {
             changeContentFragment(mMonthFragment);
+            updateTitle();
         }
         else if (id == R.id.nav_share) {
             Intent intent = new Intent(this, OptionActivity.class);
@@ -157,5 +133,11 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         mFragmentManager.beginTransaction()
                 .replace(R.id.content_frame, newFragment)
                 .commit();
+    }
+
+    private void updateTitle() {
+        String month = new DateTime().monthOfYear().getAsText();
+        month = month.substring(0, 1).toUpperCase() + month.substring(1);
+        setTitle(month + " " + new DateTime().year().get());
     }
 }

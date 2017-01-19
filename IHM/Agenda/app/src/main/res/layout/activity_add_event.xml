@@ -102,11 +102,16 @@
                 <Button
                     android:id="@+id/button_date_start"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Jour"
                     android:textAlignment="center"
-                    />
+                    android:background="@drawable/button_accent_background"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@android:color/white" />
 
                 <Button
                     android:id="@+id/button_time_start"
@@ -114,7 +119,13 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Heure"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:background="@drawable/button_accent_background"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@android:color/white" />
             </TableRow>
 
             <TableRow>
@@ -129,11 +140,16 @@
                 <Button
                     android:id="@+id/button_date_end"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Jour"
                     android:textAlignment="center"
-                    />
+                    android:background="@drawable/button_accent_background"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@android:color/white" />
 
                 <Button
                     android:id="@+id/button_time_end"
@@ -141,7 +157,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Heure"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:background="@drawable/button_accent_background"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@android:color/white" />
 
             </TableRow>
 
@@ -179,7 +201,7 @@
                         android:layout_height="50dp"
                         android:layout_alignParentRight="true"
                         android:layout_gravity="right"
-                        android:background="@color/md_green_500"/>
+                        android:background="@color/md_green_500" />
                 </RelativeLayout>
             </TableRow>
 

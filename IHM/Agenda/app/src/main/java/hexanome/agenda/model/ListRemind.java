@@ -17,7 +17,6 @@ public final class ListRemind {
         reminds.add("15 minutes avant");
         reminds.add("30 minutes avant");
         reminds.add("1 heure avant");
-        reminds.add("2 heures avant");
         reminds.add("1 jour avant");
     }
 

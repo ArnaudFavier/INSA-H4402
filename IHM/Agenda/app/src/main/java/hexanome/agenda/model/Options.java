@@ -1,12 +1,10 @@
 package hexanome.agenda.model;
 
 public final class Options {
-    private Options() {
-
-    }
+    private Options() {}
 
     public static boolean has3IF = false;
-    public static boolean has4IF = false;
+    public static boolean has4IF = true;
     public static boolean has5IF = false;
     public static boolean has3GI = false;
     public static boolean has4GI = false;
