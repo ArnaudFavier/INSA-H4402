@@ -1,5 +1,6 @@
 package hexanome.agenda.activities;
 
+import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,7 +35,9 @@ public class WeekFragment extends Fragment {
         mWeekView.setOnEventClickListener(new WeekView.EventClickListener() {
             @Override
             public void onEventClick(WeekViewEvent event, RectF eventRect) {
-
+                Intent intent = new Intent(getActivity(), EventOverviewActivity.class);
+                intent.putExtra("idEvent", event.getId());
+                startActivityForResult(intent, MainActivity.CONSULT_EVENT_ACTIVITY);
             }
         });
 
