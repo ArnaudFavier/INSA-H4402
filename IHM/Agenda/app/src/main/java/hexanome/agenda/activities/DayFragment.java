@@ -1,6 +1,7 @@
 package hexanome.agenda.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -135,16 +136,16 @@ public class DayFragment extends Fragment {
         }
     }
 
-    private void displayTclAlerts(View viewGroup, Integer indicator){
+    private void displayTclAlerts(View viewGroup, Integer indicator) {
         View layoutTramway = viewGroup.findViewById(R.id.layout_tramway);
         View layoutBus = viewGroup.findViewById(R.id.layout_bus);
         View layoutMetro = viewGroup.findViewById(R.id.layout_metro);
-        if (Options.hasAlertTCLBus && (indicator % 6 == 0 || indicator%6 == 3 || indicator % 6 == 5))
+        if (Options.hasAlertTCLBus && (indicator % 6 == 0 || indicator % 6 == 3 || indicator % 6 == 5))
             layoutBus.setVisibility(View.VISIBLE);
         else
             layoutBus.setVisibility(View.GONE);
 
-        if (Options.hasAlertTCLMetro && (indicator % 6 == 1 || indicator%6 == 3 || indicator % 6 == 4))
+        if (Options.hasAlertTCLMetro && (indicator % 6 == 1 || indicator % 6 == 3 || indicator % 6 == 4))
             layoutMetro.setVisibility(View.VISIBLE);
         else
             layoutMetro.setVisibility(View.GONE);
@@ -184,7 +185,7 @@ public class DayFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(EventViewHolder holder, int position) {
-            Event event = eventList.get(position);
+            final Event event = eventList.get(position);
 
             holder.textStartTime.setText(timeFormatter.print(event.startTime));
             holder.textEndTime.setText(timeFormatter.print(event.endTime));
@@ -194,6 +195,14 @@ public class DayFragment extends Fragment {
             fillFieldOrHideIfNull(holder.textEventPlace, event.lieu);
 
             holder.colorView.setBackgroundColor(event.color);
+            holder.colorView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), EventOverviewActivity.class);
+                    intent.putExtra("idEvent", event.getId());
+                    startActivityForResult(intent, MainActivity.CONSULT_EVENT_ACTIVITY);
+                }
+            });
         }
 
         private void fillFieldOrHideIfNull(TextView textView, String text) {

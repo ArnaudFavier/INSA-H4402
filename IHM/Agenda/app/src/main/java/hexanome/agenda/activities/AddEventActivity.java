@@ -95,7 +95,7 @@ public class AddEventActivity extends AppCompatActivity {
                 place_et.setText(currentEvent.lieu);
                 profesor_et.setText(currentEvent.profesors);
                 description_et.setText(currentEvent.description);
-                remind_SP.setSelection(currentEvent);
+                remind_SP.setSelection(currentEvent.remind);
                 startDate = currentEvent.startTime;
                 start_date_tv.setText(formatterDay.print(startDate));
                 start_time_tv.setText(formatterHour.print(startDate));

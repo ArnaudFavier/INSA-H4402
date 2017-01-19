@@ -31,6 +31,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     private static final int ADD_EVENT_INTENT_CODE = 120;
     private static final int OPTIONS_INTENT_CODE = 121;
+    static final int CONSULT_EVENT_ACTIVITY = 122;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +144,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ADD_EVENT_INTENT_CODE || requestCode == OPTIONS_INTENT_CODE) {
+        if (requestCode == ADD_EVENT_INTENT_CODE || requestCode == OPTIONS_INTENT_CODE || requestCode == CONSULT_EVENT_ACTIVITY) {
             mWeekFragment.refresh();
             mMonthFragment.refresh();
             mDayFragment.refresh();
