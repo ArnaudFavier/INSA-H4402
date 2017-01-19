@@ -98,6 +98,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
             changeContentFragment(mDayFragment);
         } else if (id == R.id.menu_week) {
             changeContentFragment(mWeekFragment);
+            setTitle("Agenda");
         } else if (id == R.id.menu_month) {
             changeContentFragment(mMonthFragment);
             updateTitle();

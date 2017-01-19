@@ -141,6 +141,10 @@ public class AddEventActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 DateTime now = new DateTime();
+                if(startDateSelected){
+                    now = new DateTime(startDate);
+                }
+
                 DatePickerDialog dpd = DatePickerDialog.newInstance(
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
@@ -158,7 +162,7 @@ public class AddEventActivity extends AppCompatActivity {
                             }
                         },
                         now.getYear(),
-                        now.getMonthOfYear(),
+                        now.getMonthOfYear()-1,
                         now.getDayOfMonth()
                 );
                 dpd.show(getFragmentManager(), "Datepickerdialog");
@@ -171,6 +175,10 @@ public class AddEventActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 DateTime now = new DateTime();
+                if(endDateSelected){
+                    now = new DateTime(endDate);
+                }
+
                 DatePickerDialog dpd = DatePickerDialog.newInstance(
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
@@ -183,7 +191,7 @@ public class AddEventActivity extends AppCompatActivity {
                             }
                         },
                         now.getYear(),
-                        now.getMonthOfYear(),
+                        now.getMonthOfYear()-1,
                         now.getDayOfMonth()
                 );
                 dpd.show(getFragmentManager(), "Datepickerdialog");
@@ -194,6 +202,9 @@ public class AddEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DateTime now = new DateTime();
+                if(startTimeSelected){
+                    now = new DateTime(startDate);
+                }
                 TimePickerDialog dpd = TimePickerDialog.newInstance(
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
@@ -223,6 +234,9 @@ public class AddEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DateTime now = new DateTime();
+                if(endTimeSelected){
+                    now = new DateTime(endDate);
+                }
                 TimePickerDialog dpd = TimePickerDialog.newInstance(
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
