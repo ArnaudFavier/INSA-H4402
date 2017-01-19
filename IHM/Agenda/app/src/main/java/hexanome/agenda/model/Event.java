@@ -6,6 +6,8 @@ import org.joda.time.DateTime;
 
 public class Event {
     private static long NEXT_ID_TO_GIVE = 0;
+
+    private long id;
     public int color;
     public DateTime startTime;
     public DateTime endTime;
@@ -13,7 +15,22 @@ public class Event {
     public String lieu;
     public String description;
     public int remind;
-    private long id;
+    public EventGroup group;
+
+    public enum EventGroup {
+        IF3,
+        IF4,
+        IF5,
+        GI3,
+        GI4,
+        GI5,
+        Rotonde,
+        Ragda,
+        BDE,
+        KFete,
+        URL,
+        UNASSIGNED,
+    }
 
     public Event(int color, DateTime startTime, DateTime endTime, String title) {
         this.color = color;
@@ -21,6 +38,7 @@ public class Event {
         this.endTime = endTime;
         this.title = title;
         this.id = NEXT_ID_TO_GIVE++;
+        this.group = EventGroup.UNASSIGNED;
     }
 
     public Event(int color, DateTime startTime, DateTime endTime, String title, String lieu) {
@@ -36,6 +54,11 @@ public class Event {
     public Event(int color, DateTime startTime, DateTime endTime, String title, String lieu, String description, int remind) {
         this(color, startTime, endTime, title, lieu, description);
         this.remind = remind;
+    }
+
+    public Event setGroup(EventGroup group){
+        this.group = group;
+        return this;
     }
 
     public WeekViewEvent parseToWeekEvent() {

@@ -65,13 +65,6 @@ public class MonthFragment extends Fragment {
         this.mFragmentManager = fragmentManager;
     }
 
-    public void refresh() {
-        List<ViewGroup> pages = mPagerAdapter.getViewGroups();
-        for (ViewGroup viewGroup : pages) {
-            CalendarMonthView calendarMonthView = (CalendarMonthView) viewGroup.findViewById(R.id.calendar_month_view);
-            calendarMonthView.setEvents(ListEvent.events);
-        }
-    }
 
     private class MonthInfinitePagerAdapter extends InfinitePagerAdapter<Integer> {
 
@@ -99,7 +92,7 @@ public class MonthFragment extends Fragment {
             DateTime selectedMonth = new DateTime().plusMonths(indicator);
             CalendarMonthView calendarMonthView = (CalendarMonthView) layout.findViewById(R.id.calendar_month_view);
             calendarMonthView.setMonth(selectedMonth);
-            calendarMonthView.setEvents(ListEvent.events);
+            calendarMonthView.setEvents(ListEvent.getEventsForSuscribedGroups());
             calendarMonthView.setFragManager(mFragmentManager);
 
             return layout;
@@ -113,6 +106,15 @@ public class MonthFragment extends Fragment {
         @Override
         public Integer convertToIndicator(final String representation) {
             return Integer.valueOf(representation);
+        }
+    }
+
+
+    public void refresh() {
+        List<ViewGroup> pages = mPagerAdapter.getViewGroups();
+        for (ViewGroup viewGroup : pages) {
+            CalendarMonthView calendarMonthView = (CalendarMonthView) viewGroup.findViewById(R.id.calendar_month_view);
+            calendarMonthView.setEvents(ListEvent.getEventsForSuscribedGroups());
         }
     }
 }

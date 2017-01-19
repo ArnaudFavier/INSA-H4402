@@ -32,7 +32,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_toRightOf="@+id/icon_tram"
                 android:gravity="center"
-                android:text="Alerte TCL Tramway"
+                android:text="Alerte TCL Tramway : Trafic perturbé"
                 android:textColor="@color/md_white_1000"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -58,7 +58,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_toRightOf="@+id/icon_bus"
                 android:gravity="center"
-                android:text="Alerte TCL Bus"
+                android:text="Alerte TCL Bus : Trafic perturbé"
                 android:textColor="@color/md_white_1000"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -84,7 +84,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_toRightOf="@+id/icon_metro"
                 android:gravity="center"
-                android:text="Alerte TCL Metro"
+                android:text="Alerte TCL Metro : Trafic perturbé"
                 android:textColor="@color/md_white_1000"
                 android:textSize="14sp"
                 android:textStyle="bold" />

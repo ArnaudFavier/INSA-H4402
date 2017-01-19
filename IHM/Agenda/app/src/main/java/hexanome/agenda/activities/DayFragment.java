@@ -99,7 +99,7 @@ public class DayFragment extends Fragment {
         ArrayList<Event> events = new ArrayList<>();
 
         DateTime date = day.plusDays(offset);
-        for (Event event : ListEvent.events) {
+        for (Event event : ListEvent.getEventsForSuscribedGroups()) {
             if (event.startTime.withTimeAtStartOfDay().isEqual(date.withTimeAtStartOfDay())) {
                 events.add(event);
             }

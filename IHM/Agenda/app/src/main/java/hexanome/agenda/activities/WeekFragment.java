@@ -46,8 +46,8 @@ public class WeekFragment extends Fragment {
         mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
             @Override
             public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-                List<WeekViewEvent> events = new ArrayList<>(ListEvent.events.size());
-                for (Event event : ListEvent.events) {
+                List<WeekViewEvent> events = new ArrayList<>(ListEvent.getEventsForSuscribedGroups().size());
+                for (Event event : ListEvent.getEventsForSuscribedGroups()) {
                     if ((event.startTime.getYear() == newYear || event.endTime.getYear() == newYear) &&
                             (event.startTime.getMonthOfYear() == newMonth || event.endTime.getMonthOfYear() == newMonth)) {
                         events.add(event.parseToWeekEvent());

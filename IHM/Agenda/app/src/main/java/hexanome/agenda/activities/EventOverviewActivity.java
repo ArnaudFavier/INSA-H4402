@@ -20,7 +20,6 @@ import hexanome.agenda.model.ListRemind;
 
 public class EventOverviewActivity extends AppCompatActivity {
 
-    private static final int UPDATE_EVENT_INTENT_CODE = 81;
     private TextView hours_TV;
     private TextView profesors_TV;
     private TextView description_TV;
@@ -30,6 +29,8 @@ public class EventOverviewActivity extends AppCompatActivity {
     private DateTime startTime;
     private DateTime endTime;
     private Event currentEvent = null;
+
+    private static final int UPDATE_EVENT_INTENT_CODE = 181;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class EventOverviewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("idEvent")) {
             long idEvent = intent.getLongExtra("idEvent", 0);
-            for (Event event : ListEvent.events) {
+            for (Event event : ListEvent.getEventsForSuscribedGroups()) {
                 if (event.getId() == idEvent) {
                     currentEvent = event;
                     break;
@@ -107,7 +108,7 @@ public class EventOverviewActivity extends AppCompatActivity {
             if (data.hasExtra("idEvent")) {
                 currentEvent = null; //TODO  peut etre a suppr
                 long idEvent = data.getLongExtra("idEvent", 0);
-                for (Event event : ListEvent.events) {
+                for (Event event : ListEvent.getEventsForSuscribedGroups()) {
                     if (event.getId() == idEvent) {
                         currentEvent = event;
                         break;
