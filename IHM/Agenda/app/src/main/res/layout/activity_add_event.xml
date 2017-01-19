@@ -145,6 +145,7 @@
                     android:textColor="@color/md_black_1000"/>
 
                 <Spinner
+                    android:id="@+id/AE_RemindSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1">
