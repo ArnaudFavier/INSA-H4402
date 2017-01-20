@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -115,6 +117,8 @@ public class AddEventActivity extends AppCompatActivity {
                 endTimeSelected = true;
                 eventEdit = currentEvent;
 
+                this.setBarsColors(pickedColor);
+
                 validationButton.setText("Modifier");
                 removeButton.setVisibility(View.VISIBLE);
             }
@@ -131,6 +135,18 @@ public class AddEventActivity extends AppCompatActivity {
                     public void OnColorClick(View v, int color) {
                         buttonColor.setBackgroundColor(color);
                         pickedColor = color;
+
+                        if(android.os.Build.VERSION.SDK_INT >= 21){
+                            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(pickedColor));
+                            int alphaComposant = Color.alpha(pickedColor);
+                            int redComposant = Color.red(pickedColor);
+                            int greenComposant = Color.green(pickedColor);
+                            int blueComposant = Color.blue(pickedColor);
+                            redComposant = (redComposant-25)>=0? redComposant-25 : 0;
+                            greenComposant = (greenComposant-25)>=0? greenComposant-25 : 0;
+                            blueComposant = (blueComposant-25)>=0? blueComposant-25 : 0;
+                            getWindow().setStatusBarColor(Color.argb(alphaComposant, redComposant, greenComposant, blueComposant));
+                        }
                     }
                 });
 
@@ -414,5 +430,19 @@ public class AddEventActivity extends AppCompatActivity {
         final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         //la suppression de la notification se fait grâce a son ID
         notificationManager.cancel((int) event.getId());
+    }
+
+    public void setBarsColors(int barsColors) {
+        if(android.os.Build.VERSION.SDK_INT >= 21){
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(barsColors));
+            int alphaComposant = Color.alpha(barsColors);
+            int redComposant = Color.red(barsColors);
+            int greenComposant = Color.green(barsColors);
+            int blueComposant = Color.blue(barsColors);
+            redComposant = (redComposant-25)>=0? redComposant-25 : 0;
+            greenComposant = (greenComposant-25)>=0? greenComposant-25 : 0;
+            blueComposant = (blueComposant-25)>=0? blueComposant-25 : 0;
+            getWindow().setStatusBarColor(Color.argb(alphaComposant, redComposant, greenComposant, blueComposant));
+        }
     }
 }
