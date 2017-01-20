@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -275,9 +276,9 @@ public class CalendarMonthView extends View {
                 MonthDate monthDate = entry.getKey();
 
                 // Change view to the day
-                DayFragment dayFragment = ((MainActivity) getContext()).mDayFragment;
-                ((MainActivity) getContext()).setNavigationViewSelectedItem(0);
+                DayFragment dayFragment = ((MainActivity) getContext()).mDayFragment = new DayFragment();
                 dayFragment.setDay(new DateTime(new DateTime().getYear(), monthDate.month, monthDate.day, 0, 0));
+                ((MainActivity) getContext()).setNavigationViewSelectedItem(0);
                 dayFragment.refresh();
                 mFragmentManager.beginTransaction().replace(R.id.content_frame, dayFragment).commit();
                 return;

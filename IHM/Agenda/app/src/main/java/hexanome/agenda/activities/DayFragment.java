@@ -12,7 +12,6 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -127,10 +126,11 @@ public class DayFragment extends Fragment {
                         adapter.refresh();
                     }
                 }
-
                 displayTclAlerts(viewGroup, indicator);
             }
+            mPagerAdapter.notifyDataSetChanged();
         }
+
     }
 
     private void displayTclAlerts(View viewGroup, Integer indicator) {
@@ -153,8 +153,15 @@ public class DayFragment extends Fragment {
             layoutTramway.setVisibility(View.GONE);
     }
 
-    public void setDay(DateTime day) {
-        this.day = day;
+    public void setDay(DateTime otherDay) {
+        this.day = otherDay;
+        if(mPager != null) {
+            mPager.setCurrentItem(1);
+        }
+        if (mPagerAdapter != null) {
+            mPagerAdapter.setCurrentIndicator(0);
+            mPagerAdapter.notifyDataSetChanged();
+        }
     }
 
     private class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
@@ -206,7 +213,8 @@ public class DayFragment extends Fragment {
             if (text != null && !text.isEmpty()) {
                 textView.setText(text);
                 textView.setVisibility(View.VISIBLE);
-            } else {
+            }
+            else {
                 textView.setVisibility(View.GONE);
             }
         }
@@ -238,6 +246,10 @@ public class DayFragment extends Fragment {
 
     private class DayInfinitePagerAdapter extends InfinitePagerAdapter<Integer> {
 
+        public void setCurrentIndicator(Integer indicator) {
+            this.mCurrentIndicator = indicator;
+        }
+
         public DayInfinitePagerAdapter(Integer initValue) {
             super(initValue);
         }
@@ -259,7 +271,7 @@ public class DayFragment extends Fragment {
             final RelativeLayout layout = (RelativeLayout) ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                     .inflate(R.layout.day_list_view, null);
             layout.setTag(indicator);
-            DateTime selectedMonth = new DateTime().plusMonths(indicator);
+            DateTime selectedMonth = day.plusMonths(indicator);
 
             RecyclerView recyclerViewDayEvents = (RecyclerView) layout.findViewById(R.id.recycler_view_day_events);
 
@@ -269,9 +281,10 @@ public class DayFragment extends Fragment {
             recyclerViewDayEvents.setAdapter(adapter);
             recyclerViewDayEvents.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            if(((EventAdapter)recyclerViewDayEvents.getAdapter()).eventList.isEmpty()){
+            if (((EventAdapter) recyclerViewDayEvents.getAdapter()).eventList.isEmpty()) {
                 layout.findViewById(R.id.view_no_events).setVisibility(View.VISIBLE);
-            } else {
+            }
+            else {
                 layout.findViewById(R.id.view_no_events).setVisibility(View.GONE);
             }
 
