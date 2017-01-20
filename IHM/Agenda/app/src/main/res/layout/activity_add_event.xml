@@ -191,6 +191,7 @@
                     android:id="@+id/spinner_remind"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_span="2"
                     android:layout_weight="1"></Spinner>
             </TableRow>
 
