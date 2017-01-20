@@ -15,6 +15,7 @@ public class Event {
     public String lieu;
     public String description;
     public int remind;
+    public int idNotification;
     public EventGroup group;
 
     public enum EventGroup {
@@ -39,6 +40,7 @@ public class Event {
         this.title = title;
         this.id = NEXT_ID_TO_GIVE++;
         this.group = EventGroup.UNASSIGNED;
+        this.idNotification = 0;
     }
 
     public Event(int color, DateTime startTime, DateTime endTime, String title, String lieu) {

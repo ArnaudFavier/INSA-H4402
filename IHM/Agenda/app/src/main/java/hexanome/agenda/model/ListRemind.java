@@ -8,6 +8,7 @@ public final class ListRemind {
     public static List<String> reminds = new ArrayList<String>();
 
     static {
+        reminds.add("Aucun");
         reminds.add("5 minutes avant");
         reminds.add("10 minutes avant");
         reminds.add("15 minutes avant");

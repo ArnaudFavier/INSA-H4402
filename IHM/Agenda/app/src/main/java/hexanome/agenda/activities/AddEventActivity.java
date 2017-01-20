@@ -1,5 +1,9 @@
 package hexanome.agenda.activities;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,7 +45,6 @@ public class AddEventActivity extends AppCompatActivity {
 
     boolean editionMode = false;
     private Event eventEdit = null;
-    private String description = "";
     private EditText editTextTitle;
     private EditText editTextPlace;
     private EditText editTextDescription;
@@ -82,7 +85,7 @@ public class AddEventActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("idEvent")) {
             editionMode = true;
-            currentEvent = null; //TODO  peut etre a suppr
+            currentEvent = null;
             long idEvent = intent.getLongExtra("idEvent", 0);
             for (Event event : ListEvent.events) {
                 if (event.getId() == idEvent) {
@@ -184,7 +187,6 @@ public class AddEventActivity extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
                                 endDate = new DateTime(year, monthOfYear + 1, dayOfMonth, endDate.getHourOfDay(), endDate.getMinuteOfHour());
-                                ;
                                 DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd/MM/yyyy");
                                 ((Button) AddEventActivity.this.findViewById(R.id.button_date_end)).setText(dtfOut.print(endDate));
                                 endDateSelected = true;
@@ -277,7 +279,7 @@ public class AddEventActivity extends AppCompatActivity {
         validationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String eventName = ((EditText) findViewById(R.id.edit_text_new_event_name)).getText().toString();
+                String eventName = editTextTitle.getText().toString();
 
                 boolean error = false;
                 String errorMsg = "";
@@ -313,8 +315,13 @@ public class AddEventActivity extends AppCompatActivity {
                         eventEdit.startTime = startDate;
                         eventEdit.endTime = endDate;
                         eventEdit.lieu = editTextPlace.getText().toString();
-                        eventEdit.description = description;
+                        eventEdit.description = editTextDescription.getText().toString();
                         eventEdit.remind = spinnerRemind.getSelectedItemPosition();
+
+                        if(eventEdit.remind > 0) {
+                            deleteNotification(eventEdit);
+                            createNotification(eventEdit);
+                        }
 
                         Intent i = new Intent();
                         Toast.makeText(AddEventActivity.this, "Evenement modifié avec succès", Toast.LENGTH_SHORT).show();
@@ -323,7 +330,17 @@ public class AddEventActivity extends AppCompatActivity {
                         finish();
                     }
                 } else {
-                    ListEvent.events.add(new Event(pickedColor, startDate, endDate, eventName));
+                    String eventPlace = editTextPlace.getText().toString();
+                    String eventDescription = editTextDescription.getText().toString();
+                    int remind = spinnerRemind.getSelectedItemPosition();
+                    Event event = new Event(pickedColor, startDate, endDate, eventName, eventPlace, eventDescription, remind);
+                    ListEvent.events.add(event);
+
+                    if(event.remind > 0){
+                        deleteNotification(event);
+                        createNotification(event);
+                    }
+
                     Toast.makeText(AddEventActivity.this, "Evenement ajouté avec succès", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -342,5 +359,60 @@ public class AddEventActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.left_to_right_anim, R.anim.right_to_left_anim);
+    }
+
+    private void createNotification(Event event){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd/MM/yy à HH:mm");
+        final Intent notificationIntent = new Intent(this, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        long deltaTime;
+        int factorMinMillis = 60*1000;
+        switch(event.remind){
+            case 0: return;
+            case 1: deltaTime = 5L;
+                break;
+            case 2: deltaTime = 10L;
+                break;
+            case 3: deltaTime = 15L;
+                break;
+            case 4: deltaTime = 30L;
+                break;
+            case 5: deltaTime = 60L;
+                break;
+            case 6: deltaTime = 1440L;
+                break;
+            default: return;
+        }
+        deltaTime *= factorMinMillis;
+        long futureInMillis = event.startTime.getMillis()-deltaTime;
+
+        Notification.Builder notifBuilder = new Notification.Builder(this)
+                .setWhen(futureInMillis)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(event.title)
+                .setContentText(event.startTime.toString(dateTimeFormatter) + ",\n" + event.lieu)
+                .setContentIntent(pendingIntent);
+
+        Notification notif;
+        if (android.os.Build.VERSION.SDK_INT >= 16){
+            notif = notifBuilder.build();
+        } else{
+            notif = notifBuilder.getNotification();
+        }
+        notif.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        event.idNotification = (int) event.getId(); //TODO Changer le id pour la notification
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(event.idNotification, notif);
+    }
+
+    private void deleteNotification(Event event){
+        final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        //la suppression de la notification se fait grâce a son ID
+        notificationManager.cancel((int) event.getId());
     }
 }
