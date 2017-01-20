@@ -271,7 +271,7 @@ public class ColorChooserEditedDialog extends Dialog {
         };
 
         android.os.Handler handler = new android.os.Handler();
-        int counter = 85;
+        int counter = 0;
         handler.postDelayed(r1, counter);
         handler.postDelayed(r2, counter * 2);
         handler.postDelayed(r3, counter * 3);
@@ -284,7 +284,7 @@ public class ColorChooserEditedDialog extends Dialog {
 
     private void animator(final ImageButton imageButton) {
         Animation animation = AnimationUtils.loadAnimation(getContext(), com.turkialkhateeb.materialcolorpicker.R.anim.color_item);
-        animation.setInterpolator(new AccelerateInterpolator());
+        //animation.setInterpolator(new AccelerateInterpolator());
         imageButton.setAnimation(animation);
         imageButton.setVisibility(View.VISIBLE);
         animation.start();

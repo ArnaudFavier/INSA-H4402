@@ -308,9 +308,13 @@ public class AddEventActivity extends AppCompatActivity {
                     error = true;
                     errorMsg = "La date de fin ne peut pas être antérieure à la date de début";
                 }
-                if (!startDateSelected || !endDateSelected || !startTimeSelected || !endTimeSelected) {
+                if (!startDateSelected || !endDateSelected) {
                     error = true;
                     errorMsg = "Les dates de l'évènement doivent être complétées";
+                }
+                if (!startTimeSelected || !endTimeSelected) {
+                    error = true;
+                    errorMsg = "Les heures de l'évènement doivent être complétées";
                 }
                 if (eventName.trim().length() == 0) {
                     error = true;
