@@ -47,7 +47,7 @@ public class OptionExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.option_item, null);
         }
 
-        CheckBox checkboxOption = (CheckBox) convertView.findViewById(R.id.checkbox_option);
+        final CheckBox checkboxOption = (CheckBox) convertView.findViewById(R.id.checkbox_option);
         switch (optionName) {
             case "3 IF":
                 checkboxOption.setChecked(Options.has3IF);
@@ -95,9 +95,11 @@ public class OptionExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView txtListChild = (TextView) convertView.findViewById(R.id.textview_option);
 
-        checkboxOption.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        checkboxOption.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onClick(View view) {
+                CheckBox checkboxOption = (CheckBox) view;
+                boolean b = checkboxOption.isChecked();
                 switch (optionName) {
                     case "3 IF":
                         Options.has3IF = b;
