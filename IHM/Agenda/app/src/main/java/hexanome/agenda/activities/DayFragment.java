@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.thehayro.view.InfinitePagerAdapter;
@@ -160,7 +161,7 @@ public class DayFragment extends Fragment {
 
         private final DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
         private final int offset;
-        ArrayList<Event> eventList;
+        public ArrayList<Event> eventList;
 
         public EventAdapter(int offset) {
             this.offset = offset;
@@ -255,7 +256,7 @@ public class DayFragment extends Fragment {
 
         @Override
         public ViewGroup instantiateItem(Integer indicator) {
-            final LinearLayout layout = (LinearLayout) ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+            final RelativeLayout layout = (RelativeLayout) ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                     .inflate(R.layout.day_list_view, null);
             layout.setTag(indicator);
             DateTime selectedMonth = new DateTime().plusMonths(indicator);
@@ -267,6 +268,12 @@ public class DayFragment extends Fragment {
             EventAdapter adapter = new EventAdapter(indicator);
             recyclerViewDayEvents.setAdapter(adapter);
             recyclerViewDayEvents.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            if(((EventAdapter)recyclerViewDayEvents.getAdapter()).eventList.isEmpty()){
+                layout.findViewById(R.id.view_no_events).setVisibility(View.VISIBLE);
+            } else {
+                layout.findViewById(R.id.view_no_events).setVisibility(View.GONE);
+            }
 
             return layout;
         }

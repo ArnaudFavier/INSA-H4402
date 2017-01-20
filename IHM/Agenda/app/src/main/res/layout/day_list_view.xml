@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_day"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<RelativeLayout android:id="@+id/activity_day"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/alert_tcl_velov"
@@ -24,7 +24,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:padding="5dp"
-                android:src="@drawable/icon_tram" />
+                android:src="@drawable/icon_tram"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
                 android:text="Alerte TCL Tramway : Trafic perturbé"
                 android:textColor="@color/md_white_1000"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -50,7 +50,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:padding="5dp"
-                android:src="@drawable/icon_bus" />
+                android:src="@drawable/icon_bus"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
                 android:text="Alerte TCL Bus : Trafic perturbé"
                 android:textColor="@color/md_white_1000"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -76,7 +76,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:padding="5dp"
-                android:src="@drawable/icon_metro" />
+                android:src="@drawable/icon_metro"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
                 android:text="Alerte TCL Metro : Trafic perturbé"
                 android:textColor="@color/md_white_1000"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
     </LinearLayout>
@@ -96,9 +96,21 @@
         android:id="@+id/recycler_view_day_events"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/alert_tcl_velov"
         android:padding="5dp"
         tools:listitem="@layout/day_list_view_item">
 
     </android.support.v7.widget.RecyclerView>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/view_no_events"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/alert_tcl_velov"
+        android:gravity="center"
+        android:text="Aucun évènement"
+        android:textColor="@color/md_grey_600"
+        android:textSize="16sp"
+        android:visibility="gone"/>
+
+</RelativeLayout>
