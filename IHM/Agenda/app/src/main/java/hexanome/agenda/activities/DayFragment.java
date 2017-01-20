@@ -39,7 +39,7 @@ public class DayFragment extends Fragment {
     /**
      * The day to show events
      */
-    private DateTime day = new DateTime();
+    public DateTime day = new DateTime();
 
     private ViewPager mPager;
     private DayInfinitePagerAdapter mPagerAdapter;

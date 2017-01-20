@@ -278,6 +278,7 @@ public class CalendarMonthView extends View {
                 DayFragment dayFragment = ((MainActivity) getContext()).mDayFragment;
                 ((MainActivity) getContext()).setNavigationViewSelectedItem(0);
                 dayFragment.setDay(new DateTime(new DateTime().getYear(), monthDate.month, monthDate.day, 0, 0));
+                dayFragment.refresh();
                 mFragmentManager.beginTransaction().replace(R.id.content_frame, dayFragment).commit();
                 return;
             }
