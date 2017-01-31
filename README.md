@@ -6,7 +6,7 @@
 - **Agile**: delivery optimization software with Material Design UI
 - **IHM (Agenda)**: Android application of INSA calendars
 - **WASO**: SOA web application
-- **WebSemantique**: search engine using Semantic Web with DPBedia
+- **WebSemantique**: search engine using Semantic Web with DBpedia
 
 ### Group members:
 - Anthony Delay
