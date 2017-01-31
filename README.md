@@ -1,5 +1,14 @@
 # INSA-H4402
-Repository GitHub du groupe H4402 de l'INSA de Lyon 4IF
+#### Some school projects of group H4402, semester 3, 4th year Computer Science (4IF) during 2016-2017 at INSA Lyon
+
+### List of projects:
+- **ALIA**: artificial intelligences of Connect Four game in Prolog
+- **Agile**: delivery optimization software with Material Design UI
+- **IHM (Agenda)**: Android application of INSA calendars
+- **WASO**: SOA web application
+- **WebSemantique**: search engine using Semantic Web with DPBedia
+
+### Group members:
 - Anthony Delay
 - Aurelien Dussauge
 - Rim El Idrissi Mokdad
